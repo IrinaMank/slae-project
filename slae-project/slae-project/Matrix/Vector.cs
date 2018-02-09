@@ -11,6 +11,19 @@ namespace slae_project.Matrix
         public int size;
         public double[] elements;
 
+        //Доступ к элементам вектора по индексу
+        public double this[int key]
+        {
+            get
+            {
+                return elements[key];
+            }
+            set
+            {
+                elements[key] = value;
+            }
+        }
+
         // Конструктор по умолчанию
         // Создает вектор размера [1]
         public Vector()
@@ -28,7 +41,7 @@ namespace slae_project.Matrix
                 size = 1;
             elements = new double[size];
         }
-        
+
         // Инициализирует вектор массивом a
         public Vector(double[] a)
         {
@@ -67,11 +80,13 @@ namespace slae_project.Matrix
             return false;
         }
 
-        public void Set(double[] a)
+        private void Set(double[] a)
         {
             if (a != null)
             {
                 size = a.Length;
+                // Потенциальное место ошибки
+                // Не помню, выделяется ли память при копировании автоматически
                 a.CopyTo(elements, 0);
             }
             else
@@ -80,6 +95,8 @@ namespace slae_project.Matrix
                 elements = new double[size];
             }
         }
+        
+        
         // Операция простого сложения векторов с коэффициентами
         // result = coef1 * this + coef2 * b
         // Удобно тем, что отсутвуют ненужные промежуточные результаты
@@ -109,21 +126,44 @@ namespace slae_project.Matrix
         // Скалярное произведение вектора на b
         double ScalarMult(Vector b)
         {
-
+            if (b.size == size)
+            {
+                double result = 0;
+                for (int i = 0; i < size; i++)
+                    result += this.elements[i] * b.elements[i];
+                return result;
+            }
+            else
+                return -1;
         }
-
+        
         // Норма разности векторов
         // ||a - b||
         double Norm(Vector b)
         {
-
+            if (b.size == size)
+            {
+                double result = 0;
+                double temp;
+                for (int i = 0; i < size; i++)
+                {
+                    temp = this.elements[i] - b.elements[i];
+                    result += temp*temp;
+                }
+                return Math.Sqrt(result);
+            }
+            else
+                return -1;
         }
 
         // Норма вектора
         // ||a||
         double Norm()
         {
-
+            double result = 0;
+            for (int i = 0; i < size; i++)
+                result += this.elements[i] * this.elements[i];
+            return Math.Sqrt(result);
         }
     }
 }
