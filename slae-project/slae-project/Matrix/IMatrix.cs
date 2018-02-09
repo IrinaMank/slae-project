@@ -20,7 +20,7 @@ namespace slae_project.Matrix
         // inverse = true предполагает умножение обратной матрицы вместо исходной
         Vector MultU(Vector vec, bool inverse = false);
 
-
+        double this[int i, int j] { get;set; }
         // Пример использования:
         // a = A.mult(b);
         // c = A.mult(A.mult(a), true);
