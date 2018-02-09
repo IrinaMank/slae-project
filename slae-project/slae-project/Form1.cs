@@ -16,5 +16,15 @@ namespace slae_project
         {
             InitializeComponent();
         }
+
+        SharpGLForm SharpForm = null;
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (SharpForm != null)
+                if (SharpForm.Enabled)
+                    SharpForm.Close();
+            SharpForm = new SharpGLForm(true);
+            SharpForm.Visible = true;
+        }
     }
 }
