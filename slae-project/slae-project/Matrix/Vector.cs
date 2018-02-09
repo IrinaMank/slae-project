@@ -23,6 +23,11 @@ namespace slae_project.Matrix
                 elements[key] = value;
             }
         }
+        public void SetZero()
+        {
+            for (int i = 0; i < size; i++)
+                elements[i] = 0;
+        }
 
         // Конструктор по умолчанию
         // Создает вектор размера [1]
@@ -30,6 +35,7 @@ namespace slae_project.Matrix
         {
             size = 1;
             elements = new double[size];
+            SetZero();
         }
 
         // Создает вектор размера [n]
@@ -40,6 +46,7 @@ namespace slae_project.Matrix
             else
                 size = 1;
             elements = new double[size];
+            SetZero();
         }
 
         // Инициализирует вектор массивом a
@@ -61,6 +68,7 @@ namespace slae_project.Matrix
                 size = 1;
                 elements = new double[size];
             }
+            SetZero();
         }
 
         // Создает вектор размера [n]
@@ -164,6 +172,18 @@ namespace slae_project.Matrix
             for (int i = 0; i < size; i++)
                 result += this.elements[i] * this.elements[i];
             return Math.Sqrt(result);
+        }
+
+        // Оператор умножения матрицы на вектор
+        public static Vector operator *(IMatrix A, Vector b)
+        {
+            return A.Mult(b);
+        }
+
+        // Оператор умножения обратной матрицы на вектор
+        public static Vector operator /(IMatrix A, Vector b)
+        {
+            return A.Mult(b,true);
         }
     }
 }
