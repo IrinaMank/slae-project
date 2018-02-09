@@ -56,7 +56,9 @@
     <Compile Include="Matrix\Vector.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Solver\solver.cs" />
+    <Compile Include="SharedResources.cs" />
+    <Compile Include="Solver\Solver.cs" />
+    <Compile Include="Solver\ISolver.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

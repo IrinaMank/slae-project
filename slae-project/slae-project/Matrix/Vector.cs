@@ -88,7 +88,7 @@ namespace slae_project.Matrix
             return false;
         }
 
-        private void Set(double[] a)
+        public void Set(double[] a)
         {
             if (a != null)
             {
@@ -110,7 +110,7 @@ namespace slae_project.Matrix
         // Удобно тем, что отсутвуют ненужные промежуточные результаты
         // Если _override == false, то результат НЕ записывается в вызывающую структуру, а возвращается как результат
         // Если _override == true, то результат записывается в вызывающую структуру, И возвращается как результат (return this)
-        Vector Add(Vector b, double coef1 = 1.0, double coef2 = 1.0, bool _override = false)
+        public Vector Add(Vector b, double coef1 = 1.0, double coef2 = 1.0, bool _override = false)
         {
             double[] result;
             if (this.size == b.size)
@@ -132,7 +132,7 @@ namespace slae_project.Matrix
         }
 
         // Скалярное произведение вектора на b
-        double ScalarMult(Vector b)
+        public double ScalarMult(Vector b)
         {
             if (b.size == size)
             {
@@ -147,7 +147,7 @@ namespace slae_project.Matrix
         
         // Норма разности векторов
         // ||a - b||
-        double Norm(Vector b)
+        public double Norm(Vector b)
         {
             if (b.size == size)
             {
@@ -166,7 +166,7 @@ namespace slae_project.Matrix
 
         // Норма вектора
         // ||a||
-        double Norm()
+       public double Norm()
         {
             double result = 0;
             for (int i = 0; i < size; i++)
