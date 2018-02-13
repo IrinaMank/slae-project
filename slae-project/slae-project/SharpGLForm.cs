@@ -10,8 +10,17 @@ using SharpGL;
 
 namespace slae_project
 {
+    /// <summary>
+    /// Данные выводимые на экран представляются последовательно отображенными названиями и матрицами
+    /// Где матрица = это Матрица|Вектор|Число.
+    /// </summary>
     public class GraphicData
     {
+        /// <summary>
+        /// Вот пример одного выводимого объекта
+        /// У него есть имя. И у него есть матрица.
+        /// И конструкторы если дали вектор иль число.
+        /// </summary>
         public class GraphicObject
         {
             public string Name;
@@ -31,8 +40,12 @@ namespace slae_project
                 this.Name = _Name; Matrix.Add(new List<double>()); Matrix[0].Add(_Value);
             }
         }
+
         public List<GraphicObject> List_Of_Objects = new List<GraphicObject>();
 
+        /// <summary>
+        /// Попробовать что все работает
+        /// </summary>
         public void ItisATest()
         {
             double[] vector4ik = new double[] { 1, 2, 3, 4, 5 };
@@ -42,7 +55,44 @@ namespace slae_project
             List_Of_Objects.Add(new GraphicObject("FourthVector", vector4ik.ToList()));
         }
 
+        /// <summary>
+        /// В каком то роде Grid это курсор на консольном окне.
+        /// </summary>
+        Net Grid = new Net();
+
+        /// <summary>
+        /// Главная рисовалка.
+        /// </summary>
+        /// <param name="openGLControl"></param>
+        public void RealDraw(OpenGLControl openGLControl)
+        {
+            OpenGL gl = openGLControl.OpenGL;
+
+            Grid.initP.y = openGLControl.Height - Grid.yCellSize;
+            foreach (var obj in List_Of_Objects)
+            {
+                gl.DrawText((int)Grid.cursorP.x, (int)Grid.cursorP.y, 0.0f, 0.0f, 0.0f, "", 14.0f, obj.Name);
+                Grid.Y_move();
+
+                foreach (var vect in obj.Matrix)
+                {
+                    foreach (var value in vect)
+                    {
+                        gl.DrawText((int)Grid.cursorP.x, (int)Grid.cursorP.y, 0.0f, 0.0f, 0.0f, "", 14.0f, value.ToString());
+                        Grid.X_move();
+                    }
+
+                    Grid.X_nullificate(); Grid.Y_move();
+                }
+            }
+            Grid.Y_nullificate();
+        }
+
     }
+
+    /// <summary>
+    /// Значит PointF из флоатов есть, а из даблов нету?!
+    /// </summary>
     public class PointDouble
     {
         public double x, y;
@@ -51,6 +101,10 @@ namespace slae_project
             x = _x; y = _y;
         }
     }
+
+    /// <summary>
+    /// По сути курсор на консольном окне.
+    /// </summary>
     public class Net
     {
         public PointDouble initP = new PointDouble(5.0, 5.0);
@@ -85,7 +139,7 @@ namespace slae_project
     public partial class SharpGLForm : Form
     {
         GraphicData GD = new GraphicData();
-        Net Grid = new Net();
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpGLForm"/> class.
         /// </summary>
@@ -111,61 +165,9 @@ namespace slae_project
 
             //  Load the identity matrix.
             gl.LoadIdentity();
-            
-            Grid.initP.y = openGLControl.Height - Grid.yCellSize;
-            foreach(var obj in GD.List_Of_Objects)
-            {
-                gl.DrawText((int)Grid.cursorP.x, (int)Grid.cursorP.y, 0.0f, 0.0f, 0.0f, "", 14.0f, obj.Name);
-                Grid.Y_move();
 
-                foreach (var vect in obj.Matrix)
-                {
-                    foreach (var value in vect)
-                    {
-                        gl.DrawText((int)Grid.cursorP.x, (int)Grid.cursorP.y, 0.0f, 0.0f, 0.0f, "", 14.0f, value.ToString());
-                        Grid.X_move();
-                    }
-
-                    Grid.X_nullificate(); Grid.Y_move();
-                }
-            }
-            Grid.Y_nullificate();
-            //  Rotate around the Y axis.
-            //gl.Rotate(rotation, 0.0f, 1.0f, 0.0f);
-
-            //  Draw a coloured pyramid.
-            /*gl.Begin(OpenGL.GL_TRIANGLES);
-            gl.Color(1.0f, 0.0f, 0.0f);
-            gl.Vertex(0.0f, 1.0f, 0.0f);
-            gl.Color(0.0f, 1.0f, 0.0f);
-            gl.Vertex(-1.0f, -1.0f, 1.0f);
-            gl.Color(0.0f, 0.0f, 1.0f);
-            gl.Vertex(1.0f, -1.0f, 1.0f);
-            gl.Color(1.0f, 0.0f, 0.0f);
-            gl.Vertex(0.0f, 1.0f, 0.0f);
-            gl.Color(0.0f, 0.0f, 1.0f);
-            gl.Vertex(1.0f, -1.0f, 1.0f);
-            gl.Color(0.0f, 1.0f, 0.0f);
-            gl.Vertex(1.0f, -1.0f, -1.0f);
-            gl.Color(1.0f, 0.0f, 0.0f);
-            gl.Vertex(0.0f, 1.0f, 0.0f);
-            gl.Color(0.0f, 1.0f, 0.0f);
-            gl.Vertex(1.0f, -1.0f, -1.0f);
-            gl.Color(0.0f, 0.0f, 1.0f);
-            gl.Vertex(-1.0f, -1.0f, -1.0f);
-            gl.Color(1.0f, 0.0f, 0.0f);
-            gl.Vertex(0.0f, 1.0f, 0.0f);
-            gl.Color(0.0f, 0.0f, 1.0f);
-            gl.Vertex(-1.0f, -1.0f, -1.0f);
-            gl.Color(0.0f, 1.0f, 0.0f);
-            gl.Vertex(-1.0f, -1.0f, 1.0f);
-            gl.End();
-
-            //  Nudge the rotation.
-            rotation += 3.0f;*/
+            GD.RealDraw(openGLControl);
         }
-
-
 
         /// <summary>
         /// Handles the OpenGLInitialized event of the openGLControl control.
@@ -190,10 +192,12 @@ namespace slae_project
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void openGLControl_Resized(object sender, EventArgs e)
         {
+            ClearBuffer();
             //  TODO: Set the projection matrix here.
 
             //  Get the OpenGL object.
             OpenGL gl = openGLControl.OpenGL;
+            //
 
             //  Set the projection matrix.
             gl.MatrixMode(OpenGL.GL_PROJECTION);
@@ -209,12 +213,26 @@ namespace slae_project
 
             //  Set the modelview matrix.
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
+
+            ClearBuffer();
+
+            //Решения проблемы не поспевания отрисовки при Resized, но мб можно что еще?
+            openGLControl.Refresh();
         }
 
         /// <summary>
-        /// The current rotation.
+        /// Изобретаем мегочистящую функцию буфера, но SwapBuffers не нашёл.
         /// </summary>
-        private float rotation = 0.0f;
+        public void ClearBuffer()
+        {
+            OpenGL gl = openGLControl.OpenGL;
+            gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
+            gl.ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+            gl.LoadIdentity();
+            gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
+            gl.ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+            gl.LoadIdentity();
+        }
 
     }
 }
