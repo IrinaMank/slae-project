@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace slae_project.Matrix
 {
-    interface IMatrix
+    public interface IMatrix
     {
         // Стандартная опреация умножения матрицы на вектор
         // inverse = true предполагает умножение обратной матрицы вместо исходной

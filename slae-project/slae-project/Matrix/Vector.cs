@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace slae_project.Matrix
 {
-    class Vector
+    public class Vector
     {
         public int size;
         public double[] elements;

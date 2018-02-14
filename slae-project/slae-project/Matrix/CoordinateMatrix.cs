@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace slae_project.Matrix
 {
-    class CoordinateMatrix : IMatrix
+    public class CoordinateMatrix : IMatrix
     {
         public int n;
         bool LU_maked;
