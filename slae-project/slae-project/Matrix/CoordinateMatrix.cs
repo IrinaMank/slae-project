@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,108 @@ namespace slae_project.Matrix
 {
     class CoordinateMatrix : IMatrix
     {
+        /// <summary>
+        /// Класс для удобного и быстрого доступа к элементам транспонированной матрицы
+        /// без создания таковой
+        /// </summary>
+        class TransposeIllusion : ILinearOperator
+        {
+            public CoordinateMatrix Matrix { get; set; }
+            public ILinearOperator Transpose => Matrix;
+            public ILinearOperator T => Matrix;
+            public IVector Diagonal => Matrix.Diagonal;
+            public int Size => Matrix.Size;
+            public IVector MultL(IVector x, bool UseDiagonal) => Matrix.MultLT(x, UseDiagonal);
+            public IVector SolveL(IVector x, bool UseDiagonal) => Matrix.SolveLT(x, UseDiagonal);
+            public IVector Mult(IVector x) => Matrix.MultT(x);
+            public IVector MultU(IVector x, bool UseDiagonal) => Matrix.MultUT(x, UseDiagonal);
+            public IVector SolveU(IVector x, bool UseDiagonal) => Matrix.SolveUT(x, UseDiagonal);
+        }
+        // Элементы матрицы
+        Dictionary<(int i, int j), double> elements = new Dictionary<(int i, int j), double>();
+        public double this[int i, int j]
+        {
+            
+            get
+            {
+                try
+                {
+                    return elements[(i, j)];
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    return 0;
+                }
+            }
+            set => elements[(i, j)] = value;
+        }
+
+        // Предполагаются только квадратные матрицы
+        public int Size { get; }
+        public ILinearOperator Transpose => new TransposeIllusion { Matrix = this };
+        public ILinearOperator T => new TransposeIllusion { Matrix = this };
+
+        //TODO: Метод и правда должен что-то возвращать
+        public IVector Diagonal => throw new NotImplementedException();
+
+        // Для выпендрежников, которые решили обойти матрицу поэлементно
+        public IEnumerator<(double value, int row, int col)> GetEnumerator()
+        {
+            IEnumerable<(double value, int row, int col)> F()
+            {
+                foreach (var p in elements)
+                    yield return (p.Value, p.Key.i, p.Key.j);
+            }
+            return F().GetEnumerator();
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+        public IVector Mult(IVector x)
+        {
+            throw new NotImplementedException();
+        }
+        public IVector SolveL(IVector x, bool UseDiagonal)
+        {
+            throw new NotImplementedException();
+        }
+        public IVector SolveU(IVector x, bool UseDiagonal)
+        {
+            throw new NotImplementedException();
+        }
+        public IVector MultL(IVector x, bool UseDiagonal)
+        {
+            throw new NotImplementedException();
+        }
+        public IVector MultU(IVector x, bool UseDiagonal)
+        {
+            throw new NotImplementedException();
+        }
+        protected IVector MultT(IVector x)
+        {
+            throw new NotImplementedException();
+        }
+        protected IVector SolveLT(IVector x, bool UseDiagonal)
+        {
+            throw new NotImplementedException();
+        }
+        protected IVector SolveUT(IVector x, bool UseDiagonal)
+        {
+            throw new NotImplementedException();
+        }
+        protected IVector MultLT(IVector x, bool UseDiagonal)
+        {
+            throw new NotImplementedException();
+        }
+        protected IVector MultUT(IVector x, bool UseDiagonal)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    /*class CoordinateMatrix : IMatrix
+    {
+
         public int n;
         bool LU_maked;
         struct element
@@ -134,5 +238,5 @@ namespace slae_project.Matrix
                 MakeLU();
             return null;
         }
-    }
+    }*/
 }
