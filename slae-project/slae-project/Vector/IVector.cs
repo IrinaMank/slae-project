@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace slae_project.Matrix
 {
-    interface IVector : IEnumerable<(double value, int index)>, ICloneable
+    public interface IVector : IEnumerable<(double value, int index)>, ICloneable
     {
         /// <summary>
         /// Длина вектора

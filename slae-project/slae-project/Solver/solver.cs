@@ -10,7 +10,7 @@ namespace slae_project.Solver
 {
     class Solver : ISolver
     {
-        Vector ISolver.solve(IMatrix A, Vector b, Vector initial, double precision, int maxiter, SharedResources.Method m)
+        IVector ISolver.solve(IMatrix A, IVector b, IVector initial, double precision, int maxiter, SharedResources.Method m)
         {
             switch (m)
             {
@@ -18,7 +18,7 @@ namespace slae_project.Solver
                     return CGM(A, b, initial, precision, maxiter);
             }
             
-            return new Vector();
+            return new SimpleVector();
         }
 
         /// <summary>
@@ -30,18 +30,18 @@ namespace slae_project.Solver
         /// <param name="precision">Точность</param>
         /// <param name="maxiter">Максимальное число итераций</param>
         /// <returns>Вектор x - решение СЛАУ Ax=b с заданной точностью</returns>
-        Vector CGM(IMatrix A, Vector b, Vector initial, double precision, int maxiter)
+        IVector CGM(IMatrix A, IVector b, IVector initial, double precision, int maxiter)
         {
-            Vector r = new Vector();
-            Vector z = new Vector();
-            Vector x = new Vector(b.size);
+            IVector r = new SimpleVector();
+            IVector z = new SimpleVector();
+            IVector x = new SimpleVector(b.Size);
             double alpha,beta;
         
-            r = b.Add(A.Mult(initial));
+            r = b.Add(A.Mult(initial),1,-1);
             double r_r = r.ScalarMult(r);
             z = r;
 
-            for (int iter = 0; iter< maxiter && r.Norm() / b.Norm() > precision;iter++)
+            for (int iter = 0; iter< maxiter && r.Norm / b.Norm > precision;iter++)
             {
                 r_r = r.ScalarMult(r);
                 alpha = r_r / (A.Mult(z).ScalarMult(z));

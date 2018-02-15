@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace slae_project.Matrix
 {
-    interface ILinearOperator
+    public interface ILinearOperator
     {
         /// <summary>
         /// Опреация умножения матрицы на вектор: Ax = y

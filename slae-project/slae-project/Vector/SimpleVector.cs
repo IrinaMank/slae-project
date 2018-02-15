@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace slae_project.Matrix
 {
-    class SimpleVector : IVector
+    public class SimpleVector : IVector
     {
         public int Size { get; }
 
@@ -36,7 +36,7 @@ namespace slae_project.Matrix
             }
         }
         
-        SimpleVector()
+       public SimpleVector()
         {
 
         }
