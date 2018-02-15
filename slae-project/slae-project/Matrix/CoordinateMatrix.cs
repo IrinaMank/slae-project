@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace slae_project.Matrix
 {
-    class CoordinateMatrix : IMatrix
+    public class CoordinateMatrix : IMatrix
     {
         /// <summary>
         /// Класс для удобного и быстрого доступа к элементам транспонированной матрицы
