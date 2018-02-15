@@ -35,15 +35,15 @@ namespace slae_project.Matrix
                 elements[key] = value;
             }
         }
-
-        // Конструктор по умолчанию
-        // Создает вектор размера [1]
-        public SimpleVector()
+        
+        SimpleVector()
         {
 
         }
-
-        // Создает вектор размера [n]
+        /// <summary>
+        /// Нулевой вектор размерности m
+        /// </summary>
+        /// <param name="m">Размерность вектора</param>
         public SimpleVector(int m)
         {
             if (m > 0)
@@ -54,10 +54,9 @@ namespace slae_project.Matrix
             SetConst();
         }
 
-        // Создает вектор с элементами массива b
-        SimpleVector(double[] b)
+        public SimpleVector(double[] b)
         {
-            Size = b.Count();
+            Size = b.Length;
             elements = new double[Size];
             b.CopyTo(elements,0);
             SetConst();
@@ -95,8 +94,9 @@ namespace slae_project.Matrix
                     result += this[i] * b[i];
                 return result;
             }
-            else
-                return -1;
+            MessageBox.Show("Попытка найти скалярное произведение векторов разных размерностей. Метод 'ScalarMult' вернул -1. В следующий раз будь аккуратнее :3",
+                "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return -1;
         }
 
         public void SetConst(double v = 0)
