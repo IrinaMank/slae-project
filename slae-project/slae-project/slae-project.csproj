@@ -55,11 +55,11 @@
     <Compile Include="Matrix\CoordinateMatrix.cs" />
     <Compile Include="Matrix\ILinearOperator.cs" />
     <Compile Include="Matrix\IMatrix.cs" />
+    <Compile Include="Solver\MSGSolver.cs" />
     <Compile Include="Vector\IVector.cs" />
     <Compile Include="Vector\SimpleVector.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Solver\Solver.cs" />
     <Compile Include="Solver\ISolver.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
