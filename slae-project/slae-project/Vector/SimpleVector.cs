@@ -59,6 +59,7 @@ namespace slae_project.Vector
             Size = b.Length;
             elements = new double[Size];
             b.CopyTo(elements,0);
+            SetConst();
         }
 
         public IVector Add(IVector b, double coef1 = 1.0, double coef2 = 1.0, bool _override = false)

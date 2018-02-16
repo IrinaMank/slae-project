@@ -22,7 +22,7 @@ namespace slae_project.Matrix
         /// <param name="UseDiagonal"> =true, если предполагается наличие ненулевой диагонали в матрице L;
         /// =false иначе</param>
         /// <returns>Результатом является вектор (x)</returns>
-        IVector SolveL(IVector y, bool UseDiagonal = true);
+        IVector SolveL(IVector y, bool UseDiagonal);
 
         /// <summary>
         /// Решение СЛАУ относительно матрицы U LU-разложения матрицы: Ux = y
@@ -31,7 +31,7 @@ namespace slae_project.Matrix
         /// <param name="UseDiagonal"> =true, если предполагается наличие ненулевой диагонали в матрице U;
         /// =false иначе</param>
         /// <returns>Результатом является вектор (x)</returns>
-        IVector SolveU(IVector y, bool UseDiagonal = true);
+        IVector SolveU(IVector y, bool UseDiagonal);
 
         /// <summary>
         /// Умножение матрицы L LU-разложения матрицы на вектор: Lx = y
@@ -40,7 +40,7 @@ namespace slae_project.Matrix
         /// <param name="UseDiagonal"> =true, если предполагается наличие ненулевой диагонали в матрице L;
         /// =false иначе</param>
         /// <returns>Результатом является вектор (y)</returns>
-        IVector MultL(IVector x, bool UseDiagonal = true);
+        IVector MultL(IVector x, bool UseDiagonal);
 
         /// <summary>
         /// Умножение матрицы U LU-разложения матрицы на вектор: Ux = y
@@ -49,7 +49,7 @@ namespace slae_project.Matrix
         /// <param name="UseDiagonal"> =true, если предполагается наличие ненулевой диагонали в матрице U;
         /// =false иначе</param>
         /// <returns>Результатом является вектор (y)</returns>
-        IVector MultU(IVector x, bool UseDiagonal = true);
+        IVector MultU(IVector x, bool UseDiagonal);
 
         // Примечание: методы Transpose и T должны делать одну и ту же работу
         // Такое дублирование необходимо для того, чтобы дать пользователю возможность 
