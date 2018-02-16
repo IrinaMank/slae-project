@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using slae_project.Vector;
 
 namespace slae_project.Matrix
 {
-    interface ILinearOperator
+    public interface ILinearOperator
     {
         /// <summary>
         /// Опреация умножения матрицы на вектор: Ax = y

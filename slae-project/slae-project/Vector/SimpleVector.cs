@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace slae_project.Matrix
+namespace slae_project.Vector
 {
-    class SimpleVector : IVector
+    public class SimpleVector : IVector
     {
         public int Size { get; }
 
@@ -36,7 +36,7 @@ namespace slae_project.Matrix
             }
         }
         
-        SimpleVector()
+       public SimpleVector()
         {
 
         }

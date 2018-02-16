@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace slae_project.Matrix
+namespace slae_project.Vector
 {
-    interface IVector : IEnumerable<(double value, int index)>, ICloneable
+    public interface IVector : IEnumerable<(double value, int index)>, ICloneable
     {
         /// <summary>
         /// Длина вектора
