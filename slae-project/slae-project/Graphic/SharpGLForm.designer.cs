@@ -35,7 +35,7 @@
             // openGLControl
             // 
             this.openGLControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.openGLControl.DrawFPS = true;
+            this.openGLControl.DrawFPS = false;
             this.openGLControl.Location = new System.Drawing.Point(0, 0);
             this.openGLControl.Name = "openGLControl";
             this.openGLControl.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL2_1;
