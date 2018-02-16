@@ -29,6 +29,7 @@ namespace slae_project
         public SharpGLForm(bool Type)
         {
             InitializeComponent();
+            tableLayoutPanel1.Visible = true;
 
             //Manual Рендеринг, мы же не делаем игру, так что смысла в RealTime FPS нету.
             //Для повторной отрисовки вызовите функцию openGLControl.Refresh();
