@@ -11,38 +11,30 @@ namespace slae_project.Solver
 {
     class Solver : ISolver
     {
-        IVector ISolver.solve(IMatrix A, IVector b, IVector initial, double precision, int maxiter, SharedResources.Method m)
-        {
-            switch (m)
-            {
-                case SharedResources.Method.CGM:
-                    return CGM(A, b, initial, precision, maxiter);
-            }
-            
-            return new SimpleVector();
-        }
-
         /// <summary>
         /// Решение СЛАУ методом сопряженных градиентов
         /// </summary>
         /// <param name="A">Матрица СЛАУ</param>
         /// <param name="b">Ветор правой части</param>
-        /// <param name="initial">Ветор начального приближения</param>
-        /// <param name="precision">Точность</param>
-        /// <param name="maxiter">Максимальное число итераций</param>
+        /// <param name="Initial">Ветор начального приближения</param>
+        /// <param name="Precision">Точность</param>
+        /// <param name="Maxiter">Максимальное число итераций</param>
         /// <returns>Вектор x - решение СЛАУ Ax=b с заданной точностью</returns>
-        IVector CGM(IMatrix A, IVector b, IVector initial, double precision, int maxiter)
+        public IVector solve(IMatrix A, IVector b, IVector Initial, double Precision, int Maxiter)
         {
-            IVector r = new SimpleVector();
-            IVector z = new SimpleVector();
             IVector x = new SimpleVector(b.Size);
-            double alpha,beta;
-        
-            r = b.Add(A.Mult(initial),1,-1);
-            double r_r = r.ScalarMult(r);
-            z = r;
 
-            for (int iter = 0; iter< maxiter && r.Norm / b.Norm > precision;iter++)
+            if (b.Norm == 0)
+                return x;
+
+            double alpha, beta = 1.0;
+        
+            IVector r = b.Add(A.Mult(Initial),1,-1);
+            double r_r = r.ScalarMult(r);
+            IVector z = r;
+
+
+            for (int iter = 0; iter < Maxiter && r.Norm / b.Norm > Precision && beta > 0;iter++)
             {
                 r_r = r.ScalarMult(r);
                 alpha = r_r / (A.Mult(z).ScalarMult(z));
@@ -54,7 +46,6 @@ namespace slae_project.Solver
                 beta = r_r / beta;
 
                 z = r.Add(z, 1, beta);
-
             }
             return x;
         }

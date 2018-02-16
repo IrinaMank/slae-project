@@ -12,7 +12,6 @@ namespace slae_project.Solver
 
     interface ISolver
     {
-
-        IVector solve(IMatrix A, IVector b, IVector initial, double precision, int maxiter, SharedResources.Method m);
+        IVector solve(IMatrix A, IVector B, IVector Initial, double Precision, int Maxiter);
     }
 }
