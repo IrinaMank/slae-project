@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace slae_project.Matrix
+namespace slae_project.Vector
 {
     public interface IVector : IEnumerable<(double value, int index)>, ICloneable
     {

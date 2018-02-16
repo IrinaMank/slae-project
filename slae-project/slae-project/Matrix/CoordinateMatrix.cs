@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using slae_project.Vector;
 
 namespace slae_project.Matrix
 {
