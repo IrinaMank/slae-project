@@ -151,6 +151,7 @@ namespace slae_project
             else 
             {
                 Cursor.Current = Cursors.NoMove2D;
+                GD.mouse.isPressed = true;
             }
             Application.DoEvents();
         }
@@ -159,10 +160,10 @@ namespace slae_project
         {
             //Меняем курсор мышки на четырехстрелочковый.
             Cursor.Current = Cursors.NoMove2D;
-            Application.DoEvents();
-
             //Мышка нажата
             GD.mouse.isPressed = true;
+
+            Application.DoEvents();
         }
 
         private void openGLControl_MouseUp(object sender, MouseEventArgs e)
