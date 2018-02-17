@@ -21,7 +21,7 @@ namespace slae_project
     /// </summary>
     public partial class SharpGLForm : Form
     {
-        GraphicData GD = new GraphicData();
+        GraphicData GD;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpGLForm"/> class.
@@ -29,14 +29,17 @@ namespace slae_project
         public SharpGLForm(bool Type)
         {
             InitializeComponent();
-            tableLayoutPanel1.Visible = true;
+
+            //Облегчим себе жизнь. Передадим в главную логическую сразу.
+            GD = new GraphicData(openGLControl);
+
+            //Добавляем числа, векторы, матрицы на отображение
+            GD.Add_objects();
 
             //Manual Рендеринг, мы же не делаем игру, так что смысла в RealTime FPS нету.
             //Для повторной отрисовки вызовите функцию openGLControl.Refresh();
             openGLControl.RenderTrigger = RenderTrigger.Manual;
             openGLControl.DoRender();
-
-            GD.ItisATest();
         }
 
         /// <summary>
@@ -46,7 +49,7 @@ namespace slae_project
         /// <param name="e">The <see cref="RenderEventArgs"/> instance containing the event data.</param>
         private void openGLControl_OpenGLDraw(object sender, RenderEventArgs e)
         {
-            GD.RealDraw(openGLControl);
+            GD.RealDraw();
         }
 
         /// <summary>
@@ -87,10 +90,12 @@ namespace slae_project
             gl.LoadIdentity();
 
             //  Create a perspective transformation.
-            gl.Perspective(60.0f, (double)Width / (double)Height, 0.01, 100.0);
+            //gl.Perspective(60.0f, (double)Width / (double)Height, 0.01, 1.0);
+
+            gl.Ortho2D(0, openGLControl.Width, 0, openGLControl.Height);
 
             //  Use the 'look at' helper function to position and aim the camera.
-            gl.LookAt(-5, 5, -5, 0, 0, 0, 0, 1, 0);
+            //gl.LookAt(0, 0, 1000, 0, 0, 0, 0, 1, 1);
 
             //  Set the modelview matrix.
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
