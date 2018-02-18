@@ -21,6 +21,10 @@ namespace slae_project
     /// </summary>
     public partial class SharpGLForm : Form
     {
+        /// <summary>
+        /// Вся логика лежит тут и находится в GraphicalLogic.cs
+        /// Главное что это структура хранения объектов(числа,векторов,матриц в нашем формате)
+        /// </summary>
         public GraphicData GD;
         
         /// <summary>
@@ -38,6 +42,7 @@ namespace slae_project
             openGLControl.RenderTrigger = RenderTrigger.Manual;
             openGLControl.DoRender();
 
+            //установить границы скруллбаров и сбросить мышки-местоположение в лево-нижний угол
             SetScrollBars();
         }
         /// <summary>
@@ -78,6 +83,10 @@ namespace slae_project
             Wrapped_Resized();
             //gl.ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         }
+
+        /// <summary>
+        /// Очевидно эта функция при изменении окна. В 2D инициализацию OpenGL
+        /// </summary>
         void Wrapped_Resized()
         {
             //  Get the OpenGL object.
@@ -89,46 +98,14 @@ namespace slae_project
             //  Load the identity.
             gl.LoadIdentity();
 
-            //  Create a perspective transformation.
-            //gl.Perspective(60.0f, (double)Width / (double)Height, 0.01, 1.0);
-
+            //Мы двумерны.
             gl.Ortho2D(0, openGLControl.Width, 0, openGLControl.Height);
 
-            //  Use the 'look at' helper function to position and aim the camera.
-            //gl.LookAt(0, 0, 1000, 0, 0, 0, 0, 1, 1);
 
             //  Set the modelview matrix.
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
 
             openGLControl.Refresh();
-        }
-
-        /// <summary>
-        /// Во время изменения размеров окна затемнить его и выключить надписи.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SharpGLForm_ResizeBegin(object sender, EventArgs e)
-        {
-            //GD.TextDisable();
-            //tableLayoutPanel1.Visible = false;
-            //OpenGL gl = openGLControl.OpenGL;
-            //gl.ClearColor((float)240/255, (float)240 / 255, (float)240 / 255, 1.0f);
-            //openGLControl.Refresh();
-        }
-
-        /// <summary>
-        /// Когда окно перескали таскать, вернуть всё обратно.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SharpGLForm_ResizeEnd(object sender, EventArgs e)
-        {
-            //GD.TextEnable();
-            //tableLayoutPanel1.Visible = true;
-            //OpenGL gl = openGLControl.OpenGL;
-            //gl.ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-            //openGLControl.Refresh();
         }
 
         /// <summary>
@@ -141,12 +118,15 @@ namespace slae_project
             this.Close();
         }
 
+        /// <summary>
+        /// Происходит при движении мышкой над окном OpenGL
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void openGLControl_MouseMove(object sender, MouseEventArgs e)
         {
             //Тут высчитывается насколько сместился курсор мышки нажатой
             GD.mouse.setMouseData(MouseButtons.ToString(), MousePosition.X, MousePosition.Y);
-
-            
 
             //Меняем курсор мышки на разные в зависимости нажата левая кнопка мышки или нет.
             if (MouseButtons.ToString() != "Left")
@@ -159,44 +139,71 @@ namespace slae_project
                 GD.mouse.isPressed = true;
             }
 
+            //Местоположение экрана смещенное мышкой присваивает слайдерам(скруллбарам)
             try
             { hScrollBar1.Value = -GD.mouse.ShiftedPosition.x; }
             catch (Exception error) { }
             try { vScrollBar1.Value = GD.mouse.ShiftedPosition.y; }
             catch (Exception error) { }
+
             //Обновили экран
             openGLControl.Refresh();
 
-            //hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Maximum = Math.Abs(-GD.mouse.BorderEnd.x);
-            //vScrollBar1.Minimum = GD.mouse.BorderBegin.y; vScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.y);
-
+            //Эту штуку приходится вызывать когда чтото с мышкой поделал.
             Application.DoEvents();
         }
 
+        /// <summary>
+        /// Кнопку мыши опустили вниз(по идеи левую)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void openGLControl_MouseDown(object sender, MouseEventArgs e)
         {
-            //Меняем курсор мышки на четырехстрелочковый.
-            Cursor.Current = Cursors.NoMove2D;
-            //Мышка нажата
-            GD.mouse.isPressed = true;
+            if (MouseButtons.ToString() == "Left")
+            {
+                //Меняем курсор мышки на четырехстрелочковый.
+                Cursor.Current = Cursors.NoMove2D;
+                //Мышка нажата
+                GD.mouse.isPressed = true;
+            }
 
             Application.DoEvents();
         }
 
+        /// <summary>
+        /// Кнопку мышки левую отжали.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void openGLControl_MouseUp(object sender, MouseEventArgs e)
         {
-            //Мышка отжата.            
+                //Мышка отжата.            
             GD.mouse.isPressed = false;
             GD.mouse.isPressedBefore = false;
-
            
 
         }
 
+
+        /// <summary>
+        /// Справа в менюшке есть кнопка "Обновить", это она.
+        /// Просто обновляет изображение и ничего больше.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_refresh_Click(object sender, EventArgs e)
         {
             openGLControl.Refresh();
         }
+
+        /// <summary>
+        /// Сбрасывает все настройки по умолчанию в менюшке справа
+        /// И заодно заново отрисовывает и сбрасывает ваше местоположение
+        /// в лево нижний угол.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_reset_Click(object sender, EventArgs e)
         {
             trackBar_QuantityAfterPoint.Value = GD.FontQuanitityAfterPoint = 3;
@@ -211,17 +218,34 @@ namespace slae_project
             openGLControl.Refresh();
             SetScrollBars();
         }
+
+        /// <summary>
+        /// Эту функцию я подарил юзерам, вызывать после добавления или удаления объектов
+        /// Она обновляет изображение, настраивает максимумы скруллбаров(ибо оно зависит от границ матриц)
+        /// И сбрасывает местоположение в лево-нижний угол
+        /// </summary>
         public void Refresh_Window()
         {
             openGLControl.Refresh();
             SetScrollBars();
         }
+
+        /// <summary>
+        /// Функция реагирующая на изменение ползунка размера шрифта
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void trackBar_FontSize_ValueChanged(object sender, EventArgs e)
         {
             GD.FontSize = trackBar_FontSize.Value;
             openGLControl.Refresh();
         }
 
+        /// <summary>
+        /// Функция реагирующая на изменение ползунка высоты клетки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void trackBar_CellHeight_ValueChanged(object sender, EventArgs e)
         {
             GD.Grid.yCellSize = trackBar_CellHeight.Value;
@@ -230,6 +254,11 @@ namespace slae_project
             
         }
 
+        /// <summary>
+        /// Функция реагирующая на изменение ползунка ширины клетки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void trackBar_CellWidth_ValueChanged(object sender, EventArgs e)
         {
             GD.Grid.xCellSize = trackBar_CellWidth.Value;
@@ -237,6 +266,13 @@ namespace slae_project
             
         }
 
+        /// <summary>
+        /// Функция реагирующая на изменение размеров окна
+        /// Своеобразно говоря дубль, ибо openGL....Resized тоже самое
+        /// Хотя эта вроде бы чаще реагирует, еще даже пока ты не отпустил мышку
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SharpGLForm_Resize(object sender, EventArgs e)
         {
             openGLControl.Refresh();
@@ -244,6 +280,11 @@ namespace slae_project
 
             SetScrollBars();
         }
+
+        /// <summary>
+        /// Высчитывает границы скруллбаров максимумов и 
+        /// местоположение мышки-обзора в левый нижний угол возвращает
+        /// </summary>
         void SetScrollBars()
         {
             GD.mouse.BorderEndRecalculate();
@@ -252,12 +293,22 @@ namespace slae_project
             vScrollBar1.Value = Math.Abs(GD.mouse.BorderEnd.y);
             hScrollBar1.Value = Math.Abs(GD.mouse.BorderBegin.x);
         }
+        /// <summary>
+        /// Функция реагирующая на изменения ползунка за колво знаков после запятой.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void trackBar_QuantityAfterPoint_ValueChanged(object sender, EventArgs e)
         {
             GD.FontQuanitityAfterPoint = trackBar_QuantityAfterPoint.Value;
             openGLControl.Refresh();
         }
 
+        /// <summary>
+        /// Функция реагирующая на изменение галочки на "Основной" формат записи чисел
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void radioButton1_General_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton1_General.Checked == true)
@@ -269,6 +320,11 @@ namespace slae_project
             openGLControl.Refresh();
         }
 
+        /// <summary>
+        /// Функция реагирующая на изменение галочки на "Дробный" формат записи чисел
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void radioButton2_Double_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton2_Double.Checked == true)
@@ -280,6 +336,11 @@ namespace slae_project
             openGLControl.Refresh();
         }
 
+        /// <summary>
+        /// Функция реагирующая на изменение галочки на "Экспоненциальный" формат записи чисел
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void radioButton3_Exponential_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton3_Exponential.Checked == true)
@@ -291,23 +352,43 @@ namespace slae_project
             openGLControl.Refresh();
         }
 
+        /// <summary>
+        /// Функция реагирующая на изменение ползунка скруллбара вертикального
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void vScrollBar1_ValueChanged(object sender, EventArgs e)
         {
             GD.mouse.ShiftedPosition.y = vScrollBar1.Value;
             openGLControl.Refresh();
         }
 
+        /// <summary>
+        /// Функция реагирующая на изменение ползунка скруллбара горизонтального
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void hScrollBar1_ValueChanged(object sender, EventArgs e)
         {
             GD.mouse.ShiftedPosition.x = -hScrollBar1.Value;
             openGLControl.Refresh();
         }
 
+        /// <summary>
+        /// Когда мышка парит над вопросиком в левом нижнем углу экрана.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void label6_FAQ_MouseHover(object sender, EventArgs e)
         {
             label7_FAQ_move_phrase.Visible = true;
         }
 
+        /// <summary>
+        /// Когда мышка прекращает парить над вопросиком в левом нижнем углу экрана.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void label6_FAQ_MouseLeave(object sender, EventArgs e)
         {
             label7_FAQ_move_phrase.Visible = false;
