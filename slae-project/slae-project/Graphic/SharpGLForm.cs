@@ -107,11 +107,11 @@ namespace slae_project
         /// <param name="e"></param>
         private void SharpGLForm_ResizeBegin(object sender, EventArgs e)
         {
-            GD.TextDisable();
-            tableLayoutPanel1.Visible = false;
-            OpenGL gl = openGLControl.OpenGL;
-            gl.ClearColor((float)240/255, (float)240 / 255, (float)240 / 255, 1.0f);
-            openGLControl.Refresh();
+            //GD.TextDisable();
+            //tableLayoutPanel1.Visible = false;
+            //OpenGL gl = openGLControl.OpenGL;
+            //gl.ClearColor((float)240/255, (float)240 / 255, (float)240 / 255, 1.0f);
+            //openGLControl.Refresh();
         }
 
         /// <summary>
@@ -121,11 +121,11 @@ namespace slae_project
         /// <param name="e"></param>
         private void SharpGLForm_ResizeEnd(object sender, EventArgs e)
         {
-            GD.TextEnable();
-            tableLayoutPanel1.Visible = true;
-            OpenGL gl = openGLControl.OpenGL;
-            gl.ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-            openGLControl.Refresh();
+            //GD.TextEnable();
+            //tableLayoutPanel1.Visible = true;
+            //OpenGL gl = openGLControl.OpenGL;
+            //gl.ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+            //openGLControl.Refresh();
         }
 
         /// <summary>
@@ -204,6 +204,12 @@ namespace slae_project
             GD.Grid.xCellSize = trackBar_CellWidth.Value;
             openGLControl.Refresh();
             
+        }
+
+        private void SharpGLForm_Resize(object sender, EventArgs e)
+        {
+            openGLControl.Refresh();
+            GD.MoveToEndCursor();
         }
     }
 }

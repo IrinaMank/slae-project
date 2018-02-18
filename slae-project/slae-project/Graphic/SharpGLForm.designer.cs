@@ -211,6 +211,7 @@
             this.Text = "SharpGL Form";
             this.ResizeBegin += new System.EventHandler(this.SharpGLForm_ResizeBegin);
             this.ResizeEnd += new System.EventHandler(this.SharpGLForm_ResizeEnd);
+            this.Resize += new System.EventHandler(this.SharpGLForm_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

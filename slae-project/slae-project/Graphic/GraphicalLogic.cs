@@ -148,8 +148,8 @@ namespace slae_project
                 draw_line(-100000, Grid.cursorP.y,
                                 100000, Grid.cursorP.y);
 
-                draw_line(-100000, Grid.cursorP.y + 1,
-                                100000, Grid.cursorP.y + 1);
+                draw_line(-100000, Grid.cursorP.y + 2,
+                                100000, Grid.cursorP.y + 2);
 
                 Grid.X_move();
                 //Напиши как называется текущая матрица
@@ -209,7 +209,7 @@ namespace slae_project
                 Grid.Y_move();
             }
 
-            if (Grid.cursorP.y < -Grid.DeadPoint.y) Grid.DeadPoint.y = -Grid.cursorP.y;
+            Grid.DeadPoint.y = -Grid.cursorP.y;
             //Возвращает курсор по Y координатами в саааамое начало.
 
             //List_Of_Objects.Reverse();
