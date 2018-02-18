@@ -93,7 +93,10 @@ namespace slae_project
             Example();
             openGLControl.Refresh();
         }
-
+        public void Refresh_Window()
+        {
+            openGLControl.Refresh();
+        }
         /// <summary>
         /// Попробовать что все работает
         /// </summary>
