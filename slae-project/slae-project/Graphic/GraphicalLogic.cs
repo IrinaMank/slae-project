@@ -50,7 +50,6 @@ namespace slae_project
             public GraphicObject(string _Name, List<List<double>> _Matrix, OpenGLControl openGLControl = null)
             {
                 this.Name = _Name; Matrix = _Matrix;
-                if (openGLControl!=null) openGLControl.Refresh();
             }
             public GraphicObject(string _Name, double[,] _Matrix, OpenGLControl openGLControl = null)
             {
@@ -66,22 +65,18 @@ namespace slae_project
                     }
                     
                 }
-                if (openGLControl != null) openGLControl.Refresh();
             }
             public GraphicObject(string _Name, List<double> _Vector, OpenGLControl openGLControl = null)
             {
                 this.Name = _Name; Matrix.Add(new List<double>(_Vector));
-                if (openGLControl != null) openGLControl.Refresh();
             }
             public GraphicObject(string _Name, double[] _Vector, OpenGLControl openGLControl = null)
             {
                 this.Name = _Name; Matrix.Add(new List<double>(_Vector.ToList()));
-                if (openGLControl != null) openGLControl.Refresh();
             }
             public GraphicObject(string _Name, double _Value, OpenGLControl openGLControl = null)
             {
                 this.Name = _Name; Matrix.Add(new List<double>()); Matrix[0].Add(_Value);
-                if (openGLControl != null) openGLControl.Refresh();
             }
         }
 
