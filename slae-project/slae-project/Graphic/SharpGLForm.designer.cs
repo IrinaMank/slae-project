@@ -403,7 +403,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.openGLControl);
             this.Name = "SharpGLForm";
-            this.Text = "SharpGL Form";
+            this.Text = "Графическое отображение";
             this.ResizeBegin += new System.EventHandler(this.SharpGLForm_ResizeBegin);
             this.ResizeEnd += new System.EventHandler(this.SharpGLForm_ResizeEnd);
             this.Resize += new System.EventHandler(this.SharpGLForm_Resize);
