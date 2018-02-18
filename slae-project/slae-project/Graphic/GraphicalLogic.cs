@@ -17,6 +17,7 @@ namespace slae_project
     public class GraphicData
     {
         OpenGLControl openGLControl;
+        public Single FontSize = 14.0f;
         public GraphicData(OpenGLControl openGLController)
         {
             openGLControl = openGLController;
@@ -118,7 +119,7 @@ namespace slae_project
         /// <summary>
         /// В каком то роде Grid это курсор на консольном окне.
         /// </summary>
-        static Net Grid = new Net();
+        public Net Grid = new Net();
         public MouseClass mouse;
         /// <summary>
         /// Главная рисовалка.
@@ -126,6 +127,7 @@ namespace slae_project
         /// <param name="openGLControl"></param>
         public void RealDraw()
         {
+            
             //  Get the OpenGL object.
             OpenGL gl = openGLControl.OpenGL;
 
@@ -151,7 +153,7 @@ namespace slae_project
 
                 Grid.X_move();
                 //Напиши как называется текущая матрица
-                if (IsTextEnabled) gl.DrawText(Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y, 0.0f, 0.0f, 0.0f, "", 14.0f, obj.Name);
+                if (IsTextEnabled) gl.DrawText(Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y, 0.0f, 0.0f, 0.0f, "", FontSize, obj.Name);
                 Grid.Y_move(); Grid.X_nullificate();
 
                 Grid.X_move();
@@ -176,13 +178,13 @@ namespace slae_project
                     X_old = Grid.cursorP.x;
                     Y_old = Grid.cursorP.y;
 
-                    if (IsTextEnabled) gl.DrawText(Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y, 0.0f, 0.0f, 0.0f, "", 14.0f, Count_by_Y.ToString());
+                    if (IsTextEnabled) gl.DrawText(Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y, 0.0f, 0.0f, 0.0f, "", FontSize, Count_by_Y.ToString());
                     Count_by_Y++; Grid.X_move();
 
                     //Пиши его значения в строчку
                     foreach (var value in vect)
                     {
-                        if (IsTextEnabled) gl.DrawText(Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y, 0.0f, 0.0f, 0.0f, "", 14.0f, value.ToString());
+                        if (IsTextEnabled) gl.DrawText(Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y, 0.0f, 0.0f, 0.0f, "", FontSize, value.ToString());
                         Grid.X_move();
                     }
                     
@@ -219,7 +221,7 @@ namespace slae_project
             int Count_by_X = 1;
             foreach (var value in obj.Matrix[0])
             {
-                gl.DrawText(Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y, 0.0f, 0.0f, 0.0f, "", 14.0f, Count_by_X.ToString());
+                gl.DrawText(Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y, 0.0f, 0.0f, 0.0f, "", FontSize, Count_by_X.ToString());
                 Grid.X_move();
                 Count_by_X++;
             }

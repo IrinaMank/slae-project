@@ -39,7 +39,6 @@ namespace slae_project
             openGLControl.RenderTrigger = RenderTrigger.Manual;
             openGLControl.DoRender();
         }
-
         /// <summary>
         /// Handles the OpenGLDraw event of the openGLControl control.
         /// </summary>
@@ -184,6 +183,27 @@ namespace slae_project
         {
             GD.MoveToEndCursor();
             openGLControl.Refresh();
+        }
+
+        private void trackBar_FontSize_ValueChanged(object sender, EventArgs e)
+        {
+            GD.FontSize = trackBar_FontSize.Value;
+            openGLControl.Refresh();
+        }
+
+        private void trackBar_CellHeight_ValueChanged(object sender, EventArgs e)
+        {
+            GD.Grid.yCellSize = trackBar_CellHeight.Value;
+            GD.MoveToEndCursor();
+            openGLControl.Refresh();
+            
+        }
+
+        private void trackBar_CellWidth_ValueChanged(object sender, EventArgs e)
+        {
+            GD.Grid.xCellSize = trackBar_CellWidth.Value;
+            openGLControl.Refresh();
+            
         }
     }
 }
