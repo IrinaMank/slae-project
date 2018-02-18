@@ -20,6 +20,9 @@ namespace slae_project
         public GraphicData(OpenGLControl openGLController)
         {
             openGLControl = openGLController;
+            Add_objects();
+            RealDraw();
+            mouse.ShiftedPosition.y = - Grid.cursorP.y - Grid.yCellSize;
         }
 
         /// <summary>
@@ -98,6 +101,9 @@ namespace slae_project
             List_Of_Objects.Add(new GraphicObject("Matrix", randomMatrix));
             List_Of_Objects.Add(new GraphicObject("listed_vectorik", listed_vectorik));
             List_Of_Objects.Add(new GraphicObject("listed_matrix", listed_matrix));
+            List_Of_Objects.Add(new GraphicObject("listed_matrix", listed_matrix));
+            List_Of_Objects.Add(new GraphicObject("listed_matrix", listed_matrix));
+            List_Of_Objects.Add(new GraphicObject("listed_matrix", listed_matrix));
             //List_Of_Objects.RemoveAt(1); Удалить какойто конкретный
             //List_Of_Objects.Clear(); //Удалить все.
             //List_Of_Objects.RemoveAt(List_Of_Objects.Count() - 1); //Удалить последний
@@ -124,6 +130,9 @@ namespace slae_project
             gl.LoadIdentity();
 
             Grid.initP.y = openGLControl.Height - Grid.yCellSize;
+
+            Grid.Y_nullificate();
+            //List_Of_Objects.Reverse();
             //Для каждой матрицы в списке объектов
             foreach (var obj in List_Of_Objects)
             {
@@ -181,7 +190,8 @@ namespace slae_project
                 Grid.Y_move();
             }
             //Возвращает курсор по Y координатами в саааамое начало.
-            Grid.Y_nullificate();
+            
+            //List_Of_Objects.Reverse();
 
         }
         void Draw_Vertical_net_for_matrix(GraphicObject obj, int Y_start)

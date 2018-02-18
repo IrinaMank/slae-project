@@ -33,8 +33,6 @@ namespace slae_project
             //Облегчим себе жизнь. Передадим в главную логическую сразу.
             GD = new GraphicData(openGLControl);
 
-            //Добавляем числа, векторы, матрицы на отображение
-            GD.Add_objects();
 
             //Manual Рендеринг, мы же не делаем игру, так что смысла в RealTime FPS нету.
             //Для повторной отрисовки вызовите функцию openGLControl.Refresh();
