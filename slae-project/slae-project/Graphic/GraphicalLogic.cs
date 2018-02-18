@@ -138,35 +138,78 @@ namespace slae_project
 
 
             Grid.initP.y = openGLControl.Height - Grid.yCellSize;
+            //Для каждой матрицы в списке объектов
             foreach (var obj in List_Of_Objects)
             {
+                //Отдели от предыдущей двумя очень длинными горизонтальными линиями
+                draw_line(-100000 + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4,
+                                100000 + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4);
+                draw_line(-100000 + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4 + 1,
+                                100000 + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4 + 1);
+
+                //Напиши как называется текущая матрица
                 if (IsTextEnabled) gl.DrawText(Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y, 0.0f, 0.0f, 0.0f, "", 14.0f, obj.Name);
                 Grid.Y_move();
 
-                
+                int X_start = Grid.cursorP.x;
+                int Y_start = Grid.cursorP.y;
 
+                int X_old = Grid.cursorP.x;
+                int Y_old = Grid.cursorP.y;
+
+                int X_new = Grid.cursorP.x;
+                int Y_new = Grid.cursorP.y;
+
+                //Для каждого вектора текущей матрицы
                 foreach (var vect in obj.Matrix)
                 {
 
-                    int X_old = Grid.cursorP.x;
-                    int Y_old = Grid.cursorP.y;
+                    X_old = Grid.cursorP.x;
+                    Y_old = Grid.cursorP.y;
 
+                    //Пиши его значения в строчку
                     foreach (var value in vect)
                     {
                         if (IsTextEnabled) gl.DrawText(Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y, 0.0f, 0.0f, 0.0f, "", 14.0f, value.ToString());
                         Grid.X_move();
                     }
+                    
+                    //Рисует горизонтальные линии матрицы
+                    draw_line(X_old + mouse.ShiftedPosition.x, Y_old + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4,
+                                Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4);
 
-                    draw_line(X_old + mouse.ShiftedPosition.x, Y_old + mouse.ShiftedPosition.y + Grid.yCellSize / 2 + 1,
-                                Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y + Grid.yCellSize / 2 + 1);
+                    Grid.Y_move();
+                    X_new = Grid.cursorP.x;
+                    Y_new = Grid.cursorP.y;
 
-                    Grid.X_nullificate(); Grid.Y_move();
+                    //Верни курсор в начало строки.
+                    Grid.X_nullificate();
                 }
+                //Рисует вертикальные линии матрицы
+                Draw_Vertical_net_for_matrix(obj, Y_start);
+
+                //Рисует последнюю горизонтальную линию матрицы
+                draw_line(X_new + mouse.ShiftedPosition.x, Y_new + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4,
+                                Grid.cursorP.x + mouse.ShiftedPosition.x, Y_new + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4);
+                Grid.Y_move();
             }
+            //Возвращает курсор по Y координатами в саааамое начало.
             Grid.Y_nullificate();
 
         }
-
+        void Draw_Vertical_net_for_matrix(GraphicObject obj, int Y_start)
+        {
+            foreach (var value in obj.Matrix[0])
+            {
+                draw_line(Grid.cursorP.x + mouse.ShiftedPosition.x, Y_start + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4,
+                            Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4);
+                Grid.X_move();
+            }
+            draw_line(Grid.cursorP.x + mouse.ShiftedPosition.x, Y_start + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4,
+                            Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4);
+            Grid.X_move();
+            Grid.X_nullificate();
+        }
         /// <summary>
         /// Draw Grid
         /// </summary>

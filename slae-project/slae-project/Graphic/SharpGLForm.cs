@@ -146,8 +146,7 @@ namespace slae_project
             //Тут высчитывается насколько сместился курсор мышки нажатой
             GD.mouse.setMouseData(MouseButtons.ToString(), MousePosition.X, MousePosition.Y);
 
-            //Обновили экран
-            openGLControl.Refresh();
+            
 
             //Меняем курсор мышки на разные в зависимости нажата левая кнопка мышки или нет.
             if (MouseButtons.ToString() != "Left")
@@ -159,6 +158,10 @@ namespace slae_project
                 Cursor.Current = Cursors.NoMove2D;
                 GD.mouse.isPressed = true;
             }
+
+            //Обновили экран
+            openGLControl.Refresh();
+
             Application.DoEvents();
         }
 

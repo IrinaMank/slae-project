@@ -15,6 +15,11 @@ namespace slae_project
         public Form1()
         {
             InitializeComponent();
+
+            //Чтобы не нажимать при отладке на кнопку вызова постоянно
+            SharpForm = new SharpGLForm(true);
+            SharpForm.Visible = true;
+            this.WindowState = FormWindowState.Minimized;
         }
 
         SharpGLForm SharpForm = null;
