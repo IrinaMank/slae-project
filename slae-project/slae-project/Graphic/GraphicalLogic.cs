@@ -98,10 +98,6 @@ namespace slae_project
 
             openGLControl.Refresh();
         }
-        public void Refresh_Window()
-        {
-            openGLControl.Refresh();
-        }
         /// <summary>
         /// Попробовать что все работает
         /// </summary>
@@ -462,12 +458,10 @@ namespace slae_project
             //SharpForm.GD.List_Of_Objects.RemoveAt(1); Удалить какойто конкретный
             //SharpForm.GD.List_Of_Objects.Clear(); //Удалить все.
             //SharpForm.GD.List_Of_Objects.RemoveAt(List_Of_Objects.Count() - 1); //Удалить последний
-
-            //ВАЖНО! В конце добавления SharpForm.GD.openGLControl стоит. Если добавлен, значит окно автоматом обновится (сделается openGLcontrol.Refresh())
-            //Если не добавите SharpForm.GD.openGLControl, значит вы еще пока не хотите перерисовывать окно.
-
-            //Точняк, если будете чтото удалять, то придется вызов обновления окна вызвать вручную.
-            //SharpForm.GD.Refresh_Window(); -Обновлялка окна.
+            
+            //ВАЖНО! После добавлений или удалений вызывать вот эту функцию.
+            SharpForm.Refresh_Window();
+        }
         }
     }
 }

@@ -50,23 +50,20 @@ namespace slae_project
 
             //Добавление объектов на отображение.
             //Имя и Число/Вектор/Матрица в формате (double, double[], double[,], List<double>, List<List<double>>) на выбор.
-            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("vector4ik", vector4ik, SharpForm.GD.openGLControl));
-            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("single_value", single_value, SharpForm.GD.openGLControl));
-            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix", randomMatrix, SharpForm.GD.openGLControl));
-            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_vectorik", listed_vectorik, SharpForm.GD.openGLControl));
-            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix, SharpForm.GD.openGLControl));
+            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("vector4ik", vector4ik));
+            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("single_value", single_value));
+            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix", randomMatrix));
+            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_vectorik", listed_vectorik));
             SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
             SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
-            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix, SharpForm.GD.openGLControl));
+            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
+            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
             //SharpForm.GD.List_Of_Objects.RemoveAt(1); Удалить какойто конкретный
             //SharpForm.GD.List_Of_Objects.Clear(); //Удалить все.
             //SharpForm.GD.List_Of_Objects.RemoveAt(List_Of_Objects.Count() - 1); //Удалить последний
 
-            //ВАЖНО! В конце добавления SharpForm.GD.openGLControl стоит. Если добавлен, значит окно автоматом обновится (сделается openGLcontrol.Refresh())
-            //Если не добавите SharpForm.GD.openGLControl, значит вы еще пока не хотите перерисовывать окно.
-
-            //Точняк, если будете чтото удалять, то придется вызов обновления окна вызвать вручную.
-            //SharpForm.GD.Refresh_Window(); -Обновлялка окна.
+            //ВАЖНО! После добавлений или удалений вызывать вот эту функцию.
+            SharpForm.Refresh_Window();
         }
     }
 }

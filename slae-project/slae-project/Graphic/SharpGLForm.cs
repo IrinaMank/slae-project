@@ -32,11 +32,13 @@ namespace slae_project
 
             //Облегчим себе жизнь. Передадим в главную логическую сразу.
             GD = new GraphicData(openGLControl);
-            SetScrollBars();
+            
             //Manual Рендеринг, мы же не делаем игру, так что смысла в RealTime FPS нету.
             //Для повторной отрисовки вызовите функцию openGLControl.Refresh();
             openGLControl.RenderTrigger = RenderTrigger.Manual;
             openGLControl.DoRender();
+
+            SetScrollBars();
         }
         /// <summary>
         /// Handles the OpenGLDraw event of the openGLControl control.
@@ -46,6 +48,8 @@ namespace slae_project
         private void openGLControl_OpenGLDraw(object sender, RenderEventArgs e)
         {
             GD.RealDraw();
+
+            
         }
 
         /// <summary>
@@ -163,6 +167,9 @@ namespace slae_project
             //Обновили экран
             openGLControl.Refresh();
 
+            //hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Maximum = Math.Abs(-GD.mouse.BorderEnd.x);
+            //vScrollBar1.Minimum = GD.mouse.BorderBegin.y; vScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.y);
+
             Application.DoEvents();
         }
 
@@ -181,6 +188,9 @@ namespace slae_project
             //Мышка отжата.            
             GD.mouse.isPressed = false;
             GD.mouse.isPressedBefore = false;
+
+           
+
         }
 
         private void button_refresh_Click(object sender, EventArgs e)
@@ -198,6 +208,11 @@ namespace slae_project
             radioButton2_Double.Checked = false;
             radioButton3_Exponential.Checked = false;
             GD.font_format = 0;
+            openGLControl.Refresh();
+            SetScrollBars();
+        }
+        public void Refresh_Window()
+        {
             openGLControl.Refresh();
             SetScrollBars();
         }
