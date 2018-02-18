@@ -32,8 +32,7 @@ namespace slae_project
 
             //Облегчим себе жизнь. Передадим в главную логическую сразу.
             GD = new GraphicData(openGLControl);
-
-
+            SetScrollBars();
             //Manual Рендеринг, мы же не делаем игру, так что смысла в RealTime FPS нету.
             //Для повторной отрисовки вызовите функцию openGLControl.Refresh();
             openGLControl.RenderTrigger = RenderTrigger.Manual;
@@ -181,10 +180,26 @@ namespace slae_project
 
         private void button_refresh_Click(object sender, EventArgs e)
         {
-            GD.MoveToEndCursor();
             openGLControl.Refresh();
         }
-
+        private void button_reset_Click(object sender, EventArgs e)
+        {
+            GD = new GraphicData(openGLControl);
+            trackBar_QuantityAfterPoint.Value = GD.FontQuanitityAfterPoint;
+            try
+            {
+                trackBar_FontSize.Value = Convert.ToInt32(GD.FontSize);
+            }
+            catch (Exception error)
+            { }
+            trackBar_CellWidth.Value = GD.Grid.xCellSize;
+            trackBar_CellHeight.Value = GD.Grid.yCellSize;
+            radioButton1_General.Checked = true;
+            radioButton2_Double.Checked = false;
+            radioButton3_Exponential.Checked = false;
+            openGLControl.Refresh();
+            SetScrollBars();
+        }
         private void trackBar_FontSize_ValueChanged(object sender, EventArgs e)
         {
             GD.FontSize = trackBar_FontSize.Value;
@@ -210,6 +225,66 @@ namespace slae_project
         {
             openGLControl.Refresh();
             GD.MoveToEndCursor();
+
+            SetScrollBars();
+        }
+        void SetScrollBars()
+        {
+            GD.mouse.BorderEndRecalculate();
+            hScrollBar1.Minimum = 0; hScrollBar1.Maximum = -GD.mouse.BorderEnd.x;
+            vScrollBar1.Maximum = 0; vScrollBar1.Maximum = GD.mouse.BorderEnd.y;
+            vScrollBar1.Value = GD.mouse.BorderEnd.y;
+            hScrollBar1.Value = 0;
+        }
+        private void trackBar_QuantityAfterPoint_ValueChanged(object sender, EventArgs e)
+        {
+            GD.FontQuanitityAfterPoint = trackBar_QuantityAfterPoint.Value;
+            openGLControl.Refresh();
+        }
+
+        private void radioButton1_General_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1_General.Checked == true)
+            {
+                GD.font_format = GraphicData.FontFormat.G;
+                radioButton2_Double.Checked = false;
+                radioButton3_Exponential.Checked = false;
+            }
+            openGLControl.Refresh();
+        }
+
+        private void radioButton2_Double_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton2_Double.Checked == true)
+            {
+                GD.font_format = GraphicData.FontFormat.F;
+                radioButton1_General.Checked = false;
+                radioButton3_Exponential.Checked = false;
+            }
+            openGLControl.Refresh();
+        }
+
+        private void radioButton3_Exponential_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton3_Exponential.Checked == true)
+            {
+                GD.font_format = GraphicData.FontFormat.E;
+                radioButton2_Double.Checked = false;
+                radioButton1_General.Checked = false;
+            }
+            openGLControl.Refresh();
+        }
+
+        private void vScrollBar1_ValueChanged(object sender, EventArgs e)
+        {
+            GD.mouse.ShiftedPosition.y = vScrollBar1.Value;
+            openGLControl.Refresh();
+        }
+
+        private void hScrollBar1_ValueChanged(object sender, EventArgs e)
+        {
+            GD.mouse.ShiftedPosition.x = -hScrollBar1.Value;
+            openGLControl.Refresh();
         }
     }
 }

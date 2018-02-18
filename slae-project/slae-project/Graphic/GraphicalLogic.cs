@@ -18,7 +18,11 @@ namespace slae_project
     {
         OpenGLControl openGLControl;
         public Single FontSize = 14.0f;
-        public GraphicData(OpenGLControl openGLController)
+        public enum FontFormat { G, F, E };
+        public FontFormat font_format = FontFormat.G;
+        public int FontQuanitityAfterPoint = 3;
+
+    public GraphicData(OpenGLControl openGLController)
         {
             openGLControl = openGLController;
             mouse = new MouseClass(ref Grid,openGLControl);
@@ -84,7 +88,10 @@ namespace slae_project
 
         public void Add_objects()
         {
+            //Пример как работать с этой формой
+            //Добавление, удаление и очищение объектов.
             Example();
+            openGLControl.Refresh();
         }
 
         /// <summary>
@@ -96,7 +103,7 @@ namespace slae_project
             double single_value = 5;
 
             double[] vector4ik = new double[40]; for (int i = 0; i < 40; i++) vector4ik[i] = i;
-            double[,] randomMatrix = new double[,] { { 1, 2, 3, 4 },{ 3, 4, 1, 1 },{ 5, 6, 1, 1 } };
+            double[,] randomMatrix = new double[,] { { 12345678912345, 2, 3, 4 },{ -12345678912345, 4, 1, 1 },{ 5, 6, 1, 1 } };
 
             List<double> listed_vectorik = new List<double>() { 1, 2, 3, 4, 5};
             List<List<double>> listed_matrix = new List<List<double>>() { new List<double>{ 1, 2}, new List<double> { 3, 4}, new List<double> { 5, 6} };
@@ -153,7 +160,7 @@ namespace slae_project
 
                 Grid.X_move();
                 //Напиши как называется текущая матрица
-                if (IsTextEnabled) gl.DrawText(Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y, 0.0f, 0.0f, 0.0f, "", FontSize, obj.Name);
+                Draw_Text(Grid.cursorP.x, Grid.cursorP.y, obj.Name);
                 Grid.Y_move(); Grid.X_nullificate();
 
                 Grid.X_move();
@@ -178,13 +185,13 @@ namespace slae_project
                     X_old = Grid.cursorP.x;
                     Y_old = Grid.cursorP.y;
 
-                    if (IsTextEnabled) gl.DrawText(Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y, 0.0f, 0.0f, 0.0f, "", FontSize, Count_by_Y.ToString());
+                    Draw_Text(Grid.cursorP.x, Grid.cursorP.y, Count_by_Y.ToString());
                     Count_by_Y++; Grid.X_move();
 
                     //Пиши его значения в строчку
                     foreach (var value in vect)
                     {
-                        if (IsTextEnabled) gl.DrawText(Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y, 0.0f, 0.0f, 0.0f, "", FontSize, value.ToString());
+                        Draw_Text(Grid.cursorP.x, Grid.cursorP.y,null, value,true);
                         Grid.X_move();
                     }
                     
@@ -215,13 +222,27 @@ namespace slae_project
             //List_Of_Objects.Reverse();
 
         }
+        void Draw_Text(int in_x, int in_y, string phrase, double value = 0, Boolean ItsImportantNumber = false)
+        {
+            OpenGL gl = openGLControl.OpenGL;
+
+            in_x += mouse.ShiftedPosition.x;
+            in_y += +mouse.ShiftedPosition.y;
+
+            if (!ItsImportantNumber)
+                gl.DrawText(in_x, in_y, 0.0f, 0.0f, 0.0f, "", FontSize, phrase);
+            else
+            { 
+                gl.DrawText(in_x, in_y, 0.0f, 0.0f, 0.0f, "", FontSize, value.ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
+            }
+        }
         void Draw_Horizontal_numbers_for_matrix(GraphicObject obj)
         {
             OpenGL gl = openGLControl.OpenGL;
             int Count_by_X = 1;
             foreach (var value in obj.Matrix[0])
             {
-                gl.DrawText(Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y, 0.0f, 0.0f, 0.0f, "", FontSize, Count_by_X.ToString());
+                Draw_Text(Grid.cursorP.x, Grid.cursorP.y, Count_by_X.ToString());
                 Grid.X_move();
                 Count_by_X++;
             }
@@ -298,8 +319,8 @@ namespace slae_project
     {
         public PointInt initP = new PointInt(5, 5);
         public PointInt cursorP;
-        public PointInt DeadPoint = new PointInt(0,0);//Самый правый нижний край поля.
-        public int xCellSize = 30, yCellSize = 30;
+        public PointInt DeadPoint = new PointInt(0,0);//Самый нижний правый конец поля курсором!
+        public int xCellSize = 80, yCellSize = 30;
 
         public Net()
         {
@@ -368,14 +389,27 @@ namespace slae_project
                 LastPosition.x = x;
                 LastPosition.y = y;
 
-                if (ShiftedPosition.x + ShiftPosition.x < 15 && ShiftedPosition.x + ShiftPosition.x > -Grid.DeadPoint.x + openGLControl.Width - Grid.xCellSize)
+                BorderEndRecalculate();
+
+                if (ShiftedPosition.x + ShiftPosition.x < BorderBegin.x && ShiftedPosition.x + ShiftPosition.x > (BorderEnd.x))
                     ShiftedPosition.x += ShiftPosition.x;
 
-                if (ShiftedPosition.y - ShiftPosition.y > 10 && ShiftedPosition.y - ShiftPosition.y < Grid.DeadPoint.y)
+                if (ShiftedPosition.y - ShiftPosition.y > BorderBegin.y && ShiftedPosition.y - ShiftPosition.y < (BorderEnd.y))
                 ShiftedPosition.y -= ShiftPosition.y;
             }
             
+
+
+            
         }
+        public void BorderEndRecalculate()
+        {
+            BorderEnd.x = -Grid.DeadPoint.x + openGLControl.Width - Grid.xCellSize;
+            BorderEnd.y = Grid.DeadPoint.y;
+        }
+        public PointInt BorderBegin = new PointInt(15, 10);//самый верхний левый угол для ShiftedPosition
+        public PointInt BorderEnd = new PointInt(15, 10);//самый нижний правый угол для ShiftedPosition
+
     }
 
 }
