@@ -236,10 +236,10 @@ namespace slae_project
         void SetScrollBars()
         {
             GD.mouse.BorderEndRecalculate();
-            hScrollBar1.Minimum = 0; hScrollBar1.Maximum = -GD.mouse.BorderEnd.x;
-            vScrollBar1.Maximum = 0; vScrollBar1.Maximum = GD.mouse.BorderEnd.y;
+            hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Maximum = -GD.mouse.BorderEnd.x;
+            vScrollBar1.Minimum = GD.mouse.BorderBegin.y; vScrollBar1.Maximum = GD.mouse.BorderEnd.y;
             vScrollBar1.Value = GD.mouse.BorderEnd.y;
-            hScrollBar1.Value = 0;
+            hScrollBar1.Value = GD.mouse.BorderBegin.x;
         }
         private void trackBar_QuantityAfterPoint_ValueChanged(object sender, EventArgs e)
         {
