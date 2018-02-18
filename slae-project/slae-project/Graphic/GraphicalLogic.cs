@@ -147,6 +147,11 @@ namespace slae_project
                 if (IsTextEnabled) gl.DrawText(Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y, 0.0f, 0.0f, 0.0f, "", 14.0f, obj.Name);
                 Grid.Y_move();
 
+                Grid.X_move();
+                int Count_by_Y = 1;
+                Draw_Horizontal_numbers_for_matrix(obj);
+                Grid.Y_move();
+
                 int X_start = Grid.cursorP.x;
                 int Y_start = Grid.cursorP.y;
 
@@ -156,12 +161,16 @@ namespace slae_project
                 int X_new = Grid.cursorP.x;
                 int Y_new = Grid.cursorP.y;
 
+                
                 //Для каждого вектора текущей матрицы
                 foreach (var vect in obj.Matrix)
                 {
 
                     X_old = Grid.cursorP.x;
                     Y_old = Grid.cursorP.y;
+
+                    if (IsTextEnabled) gl.DrawText(Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y, 0.0f, 0.0f, 0.0f, "", 14.0f, Count_by_Y.ToString());
+                    Count_by_Y++; Grid.X_move();
 
                     //Пиши его значения в строчку
                     foreach (var value in vect)
@@ -171,7 +180,7 @@ namespace slae_project
                     }
                     
                     //Рисует горизонтальные линии матрицы
-                    draw_line(X_old, Y_old,
+                    draw_line(X_old + Grid.xCellSize, Y_old,
                                 Grid.cursorP.x, Grid.cursorP.y);
 
                     Grid.Y_move();
@@ -186,7 +195,7 @@ namespace slae_project
 
                 //Рисует последнюю горизонтальную линию матрицы
                 draw_line(X_new, Y_new,
-                                Grid.cursorP.x, Y_new);
+                                Grid.cursorP.x + Grid.xCellSize, Y_new);
                 Grid.Y_move();
             }
             //Возвращает курсор по Y координатами в саааамое начало.
@@ -194,8 +203,23 @@ namespace slae_project
             //List_Of_Objects.Reverse();
 
         }
+        void Draw_Horizontal_numbers_for_matrix(GraphicObject obj)
+        {
+            OpenGL gl = openGLControl.OpenGL;
+            int Count_by_X = 1;
+            foreach (var value in obj.Matrix[0])
+            {
+                gl.DrawText(Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y, 0.0f, 0.0f, 0.0f, "", 14.0f, Count_by_X.ToString());
+                Grid.X_move();
+                Count_by_X++;
+            }
+
+            Grid.X_move();
+            Grid.X_nullificate();
+        }
         void Draw_Vertical_net_for_matrix(GraphicObject obj, int Y_start)
         {
+            Grid.X_move();
             foreach (var value in obj.Matrix[0])
             {
                 draw_line(Grid.cursorP.x, Y_start,
