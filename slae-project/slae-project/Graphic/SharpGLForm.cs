@@ -182,6 +182,7 @@ namespace slae_project
 
         private void button_refresh_Click(object sender, EventArgs e)
         {
+            GD.MoveToEndCursor();
             openGLControl.Refresh();
         }
     }

@@ -21,8 +21,13 @@ namespace slae_project
         {
             openGLControl = openGLController;
             Add_objects();
+            MoveToEndCursor();
+        }
+        public void MoveToEndCursor()
+        {
             RealDraw();
-            mouse.ShiftedPosition.y = - Grid.cursorP.y - Grid.yCellSize;
+            mouse.ShiftedPosition.y = -Grid.cursorP.y - Grid.yCellSize;
+            mouse.ShiftedPosition.x = Grid.cursorP.x;
         }
 
         /// <summary>
