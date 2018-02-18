@@ -59,15 +59,5 @@ namespace slae_project.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap PhotoPeace {
-            get {
-                object obj = ResourceManager.GetObject("PhotoPeace", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }
