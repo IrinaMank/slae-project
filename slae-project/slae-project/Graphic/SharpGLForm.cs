@@ -155,6 +155,11 @@ namespace slae_project
                 GD.mouse.isPressed = true;
             }
 
+            try
+            { hScrollBar1.Value = -GD.mouse.ShiftedPosition.x; }
+            catch (Exception error) { }
+            try { vScrollBar1.Value = GD.mouse.ShiftedPosition.y; }
+            catch (Exception error) { }
             //Обновили экран
             openGLControl.Refresh();
 
