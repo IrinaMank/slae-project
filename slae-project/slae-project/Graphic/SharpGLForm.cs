@@ -286,5 +286,15 @@ namespace slae_project
             GD.mouse.ShiftedPosition.x = -hScrollBar1.Value;
             openGLControl.Refresh();
         }
+
+        private void label6_FAQ_MouseHover(object sender, EventArgs e)
+        {
+            label7_FAQ_move_phrase.Visible = true;
+        }
+
+        private void label6_FAQ_MouseLeave(object sender, EventArgs e)
+        {
+            label7_FAQ_move_phrase.Visible = false;
+        }
     }
 }

@@ -30,24 +30,26 @@
         {
             this.openGLControl = new SharpGL.OpenGLControl();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.button_reset = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.trackBar_FontSize = new System.Windows.Forms.TrackBar();
-            this.button_exit = new System.Windows.Forms.Button();
-            this.button_refresh = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.trackBar_CellHeight = new System.Windows.Forms.TrackBar();
             this.label3 = new System.Windows.Forms.Label();
             this.trackBar_CellWidth = new System.Windows.Forms.TrackBar();
             this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.radioButton1_General = new System.Windows.Forms.RadioButton();
-            this.radioButton2_Double = new System.Windows.Forms.RadioButton();
             this.radioButton3_Exponential = new System.Windows.Forms.RadioButton();
+            this.radioButton2_Double = new System.Windows.Forms.RadioButton();
+            this.radioButton1_General = new System.Windows.Forms.RadioButton();
+            this.button_refresh = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.trackBar_QuantityAfterPoint = new System.Windows.Forms.TrackBar();
-            this.button_reset = new System.Windows.Forms.Button();
+            this.button_exit = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
+            this.label6_FAQ = new System.Windows.Forms.Label();
+            this.label7_FAQ_move_phrase = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_FontSize)).BeginInit();
@@ -117,6 +119,19 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(181, 521);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
+            // button_reset
+            // 
+            this.button_reset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_reset.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.button_reset.Location = new System.Drawing.Point(4, 436);
+            this.button_reset.Name = "button_reset";
+            this.button_reset.Size = new System.Drawing.Size(173, 30);
+            this.button_reset.TabIndex = 3;
+            this.button_reset.Text = "Сбросить";
+            this.button_reset.UseVisualStyleBackColor = true;
+            this.button_reset.Click += new System.EventHandler(this.button_reset_Click);
+            // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -142,32 +157,6 @@
             this.trackBar_FontSize.TabIndex = 3;
             this.trackBar_FontSize.Value = 14;
             this.trackBar_FontSize.ValueChanged += new System.EventHandler(this.trackBar_FontSize_ValueChanged);
-            // 
-            // button_exit
-            // 
-            this.button_exit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_exit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.button_exit.Location = new System.Drawing.Point(4, 477);
-            this.button_exit.Name = "button_exit";
-            this.button_exit.Size = new System.Drawing.Size(173, 30);
-            this.button_exit.TabIndex = 0;
-            this.button_exit.Text = "Выход";
-            this.button_exit.UseVisualStyleBackColor = true;
-            this.button_exit.Click += new System.EventHandler(this.button_exit_Click);
-            // 
-            // button_refresh
-            // 
-            this.button_refresh.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_refresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.button_refresh.Location = new System.Drawing.Point(4, 395);
-            this.button_refresh.Name = "button_refresh";
-            this.button_refresh.Size = new System.Drawing.Size(173, 30);
-            this.button_refresh.TabIndex = 2;
-            this.button_refresh.Text = "Обновить";
-            this.button_refresh.UseVisualStyleBackColor = true;
-            this.button_refresh.Click += new System.EventHandler(this.button_refresh_Click);
             // 
             // label2
             // 
@@ -254,6 +243,38 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(173, 115);
             this.tableLayoutPanel2.TabIndex = 9;
             // 
+            // radioButton3_Exponential
+            // 
+            this.radioButton3_Exponential.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioButton3_Exponential.AutoSize = true;
+            this.radioButton3_Exponential.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.radioButton3_Exponential.Location = new System.Drawing.Point(3, 79);
+            this.radioButton3_Exponential.Name = "radioButton3_Exponential";
+            this.radioButton3_Exponential.Size = new System.Drawing.Size(167, 33);
+            this.radioButton3_Exponential.TabIndex = 2;
+            this.radioButton3_Exponential.Text = "Экспоненциальный";
+            this.radioButton3_Exponential.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radioButton3_Exponential.UseVisualStyleBackColor = true;
+            this.radioButton3_Exponential.CheckedChanged += new System.EventHandler(this.radioButton3_Exponential_CheckedChanged);
+            // 
+            // radioButton2_Double
+            // 
+            this.radioButton2_Double.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioButton2_Double.AutoSize = true;
+            this.radioButton2_Double.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.radioButton2_Double.Location = new System.Drawing.Point(3, 41);
+            this.radioButton2_Double.Name = "radioButton2_Double";
+            this.radioButton2_Double.Size = new System.Drawing.Size(167, 32);
+            this.radioButton2_Double.TabIndex = 1;
+            this.radioButton2_Double.Text = "Дробный";
+            this.radioButton2_Double.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radioButton2_Double.UseVisualStyleBackColor = true;
+            this.radioButton2_Double.CheckedChanged += new System.EventHandler(this.radioButton2_Double_CheckedChanged);
+            // 
             // radioButton1_General
             // 
             this.radioButton1_General.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -272,37 +293,18 @@
             this.radioButton1_General.UseVisualStyleBackColor = true;
             this.radioButton1_General.CheckedChanged += new System.EventHandler(this.radioButton1_General_CheckedChanged);
             // 
-            // radioButton2_Double
+            // button_refresh
             // 
-            this.radioButton2_Double.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.button_refresh.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton2_Double.AutoSize = true;
-            this.radioButton2_Double.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.radioButton2_Double.Location = new System.Drawing.Point(3, 41);
-            this.radioButton2_Double.Name = "radioButton2_Double";
-            this.radioButton2_Double.Size = new System.Drawing.Size(167, 32);
-            this.radioButton2_Double.TabIndex = 1;
-            this.radioButton2_Double.Text = "Дробный";
-            this.radioButton2_Double.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radioButton2_Double.UseVisualStyleBackColor = true;
-            this.radioButton2_Double.CheckedChanged += new System.EventHandler(this.radioButton2_Double_CheckedChanged);
-            // 
-            // radioButton3_Exponential
-            // 
-            this.radioButton3_Exponential.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton3_Exponential.AutoSize = true;
-            this.radioButton3_Exponential.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.radioButton3_Exponential.Location = new System.Drawing.Point(3, 79);
-            this.radioButton3_Exponential.Name = "radioButton3_Exponential";
-            this.radioButton3_Exponential.Size = new System.Drawing.Size(167, 33);
-            this.radioButton3_Exponential.TabIndex = 2;
-            this.radioButton3_Exponential.Text = "Экспоненциальный";
-            this.radioButton3_Exponential.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radioButton3_Exponential.UseVisualStyleBackColor = true;
-            this.radioButton3_Exponential.CheckedChanged += new System.EventHandler(this.radioButton3_Exponential_CheckedChanged);
+            this.button_refresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.button_refresh.Location = new System.Drawing.Point(4, 395);
+            this.button_refresh.Name = "button_refresh";
+            this.button_refresh.Size = new System.Drawing.Size(173, 30);
+            this.button_refresh.TabIndex = 2;
+            this.button_refresh.Text = "Обновить";
+            this.button_refresh.UseVisualStyleBackColor = true;
+            this.button_refresh.Click += new System.EventHandler(this.button_refresh_Click);
             // 
             // label5
             // 
@@ -330,18 +332,18 @@
             this.trackBar_QuantityAfterPoint.Value = 3;
             this.trackBar_QuantityAfterPoint.ValueChanged += new System.EventHandler(this.trackBar_QuantityAfterPoint_ValueChanged);
             // 
-            // button_reset
+            // button_exit
             // 
-            this.button_reset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.button_exit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_reset.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.button_reset.Location = new System.Drawing.Point(4, 436);
-            this.button_reset.Name = "button_reset";
-            this.button_reset.Size = new System.Drawing.Size(173, 30);
-            this.button_reset.TabIndex = 3;
-            this.button_reset.Text = "Сбросить";
-            this.button_reset.UseVisualStyleBackColor = true;
-            this.button_reset.Click += new System.EventHandler(this.button_reset_Click);
+            this.button_exit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.button_exit.Location = new System.Drawing.Point(4, 477);
+            this.button_exit.Name = "button_exit";
+            this.button_exit.Size = new System.Drawing.Size(173, 30);
+            this.button_exit.TabIndex = 0;
+            this.button_exit.Text = "Выход";
+            this.button_exit.UseVisualStyleBackColor = true;
+            this.button_exit.Click += new System.EventHandler(this.button_exit_Click);
             // 
             // vScrollBar1
             // 
@@ -349,7 +351,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.vScrollBar1.Location = new System.Drawing.Point(-2, 0);
             this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(20, 521);
+            this.vScrollBar1.Size = new System.Drawing.Size(20, 498);
             this.vScrollBar1.TabIndex = 2;
             this.vScrollBar1.ValueChanged += new System.EventHandler(this.vScrollBar1_ValueChanged);
             // 
@@ -359,15 +361,43 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.hScrollBar1.Location = new System.Drawing.Point(22, 501);
             this.hScrollBar1.Name = "hScrollBar1";
-            this.hScrollBar1.Size = new System.Drawing.Size(544, 20);
+            this.hScrollBar1.Size = new System.Drawing.Size(543, 20);
             this.hScrollBar1.TabIndex = 3;
             this.hScrollBar1.ValueChanged += new System.EventHandler(this.hScrollBar1_ValueChanged);
+            // 
+            // label6_FAQ
+            // 
+            this.label6_FAQ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label6_FAQ.AutoSize = true;
+            this.label6_FAQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label6_FAQ.Location = new System.Drawing.Point(2, 501);
+            this.label6_FAQ.Name = "label6_FAQ";
+            this.label6_FAQ.Size = new System.Drawing.Size(16, 17);
+            this.label6_FAQ.TabIndex = 4;
+            this.label6_FAQ.Text = "?";
+            this.label6_FAQ.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label6_FAQ.MouseLeave += new System.EventHandler(this.label6_FAQ_MouseLeave);
+            this.label6_FAQ.MouseHover += new System.EventHandler(this.label6_FAQ_MouseHover);
+            // 
+            // label7_FAQ_move_phrase
+            // 
+            this.label7_FAQ_move_phrase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label7_FAQ_move_phrase.AutoSize = true;
+            this.label7_FAQ_move_phrase.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label7_FAQ_move_phrase.Location = new System.Drawing.Point(21, 481);
+            this.label7_FAQ_move_phrase.Name = "label7_FAQ_move_phrase";
+            this.label7_FAQ_move_phrase.Size = new System.Drawing.Size(489, 17);
+            this.label7_FAQ_move_phrase.TabIndex = 5;
+            this.label7_FAQ_move_phrase.Text = "Перемещаться по полю можно с помощью зажатой левой кнопкой мыши";
+            this.label7_FAQ_move_phrase.Visible = false;
             // 
             // SharpGLForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 521);
+            this.Controls.Add(this.label7_FAQ_move_phrase);
+            this.Controls.Add(this.label6_FAQ);
             this.Controls.Add(this.hScrollBar1);
             this.Controls.Add(this.vScrollBar1);
             this.Controls.Add(this.tableLayoutPanel1);
@@ -387,6 +417,7 @@
             this.tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_QuantityAfterPoint)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -412,6 +443,8 @@
         private System.Windows.Forms.Button button_reset;
         private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.HScrollBar hScrollBar1;
+        private System.Windows.Forms.Label label6_FAQ;
+        private System.Windows.Forms.Label label7_FAQ_move_phrase;
     }
 }
 
