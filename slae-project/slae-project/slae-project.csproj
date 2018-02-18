@@ -8,9 +8,10 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>slae_project</RootNamespace>
     <AssemblyName>slae-project</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -62,10 +63,14 @@
     </Compile>
     <Compile Include="Graphic\GraphicalLogic.cs" />
     <Compile Include="Matrix\CoordinateMatrix.cs" />
+    <Compile Include="Matrix\ILinearOperator.cs" />
     <Compile Include="Matrix\IMatrix.cs" />
-    <Compile Include="Matrix\Vector.cs" />
+    <Compile Include="Solver\MSGSolver.cs" />
+    <Compile Include="Vector\IVector.cs" />
+    <Compile Include="Vector\SimpleVector.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Solver\ISolver.cs" />
     <Compile Include="Graphic\SharpGLForm.cs">
       <SubType>Form</SubType>
     </Compile>
