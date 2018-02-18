@@ -21,7 +21,7 @@ namespace slae_project
     /// </summary>
     public partial class SharpGLForm : Form
     {
-        GraphicData GD;
+        public GraphicData GD;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpGLForm"/> class.

@@ -22,7 +22,7 @@ namespace slae_project
             this.WindowState = FormWindowState.Minimized;
         }
 
-        SharpGLForm SharpForm = null;
+        public SharpGLForm SharpForm = null;
         private void button1_Click(object sender, EventArgs e)
         {
             if (SharpForm != null)
