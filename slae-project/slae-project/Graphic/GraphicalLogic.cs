@@ -16,7 +16,7 @@ namespace slae_project
     /// </summary>
     public class GraphicData
     {
-        OpenGLControl openGLControl;
+        public OpenGLControl openGLControl;
         public Single FontSize = 14.0f;
         public enum FontFormat { G, F, E };
         public FontFormat font_format = FontFormat.G;
@@ -47,11 +47,12 @@ namespace slae_project
 
             public List<List<double>> Matrix = new List<List<double>>();
 
-            public GraphicObject(string _Name, List<List<double>> _Matrix)
+            public GraphicObject(string _Name, List<List<double>> _Matrix, OpenGLControl openGLControl = null)
             {
                 this.Name = _Name; Matrix = _Matrix;
+                if (openGLControl!=null) openGLControl.Refresh();
             }
-            public GraphicObject(string _Name, double[,] _Matrix)
+            public GraphicObject(string _Name, double[,] _Matrix, OpenGLControl openGLControl = null)
             {
                 //_Matrix.
                 this.Name = _Name; //Matrix = _Matrix;
@@ -65,18 +66,22 @@ namespace slae_project
                     }
                     
                 }
+                if (openGLControl != null) openGLControl.Refresh();
             }
-            public GraphicObject(string _Name, List<double> _Vector)
+            public GraphicObject(string _Name, List<double> _Vector, OpenGLControl openGLControl = null)
             {
                 this.Name = _Name; Matrix.Add(new List<double>(_Vector));
+                if (openGLControl != null) openGLControl.Refresh();
             }
-            public GraphicObject(string _Name, double[] _Vector)
+            public GraphicObject(string _Name, double[] _Vector, OpenGLControl openGLControl = null)
             {
                 this.Name = _Name; Matrix.Add(new List<double>(_Vector.ToList()));
+                if (openGLControl != null) openGLControl.Refresh();
             }
-            public GraphicObject(string _Name, double _Value)
+            public GraphicObject(string _Name, double _Value, OpenGLControl openGLControl = null)
             {
                 this.Name = _Name; Matrix.Add(new List<double>()); Matrix[0].Add(_Value);
+                if (openGLControl != null) openGLControl.Refresh();
             }
         }
 
