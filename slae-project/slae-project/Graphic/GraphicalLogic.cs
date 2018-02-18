@@ -120,32 +120,19 @@ namespace slae_project
             //  Clear the color and depth buffer.
             gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
 
-            
-
             //  Load the identity matrix.
             gl.LoadIdentity();
-
-            //draw_line(Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y,
-            //            Grid.cursorP.x + 100 + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y);
-
-            //draw_line(0 + mouse.ShiftedPosition.x, 0 + mouse.ShiftedPosition.y,
-            //            10 + mouse.ShiftedPosition.x, 10 + mouse.ShiftedPosition.y);
-
-            //Начало линий
-            //gl.Color(0.5f, 1.0f, 0.4f, 1.0f); //Must have, weirdness!
-            //gl.Vertex(x_from, y_from, Line_Height);
-            //gl.Vertex(x_to, y_to, Line_Height);
-
 
             Grid.initP.y = openGLControl.Height - Grid.yCellSize;
             //Для каждой матрицы в списке объектов
             foreach (var obj in List_Of_Objects)
             {
                 //Отдели от предыдущей двумя очень длинными горизонтальными линиями
-                draw_line(-100000 + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4,
-                                100000 + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4);
-                draw_line(-100000 + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4 + 1,
-                                100000 + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4 + 1);
+                draw_line(-100000, Grid.cursorP.y,
+                                100000, Grid.cursorP.y);
+
+                draw_line(-100000, Grid.cursorP.y + 1,
+                                100000, Grid.cursorP.y + 1);
 
                 //Напиши как называется текущая матрица
                 if (IsTextEnabled) gl.DrawText(Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y, 0.0f, 0.0f, 0.0f, "", 14.0f, obj.Name);
@@ -175,8 +162,8 @@ namespace slae_project
                     }
                     
                     //Рисует горизонтальные линии матрицы
-                    draw_line(X_old + mouse.ShiftedPosition.x, Y_old + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4,
-                                Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4);
+                    draw_line(X_old, Y_old,
+                                Grid.cursorP.x, Grid.cursorP.y);
 
                     Grid.Y_move();
                     X_new = Grid.cursorP.x;
@@ -189,8 +176,8 @@ namespace slae_project
                 Draw_Vertical_net_for_matrix(obj, Y_start);
 
                 //Рисует последнюю горизонтальную линию матрицы
-                draw_line(X_new + mouse.ShiftedPosition.x, Y_new + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4,
-                                Grid.cursorP.x + mouse.ShiftedPosition.x, Y_new + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4);
+                draw_line(X_new, Y_new,
+                                Grid.cursorP.x, Y_new);
                 Grid.Y_move();
             }
             //Возвращает курсор по Y координатами в саааамое начало.
@@ -201,20 +188,25 @@ namespace slae_project
         {
             foreach (var value in obj.Matrix[0])
             {
-                draw_line(Grid.cursorP.x + mouse.ShiftedPosition.x, Y_start + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4,
-                            Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4);
+                draw_line(Grid.cursorP.x, Y_start,
+                            Grid.cursorP.x, Grid.cursorP.y);
                 Grid.X_move();
             }
-            draw_line(Grid.cursorP.x + mouse.ShiftedPosition.x, Y_start + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4,
-                            Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4);
+            draw_line(Grid.cursorP.x, Y_start,
+                            Grid.cursorP.x, Grid.cursorP.y);
             Grid.X_move();
             Grid.X_nullificate();
         }
         /// <summary>
         /// Draw Grid
         /// </summary>
-        private void draw_line(int x_from = 0,int y_from = 0, int x_to = 0, int y_to = 0)
+        private void draw_line(int x_from,int y_from = 0, int x_to = 0, int y_to = 0)
         {
+            x_from += mouse.ShiftedPosition.x - 3;
+            y_from += mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4;
+            x_to += mouse.ShiftedPosition.x - 3;
+            y_to += mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4;
+
             //Чтобы не прописывать постоянно
             OpenGL gl = openGLControl.OpenGL;
             //  Clear the color and depth buffer.
