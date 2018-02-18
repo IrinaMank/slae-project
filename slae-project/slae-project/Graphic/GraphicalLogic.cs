@@ -20,6 +20,7 @@ namespace slae_project
         public GraphicData(OpenGLControl openGLController)
         {
             openGLControl = openGLController;
+            mouse = new MouseClass(ref Grid,openGLControl);
             Add_objects();
             MoveToEndCursor();
         }
@@ -93,7 +94,7 @@ namespace slae_project
             //Примеры добавляемых объектов
             double single_value = 5;
 
-            double[] vector4ik = new double[] { 1, 2, 3, 4, 5 };
+            double[] vector4ik = new double[40]; for (int i = 0; i < 40; i++) vector4ik[i] = i;
             double[,] randomMatrix = new double[,] { { 1, 2, 3, 4 },{ 3, 4, 1, 1 },{ 5, 6, 1, 1 } };
 
             List<double> listed_vectorik = new List<double>() { 1, 2, 3, 4, 5};
@@ -117,8 +118,8 @@ namespace slae_project
         /// <summary>
         /// В каком то роде Grid это курсор на консольном окне.
         /// </summary>
-        Net Grid = new Net();
-        public MouseClass mouse = new MouseClass();
+        static Net Grid = new Net();
+        public MouseClass mouse;
         /// <summary>
         /// Главная рисовалка.
         /// </summary>
@@ -148,9 +149,10 @@ namespace slae_project
                 draw_line(-100000, Grid.cursorP.y + 1,
                                 100000, Grid.cursorP.y + 1);
 
+                Grid.X_move();
                 //Напиши как называется текущая матрица
                 if (IsTextEnabled) gl.DrawText(Grid.cursorP.x + mouse.ShiftedPosition.x, Grid.cursorP.y + mouse.ShiftedPosition.y, 0.0f, 0.0f, 0.0f, "", 14.0f, obj.Name);
-                Grid.Y_move();
+                Grid.Y_move(); Grid.X_nullificate();
 
                 Grid.X_move();
                 int Count_by_Y = 1;
@@ -192,6 +194,7 @@ namespace slae_project
                     X_new = Grid.cursorP.x;
                     Y_new = Grid.cursorP.y;
 
+                    if (Grid.cursorP.x > Grid.DeadPoint.x) Grid.DeadPoint.x = Grid.cursorP.x;
                     //Верни курсор в начало строки.
                     Grid.X_nullificate();
                 }
@@ -203,8 +206,10 @@ namespace slae_project
                                 Grid.cursorP.x + Grid.xCellSize, Y_new);
                 Grid.Y_move();
             }
+
+            if (Grid.cursorP.y < -Grid.DeadPoint.y) Grid.DeadPoint.y = -Grid.cursorP.y;
             //Возвращает курсор по Y координатами в саааамое начало.
-            
+
             //List_Of_Objects.Reverse();
 
         }
@@ -291,6 +296,7 @@ namespace slae_project
     {
         public PointInt initP = new PointInt(5, 5);
         public PointInt cursorP;
+        public PointInt DeadPoint = new PointInt(0,0);//Самый правый нижний край поля.
         public int xCellSize = 30, yCellSize = 30;
 
         public Net()
@@ -323,8 +329,13 @@ namespace slae_project
         public PointInt ShiftedPosition;
         public Boolean isPressed = false;
         public Boolean isPressedBefore = false;
-        public MouseClass()
+
+        private Net Grid;
+        private OpenGLControl openGLControl;
+        public MouseClass(ref Net Grider, OpenGLControl openGLcontroller)
         {
+            openGLControl = openGLcontroller;
+            Grid = Grider;
             ShiftPosition = new PointInt(0, 0);
             LastPosition = new PointInt(0, 0);
             ShiftedPosition = new PointInt(0, 0);
@@ -355,7 +366,10 @@ namespace slae_project
                 LastPosition.x = x;
                 LastPosition.y = y;
 
-                ShiftedPosition.x += ShiftPosition.x;
+                if (ShiftedPosition.x + ShiftPosition.x < 15 && ShiftedPosition.x + ShiftPosition.x > -Grid.DeadPoint.x + openGLControl.Width - Grid.xCellSize)
+                    ShiftedPosition.x += ShiftPosition.x;
+
+                if (ShiftedPosition.y - ShiftPosition.y > 10 && ShiftedPosition.y - ShiftPosition.y < Grid.DeadPoint.y)
                 ShiftedPosition.y -= ShiftPosition.y;
             }
             
