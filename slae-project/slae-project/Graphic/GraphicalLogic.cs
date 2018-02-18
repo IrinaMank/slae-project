@@ -90,7 +90,7 @@ namespace slae_project
         {
             //Пример как работать с этой формой
             //Добавление, удаление и очищение объектов.
-            Example();
+
             openGLControl.Refresh();
         }
         public void Refresh_Window()
@@ -100,31 +100,6 @@ namespace slae_project
         /// <summary>
         /// Попробовать что все работает
         /// </summary>
-        public void Example()
-        {
-            //Примеры добавляемых объектов
-            double single_value = 5;
-
-            double[] vector4ik = new double[40]; for (int i = 0; i < 40; i++) vector4ik[i] = i;
-            double[,] randomMatrix = new double[,] { { 12345678912345, 2, 3, 4 },{ -12345678912345, 4, 1, 1 },{ 5, 6, 1, 1 } };
-
-            List<double> listed_vectorik = new List<double>() { 1, 2, 3, 4, 5};
-            List<List<double>> listed_matrix = new List<List<double>>() { new List<double>{ 1, 2}, new List<double> { 3, 4}, new List<double> { 5, 6} };
-
-            //Добавление объектов на отображение.
-            //Имя и Число/Вектор/Матрица в формате (double, double[], double[,], List<double>, List<List<double>>) на выбор.
-            List_Of_Objects.Add(new GraphicObject("vector4ik", vector4ik));
-            List_Of_Objects.Add(new GraphicObject("single_value", single_value));
-            List_Of_Objects.Add(new GraphicObject("Matrix", randomMatrix));
-            List_Of_Objects.Add(new GraphicObject("listed_vectorik", listed_vectorik));
-            List_Of_Objects.Add(new GraphicObject("listed_matrix", listed_matrix));
-            List_Of_Objects.Add(new GraphicObject("listed_matrix", listed_matrix));
-            List_Of_Objects.Add(new GraphicObject("listed_matrix", listed_matrix));
-            List_Of_Objects.Add(new GraphicObject("listed_matrix", listed_matrix));
-            //List_Of_Objects.RemoveAt(1); Удалить какойто конкретный
-            //List_Of_Objects.Clear(); //Удалить все.
-            //List_Of_Objects.RemoveAt(List_Of_Objects.Count() - 1); //Удалить последний
-        }
 
         /// <summary>
         /// В каком то роде Grid это курсор на консольном окне.

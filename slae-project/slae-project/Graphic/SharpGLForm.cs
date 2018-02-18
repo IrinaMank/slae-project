@@ -189,19 +189,15 @@ namespace slae_project
         }
         private void button_reset_Click(object sender, EventArgs e)
         {
-            GD = new GraphicData(openGLControl);
-            trackBar_QuantityAfterPoint.Value = GD.FontQuanitityAfterPoint;
-            try
-            {
-                trackBar_FontSize.Value = Convert.ToInt32(GD.FontSize);
-            }
-            catch (Exception error)
-            { }
-            trackBar_CellWidth.Value = GD.Grid.xCellSize;
-            trackBar_CellHeight.Value = GD.Grid.yCellSize;
+            trackBar_QuantityAfterPoint.Value = GD.FontQuanitityAfterPoint = 3;
+            trackBar_FontSize.Value = 14; GD.FontSize = 14;
+            
+            trackBar_CellWidth.Value = GD.Grid.xCellSize = 80;
+            trackBar_CellHeight.Value = GD.Grid.yCellSize = 35;
             radioButton1_General.Checked = true;
             radioButton2_Double.Checked = false;
             radioButton3_Exponential.Checked = false;
+            GD.font_format = 0;
             openGLControl.Refresh();
             SetScrollBars();
         }
@@ -236,10 +232,10 @@ namespace slae_project
         void SetScrollBars()
         {
             GD.mouse.BorderEndRecalculate();
-            hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Maximum = -GD.mouse.BorderEnd.x;
-            vScrollBar1.Minimum = GD.mouse.BorderBegin.y; vScrollBar1.Maximum = GD.mouse.BorderEnd.y;
-            vScrollBar1.Value = GD.mouse.BorderEnd.y;
-            hScrollBar1.Value = GD.mouse.BorderBegin.x;
+            hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Maximum = Math.Abs(-GD.mouse.BorderEnd.x);
+            vScrollBar1.Minimum = GD.mouse.BorderBegin.y; vScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.y);
+            vScrollBar1.Value = Math.Abs(GD.mouse.BorderEnd.y);
+            hScrollBar1.Value = Math.Abs(GD.mouse.BorderBegin.x);
         }
         private void trackBar_QuantityAfterPoint_ValueChanged(object sender, EventArgs e)
         {

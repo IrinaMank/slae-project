@@ -39,7 +39,7 @@
             this.button1_Graphic.TabIndex = 0;
             this.button1_Graphic.Text = "Графика";
             this.button1_Graphic.UseVisualStyleBackColor = true;
-            this.button1_Graphic.Click += new System.EventHandler(this.button1_Click);
+            this.button1_Graphic.Click += new System.EventHandler(this.button1_Graphic_Click);
             // 
             // Form1
             // 
