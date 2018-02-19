@@ -15,27 +15,9 @@ namespace slae_project
         [STAThread]
         static void Main()
         {
-
-            (int, int)[] coord = new(int, int)[9];
-            double[] val = new double[9] { 1,3,3,1,1,2,1,1,1};
-
-            for (int i = 0; i < 9; i++)
-            {
-                coord[i] = (i/3, i%3);
-            }
-
-            IMatrix mar = new CoordinateMatrix(coord,val);
-            IVector x = new SimpleVector(new double[3] { 1, 2, 3 });
-
-            IVector y = mar.Mult(x);
-            y = mar.SolveL(x);
-            y = mar.SolveU(y);
-
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
-           
+            Application.Run(new Form1());           
         }
     }
 }

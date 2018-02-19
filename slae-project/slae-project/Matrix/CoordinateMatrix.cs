@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using slae_project.Vector;
-
+using slae_project.Matrix.MatrixExceptions;
 namespace slae_project.Matrix
 {
     public class CoordinateMatrix : IMatrix
@@ -37,6 +37,8 @@ namespace slae_project.Matrix
         bool LU_was_made = false;
         private List<double[]> L;
         private List<double[]> U;
+        // Значение, начиная с которого любое число считается равным нулю
+        private double EQU_TO_ZERO { get; } = 1e-10;
         public double this[int i, int j]
         {
 
@@ -92,8 +94,8 @@ namespace slae_project.Matrix
         public CoordinateMatrix(int[][] coord, double[] val)
         {
             if (coord.Length != val.Length)
-                MessageBox.Show("Размер массива координат не совпадает с размером массива значений. Выбран наименьший.",
-                      "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
+
             int maxij = 0;
             for (int i = 0; i < val.Length; i++)
             {
@@ -113,8 +115,7 @@ namespace slae_project.Matrix
         public CoordinateMatrix((int x, int y)[] coord, double[] val)
         {
             if (coord.Length != val.Length)
-                MessageBox.Show("Размер массива координат не совпадает с размером массива значений. Выбран наименьший.",
-                      "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
             int maxij = 0;
             for (int i = 0; i < val.Length; i++)
             {
@@ -129,11 +130,8 @@ namespace slae_project.Matrix
         public IVector Mult(IVector x)
         {
             if (this.Size != x.Size)
-            {
-                MessageBox.Show("Попытка умножения матрицы и вектора не соответствующих размерностей. Метод 'Mult' вернул null. В следующий раз будь аккуратнее :3",
-                      "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
+                throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
+
             IVector result = new SimpleVector(Size);
             foreach (var el in elements)
             {
@@ -188,9 +186,8 @@ namespace slae_project.Matrix
             }
             catch (DivideByZeroException)
             {
-                MessageBox.Show("Не удалось выполнить LU-разложение матрицы. Мы обязательно постараемся с этим что-нибудь сделать в будущем, а пока ловите лучи счастья: ========",
-                      "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 LU_was_made = false;
+                throw new LUFailException();
             }
         }
         public IVector SolveL(IVector x, bool UseDiagonal = true)
@@ -208,14 +205,12 @@ namespace slae_project.Matrix
                 IVector result = new SimpleVector(Size);
                 if (!UseDiagonal)
                 {
-                    if (Math.Abs(x[0]) < 1e-9)
+                    if (Math.Abs(x[0]) < EQU_TO_ZERO)
                     {
                         result[0] = 0;
                     }
                     else
-                        MessageBox.Show("Система неразрешима. Попробуйте решить с использованием диагонали. Метод 'SolveL' вернул null.",
-                              "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return null;
+                        throw new CannotSolveSLAEExcpetion("Система неразрешима.");
                 }
                 for (int i = 0 + d; i < L.Count; i++)
                 {
@@ -229,16 +224,12 @@ namespace slae_project.Matrix
                     }
                     catch (DivideByZeroException)
                     {
-                        MessageBox.Show("Метод 'SolveL' выполнить не удалось, так как в ходе решения СЛАУ произошло деление на ноль. Будем работать над тем, чтобы такого не происходило. Метод вернул null.",
-                              "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return null;
+                        throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
                     }
                 }
                 return result;
             }
-            MessageBox.Show("Метод 'SolveL' выполнить не удалось, так как не удалось разложить матрицу. Метод вернул null.",
-                  "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return null;
+            throw new LUFailException();
         }
         //Метод еще не готов
         public IVector SolveU(IVector x, bool UseDiagonal = true)
@@ -256,14 +247,12 @@ namespace slae_project.Matrix
                 IVector result = new SimpleVector(Size);
                 if (!UseDiagonal)
                 {
-                    if (Math.Abs(x[Size - 1]) < 1e-13)
+                    if (Math.Abs(x[Size - 1]) < EQU_TO_ZERO)
                     {
                         result[Size - 1] = 0;
                     }
                     else
-                        MessageBox.Show("Система неразрешима. Попробуйте решить с использованием диагонали. Метод 'SolveU' вернул null.",
-                              "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return null;
+                        throw new CannotSolveSLAEExcpetion("Система неразрешима.");
                 }
                 for (int i = Size - 1 - d; i >= 0; i--)
                 {
@@ -278,16 +267,12 @@ namespace slae_project.Matrix
                     }
                     catch (DivideByZeroException)
                     {
-                        MessageBox.Show("Метод 'SolveU' выполнить не удалось, так как в ходе решения СЛАУ произошло деление на ноль. Будем работать над тем, чтобы такого не происходило. Метод вернул null.",
-                              "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return null;
+                        throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
                     }
                 }
                 return result;
             }
-            MessageBox.Show("Метод 'SolveU' выполнить не удалось, так как не удалось разложить матрицу. Метод вернул null.",
-                  "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return null;
+            throw new LUFailException();
         }
         /// <summary>
         /// Обобщение уможения на матрицы разложения
@@ -336,9 +321,7 @@ namespace slae_project.Matrix
                 MakeLU();
             if (LU_was_made)
                 return CommoLUMult(x, L, UseDiagonal, false);
-            MessageBox.Show("Метод 'MultL' выполнить не удалось, так как не удалось разложить матрицу. Метод вернул null.",
-                  "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return null;
+            throw new LUFailException();
         }
         public IVector MultU(IVector x, bool UseDiagonal = true)
         {
@@ -346,17 +329,13 @@ namespace slae_project.Matrix
                 MakeLU();
             if (LU_was_made)
                 return CommoLUMult(x, U, UseDiagonal, false);
-            MessageBox.Show("Метод 'MultU' выполнить не удалось, так как не удалось разложить матрицу. Метод вернул null.",
-                  "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return null;
+            throw new LUFailException();
         }
         protected IVector MultT(IVector x)
         {
             if (this.Size != x.Size)
             {
-                MessageBox.Show("Попытка умножения матрицы и вектора не соответствующих размерностей. Метод 'Mult' вернул null. В следующий раз будь аккуратнее :3",
-                      "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
+                throw new DifferentSizeException("Не удалось выполнить LU-разложение");
             }
             IVector result = new SimpleVector(Size);
             foreach (var el in elements)
@@ -385,23 +364,18 @@ namespace slae_project.Matrix
 
                 if (!UseDiagonal)
                 {
-                    if (Math.Abs(x[Size - 1]) < 1e-9)
+                    if (Math.Abs(x[Size - 1]) < EQU_TO_ZERO)
                     {
                         result[Size-1] = 0;
                     }
                     else
-                        MessageBox.Show("Система неразрешима. Попробуйте решить с использованием диагонали. Метод 'SolveL' вернул null.",
-                              "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        throw new CannotSolveSLAEExcpetion("Система неразрешима.");
                     return null;
                 }
                 for (int i = Size - 1; i >= d; i--)
                 {
                     var line = L[i];
                     var offset = Size - line.Length;
-                    for (int j = 0; j < line.Length - d; j++)
-                    {
-                        result[j] -= result[i] * L[i][j];
-                    }
                     try
                     {
                         if (UseDiagonal)
@@ -415,15 +389,17 @@ namespace slae_project.Matrix
                     }
                     catch (DivideByZeroException)
                     {
-                        MessageBox.Show("Метод 'SolveL' выполнить не удалось, так как в ходе решения СЛАУ произошло деление на ноль. Будем работать над тем, чтобы такого не происходило. Метод вернул null.",
-                              "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return null;
+                        throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
                     }
+                    for (int j = 0; j < line.Length - d - 1; j++)
+                    {
+                        result[j] -= result[i] * L[i][j];
+                    }
+                   
                 }
+                return result;
             }
-            MessageBox.Show("Метод 'SolveL' выполнить не удалось, так как не удалось разложить матрицу. Метод вернул null.",
-                  "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return null;
+            throw new LUFailException();
         }
         protected IVector SolveUT(IVector x, bool UseDiagonal = true)
         {
@@ -443,22 +419,16 @@ namespace slae_project.Matrix
 
                 if (!UseDiagonal)
                 {
-                    if (Math.Abs(x[0]) < 1e-9)
+                    if (Math.Abs(x[0]) < EQU_TO_ZERO)
                     {
                         result[0] = 0;
                     }
                     else
-                        MessageBox.Show("Система неразрешима. Попробуйте решить с использованием диагонали. Метод 'SolveL' вернул null.",
-                              "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return null;
+                        throw new CannotSolveSLAEExcpetion("Система неразрешима.");
                 }
                 for (int i = 0; i < Size - d; i++)
                 {
                     var line = U[i];
-                    for (int j = 1 + d; j < line.Length; j++)
-                    {
-                        result[j] -= result[i] * U[i][j];
-                    }
                     try
                     {
                         if (UseDiagonal)
@@ -472,15 +442,18 @@ namespace slae_project.Matrix
                     }
                     catch (DivideByZeroException)
                     {
-                        MessageBox.Show("Метод 'SolveL' выполнить не удалось, так как в ходе решения СЛАУ произошло деление на ноль. Будем работать над тем, чтобы такого не происходило. Метод вернул null.",
-                              "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return null;
+                        throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
                     }
+
+                    for (int j = 1 + d; j < line.Length; j++)
+                    {
+                        result[j+i] -= result[i] * U[i][j];
+                    }
+                    
                 }
+                return result;
             }
-            MessageBox.Show("Метод 'SolveL' выполнить не удалось, так как не удалось разложить матрицу. Метод вернул null.",
-                  "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return null;
+            throw new LUFailException();
         }
         protected IVector MultLT(IVector x, bool UseDiagonal = true)
         {
@@ -488,9 +461,7 @@ namespace slae_project.Matrix
                 MakeLU();
             if (LU_was_made)
                 return CommoLUMult(x, L, UseDiagonal, true);
-            MessageBox.Show("Метод 'MultL' выполнить не удалось, так как не удалось разложить матрицу. Метод вернул null.",
-                  "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return null;
+            throw new LUFailException();
         }
         protected IVector MultUT(IVector x, bool UseDiagonal = true)
         {
@@ -498,9 +469,31 @@ namespace slae_project.Matrix
                 MakeLU();
             if (LU_was_made)
                 return CommoLUMult(x, U, UseDiagonal, true);
-            MessageBox.Show("Метод 'MultU' выполнить не удалось, так как не удалось разложить матрицу. Метод вернул null.",
-                  "Исключение", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return null;
+            throw new LUFailException();
+        }
+
+        public static void localtest()
+        {
+            (int, int)[] coord = new(int, int)[16];
+            double[] val = new double[16] { 1, 4, 4, 4, 1, 1, 3, 3, 1, 1, 1, 2, 1, 1, 1, 1 };
+
+            for (int i = 0; i < 16; i++)
+            {
+                coord[i] = (i / 4, i % 4);
+            }
+
+            IMatrix mar = new CoordinateMatrix(coord, val);
+            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+
+            IVector y = mar.Mult(x);
+            IVector z = (IVector)y.Clone();
+            z = mar.SolveL(x);
+            z = mar.SolveU(z);
+            //should be {5 0 0 -1}
+
+            y = mar.T.SolveU(x);
+            y = mar.T.SolveL(y);
+            //should be {1/3 1/2 1 -5/6}
         }
     }
 }
