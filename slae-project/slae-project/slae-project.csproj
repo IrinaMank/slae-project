@@ -65,12 +65,17 @@
     <Compile Include="Matrix\CoordinateMatrix.cs" />
     <Compile Include="Matrix\ILinearOperator.cs" />
     <Compile Include="Matrix\IMatrix.cs" />
+    <Compile Include="Matrix\MatrixExceptions\CannotMultException.cs" />
+    <Compile Include="Matrix\MatrixExceptions\CannotSolveSLAEException.cs" />
+    <Compile Include="Matrix\MatrixExceptions\DifferentSizeException.cs" />
+    <Compile Include="Matrix\MatrixExceptions\LUFailException.cs" />
     <Compile Include="Solver\MSGSolver.cs" />
     <Compile Include="Vector\IVector.cs" />
     <Compile Include="Vector\SimpleVector.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solver\ISolver.cs" />
+    <Compile Include="Vector\VectorExceptions\WrongSizeException.cs" />
     <Compile Include="Graphic\SharpGLForm.cs">
       <SubType>Form</SubType>
     </Compile>
