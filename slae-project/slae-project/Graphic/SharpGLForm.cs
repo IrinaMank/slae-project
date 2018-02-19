@@ -43,7 +43,7 @@ namespace slae_project
             openGLControl.DoRender();
 
             //установить границы скруллбаров и сбросить мышки-местоположение в лево-нижний угол
-            SetScrollBars();
+            Refresh_Window();
         }
         /// <summary>
         /// Handles the OpenGLDraw event of the openGLControl control.
@@ -125,29 +125,34 @@ namespace slae_project
         /// <param name="e"></param>
         private void openGLControl_MouseMove(object sender, MouseEventArgs e)
         {
-            //Тут высчитывается насколько сместился курсор мышки нажатой
-            GD.mouse.setMouseData(MouseButtons.ToString(), MousePosition.X, MousePosition.Y);
+            
 
             //Меняем курсор мышки на разные в зависимости нажата левая кнопка мышки или нет.
-            if (MouseButtons.ToString() != "Left")
+            if (MouseButtons.ToString() == "Left")
             {
-                Cursor.Current = Cursors.Hand;
+                //Тут высчитывается насколько сместился курсор мышки нажатой
+                GD.mouse.setMouseData(MouseButtons.ToString(), MousePosition.X, MousePosition.Y);
+
+                Cursor.Current = Cursors.NoMove2D;
+                GD.mouse.isPressed = true;
+
+                //Местоположение экрана смещенное мышкой присваивает слайдерам(скруллбарам)
+                try
+                { hScrollBar1.Value = GD.mouse.ShiftedPosition.x; }
+                catch (Exception error) { }
+                try { vScrollBar1.Value = GD.mouse.ShiftedPosition.y; }
+                catch (Exception error) { }
+                //Обновили экран
+                openGLControl.Refresh();
             }
             else 
             {
-                Cursor.Current = Cursors.NoMove2D;
-                GD.mouse.isPressed = true;
+                Cursor.Current = Cursors.Hand;
             }
 
-            //Местоположение экрана смещенное мышкой присваивает слайдерам(скруллбарам)
-            try
-            { hScrollBar1.Value = -GD.mouse.ShiftedPosition.x; }
-            catch (Exception error) { }
-            try { vScrollBar1.Value = GD.mouse.ShiftedPosition.y; }
-            catch (Exception error) { }
 
-            //Обновили экран
-            openGLControl.Refresh();
+            
+
 
             //Эту штуку приходится вызывать когда чтото с мышкой поделал.
             Application.DoEvents();
@@ -181,8 +186,9 @@ namespace slae_project
                 //Мышка отжата.            
             GD.mouse.isPressed = false;
             GD.mouse.isPressedBefore = false;
-           
 
+            //Обновили экран
+            openGLControl.Refresh();
         }
 
 
@@ -215,8 +221,7 @@ namespace slae_project
             radioButton2_Double.Checked = false;
             radioButton3_Exponential.Checked = false;
             GD.font_format = 0;
-            openGLControl.Refresh();
-            SetScrollBars();
+            Refresh_Window();
         }
 
         /// <summary>
@@ -228,6 +233,8 @@ namespace slae_project
         {
             openGLControl.Refresh();
             SetScrollBars();
+            GD.RealDraw_Try_To_Initialize = true;
+            openGLControl.Refresh();
         }
 
         /// <summary>
@@ -288,7 +295,7 @@ namespace slae_project
         void SetScrollBars()
         {
             GD.mouse.BorderEndRecalculate();
-            hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Maximum = Math.Abs(-GD.mouse.BorderEnd.x);
+            hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.x);
             vScrollBar1.Minimum = GD.mouse.BorderBegin.y; vScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.y);
             vScrollBar1.Value = Math.Abs(GD.mouse.BorderEnd.y);
             hScrollBar1.Value = Math.Abs(GD.mouse.BorderBegin.x);
@@ -370,7 +377,7 @@ namespace slae_project
         /// <param name="e"></param>
         private void hScrollBar1_ValueChanged(object sender, EventArgs e)
         {
-            GD.mouse.ShiftedPosition.x = -hScrollBar1.Value;
+            GD.mouse.ShiftedPosition.x = hScrollBar1.Value;
             openGLControl.Refresh();
         }
 
@@ -393,5 +400,22 @@ namespace slae_project
         {
             label7_FAQ_move_phrase.Visible = false;
         }
+
+        private int e_Delta_old = 0;
+        private void openGLControl_MouseScroller(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                
+                vScrollBar1.Value -= (int)e.Delta/5;
+                e_Delta_old = e.Delta;
+            }
+            catch (Exception error) { }
+
+
+            //Обновили 
+            Application.DoEvents();
+        }
+        
     }
 }

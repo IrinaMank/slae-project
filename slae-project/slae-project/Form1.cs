@@ -17,9 +17,7 @@ namespace slae_project
             InitializeComponent();
 
             //Чтобы не нажимать при отладке на кнопку вызова постоянно, раскоментируй это.
-            //SharpForm = new SharpGLForm(true);
-            //SharpForm.Visible = true;
-            //this.WindowState = FormWindowState.Minimized;
+            button1_Graphic.PerformClick();
         }
 
         public SharpGLForm SharpForm = null;
@@ -48,6 +46,10 @@ namespace slae_project
             List<double> listed_vectorik = new List<double>() { 1, 2, 3, 4, 5 };
             List<List<double>> listed_matrix = new List<List<double>>() { new List<double> { 1, 2 }, new List<double> { 3, 4 }, new List<double> { 5, 6 } };
 
+            double[,] bigdouble = new double[100,100];
+            for (int i = 0; i < 100; i++)
+                for (int j = 0; j < 100; j++) bigdouble[i, j] = i + j;
+
             //Добавление объектов на отображение.
             //Имя и Число/Вектор/Матрица в формате (double, double[], double[,], List<double>, List<List<double>>) на выбор.
             SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("vector4ik", vector4ik));
@@ -56,7 +58,7 @@ namespace slae_project
             SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_vectorik", listed_vectorik));
             SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
             SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
-            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
+            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("bigdouble", bigdouble));
             SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
             //SharpForm.GD.List_Of_Objects.RemoveAt(1); Удалить какойто конкретный
             //SharpForm.GD.List_Of_Objects.Clear(); //Удалить все.
