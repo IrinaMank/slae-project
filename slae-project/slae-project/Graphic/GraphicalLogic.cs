@@ -33,7 +33,7 @@ namespace slae_project
         {
             RealDraw();
             mouse.ShiftedPosition.y = -Grid.cursorP.y - Grid.yCellSize;
-            mouse.ShiftedPosition.x = Grid.cursorP.x;
+            mouse.ShiftedPosition.x = Math.Abs(Grid.cursorP.x);
         }
 
         /// <summary>
@@ -91,7 +91,6 @@ namespace slae_project
             //Пример как работать с этой формой
             //Добавление, удаление и очищение объектов.
 
-            openGLControl.Refresh();
         }
         /// <summary>
         /// Попробовать что все работает
@@ -126,11 +125,11 @@ namespace slae_project
             foreach (var obj in List_Of_Objects)
             {
                 //Отдели от предыдущей двумя очень длинными горизонтальными линиями
-                draw_line(-100000, Grid.cursorP.y,
-                                100000, Grid.cursorP.y);
+                draw_line(0, Grid.cursorP.y,
+                                1000, Grid.cursorP.y);
 
-                draw_line(-100000, Grid.cursorP.y + 2,
-                                100000, Grid.cursorP.y + 2);
+                draw_line(0, Grid.cursorP.y + 2,
+                                1000, Grid.cursorP.y + 2);
 
                 Grid.X_move();
                 //Напиши как называется текущая матрица
@@ -200,7 +199,7 @@ namespace slae_project
         {
             OpenGL gl = openGLControl.OpenGL;
 
-            in_x += mouse.ShiftedPosition.x;
+            in_x -= mouse.ShiftedPosition.x;
             in_y += +mouse.ShiftedPosition.y;
 
             if (!ItsImportantNumber)
@@ -243,9 +242,9 @@ namespace slae_project
         /// </summary>
         private void draw_line(int x_from,int y_from = 0, int x_to = 0, int y_to = 0)
         {
-            x_from += mouse.ShiftedPosition.x - 3;
+            x_from -= mouse.ShiftedPosition.x + 3;
             y_from += mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4;
-            x_to += mouse.ShiftedPosition.x - 3;
+            x_to -= mouse.ShiftedPosition.x + 3;
             y_to += mouse.ShiftedPosition.y + Grid.yCellSize * 3 / 4;
 
             //Чтобы не прописывать постоянно
@@ -365,8 +364,8 @@ namespace slae_project
 
                 BorderEndRecalculate();
 
-                if (ShiftedPosition.x + ShiftPosition.x < BorderBegin.x && ShiftedPosition.x + ShiftPosition.x > (BorderEnd.x))
-                    ShiftedPosition.x += ShiftPosition.x;
+                if (ShiftedPosition.x - ShiftPosition.x > BorderBegin.x && ShiftedPosition.x - ShiftPosition.x < (BorderEnd.x))
+                    ShiftedPosition.x -= ShiftPosition.x;
 
                 if (ShiftedPosition.y - ShiftPosition.y > BorderBegin.y && ShiftedPosition.y - ShiftPosition.y < (BorderEnd.y))
                 ShiftedPosition.y -= ShiftPosition.y;
@@ -378,7 +377,7 @@ namespace slae_project
         }
         public void BorderEndRecalculate()
         {
-            BorderEnd.x = -Grid.DeadPoint.x + openGLControl.Width - Grid.xCellSize;
+            BorderEnd.x = Math.Abs(-Grid.DeadPoint.x + openGLControl.Width - Grid.xCellSize);
             BorderEnd.y = Grid.DeadPoint.y;
         }
         public PointInt BorderBegin = new PointInt(15, 10);//самый верхний левый угол для ShiftedPosition
