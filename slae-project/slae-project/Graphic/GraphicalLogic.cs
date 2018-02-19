@@ -127,21 +127,7 @@ namespace slae_project
         /// <param name="openGLControl"></param>
         public void RealDraw()
         {
-            //Так, у нас есть текущая ShiftedPosition
-            //И Есть xCellSize и yCellSize
-            //И Есть openGLcontrol.Width и openGLcontrol.Height
-            //Shifted.Position/CellSize равно текущей клетке
-            //Прибавляет openGLcontrol/Celsize -+ и получаем нужный диапазон.
             RealDraw_Try_To_Initialize = true;
-            if (false)
-            {
-                CurrentCell = new PointInt(mouse.ShiftedPosition.x / Grid.xCellSize
-                    , (mouse.ShiftedPosition.y+openGLControl.Height) / Grid.yCellSize);
-                xCellArea = new PointInt(CurrentCell.x - 1
-                    , CurrentCell.x + openGLControl.Width / Grid.xCellSize + 1);
-                yCellArea = new PointInt(CurrentCell.y - openGLControl.Height / Grid.yCellSize - 1
-                    , CurrentCell.y + 1);
-            }
 
             //  Get the OpenGL object.
             OpenGL gl = openGLControl.OpenGL;

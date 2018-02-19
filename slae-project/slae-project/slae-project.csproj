@@ -34,13 +34,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SharpGL">
-      <HintPath>..\packages\SharpGLCore.2.3.0.1\lib\net40\SharpGL.dll</HintPath>
+      <HintPath>Graphic\SharpGLCore.2.3.0.1\lib\net40\SharpGL.dll</HintPath>
     </Reference>
     <Reference Include="SharpGL.SceneGraph">
-      <HintPath>..\packages\SharpGLCore.2.3.0.1\lib\net40\SharpGL.SceneGraph.dll</HintPath>
+      <HintPath>Graphic\SharpGLCore.2.3.0.1\lib\net40\SharpGL.SceneGraph.dll</HintPath>
     </Reference>
     <Reference Include="SharpGL.WinForms">
-      <HintPath>..\packages\SharpGLforWinForms.2.3.0.1\lib\net40\SharpGL.WinForms.dll</HintPath>
+      <HintPath>Graphic\SharpGLforWinForms.2.3.0.1\lib\net40\SharpGL.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
