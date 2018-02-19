@@ -125,13 +125,13 @@ namespace slae_project
         /// <param name="e"></param>
         private void openGLControl_MouseMove(object sender, MouseEventArgs e)
         {
-            
+            GD.mouse.setMouseData(MouseButtons.ToString(), MousePosition.X, MousePosition.Y);
 
             //Меняем курсор мышки на разные в зависимости нажата левая кнопка мышки или нет.
             if (MouseButtons.ToString() == "Left")
             {
                 //Тут высчитывается насколько сместился курсор мышки нажатой
-                GD.mouse.setMouseData(MouseButtons.ToString(), MousePosition.X, MousePosition.Y);
+                
 
                 Cursor.Current = Cursors.NoMove2D;
                 GD.mouse.isPressed = true;
@@ -143,7 +143,7 @@ namespace slae_project
                 try { vScrollBar1.Value = GD.mouse.ShiftedPosition.y; }
                 catch (Exception error) { }
                 //Обновили экран
-                openGLControl.Refresh();
+                
             }
             else 
             {
@@ -151,8 +151,8 @@ namespace slae_project
             }
 
 
-            
 
+            openGLControl.Refresh();
 
             //Эту штуку приходится вызывать когда чтото с мышкой поделал.
             Application.DoEvents();
