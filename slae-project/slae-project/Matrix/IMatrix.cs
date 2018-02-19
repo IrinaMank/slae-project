@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace slae_project.Matrix
 {
-    interface IMatrix : ILinearOperator, IEnumerable<(double value, int row, int col)>
+    public interface IMatrix : ILinearOperator, IEnumerable<(double value, int row, int col)>
     {
         // Если в матрице нет i,j-го элемента, то метод должен возвращать 0
         /// <summary>
