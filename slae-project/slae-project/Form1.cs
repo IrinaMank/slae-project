@@ -58,9 +58,8 @@ namespace slae_project
             SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_vectorik", listed_vectorik));
             SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
             SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
+            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("bigdouble", bigdouble));
             SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
-            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
-            //SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("bigdouble", bigdouble));
             //SharpForm.GD.List_Of_Objects.RemoveAt(1); Удалить какойто конкретный
             //SharpForm.GD.List_Of_Objects.Clear(); //Удалить все.
             //SharpForm.GD.List_Of_Objects.RemoveAt(List_Of_Objects.Count() - 1); //Удалить последний

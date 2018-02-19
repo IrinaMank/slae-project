@@ -47,11 +47,11 @@ namespace slae_project
 
             public List<List<double>> Matrix = new List<List<double>>();
 
-            public GraphicObject(string _Name, List<List<double>> _Matrix, OpenGLControl openGLControl = null)
+            public GraphicObject(string _Name, List<List<double>> _Matrix)
             {
                 this.Name = _Name; Matrix = _Matrix;
             }
-            public GraphicObject(string _Name, double[,] _Matrix, OpenGLControl openGLControl = null)
+            public GraphicObject(string _Name, double[,] _Matrix)
             {
                 //_Matrix.
                 this.Name = _Name; //Matrix = _Matrix;
@@ -66,15 +66,15 @@ namespace slae_project
                     
                 }
             }
-            public GraphicObject(string _Name, List<double> _Vector, OpenGLControl openGLControl = null)
+            public GraphicObject(string _Name, List<double> _Vector)
             {
                 this.Name = _Name; Matrix.Add(new List<double>(_Vector));
             }
-            public GraphicObject(string _Name, double[] _Vector, OpenGLControl openGLControl = null)
+            public GraphicObject(string _Name, double[] _Vector)
             {
                 this.Name = _Name; Matrix.Add(new List<double>(_Vector.ToList()));
             }
-            public GraphicObject(string _Name, double _Value, OpenGLControl openGLControl = null)
+            public GraphicObject(string _Name, double _Value)
             {
                 this.Name = _Name; Matrix.Add(new List<double>()); Matrix[0].Add(_Value);
             }
@@ -101,13 +101,48 @@ namespace slae_project
         /// </summary>
         public Net Grid = new Net();
         public MouseClass mouse;
+
+        public bool RealDraw_Try_To_Initialize = true;
+        PointInt CurrentCell;
+        PointInt xCellArea;
+        PointInt yCellArea;
+        private const int AreaRadius = 2;
+        public bool Belongs_xCellArea()
+        {
+            int TempX = mouse.ShiftedPosition.x / Grid.xCellSize;
+            if (Grid.X_Y_counter.x > TempX - AreaRadius && Grid.X_Y_counter.x < TempX + openGLControl.Width / Grid.xCellSize + AreaRadius)
+                return true;
+            else return false;
+        }
+        public bool Belongs_yCellArea()
+        {
+            int TempY = (mouse.ShiftedPosition.y + openGLControl.Height) / Grid.yCellSize;
+            if (Grid.X_Y_counter.y > TempY - openGLControl.Height / Grid.yCellSize - AreaRadius && Grid.X_Y_counter.y < TempY + AreaRadius)
+                return true;
+            else return false;
+        }
         /// <summary>
         /// Главная рисовалка.
         /// </summary>
         /// <param name="openGLControl"></param>
         public void RealDraw()
         {
-            
+            //Так, у нас есть текущая ShiftedPosition
+            //И Есть xCellSize и yCellSize
+            //И Есть openGLcontrol.Width и openGLcontrol.Height
+            //Shifted.Position/CellSize равно текущей клетке
+            //Прибавляет openGLcontrol/Celsize -+ и получаем нужный диапазон.
+            RealDraw_Try_To_Initialize = true;
+            if (false)
+            {
+                CurrentCell = new PointInt(mouse.ShiftedPosition.x / Grid.xCellSize
+                    , (mouse.ShiftedPosition.y+openGLControl.Height) / Grid.yCellSize);
+                xCellArea = new PointInt(CurrentCell.x - 1
+                    , CurrentCell.x + openGLControl.Width / Grid.xCellSize + 1);
+                yCellArea = new PointInt(CurrentCell.y - openGLControl.Height / Grid.yCellSize - 1
+                    , CurrentCell.y + 1);
+            }
+
             //  Get the OpenGL object.
             OpenGL gl = openGLControl.OpenGL;
 
@@ -125,12 +160,14 @@ namespace slae_project
             foreach (var obj in List_Of_Objects)
             {
                 //Отдели от предыдущей двумя очень длинными горизонтальными линиями
-                draw_line(0, Grid.cursorP.y,
-                                1000, Grid.cursorP.y);
+                if (Belongs_yCellArea())
+                {
+                    draw_line(0, Grid.cursorP.y,
+                                    100000, Grid.cursorP.y);
 
-                draw_line(0, Grid.cursorP.y + 2,
-                                1000, Grid.cursorP.y + 2);
-
+                    draw_line(0, Grid.cursorP.y + 2,
+                                    100000, Grid.cursorP.y + 2);
+                }
                 Grid.X_move();
                 //Напиши как называется текущая матрица
                 Draw_Text(Grid.cursorP.x, Grid.cursorP.y, obj.Name);
@@ -161,12 +198,12 @@ namespace slae_project
                     Draw_Text(Grid.cursorP.x, Grid.cursorP.y, Count_by_Y.ToString());
                     Count_by_Y++; Grid.X_move();
 
-                    //Пиши его значения в строчку
-                    foreach (var value in vect)
-                    {
-                        Draw_Text(Grid.cursorP.x, Grid.cursorP.y,null, value,true);
-                        Grid.X_move();
-                    }
+                        //Пиши его значения в строчку
+                        foreach (var value in vect)
+                        {
+                            if (Belongs_yCellArea()&&Belongs_xCellArea()) Draw_Text(Grid.cursorP.x, Grid.cursorP.y, null, value, true);
+                            Grid.X_move();
+                        }
                     
                     //Рисует горизонтальные линии матрицы
                     draw_line(X_old + Grid.xCellSize, Y_old,
@@ -193,6 +230,7 @@ namespace slae_project
             //Возвращает курсор по Y координатами в саааамое начало.
 
             //List_Of_Objects.Reverse();
+            RealDraw_Try_To_Initialize = false;
 
         }
         void Draw_Text(int in_x, int in_y, string phrase, double value = 0, Boolean ItsImportantNumber = false)
@@ -293,6 +331,7 @@ namespace slae_project
         public PointInt initP = new PointInt(5, 5);
         public PointInt cursorP;
         public PointInt DeadPoint = new PointInt(0,0);//Самый нижний правый конец поля курсором!
+        public PointInt X_Y_counter = new PointInt(0, 0);
         public int xCellSize = 80, yCellSize = 30;
 
         public Net()
@@ -302,20 +341,25 @@ namespace slae_project
         public void X_move()
         {
             cursorP.x += xCellSize;
+            X_Y_counter.x++;
         }
         public void X_nullificate()
         {
             cursorP.x = initP.x;
+            X_Y_counter.x = 0;
         }
 
         public void Y_move()
         {
             cursorP.y -= yCellSize;
+            X_Y_counter.y++;
         }
         public void Y_nullificate()
         {
             cursorP.y = initP.y;
+            X_Y_counter.y = 0;
         }
+
     }
     public class MouseClass
     {
@@ -377,7 +421,7 @@ namespace slae_project
         }
         public void BorderEndRecalculate()
         {
-            BorderEnd.x = Math.Abs(-Grid.DeadPoint.x + openGLControl.Width - Grid.xCellSize);
+            BorderEnd.x = +Grid.DeadPoint.x - openGLControl.Width + Grid.xCellSize;
             BorderEnd.y = Grid.DeadPoint.y;
         }
         public PointInt BorderBegin = new PointInt(15, 10);//самый верхний левый угол для ShiftedPosition
@@ -389,7 +433,7 @@ namespace slae_project
 
 /*
  * ЮзерГайд пользования модулем с точки зрения Form1
- using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -408,9 +452,7 @@ namespace slae_project
             InitializeComponent();
 
             //Чтобы не нажимать при отладке на кнопку вызова постоянно, раскоментируй это.
-            //SharpForm = new SharpGLForm(true);
-            //SharpForm.Visible = true;
-            //this.WindowState = FormWindowState.Minimized;
+            button1_Graphic.PerformClick();
         }
 
         public SharpGLForm SharpForm = null;
@@ -439,23 +481,27 @@ namespace slae_project
             List<double> listed_vectorik = new List<double>() { 1, 2, 3, 4, 5 };
             List<List<double>> listed_matrix = new List<List<double>>() { new List<double> { 1, 2 }, new List<double> { 3, 4 }, new List<double> { 5, 6 } };
 
+            double[,] bigdouble = new double[100,100];
+            for (int i = 0; i < 100; i++)
+                for (int j = 0; j < 100; j++) bigdouble[i, j] = i + j;
+
             //Добавление объектов на отображение.
             //Имя и Число/Вектор/Матрица в формате (double, double[], double[,], List<double>, List<List<double>>) на выбор.
-            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("vector4ik", vector4ik, SharpForm.GD.openGLControl));
-            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("single_value", single_value, SharpForm.GD.openGLControl));
-            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix", randomMatrix, SharpForm.GD.openGLControl));
-            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_vectorik", listed_vectorik, SharpForm.GD.openGLControl));
-            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix, SharpForm.GD.openGLControl));
+            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("vector4ik", vector4ik));
+            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("single_value", single_value));
+            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix", randomMatrix));
+            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_vectorik", listed_vectorik));
             SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
             SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
-            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix, SharpForm.GD.openGLControl));
+            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
+            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
+            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("bigdouble", bigdouble));
             //SharpForm.GD.List_Of_Objects.RemoveAt(1); Удалить какойто конкретный
             //SharpForm.GD.List_Of_Objects.Clear(); //Удалить все.
             //SharpForm.GD.List_Of_Objects.RemoveAt(List_Of_Objects.Count() - 1); //Удалить последний
-            
+
             //ВАЖНО! После добавлений или удалений вызывать вот эту функцию.
             SharpForm.Refresh_Window();
-        }
         }
     }
 }

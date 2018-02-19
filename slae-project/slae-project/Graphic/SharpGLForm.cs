@@ -43,7 +43,7 @@ namespace slae_project
             openGLControl.DoRender();
 
             //установить границы скруллбаров и сбросить мышки-местоположение в лево-нижний угол
-            SetScrollBars();
+            Refresh_Window();
         }
         /// <summary>
         /// Handles the OpenGLDraw event of the openGLControl control.
@@ -142,7 +142,8 @@ namespace slae_project
                 catch (Exception error) { }
                 try { vScrollBar1.Value = GD.mouse.ShiftedPosition.y; }
                 catch (Exception error) { }
-                
+                //Обновили экран
+                openGLControl.Refresh();
             }
             else 
             {
@@ -150,8 +151,7 @@ namespace slae_project
             }
 
 
-            //Обновили экран
-            openGLControl.Refresh();
+            
 
 
             //Эту штуку приходится вызывать когда чтото с мышкой поделал.
@@ -221,8 +221,7 @@ namespace slae_project
             radioButton2_Double.Checked = false;
             radioButton3_Exponential.Checked = false;
             GD.font_format = 0;
-            openGLControl.Refresh();
-            SetScrollBars();
+            Refresh_Window();
         }
 
         /// <summary>
@@ -234,6 +233,8 @@ namespace slae_project
         {
             openGLControl.Refresh();
             SetScrollBars();
+            GD.RealDraw_Try_To_Initialize = true;
+            openGLControl.Refresh();
         }
 
         /// <summary>
@@ -294,7 +295,7 @@ namespace slae_project
         void SetScrollBars()
         {
             GD.mouse.BorderEndRecalculate();
-            hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Maximum = Math.Abs(-GD.mouse.BorderEnd.x);
+            hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.x);
             vScrollBar1.Minimum = GD.mouse.BorderBegin.y; vScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.y);
             vScrollBar1.Value = Math.Abs(GD.mouse.BorderEnd.y);
             hScrollBar1.Value = Math.Abs(GD.mouse.BorderBegin.x);
