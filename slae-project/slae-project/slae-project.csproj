@@ -55,6 +55,7 @@
     <Compile Include="Matrix\CoordinateMatrix.cs" />
     <Compile Include="Matrix\ILinearOperator.cs" />
     <Compile Include="Matrix\IMatrix.cs" />
+    <Compile Include="Solver\LOSSolver.cs" />
     <Compile Include="Solver\MSGSolver.cs" />
     <Compile Include="Vector\IVector.cs" />
     <Compile Include="Vector\SimpleVector.cs" />
