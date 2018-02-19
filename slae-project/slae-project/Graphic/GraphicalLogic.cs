@@ -140,6 +140,7 @@ namespace slae_project
 
             Grid.initP.y = openGLControl.Height - Grid.yCellSize;
 
+            Grid.DeadPoint.x = 0;
             Grid.Y_nullificate();
             //List_Of_Objects.Reverse();
             //Для каждой матрицы в списке объектов

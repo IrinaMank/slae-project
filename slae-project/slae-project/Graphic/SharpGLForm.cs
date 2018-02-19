@@ -256,9 +256,8 @@ namespace slae_project
         private void trackBar_CellHeight_ValueChanged(object sender, EventArgs e)
         {
             GD.Grid.yCellSize = trackBar_CellHeight.Value;
-            GD.MoveToEndCursor();
-            openGLControl.Refresh();
-            
+            Refresh_Window();
+
         }
 
         /// <summary>
@@ -269,7 +268,7 @@ namespace slae_project
         private void trackBar_CellWidth_ValueChanged(object sender, EventArgs e)
         {
             GD.Grid.xCellSize = trackBar_CellWidth.Value;
-            openGLControl.Refresh();
+            Refresh_Window();
             
         }
 
