@@ -16,26 +16,35 @@ namespace slae_project.Matrix
     class SparseRowColumnMatrix : IMatrix
     {
         //что делать с транспонированием?
-        /*class TransposeIllusion : ILinearOperator
+        class TransposeIllusion : ILinearOperator
         {
             public SparseRowColumnMatrix Matrix { get; set; }
+            public ILinearOperator Transpose => Matrix;
+            public ILinearOperator T => Matrix;
+            //????????????????????
+            public IVector Diagonal => Matrix.Diagonal;
+            public int Size => Matrix.Size;
+            public IVector MultL(IVector x, bool UseDiagonal) => Matrix.MultLT(x, UseDiagonal);
+            public IVector SolveL(IVector x, bool UseDiagonal) => Matrix.SolveLT(x, UseDiagonal);
+            public IVector Mult(IVector x) => Matrix.MultT(x);
+            public IVector MultU(IVector x, bool UseDiagonal) => Matrix.MultUT(x, UseDiagonal);
+            public IVector SolveU(IVector x, bool UseDiagonal) => Matrix.SolveUT(x, UseDiagonal);
+        }
 
-        }*/
-        
 
         //необходимые вектора для реализации строчно-столбцового формата
-        List<double> di;
-        List<int> ig;
-        List<int> jg;
-        List<double> al;
-        List<double> au;
+        double[] di;
+        int[] ig;
+        int[] jg;
+        double[] al;
+        double[] au;
 
         bool LU_was_made = false;
         // портрет сохраняется
-        private List<double> L;
-        private List<double> U;
+        private double[] L;
+        private double[] U;
         // пока выделим диагональ
-        private List<double> D;
+        private double[] D;
         public double this[int i, int j]
         {
             get
@@ -70,6 +79,23 @@ namespace slae_project.Matrix
         }
         // размерность вектора di, =ig[last]
         public int Size { get; }
+
+        public ILinearOperator Transpose => new TransposeIllusion { Matrix = this };
+        public ILinearOperator T => new TransposeIllusion { Matrix = this };
+
+        public IVector Diagonal => throw new NotImplementedException();
+
+       /* public IVector Diagonal()
+        {
+            IVector result = new SimpleVector(Size);
+            for (int i = 0; i < Size; i++)
+                result[i] = di[i];
+            return result;
+        }*/
+
+        
+        
+
         /// <summary>
         /// Инициализация матрицы массивами ig,jg,di,al,au
         /// </summary>
@@ -82,17 +108,13 @@ namespace slae_project.Matrix
         {
             //TODO: отлавливание неккоректного задания матрицы
             // допустим все корректно
+
+            this.di = di;
+            this.ig = ig;
+            this.jg = jg;
+            this.al = al;
+            this.au = au;
             this.Size = di.Length;
-            for (int i = 0; i < Size; i++)
-                this.di.Add(di[i]);
-            for (int i = 0; i < Size + 1; i++)
-                this.ig.Add(ig[i]);
-            for (int i = 0; i < ig[Size]; i++)
-            {
-                this.jg.Add(jg[i]);
-                this.al.Add(al[i]);
-                this.au.Add(au[i]);
-            }
         }
 
         //Какие еще могут быть виды инициализации, кроме заданных векторов?
@@ -102,14 +124,16 @@ namespace slae_project.Matrix
             //допустим все корректно
             int j;
             IVector result = new SimpleVector(Size);
-            for (int i=0; i< this.Size; i++)
+            for (int i = 0; i < this.Size; i++)
             {
                 result[i] = di[i] * x[i];
-                for (int k=ig[i]; k<ig[i+1]; k++)
                 {
-                    j = jg[k];
-                    result[i] += al[k] * x[j];
-                    result[j] += au[k] * x[i];
+                    for (int k = ig[i]; k < ig[i + 1]; k++)
+                    {
+                        j = jg[k];
+                        result[i] += al[k] * x[j];
+                        result[j] += au[k] * x[i];
+                    }
                 }
             }
             return result;
@@ -122,20 +146,26 @@ namespace slae_project.Matrix
         private void MakeLU()
         {
             // пусть опять же все корректно
-            // непонятно что делать с диагональю di, выделять ли ее в разложении
-            // если нет, то что с портретом
-            L = new List<double> { };
-            U = new List<double> { };
-            D = new List<double> { };
+            // Версия с отдельным выделением диагонали di
+
+            //издержки изменений версий
+            //L = new List<double> { };
+            //U = new List<double> { };
+            //D = new List<double> { };
             double sum_l, sum_u, sum_d;
-            
-            for (int i = 0; i < ig[Size]; i++)
+
+            /*for (int i = 0; i < ig[Size]; i++)
             {
                 L[i] = al[i];
                 U[i] = au[i];
-            }
-            for (int i = 0; i < Size; i++)
-                D[i] = di[i];
+            }*/
+
+            L = al;
+            U = au;
+
+            /*for (int i = 0; i < Size; i++)
+                D[i] = di[i];*/
+            D = di;
 
             for (int k = 1, k1 = 0; k <= Size; k++, k1++)
             {
@@ -162,33 +192,262 @@ namespace slae_project.Matrix
                     }
                     L[m] = L[m] - sum_l;
                     U[m] = (U[m] - sum_u) / D[jg[m]];
+                    if (double.IsInfinity(U[m]))
+                        throw new Exception("Ошибка при LU предобуславливании!");
                     sum_d += L[m] * U[m];
                 }
                 D[k1] = L[k1] - sum_d;
             }
             LU_was_made = true;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="UseDiagonal">различие в делении на диагональ</param>
+        /// <returns></returns>
         public IVector SolveL(IVector x, bool UseDiagonal)
         {
-            
+            if (!LU_was_made)
+                MakeLU();
+            if (LU_was_made)
+            {
+                    //проверка корректности
+                if (this.Size != x.Size)
+                    throw new Exception("Ошибка. Различие в размерности вектора и матрицы в функции SolveL");
+                else
+                {
+                    IVector result = new SimpleVector(this.Size);
+                    double sum;
+
+                    for (int i = 0; i < this.Size; i++)
+                    {
+                        sum = 0;
+                        for (int j = ig[i]; j < ig[i + 1]; j++)
+                            sum += al[j] * result[jg[j]];
+                        result[i] = (x[i] - sum);
+                        if (UseDiagonal == true)
+                            result[i] /= di[i];
+                    }
+                    return result;
+                }
+            }
+            else
+                throw new Exception("Ошибка. Невозможно выполнить функцию SolveL, т.к. не удалось сделать разложение LU.");
+
+            // можно было сделать главное условие if(UseDiagonal==true) и разбиение на два цикла, но так компактнее
         }
 
         public IVector SolveU(IVector x, bool UseDiagonal)
         {
+            if (!LU_was_made)
+                MakeLU();
+            if (LU_was_made)
+            {
+                //проверка корректности
+                if (this.Size != x.Size)
+                    throw new Exception("Ошибка. Различие в размерности вектора и матрицы в функции SolveU");
+                else
+                {
+                    IVector result = (IVector)x.Clone();
 
+                    for (int i = Size - 1; i >= 0; i--)
+                    {
+                        if (UseDiagonal == true)
+                            result[i] /= di[i];
+                        for (int j = ig[i]; j < ig[i + 1]; j++)
+                            result[jg[j]] -= au[j] * result[i];
+                    }
+                    return result;
+                }
+            }
+            else
+                throw new Exception("Ошибка. Невозможно выполнить функцию SolveU, т.к. не удалось сделать разложение LU.");
         }
+
 
         public IVector MultL(IVector x, bool UseDiagonal)
         {
+            if (!LU_was_made)
+                MakeLU();
+            if (LU_was_made)
+            {
+                if (this.Size != x.Size)
+                    throw new Exception("Ошибка. Различие в размерности вектора и матрицы в функции MultL");
+                else
+                {
+                    IVector result = new SimpleVector(this.Size);
+                    for (int i = 0; i < Size; i++)
+                    {
+                        if (UseDiagonal == true)
+                            result[i] = di[i] * x[i];
+                        for (int j = ig[i]; j < ig[i + 1]; j++)
+                            result[i] += al[j] * x[jg[j]];
+                    }
+                    return result;
+                }
+            }
+            else
+                throw new Exception("Ошибка. Невозможно выполнить функцию MultL, т.к. не удалось сделать разложение LU.");
 
         }
 
-        public IVector MultU (IVector x, bool UseDiagonal)
+        public IVector MultU(IVector x, bool UseDiagonal)
         {
+            if (!LU_was_made)
+                MakeLU();
+            if (LU_was_made)
+            {
+                if (this.Size != x.Size)
+                    throw new Exception("Ошибка. Различие в размерности вектора и матрицы в функции MultU");
+                else
+                {
+                    IVector result = new SimpleVector(Size);
+                    for (int i = 0; i < Size; i++)
+                    {
+                        if (UseDiagonal == true)
+                            result[i] = di[i] * x[i];
+                        for (int j = ig[i]; j < ig[i + 1]; j++)
+                            result[jg[j]] += au[j] * x[i];
+                    }
 
+                    return result;
+                }
+            }
+            else
+                throw new Exception("Ошибка. Невозможно выполнить функцию MultU, т.к. не удалось сделать разложение LU.");
+          
+        }
+
+        protected IVector MultT(IVector x)
+        {
+            int j;
+            IVector result = new SimpleVector(Size);
+            for (int i = 0; i < this.Size; i++)
+            {
+                result[i] = di[i] * x[i];
+                {
+                    for (int k = ig[i]; k < ig[i + 1]; k++)
+                    {
+                        j = jg[k];
+                        result[j] += al[k] * x[i];
+                        result[i] += au[k] * x[j];
+                    }
+                }
+            }
+            return result;
+        }
+
+        protected IVector SolveLT(IVector x, bool UseDiagonal)
+        {
+            if (!LU_was_made)
+                MakeLU();
+            if (LU_was_made)
+            {
+                //проверка корректности
+                if (this.Size != x.Size)
+                    throw new Exception("Ошибка. Различие в размерности вектора и матрицы в функции SolveLT");
+                else
+                {
+                    IVector result = (IVector)x.Clone();
+
+                    for (int i = Size - 1; i >= 0; i--)
+                    {
+                        if (UseDiagonal == true)
+                            result[i] /= di[i];
+                        for (int j = ig[i]; j < ig[i + 1]; j++)
+                            result[jg[j]] -= al[j] * result[i];
+                    }
+                    return result;
+                }
+            }
+            else
+                throw new Exception("Ошибка. Невозможно выполнить функцию SolveLT, т.к. не удалось сделать разложение LU.");
 
         }
 
+        protected IVector SolveUT(IVector x, bool UseDiagonal)
+        {
+            if (!LU_was_made)
+                MakeLU();
+            if (LU_was_made)
+            {
+                //проверка корректности
+                if (this.Size != x.Size)
+                    throw new Exception("Ошибка. Различие в размерности вектора и матрицы в функции SolveUT");
+                else
+                {
+                    IVector result = new SimpleVector(this.Size);
+                    double sum;
+
+                    for (int i = 0; i < this.Size; i++)
+                    {
+                        sum = 0;
+                        for (int j = ig[i]; j < ig[i + 1]; j++)
+                            sum += au[j] * result[jg[j]];
+                        result[i] = (x[i] - sum);
+                        if (UseDiagonal == true)
+                            result[i] /= di[i];
+                    }
+                    return result;
+                }
+            }
+            else
+                throw new Exception("Ошибка. Невозможно выполнить функцию SolveUT, т.к. не удалось сделать разложение LU.");
+
+        }
+
+        protected IVector MultLT(IVector x, bool UseDiagonal)
+        {
+            if (!LU_was_made)
+                MakeLU();
+            if (LU_was_made)
+            {
+                if (this.Size != x.Size)
+                    throw new Exception("Ошибка. Различие в размерности вектора и матрицы в функции MultLT");
+                else
+                {
+                    IVector result = new SimpleVector(Size);
+                    for (int i = 0; i < Size; i++)
+                    {
+                        if (UseDiagonal == true)
+                            result[i] = di[i] * x[i];
+                        for (int j = ig[i]; j < ig[i + 1]; j++)
+                            result[jg[j]] += al[j] * x[i];
+                    }
+
+                    return result;
+                }
+            }
+            else
+                throw new Exception("Ошибка. Невозможно выполнить функцию MultLT, т.к. не удалось сделать разложение LU.");
+
+        }
+
+        protected IVector MultUT(IVector x, bool UseDiagonal)
+        {
+            if (!LU_was_made)
+                MakeLU();
+            if (LU_was_made)
+            {
+                if (this.Size != x.Size)
+                    throw new Exception("Ошибка. Различие в размерности вектора и матрицы в функции MultUT");
+                else
+                {
+                    IVector result = new SimpleVector(this.Size);
+                    for (int i = 0; i < Size; i++)
+                    {
+                        if (UseDiagonal == true)
+                            result[i] = di[i] * x[i];
+                        for (int j = ig[i]; j < ig[i + 1]; j++)
+                            result[i] += au[j] * x[jg[j]];
+                    }
+                    return result;
+                }
+            }
+            else
+                throw new Exception("Ошибка. Невозможно выполнить функцию MultUT, т.к. не удалось сделать разложение LU.");
+
+        }
     }
 }
