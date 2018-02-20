@@ -61,12 +61,11 @@ namespace slae_project
             //Имя и Число/Вектор/Матрица в формате (double, double[], double[,], List<double>, List<List<double>>) на выбор.
             SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("vector4ik", vector4ik));
             SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("single_value", single_value));
-            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix", randomMatrix));
             SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_vectorik", listed_vectorik));
             SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
             SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
             SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("bigdouble", bigdouble));
-            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
+            SharpForm.GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix", randomMatrix));
             //SharpForm.GD.List_Of_Objects.RemoveAt(1); Удалить какойто конкретный
             //SharpForm.GD.List_Of_Objects.Clear(); //Удалить все.
             //SharpForm.GD.List_Of_Objects.RemoveAt(List_Of_Objects.Count() - 1); //Удалить последний

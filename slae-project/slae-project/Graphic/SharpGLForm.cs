@@ -233,8 +233,6 @@ namespace slae_project
             trackBar_QuantityAfterPoint.Value = GD.FontQuanitityAfterPoint = 3;
             trackBar_FontSize.Value = 14; GD.FontSize = 14;
             
-            trackBar_CellWidth.Value = GD.Grid.xCellSize = 80;
-            trackBar_CellHeight.Value = GD.Grid.yCellSize = 35;
             radioButton1_General.Checked = true;
             radioButton2_Double.Checked = false;
             radioButton3_Exponential.Checked = false;
@@ -265,30 +263,6 @@ namespace slae_project
             GD.FontSize = trackBar_FontSize.Value;
             setAutoCell();
            // openGLControl.Refresh();
-        }
-
-        /// <summary>
-        /// Функция реагирующая на изменение ползунка высоты клетки
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void trackBar_CellHeight_ValueChanged(object sender, EventArgs e)
-        {
-            GD.Grid.yCellSize = trackBar_CellHeight.Value;
-            Refresh_Window();
-
-        }
-
-        /// <summary>
-        /// Функция реагирующая на изменение ползунка ширины клетки
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void trackBar_CellWidth_ValueChanged(object sender, EventArgs e)
-        {
-            GD.Grid.xCellSize = trackBar_CellWidth.Value;
-            Refresh_Window();
-            
         }
 
         /// <summary>
@@ -437,6 +411,42 @@ namespace slae_project
 
             //Обновили 
             Application.DoEvents();
+        }
+
+        private void radioButton1_Number_enabled_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1_Number_enabled.Checked)
+            {
+                radioButton1_Number_disabled.Checked = false;
+                GD.TargetNumber = true;
+            }
+        }
+
+        private void radioButton1_Number_disabled_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1_Number_disabled.Checked)
+            {
+                radioButton1_Number_enabled.Checked = false;
+                GD.TargetNumber = false;
+            }
+        }
+
+        private void radioButton2_TargetPlus_Enabled_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton2_TargetPlus_Enabled.Checked)
+            {
+                radioButton1_TargetPlus_Disabled.Checked = false;
+                GD.TargetPlus = true;
+            }
+        }
+
+        private void radioButton1_TargetPlus_Disabled_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1_TargetPlus_Disabled.Checked)
+            {
+                radioButton2_TargetPlus_Enabled.Checked = false;
+                GD.TargetPlus = false;
+            }
         }
     }
 }

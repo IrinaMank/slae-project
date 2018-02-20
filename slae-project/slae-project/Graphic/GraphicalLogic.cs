@@ -121,6 +121,9 @@ namespace slae_project
                 return true;
             else return false;
         }
+
+        public bool TargetPlus = true;
+        public bool TargetNumber = true;
         /// <summary>
         /// Главная рисовалка.
         /// </summary>
@@ -144,9 +147,11 @@ namespace slae_project
             Grid.Y_nullificate();
 
             //Целеуказатель плюсиком зеленый
-            draw_line(0, mouse.true_y, openGLControl.Width, mouse.true_y, false,0, 1, 0);
-            draw_line(mouse.true_x, 0, mouse.true_x, openGLControl.Height, false, 0, 1, 0);
-
+            if (TargetPlus)
+            {
+                draw_line(0, mouse.true_y, openGLControl.Width, mouse.true_y, false, 0, 1, 0);
+                draw_line(mouse.true_x, 0, mouse.true_x, openGLControl.Height, false, 0, 1, 0);
+            }
             //Draw_Text(mouse.true_x, mouse.true_y, obj.Name, false);
             //
 
@@ -192,6 +197,7 @@ namespace slae_project
                 //int Target_X_value = mouse.ShiftedPosition.x + Grid.xCellSize / 2 - 12 - mouse.true_x;
                 //int Target_X_radius = Grid.xCellSize / 2;
 
+                if (TargetNumber)
                 Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + (((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize)).ToString(), false);
                 //Для каждого вектора текущей матрицы
                 foreach (var vect in obj.Matrix)
@@ -204,6 +210,7 @@ namespace slae_project
                     {
                         Draw_Text(Grid.cursorP.x + 25, Grid.cursorP.y, Count_by_Y.ToString(), true);
 
+                        if (TargetNumber)
                         if (Math.Abs(Grid.cursorP.y + Target_Y_value) < Target_Y_radius)
                         Draw_Text(mouse.true_x + 20, mouse.true_y, "- " + Count_by_Y.ToString(), false);
                     }
