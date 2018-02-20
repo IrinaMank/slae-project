@@ -17,8 +17,8 @@ namespace slae_project
             InitializeComponent();
 
             //Чтобы не нажимать при отладке на кнопку вызова постоянно, раскоментируй это.
-            WindowState = FormWindowState.Minimized;
-            SharpGLCallTheWindow();
+            //WindowState = FormWindowState.Minimized;
+            //SharpGLCallTheWindow();
         }
 
         

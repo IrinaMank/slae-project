@@ -30,6 +30,10 @@
         {
             this.openGLControl = new SharpGL.OpenGLControl();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.radioButton1_TargetPlus_Disabled = new System.Windows.Forms.RadioButton();
+            this.radioButton2_TargetPlus_Enabled = new System.Windows.Forms.RadioButton();
+            this.label2 = new System.Windows.Forms.Label();
             this.button_reset = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.trackBar_FontSize = new System.Windows.Forms.TrackBar();
@@ -42,25 +46,21 @@
             this.label5 = new System.Windows.Forms.Label();
             this.trackBar_QuantityAfterPoint = new System.Windows.Forms.TrackBar();
             this.button_exit = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.radioButton1_Number_disabled = new System.Windows.Forms.RadioButton();
+            this.radioButton1_Number_enabled = new System.Windows.Forms.RadioButton();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.label6_FAQ = new System.Windows.Forms.Label();
             this.label7_FAQ_move_phrase = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.radioButton1_Number_enabled = new System.Windows.Forms.RadioButton();
-            this.radioButton1_Number_disabled = new System.Windows.Forms.RadioButton();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.radioButton1_TargetPlus_Disabled = new System.Windows.Forms.RadioButton();
-            this.radioButton2_TargetPlus_Enabled = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_FontSize)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_QuantityAfterPoint)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // openGLControl
@@ -68,7 +68,7 @@
             this.openGLControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.openGLControl.DrawFPS = true;
+            this.openGLControl.DrawFPS = false;
             this.openGLControl.Location = new System.Drawing.Point(21, 0);
             this.openGLControl.Name = "openGLControl";
             this.openGLControl.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL2_1;
@@ -123,6 +123,70 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(181, 521);
             this.tableLayoutPanel1.TabIndex = 1;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel4.ColumnCount = 2;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.Controls.Add(this.radioButton1_TargetPlus_Disabled, 1, 0);
+            this.tableLayoutPanel4.Controls.Add(this.radioButton2_TargetPlus_Enabled, 0, 0);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(4, 87);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 1;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(173, 34);
+            this.tableLayoutPanel4.TabIndex = 15;
+            // 
+            // radioButton1_TargetPlus_Disabled
+            // 
+            this.radioButton1_TargetPlus_Disabled.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioButton1_TargetPlus_Disabled.AutoSize = true;
+            this.radioButton1_TargetPlus_Disabled.Location = new System.Drawing.Point(89, 3);
+            this.radioButton1_TargetPlus_Disabled.Name = "radioButton1_TargetPlus_Disabled";
+            this.radioButton1_TargetPlus_Disabled.Size = new System.Drawing.Size(81, 28);
+            this.radioButton1_TargetPlus_Disabled.TabIndex = 1;
+            this.radioButton1_TargetPlus_Disabled.TabStop = true;
+            this.radioButton1_TargetPlus_Disabled.Text = "выкл.";
+            this.radioButton1_TargetPlus_Disabled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radioButton1_TargetPlus_Disabled.UseVisualStyleBackColor = true;
+            this.radioButton1_TargetPlus_Disabled.CheckedChanged += new System.EventHandler(this.radioButton1_TargetPlus_Disabled_CheckedChanged);
+            // 
+            // radioButton2_TargetPlus_Enabled
+            // 
+            this.radioButton2_TargetPlus_Enabled.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioButton2_TargetPlus_Enabled.AutoSize = true;
+            this.radioButton2_TargetPlus_Enabled.Checked = true;
+            this.radioButton2_TargetPlus_Enabled.Location = new System.Drawing.Point(3, 3);
+            this.radioButton2_TargetPlus_Enabled.Name = "radioButton2_TargetPlus_Enabled";
+            this.radioButton2_TargetPlus_Enabled.Size = new System.Drawing.Size(80, 28);
+            this.radioButton2_TargetPlus_Enabled.TabIndex = 0;
+            this.radioButton2_TargetPlus_Enabled.TabStop = true;
+            this.radioButton2_TargetPlus_Enabled.Text = "вкл.";
+            this.radioButton2_TargetPlus_Enabled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radioButton2_TargetPlus_Enabled.UseVisualStyleBackColor = true;
+            this.radioButton2_TargetPlus_Enabled.CheckedChanged += new System.EventHandler(this.radioButton2_TargetPlus_Enabled_CheckedChanged);
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label2.Location = new System.Drawing.Point(4, 66);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(173, 17);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Целеуказатель вкл/выкл";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // button_reset
             // 
@@ -298,6 +362,70 @@
             this.button_exit.UseVisualStyleBackColor = true;
             this.button_exit.Click += new System.EventHandler(this.button_exit_Click);
             // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label3.Location = new System.Drawing.Point(4, 128);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(173, 17);
+            this.label3.TabIndex = 13;
+            this.label3.Text = " Номер строки и столб.";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Controls.Add(this.radioButton1_Number_disabled, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.radioButton1_Number_enabled, 0, 0);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(4, 149);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(173, 34);
+            this.tableLayoutPanel3.TabIndex = 14;
+            // 
+            // radioButton1_Number_disabled
+            // 
+            this.radioButton1_Number_disabled.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioButton1_Number_disabled.AutoSize = true;
+            this.radioButton1_Number_disabled.Location = new System.Drawing.Point(89, 3);
+            this.radioButton1_Number_disabled.Name = "radioButton1_Number_disabled";
+            this.radioButton1_Number_disabled.Size = new System.Drawing.Size(81, 28);
+            this.radioButton1_Number_disabled.TabIndex = 1;
+            this.radioButton1_Number_disabled.TabStop = true;
+            this.radioButton1_Number_disabled.Text = "выкл.";
+            this.radioButton1_Number_disabled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radioButton1_Number_disabled.UseVisualStyleBackColor = true;
+            this.radioButton1_Number_disabled.CheckedChanged += new System.EventHandler(this.radioButton1_Number_disabled_CheckedChanged);
+            // 
+            // radioButton1_Number_enabled
+            // 
+            this.radioButton1_Number_enabled.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioButton1_Number_enabled.AutoSize = true;
+            this.radioButton1_Number_enabled.Checked = true;
+            this.radioButton1_Number_enabled.Location = new System.Drawing.Point(3, 3);
+            this.radioButton1_Number_enabled.Name = "radioButton1_Number_enabled";
+            this.radioButton1_Number_enabled.Size = new System.Drawing.Size(80, 28);
+            this.radioButton1_Number_enabled.TabIndex = 0;
+            this.radioButton1_Number_enabled.TabStop = true;
+            this.radioButton1_Number_enabled.Text = "вкл.";
+            this.radioButton1_Number_enabled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radioButton1_Number_enabled.UseVisualStyleBackColor = true;
+            this.radioButton1_Number_enabled.CheckedChanged += new System.EventHandler(this.radioButton1_Number_enabled_CheckedChanged);
+            // 
             // vScrollBar1
             // 
             this.vScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -344,134 +472,6 @@
             this.label7_FAQ_move_phrase.Text = "Перемещаться по полю можно с помощью зажатой левой кнопкой мыши";
             this.label7_FAQ_move_phrase.Visible = false;
             // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label2.Location = new System.Drawing.Point(4, 66);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(173, 17);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "Целеуказатель вкл/выкл";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label3
-            // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label3.Location = new System.Drawing.Point(4, 128);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(173, 17);
-            this.label3.TabIndex = 13;
-            this.label3.Text = " Номер строки и столб.";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Controls.Add(this.radioButton1_Number_disabled, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.radioButton1_Number_enabled, 0, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(4, 149);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 1;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(173, 34);
-            this.tableLayoutPanel3.TabIndex = 14;
-            // 
-            // radioButton1_Number_enabled
-            // 
-            this.radioButton1_Number_enabled.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton1_Number_enabled.AutoSize = true;
-            this.radioButton1_Number_enabled.Checked = true;
-            this.radioButton1_Number_enabled.Location = new System.Drawing.Point(3, 3);
-            this.radioButton1_Number_enabled.Name = "radioButton1_Number_enabled";
-            this.radioButton1_Number_enabled.Size = new System.Drawing.Size(80, 28);
-            this.radioButton1_Number_enabled.TabIndex = 0;
-            this.radioButton1_Number_enabled.TabStop = true;
-            this.radioButton1_Number_enabled.Text = "вкл.";
-            this.radioButton1_Number_enabled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radioButton1_Number_enabled.UseVisualStyleBackColor = true;
-            this.radioButton1_Number_enabled.CheckedChanged += new System.EventHandler(this.radioButton1_Number_enabled_CheckedChanged);
-            // 
-            // radioButton1_Number_disabled
-            // 
-            this.radioButton1_Number_disabled.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton1_Number_disabled.AutoSize = true;
-            this.radioButton1_Number_disabled.Location = new System.Drawing.Point(89, 3);
-            this.radioButton1_Number_disabled.Name = "radioButton1_Number_disabled";
-            this.radioButton1_Number_disabled.Size = new System.Drawing.Size(81, 28);
-            this.radioButton1_Number_disabled.TabIndex = 1;
-            this.radioButton1_Number_disabled.TabStop = true;
-            this.radioButton1_Number_disabled.Text = "выкл.";
-            this.radioButton1_Number_disabled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radioButton1_Number_disabled.UseVisualStyleBackColor = true;
-            this.radioButton1_Number_disabled.CheckedChanged += new System.EventHandler(this.radioButton1_Number_disabled_CheckedChanged);
-            // 
-            // tableLayoutPanel4
-            // 
-            this.tableLayoutPanel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel4.ColumnCount = 2;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Controls.Add(this.radioButton1_TargetPlus_Disabled, 1, 0);
-            this.tableLayoutPanel4.Controls.Add(this.radioButton2_TargetPlus_Enabled, 0, 0);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(4, 87);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 1;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(173, 34);
-            this.tableLayoutPanel4.TabIndex = 15;
-            // 
-            // radioButton1_TargetPlus_Disabled
-            // 
-            this.radioButton1_TargetPlus_Disabled.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton1_TargetPlus_Disabled.AutoSize = true;
-            this.radioButton1_TargetPlus_Disabled.Location = new System.Drawing.Point(89, 3);
-            this.radioButton1_TargetPlus_Disabled.Name = "radioButton1_TargetPlus_Disabled";
-            this.radioButton1_TargetPlus_Disabled.Size = new System.Drawing.Size(81, 28);
-            this.radioButton1_TargetPlus_Disabled.TabIndex = 1;
-            this.radioButton1_TargetPlus_Disabled.TabStop = true;
-            this.radioButton1_TargetPlus_Disabled.Text = "выкл.";
-            this.radioButton1_TargetPlus_Disabled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radioButton1_TargetPlus_Disabled.UseVisualStyleBackColor = true;
-            this.radioButton1_TargetPlus_Disabled.CheckedChanged += new System.EventHandler(this.radioButton1_TargetPlus_Disabled_CheckedChanged);
-            // 
-            // radioButton2_TargetPlus_Enabled
-            // 
-            this.radioButton2_TargetPlus_Enabled.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton2_TargetPlus_Enabled.AutoSize = true;
-            this.radioButton2_TargetPlus_Enabled.Checked = true;
-            this.radioButton2_TargetPlus_Enabled.Location = new System.Drawing.Point(3, 3);
-            this.radioButton2_TargetPlus_Enabled.Name = "radioButton2_TargetPlus_Enabled";
-            this.radioButton2_TargetPlus_Enabled.Size = new System.Drawing.Size(80, 28);
-            this.radioButton2_TargetPlus_Enabled.TabIndex = 0;
-            this.radioButton2_TargetPlus_Enabled.TabStop = true;
-            this.radioButton2_TargetPlus_Enabled.Text = "вкл.";
-            this.radioButton2_TargetPlus_Enabled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radioButton2_TargetPlus_Enabled.UseVisualStyleBackColor = true;
-            this.radioButton2_TargetPlus_Enabled.CheckedChanged += new System.EventHandler(this.radioButton2_TargetPlus_Enabled_CheckedChanged);
-            // 
             // SharpGLForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -489,14 +489,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_FontSize)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_QuantityAfterPoint)).EndInit();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
-            this.tableLayoutPanel4.ResumeLayout(false);
-            this.tableLayoutPanel4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
