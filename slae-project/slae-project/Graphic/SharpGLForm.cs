@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
+using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -33,6 +33,7 @@ namespace slae_project
         public SharpGLForm(bool Type)
         {
             InitializeComponent();
+            //SharpGLWrappedThread ThreadController = new SharpGLWrappedThread();
 
             //Облегчим себе жизнь. Передадим в главную логическую сразу.
             GD = new GraphicData(openGLControl);
@@ -45,6 +46,27 @@ namespace slae_project
             //установить границы скруллбаров и сбросить мышки-местоположение в лево-нижний угол
             Refresh_Window();
         }
+        public class SharpGLWrappedThread
+        {
+            Thread my_thread;
+            public SharpGLWrappedThread()
+            {
+                my_thread = new Thread(Controller);
+                my_thread.Start();
+
+            }
+            void Controller()
+            {
+
+                while (true) { }
+                /*while (true)
+                {
+                    if (SharpForm != null)
+                        if (!SharpForm.Created)
+                            Application.Exit();
+                } */
+            }
+        }
         /// <summary>
         /// Handles the OpenGLDraw event of the openGLControl control.
         /// </summary>
@@ -52,9 +74,7 @@ namespace slae_project
         /// <param name="e">The <see cref="RenderEventArgs"/> instance containing the event data.</param>
         private void openGLControl_OpenGLDraw(object sender, RenderEventArgs e)
         {
-            GD.RealDraw();
-
-            
+            GD.RealDraw(); 
         }
 
         /// <summary>
@@ -100,8 +120,8 @@ namespace slae_project
 
             //Мы двумерны.
             gl.Ortho2D(0, openGLControl.Width, 0, openGLControl.Height);
-
-
+            gl.Viewport(0, 0, openGLControl.Width, openGLControl.Height);
+            
             //  Set the modelview matrix.
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
 
@@ -125,13 +145,12 @@ namespace slae_project
         /// <param name="e"></param>
         private void openGLControl_MouseMove(object sender, MouseEventArgs e)
         {
-            
-
+            GD.mouse.setMouseData(MouseButtons.ToString(), Cursor.Position.X, Cursor.Position.Y, Cursor.Position.X - Location.X - openGLControl.Location.X - 8, -Cursor.Position.Y + Location.Y + Size.Height + openGLControl.Location.Y - 30);
             //Меняем курсор мышки на разные в зависимости нажата левая кнопка мышки или нет.
             if (MouseButtons.ToString() == "Left")
             {
                 //Тут высчитывается насколько сместился курсор мышки нажатой
-                GD.mouse.setMouseData(MouseButtons.ToString(), MousePosition.X, MousePosition.Y);
+                
 
                 Cursor.Current = Cursors.NoMove2D;
                 GD.mouse.isPressed = true;
@@ -143,7 +162,7 @@ namespace slae_project
                 try { vScrollBar1.Value = GD.mouse.ShiftedPosition.y; }
                 catch (Exception error) { }
                 //Обновили экран
-                openGLControl.Refresh();
+                
             }
             else 
             {
@@ -151,13 +170,12 @@ namespace slae_project
             }
 
 
-            
 
+            openGLControl.Refresh();
 
             //Эту штуку приходится вызывать когда чтото с мышкой поделал.
             Application.DoEvents();
         }
-
         /// <summary>
         /// Кнопку мыши опустили вниз(по идеи левую)
         /// </summary>
@@ -215,8 +233,6 @@ namespace slae_project
             trackBar_QuantityAfterPoint.Value = GD.FontQuanitityAfterPoint = 3;
             trackBar_FontSize.Value = 14; GD.FontSize = 14;
             
-            trackBar_CellWidth.Value = GD.Grid.xCellSize = 80;
-            trackBar_CellHeight.Value = GD.Grid.yCellSize = 35;
             radioButton1_General.Checked = true;
             radioButton2_Double.Checked = false;
             radioButton3_Exponential.Checked = false;
@@ -245,31 +261,8 @@ namespace slae_project
         private void trackBar_FontSize_ValueChanged(object sender, EventArgs e)
         {
             GD.FontSize = trackBar_FontSize.Value;
-            openGLControl.Refresh();
-        }
-
-        /// <summary>
-        /// Функция реагирующая на изменение ползунка высоты клетки
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void trackBar_CellHeight_ValueChanged(object sender, EventArgs e)
-        {
-            GD.Grid.yCellSize = trackBar_CellHeight.Value;
-            Refresh_Window();
-
-        }
-
-        /// <summary>
-        /// Функция реагирующая на изменение ползунка ширины клетки
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void trackBar_CellWidth_ValueChanged(object sender, EventArgs e)
-        {
-            GD.Grid.xCellSize = trackBar_CellWidth.Value;
-            Refresh_Window();
-            
+            setAutoCell();
+           // openGLControl.Refresh();
         }
 
         /// <summary>
@@ -307,7 +300,8 @@ namespace slae_project
         private void trackBar_QuantityAfterPoint_ValueChanged(object sender, EventArgs e)
         {
             GD.FontQuanitityAfterPoint = trackBar_QuantityAfterPoint.Value;
-            openGLControl.Refresh();
+            setAutoCell();
+            Refresh_Window();
         }
 
         /// <summary>
@@ -323,7 +317,8 @@ namespace slae_project
                 radioButton2_Double.Checked = false;
                 radioButton3_Exponential.Checked = false;
             }
-            openGLControl.Refresh();
+            setAutoCell();
+            Refresh_Window();
         }
 
         /// <summary>
@@ -339,7 +334,8 @@ namespace slae_project
                 radioButton1_General.Checked = false;
                 radioButton3_Exponential.Checked = false;
             }
-            openGLControl.Refresh();
+            setAutoCell();
+            Refresh_Window();
         }
 
         /// <summary>
@@ -355,7 +351,8 @@ namespace slae_project
                 radioButton2_Double.Checked = false;
                 radioButton1_General.Checked = false;
             }
-            openGLControl.Refresh();
+            setAutoCell();
+            Refresh_Window();
         }
 
         /// <summary>
@@ -415,6 +412,41 @@ namespace slae_project
             //Обновили 
             Application.DoEvents();
         }
-        
+
+        private void radioButton1_Number_enabled_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1_Number_enabled.Checked)
+            {
+                radioButton1_Number_disabled.Checked = false;
+                GD.TargetNumber = true;
+            }
+        }
+
+        private void radioButton1_Number_disabled_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1_Number_disabled.Checked)
+            {
+                radioButton1_Number_enabled.Checked = false;
+                GD.TargetNumber = false;
+            }
+        }
+
+        private void radioButton2_TargetPlus_Enabled_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton2_TargetPlus_Enabled.Checked)
+            {
+                radioButton1_TargetPlus_Disabled.Checked = false;
+                GD.TargetPlus = true;
+            }
+        }
+
+        private void radioButton1_TargetPlus_Disabled_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1_TargetPlus_Disabled.Checked)
+            {
+                radioButton2_TargetPlus_Enabled.Checked = false;
+                GD.TargetPlus = false;
+            }
+        }
     }
 }
