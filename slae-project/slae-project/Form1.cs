@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Threading;
 namespace slae_project
 {
     public partial class Form1 : Form
@@ -17,11 +17,18 @@ namespace slae_project
             InitializeComponent();
 
             //Чтобы не нажимать при отладке на кнопку вызова постоянно, раскоментируй это.
-            button1_Graphic.PerformClick();
+            WindowState = FormWindowState.Minimized;
+            SharpGLCallTheWindow();
         }
+
+        
 
         public SharpGLForm SharpForm = null;
         private void button1_Graphic_Click(object sender, EventArgs e)
+        {
+            SharpGLCallTheWindow();
+        }
+        private void SharpGLCallTheWindow()
         {
             if (SharpForm != null)
                 if (SharpForm.Enabled)
@@ -46,7 +53,7 @@ namespace slae_project
             List<double> listed_vectorik = new List<double>() { 1, 2, 3, 4, 5 };
             List<List<double>> listed_matrix = new List<List<double>>() { new List<double> { 1, 2 }, new List<double> { 3, 4 }, new List<double> { 5, 6 } };
 
-            double[,] bigdouble = new double[100,100];
+            double[,] bigdouble = new double[100, 100];
             for (int i = 0; i < 100; i++)
                 for (int j = 0; j < 100; j++) bigdouble[i, j] = i + j;
 

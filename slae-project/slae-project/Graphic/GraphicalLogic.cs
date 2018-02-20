@@ -145,13 +145,14 @@ namespace slae_project
             //draw_white_square(0, openGLControl.Height, openGLControl.Width, openGLControl.Height - 40);
             //draw_white_square(0, openGLControl.Height, 40, 0);
 
-            int CentrX = mouse.x - openGLControl.Location.X;
+            int CentrX = mouse.x;// (int)((double)mouse.x);// / mouse.Width * openGLControl.Width);
             //int CentrY = openGLControl.Height - mouse.y;
-            int CentrY = mouse.y;
+            int CentrY = mouse.y;// (int)((double)mouse.y);// / mouse.Height * openGLControl.Height);
             string str = openGLControl.Location.X.ToString();
             string str2 = openGLControl.Location.Y.ToString();
-            draw_line(0, CentrY, openGLControl.Width, CentrY, false);
-            draw_line(CentrX, 0, CentrX, openGLControl.Height, false);
+            draw_line(0, CentrY, openGLControl.Width, CentrY, false,0, 1, 0);
+            draw_line(CentrX, 0, CentrX, openGLControl.Height, false, 0, 1, 0);
+
             //List_Of_Objects.Reverse();
             //Для каждой матрицы в списке объектов
             foreach (var obj in List_Of_Objects)
@@ -280,7 +281,7 @@ namespace slae_project
         /// <summary>
         /// Draw Grid
         /// </summary>
-        private void draw_line(int x_from,int y_from = 0, int x_to = 0, int y_to = 0, bool autoshifter = true)
+        private void draw_line(int x_from,int y_from = 0, int x_to = 0, int y_to = 0, bool autoshifter = true, Single r = 0, Single g = 0, Single b = 0)
         {
             if (autoshifter)
             {
@@ -294,7 +295,7 @@ namespace slae_project
             //  Clear the color and depth buffer.
             //  Load the identity matrix.
             gl.LoadIdentity();
-            gl.Color(0.0f, 0.0f, 0.0f, 1.0f); //Must have, weirdness!
+            gl.Color(r, g, b, 1.0f); //Must have, weirdness!
             gl.LineWidth(1.0f);
             gl.Begin(OpenGL.GL_LINES);
 
@@ -412,8 +413,9 @@ namespace slae_project
 
         public string mousebuttons;
         public int x, y;
-        public void setMouseData(string str, int _x, int _y)
-        { mousebuttons = str; x = _x; y = _y; Mouse_movements(); }
+        public int Width = 1, Height = 1;
+        public void setMouseData(string str, int _x, int _y, int _Width, int _Height)
+        { mousebuttons = str; x = _x; y = _y; Mouse_movements(); Width = _Width; Height = _Height; }
 
         double mouse_decrease = 1;
         public void Mouse_movements()

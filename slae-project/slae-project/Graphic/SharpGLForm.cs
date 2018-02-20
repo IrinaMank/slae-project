@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
+using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -33,17 +33,39 @@ namespace slae_project
         public SharpGLForm(bool Type)
         {
             InitializeComponent();
+            //SharpGLWrappedThread ThreadController = new SharpGLWrappedThread();
 
             //Облегчим себе жизнь. Передадим в главную логическую сразу.
             GD = new GraphicData(openGLControl);
             
             //Manual Рендеринг, мы же не делаем игру, так что смысла в RealTime FPS нету.
             //Для повторной отрисовки вызовите функцию openGLControl.Refresh();
-            openGLControl.RenderTrigger = RenderTrigger.Manual;
-            openGLControl.DoRender();
+            //openGLControl.RenderTrigger = RenderTrigger.Manual;
+            //openGLControl.DoRender();
 
             //установить границы скруллбаров и сбросить мышки-местоположение в лево-нижний угол
             Refresh_Window();
+        }
+        public class SharpGLWrappedThread
+        {
+            Thread my_thread;
+            public SharpGLWrappedThread()
+            {
+                my_thread = new Thread(Controller);
+                my_thread.Start();
+
+            }
+            void Controller()
+            {
+
+                while (true) { }
+                /*while (true)
+                {
+                    if (SharpForm != null)
+                        if (!SharpForm.Created)
+                            Application.Exit();
+                } */
+            }
         }
         /// <summary>
         /// Handles the OpenGLDraw event of the openGLControl control.
@@ -52,9 +74,8 @@ namespace slae_project
         /// <param name="e">The <see cref="RenderEventArgs"/> instance containing the event data.</param>
         private void openGLControl_OpenGLDraw(object sender, RenderEventArgs e)
         {
-            GD.RealDraw();
-
-            
+            GD.mouse.setMouseData(MouseButtons.ToString(), Cursor.Position.X - Location.X - openGLControl.Location.X - 8, - Cursor.Position.Y + Location.Y + Size.Height + openGLControl.Location.Y - 30, 1, 1);
+            GD.RealDraw(); 
         }
 
         /// <summary>
@@ -123,10 +144,8 @@ namespace slae_project
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void openGLControl_MouseMove(object sender, MouseEventArgs e)
+        private void SharpGLForm_MouseMove(object sender, MouseEventArgs e)
         {
-            GD.mouse.setMouseData(MouseButtons.ToString(), MousePosition.X, MousePosition.Y);
-
             //Меняем курсор мышки на разные в зависимости нажата левая кнопка мышки или нет.
             if (MouseButtons.ToString() == "Left")
             {
@@ -157,7 +176,6 @@ namespace slae_project
             //Эту штуку приходится вызывать когда чтото с мышкой поделал.
             Application.DoEvents();
         }
-
         /// <summary>
         /// Кнопку мыши опустили вниз(по идеи левую)
         /// </summary>
@@ -415,6 +433,7 @@ namespace slae_project
             //Обновили 
             Application.DoEvents();
         }
+
         
     }
 }
