@@ -23,7 +23,7 @@ namespace slae_project
         }
         public void Refresh_Window()
         {
-            SharpForm.Refresh_Window();
+            if (List_of_Objects_is_Available()) SharpForm.Refresh_Window();
         }
         public SharpGL_limbo(bool SelfCallingThingWhenFalse = false)
         {
@@ -49,6 +49,10 @@ namespace slae_project
             {
                 User_Guide_To_Graphic();
             }
+        }
+        public void SharpGLclose()
+        {
+            if (List_of_Objects_is_Available()) SharpForm.Close();
         }
         private bool ShowExample = true;
         private void User_Guide_To_Graphic()
