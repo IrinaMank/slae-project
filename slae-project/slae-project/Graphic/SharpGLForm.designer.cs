@@ -319,7 +319,7 @@
             this.button_refresh.Name = "button_refresh";
             this.button_refresh.Size = new System.Drawing.Size(173, 30);
             this.button_refresh.TabIndex = 2;
-            this.button_refresh.Text = "Обновить";
+            this.button_refresh.Text = "Тест";
             this.button_refresh.UseVisualStyleBackColor = true;
             this.button_refresh.Click += new System.EventHandler(this.button_refresh_Click);
             // 

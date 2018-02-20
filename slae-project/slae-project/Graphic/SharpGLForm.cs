@@ -15,7 +15,7 @@ using SharpGL;
 
 namespace slae_project
 {
-    
+
     /// <summary>
     /// The main form class.
     /// </summary>
@@ -26,18 +26,18 @@ namespace slae_project
         /// Главное что это структура хранения объектов(числа,векторов,матриц в нашем формате)
         /// </summary>
         public GraphicData GD;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpGLForm"/> class.
         /// </summary>
-        public SharpGLForm(bool Type)
+        public SharpGLForm()
         {
             InitializeComponent();
             //SharpGLWrappedThread ThreadController = new SharpGLWrappedThread();
 
             //Облегчим себе жизнь. Передадим в главную логическую сразу.
             GD = new GraphicData(openGLControl);
-            
+
             //Manual Рендеринг, мы же не делаем игру, так что смысла в RealTime FPS нету.
             //Для повторной отрисовки вызовите функцию openGLControl.Refresh();
             openGLControl.RenderTrigger = RenderTrigger.Manual;
@@ -53,7 +53,7 @@ namespace slae_project
         /// <param name="e">The <see cref="RenderEventArgs"/> instance containing the event data.</param>
         private void openGLControl_OpenGLDraw(object sender, RenderEventArgs e)
         {
-            GD.RealDraw(); 
+            GD.RealDraw();
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace slae_project
             //Мы двумерны.
             gl.Ortho2D(0, openGLControl.Width, 0, openGLControl.Height);
             gl.Viewport(0, 0, openGLControl.Width, openGLControl.Height);
-            
+
             //  Set the modelview matrix.
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
 
@@ -129,7 +129,7 @@ namespace slae_project
             if (MouseButtons.ToString() == "Left")
             {
                 //Тут высчитывается насколько сместился курсор мышки нажатой
-                
+
                 Cursor.Current = Cursors.NoMove2D;
                 GD.mouse.isPressed = true;
 
@@ -140,9 +140,9 @@ namespace slae_project
                 try { vScrollBar1.Value = GD.mouse.ShiftedPosition.y; }
                 catch (Exception error) { }
                 //Обновили экран
-                
+
             }
-            else 
+            else
             {
                 Cursor.Current = Cursors.Hand;
             }
@@ -176,7 +176,7 @@ namespace slae_project
         /// <param name="e"></param>
         private void openGLControl_MouseUp(object sender, MouseEventArgs e)
         {
-                //Мышка отжата.            
+            //Мышка отжата.            
             GD.mouse.isPressed = false;
             GD.mouse.isPressedBefore = false;
 
@@ -193,9 +193,23 @@ namespace slae_project
         /// <param name="e"></param>
         private void button_refresh_Click(object sender, EventArgs e)
         {
-            openGLControl.Refresh();
+            GD.List_Of_Objects.Clear();
+            sharpGL_limbo_access.Initialization(ref GD.List_Of_Objects);
+            sharpGL_limbo_access.UserGuide_access();
         }
-
+        public class SharpGL_limbo_access : SharpGL_limbo
+        {
+            public void Initialization(ref List<GraphicData.GraphicObject> List_Of_Objects)
+            {
+                this.List_Of_Objects = List_Of_Objects;
+            }
+            public void UserGuide_access()
+            {
+                
+                User_Guide_To_Graphic();
+            }
+        }
+        SharpGL_limbo_access sharpGL_limbo_access = new SharpGL_limbo_access();
         /// <summary>
         /// Сбрасывает все настройки по умолчанию в менюшке справа
         /// И заодно заново отрисовывает и сбрасывает ваше местоположение

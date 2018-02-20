@@ -11,7 +11,7 @@ namespace slae_project
     {
         //SharpGL_limbo SharpGL = new SharpGL_limbo();
 
-        private SharpGLForm SharpForm = null;
+        protected SharpGLForm SharpForm = null;
 
         //Сюда добавлять матрицы на отображения. Примеры в функции UserGuide_To_Graphic
         public List<GraphicData.GraphicObject> List_Of_Objects;
@@ -34,7 +34,7 @@ namespace slae_project
         //Конструктор. Параметр самовызова для ленивости.
         public SharpGL_limbo(bool SelfCallingThingWhenFalse = false)
         {
-            //Убрать эту строку когда появится наша кнопочка. А можно и оставить.
+            //Поставь тут ! чтобы окно само открывалось.
             if (SelfCallingThingWhenFalse == false) SharpGLCallTheWindow_for_The_Button();
         }
 
@@ -49,7 +49,7 @@ namespace slae_project
             if (SharpForm != null)
                 if (SharpForm.Enabled)
                     SharpForm.Close();
-            SharpForm = new SharpGLForm(true);
+            SharpForm = new SharpGLForm();
             SharpForm.Visible = true;
 
             this.List_Of_Objects = SharpForm.GD.List_Of_Objects;
@@ -65,10 +65,10 @@ namespace slae_project
         {
             if (List_of_Objects_is_Available()) SharpForm.Close();
         }
-        private bool ShowExample = true;
+        private bool ShowExample = false;
 
         //Инструкция
-        private void User_Guide_To_Graphic()
+        protected void User_Guide_To_Graphic()
         {
             //SharpGLCallTheWindow_for_The_Button() открывает окно графики и 
             //Делает доступным для записи в List_of_Objects
@@ -77,6 +77,8 @@ namespace slae_project
 
             //List_of_Objects_is_Available() Проверка доступности для записи
 
+            if (List_of_Objects_is_Available())
+            this.List_Of_Objects = SharpForm.GD.List_Of_Objects;
             //Примеры добавляемых объектов
             double single_value = 5;
 
