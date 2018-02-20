@@ -100,8 +100,8 @@ namespace slae_project
 
             //Мы двумерны.
             gl.Ortho2D(0, openGLControl.Width, 0, openGLControl.Height);
-
-
+            gl.Viewport(0, 0, openGLControl.Width, openGLControl.Height);
+            
             //  Set the modelview matrix.
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
 
@@ -245,6 +245,7 @@ namespace slae_project
         private void trackBar_FontSize_ValueChanged(object sender, EventArgs e)
         {
             GD.FontSize = trackBar_FontSize.Value;
+            setAutoCell();
             openGLControl.Refresh();
         }
 
