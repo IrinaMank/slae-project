@@ -18,7 +18,8 @@ namespace slae_project
 
             //Образец кнопочки. ,будущей. потом.
             //SharpGL_limbo sharpGL_limbo = new SharpGL_limbo(true); //рядом с кнопочкой
-            //sharpGL_limbo.SharpGLCallTheWindow(); //в кнопочку
+            //sharpGL_limbo.SharpGLCallTheWindow_for_The_Button(); //в кнопочку
         }
+        
     }
 }

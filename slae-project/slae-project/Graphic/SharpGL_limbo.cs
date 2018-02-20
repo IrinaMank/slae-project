@@ -28,14 +28,14 @@ namespace slae_project
         public SharpGL_limbo(bool SelfCallingThingWhenFalse = false)
         {
             //Убрать эту строку когда появится наша кнопочка. А можно и оставить.
-            if (SelfCallingThingWhenFalse == false) SharpGLCallTheWindow_for_Button();
+            if (SelfCallingThingWhenFalse == false) SharpGLCallTheWindow_for_The_Button();
         }
 
         //Образец кнопочки. ,будущей. потом.
         //SharpGL_limbo sharpGL_limbo = new SharpGL_limbo(true); //рядом с кнопочкой
-        //sharpGL_limbo.SharpGLCallTheWindow(); //в кнопочку
+        //sharpGL_limbo.SharpGLCallTheWindow_for_Button(); //в кнопочку
 
-        public void SharpGLCallTheWindow_for_Button()
+        public void SharpGLCallTheWindow_for_The_Button()
         {
             if (SharpForm != null)
                 if (SharpForm.Enabled)
