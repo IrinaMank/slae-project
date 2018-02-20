@@ -246,7 +246,7 @@ namespace slae_project
         {
             GD.FontSize = trackBar_FontSize.Value;
             setAutoCell();
-            openGLControl.Refresh();
+           // openGLControl.Refresh();
         }
 
         /// <summary>
@@ -308,7 +308,8 @@ namespace slae_project
         private void trackBar_QuantityAfterPoint_ValueChanged(object sender, EventArgs e)
         {
             GD.FontQuanitityAfterPoint = trackBar_QuantityAfterPoint.Value;
-            openGLControl.Refresh();
+            setAutoCell();
+            Refresh_Window();
         }
 
         /// <summary>
@@ -324,7 +325,8 @@ namespace slae_project
                 radioButton2_Double.Checked = false;
                 radioButton3_Exponential.Checked = false;
             }
-            openGLControl.Refresh();
+            setAutoCell();
+            Refresh_Window();
         }
 
         /// <summary>
@@ -340,7 +342,8 @@ namespace slae_project
                 radioButton1_General.Checked = false;
                 radioButton3_Exponential.Checked = false;
             }
-            openGLControl.Refresh();
+            setAutoCell();
+            Refresh_Window();
         }
 
         /// <summary>
@@ -356,7 +359,8 @@ namespace slae_project
                 radioButton2_Double.Checked = false;
                 radioButton1_General.Checked = false;
             }
-            openGLControl.Refresh();
+            setAutoCell();
+            Refresh_Window();
         }
 
         /// <summary>
