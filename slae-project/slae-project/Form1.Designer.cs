@@ -37,6 +37,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.property_matrix = new System.Windows.Forms.CheckedListBox();
+            this.startProgramm = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -100,7 +101,7 @@
             this.groupBox1.Controls.Add(this.property_matrix);
             this.groupBox1.Location = new System.Drawing.Point(131, 229);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(296, 152);
+            this.groupBox1.Size = new System.Drawing.Size(198, 117);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Матрица:";
@@ -112,12 +113,23 @@
             this.property_matrix.Name = "property_matrix";
             this.property_matrix.Size = new System.Drawing.Size(155, 72);
             this.property_matrix.TabIndex = 7;
+            this.property_matrix.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.property_matrix_ItemCheck);
+            // 
+            // startProgramm
+            // 
+            this.startProgramm.Location = new System.Drawing.Point(425, 316);
+            this.startProgramm.Name = "startProgramm";
+            this.startProgramm.Size = new System.Drawing.Size(90, 30);
+            this.startProgramm.TabIndex = 7;
+            this.startProgramm.Text = "Старт";
+            this.startProgramm.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(840, 393);
+            this.Controls.Add(this.startProgramm);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -145,6 +157,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckedListBox property_matrix;
+        private System.Windows.Forms.Button startProgramm;
     }
 }
 

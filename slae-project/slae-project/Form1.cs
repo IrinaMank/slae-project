@@ -42,6 +42,14 @@ namespace slae_project
             property_matrix.SelectionMode = SelectionMode.One;
 
         }
-
+        // выбор только одного элемента в checkBox
+        private void property_matrix_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            var list = sender as CheckedListBox;
+            if (e.NewValue == CheckState.Checked)
+                foreach (int index in list.CheckedIndices)
+                    if (index != e.Index)
+                        list.SetItemChecked(index, false);
+        }
     }
 }
