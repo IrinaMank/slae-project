@@ -120,8 +120,8 @@ namespace slae_project
 
             //Мы двумерны.
             gl.Ortho2D(0, openGLControl.Width, 0, openGLControl.Height);
-
-
+            gl.Viewport(0, 0, openGLControl.Width, openGLControl.Height);
+            
             //  Set the modelview matrix.
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
 
@@ -263,7 +263,8 @@ namespace slae_project
         private void trackBar_FontSize_ValueChanged(object sender, EventArgs e)
         {
             GD.FontSize = trackBar_FontSize.Value;
-            openGLControl.Refresh();
+            setAutoCell();
+           // openGLControl.Refresh();
         }
 
         /// <summary>
@@ -325,7 +326,8 @@ namespace slae_project
         private void trackBar_QuantityAfterPoint_ValueChanged(object sender, EventArgs e)
         {
             GD.FontQuanitityAfterPoint = trackBar_QuantityAfterPoint.Value;
-            openGLControl.Refresh();
+            setAutoCell();
+            Refresh_Window();
         }
 
         /// <summary>
@@ -341,7 +343,8 @@ namespace slae_project
                 radioButton2_Double.Checked = false;
                 radioButton3_Exponential.Checked = false;
             }
-            openGLControl.Refresh();
+            setAutoCell();
+            Refresh_Window();
         }
 
         /// <summary>
@@ -357,7 +360,8 @@ namespace slae_project
                 radioButton1_General.Checked = false;
                 radioButton3_Exponential.Checked = false;
             }
-            openGLControl.Refresh();
+            setAutoCell();
+            Refresh_Window();
         }
 
         /// <summary>
@@ -373,7 +377,8 @@ namespace slae_project
                 radioButton2_Double.Checked = false;
                 radioButton1_General.Checked = false;
             }
-            openGLControl.Refresh();
+            setAutoCell();
+            Refresh_Window();
         }
 
         /// <summary>
