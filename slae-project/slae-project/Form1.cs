@@ -15,11 +15,8 @@ namespace slae_project
         public Form1()
         {
             InitializeComponent();
-
-            //Образец кнопочки. ,будущей. потом.
-            //SharpGL_limbo sharpGL_limbo = new SharpGL_limbo(true); //рядом с кнопочкой
-            //sharpGL_limbo.SharpGLCallTheWindow_for_The_Button(); //в кнопочку
         }
-        
+        SharpGL_limbo sharpGL_limbo = new SharpGL_limbo(true); //рядом с кнопочкой
+        //sharpGL_limbo.SharpGLCallTheWindow_for_The_Button(); //в кнопочке
     }
 }
