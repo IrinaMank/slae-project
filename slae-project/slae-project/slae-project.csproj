@@ -69,6 +69,7 @@
     <Compile Include="Matrix\MatrixExceptions\CannotSolveSLAEException.cs" />
     <Compile Include="Matrix\MatrixExceptions\DifferentSizeException.cs" />
     <Compile Include="Matrix\MatrixExceptions\LUFailException.cs" />
+    <Compile Include="Solver\LOSSolver.cs" />
     <Compile Include="Solver\MSGSolver.cs" />
     <Compile Include="Vector\IVector.cs" />
     <Compile Include="Vector\SimpleVector.cs" />
