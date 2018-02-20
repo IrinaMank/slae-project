@@ -40,8 +40,8 @@ namespace slae_project
             
             //Manual Рендеринг, мы же не делаем игру, так что смысла в RealTime FPS нету.
             //Для повторной отрисовки вызовите функцию openGLControl.Refresh();
-            //openGLControl.RenderTrigger = RenderTrigger.Manual;
-            //openGLControl.DoRender();
+            openGLControl.RenderTrigger = RenderTrigger.Manual;
+            openGLControl.DoRender();
 
             //установить границы скруллбаров и сбросить мышки-местоположение в лево-нижний угол
             Refresh_Window();
@@ -74,7 +74,6 @@ namespace slae_project
         /// <param name="e">The <see cref="RenderEventArgs"/> instance containing the event data.</param>
         private void openGLControl_OpenGLDraw(object sender, RenderEventArgs e)
         {
-            GD.mouse.setMouseData(MouseButtons.ToString(), Cursor.Position.X - Location.X - openGLControl.Location.X - 8, - Cursor.Position.Y + Location.Y + Size.Height + openGLControl.Location.Y - 30, 1, 1);
             GD.RealDraw(); 
         }
 
@@ -144,8 +143,9 @@ namespace slae_project
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SharpGLForm_MouseMove(object sender, MouseEventArgs e)
+        private void openGLControl_MouseMove(object sender, MouseEventArgs e)
         {
+            GD.mouse.setMouseData(MouseButtons.ToString(), Cursor.Position.X, Cursor.Position.Y, Cursor.Position.X - Location.X - openGLControl.Location.X - 8, -Cursor.Position.Y + Location.Y + Size.Height + openGLControl.Location.Y - 30);
             //Меняем курсор мышки на разные в зависимости нажата левая кнопка мышки или нет.
             if (MouseButtons.ToString() == "Left")
             {
@@ -433,7 +433,5 @@ namespace slae_project
             //Обновили 
             Application.DoEvents();
         }
-
-        
     }
 }

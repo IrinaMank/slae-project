@@ -142,16 +142,14 @@ namespace slae_project
 
             Grid.DeadPoint.x = 0;
             Grid.Y_nullificate();
-            //draw_white_square(0, openGLControl.Height, openGLControl.Width, openGLControl.Height - 40);
-            //draw_white_square(0, openGLControl.Height, 40, 0);
 
-            int CentrX = mouse.x;// (int)((double)mouse.x);// / mouse.Width * openGLControl.Width);
-            //int CentrY = openGLControl.Height - mouse.y;
-            int CentrY = mouse.y;// (int)((double)mouse.y);// / mouse.Height * openGLControl.Height);
-            string str = openGLControl.Location.X.ToString();
-            string str2 = openGLControl.Location.Y.ToString();
-            draw_line(0, CentrY, openGLControl.Width, CentrY, false,0, 1, 0);
-            draw_line(CentrX, 0, CentrX, openGLControl.Height, false, 0, 1, 0);
+            //Целеуказатель плюсиком зеленый
+            draw_line(0, mouse.true_y, openGLControl.Width, mouse.true_y, false,0, 1, 0);
+            draw_line(mouse.true_x, 0, mouse.true_x, openGLControl.Height, false, 0, 1, 0);
+
+            //Draw_Text(mouse.true_x, mouse.true_y, obj.Name, false);
+            //
+
 
             //List_Of_Objects.Reverse();
             //Для каждой матрицы в списке объектов
@@ -173,9 +171,9 @@ namespace slae_project
 
                 Grid.X_move();
                 int Count_by_Y = 1;
-                
 
-                Draw_Horizontal_numbers_for_matrix(obj);
+
+                if (Belongs_yCellArea()) Draw_Horizontal_numbers_for_matrix(obj);
                 Grid.Y_move();
 
                 int X_start = Grid.cursorP.x;
@@ -187,8 +185,14 @@ namespace slae_project
                 int X_new = Grid.cursorP.x;
                 int Y_new = Grid.cursorP.y;
 
-                
 
+                int Target_Y_value = mouse.ShiftedPosition.y + Grid.yCellSize / 4 - mouse.true_y;
+                int Target_Y_radius = Grid.yCellSize / 2;
+
+                //int Target_X_value = mouse.ShiftedPosition.x + Grid.xCellSize / 2 - 12 - mouse.true_x;
+                //int Target_X_radius = Grid.xCellSize / 2;
+
+                Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + (((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize)).ToString(), false);
                 //Для каждого вектора текущей матрицы
                 foreach (var vect in obj.Matrix)
                 {
@@ -197,15 +201,24 @@ namespace slae_project
                     Y_old = Grid.cursorP.y;
 
                     if (Belongs_yCellArea())
-                        Draw_Text(Grid.cursorP.x + 25, Grid.cursorP.y, Count_by_Y.ToString(),true);
+                    {
+                        Draw_Text(Grid.cursorP.x + 25, Grid.cursorP.y, Count_by_Y.ToString(), true);
+
+                        if (Math.Abs(Grid.cursorP.y + Target_Y_value) < Target_Y_radius)
+                        Draw_Text(mouse.true_x + 20, mouse.true_y, "- " + Count_by_Y.ToString(), false);
+                    }
                     Count_by_Y++; Grid.X_move();
 
-                        //Пиши его значения в строчку
-                        foreach (var value in vect)
-                        {
-                            if (Belongs_yCellArea()&&Belongs_xCellArea()) Draw_Text(Grid.cursorP.x, Grid.cursorP.y, value.ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()),true);
-                            Grid.X_move();
-                        }
+                    //Пиши его значения в строчку
+                    foreach (var value in vect)
+                    {
+                        if (Belongs_yCellArea())
+                            if (Belongs_xCellArea())
+                            {
+                                Draw_Text(Grid.cursorP.x, Grid.cursorP.y, value.ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()), true);
+                            }
+                        Grid.X_move();
+                    }
 
                     //Рисует горизонтальные линии матрицы
                     if (Belongs_yCellArea())
@@ -252,10 +265,14 @@ namespace slae_project
         {
             OpenGL gl = openGLControl.OpenGL;
             int Count_by_X = 1;
+
             foreach (var value in obj.Matrix[0])
             {
                 if (Belongs_xCellArea())
+                {
                     Draw_Text(Grid.cursorP.x, Grid.cursorP.y, Count_by_X.ToString(), true, 0.0f, 0.0f, 0.0f);
+                }
+
                 Grid.X_move();
                 Count_by_X++;
             }
@@ -413,9 +430,9 @@ namespace slae_project
 
         public string mousebuttons;
         public int x, y;
-        public int Width = 1, Height = 1;
-        public void setMouseData(string str, int _x, int _y, int _Width, int _Height)
-        { mousebuttons = str; x = _x; y = _y; Mouse_movements(); Width = _Width; Height = _Height; }
+        public int true_x = 1, true_y = 1;
+        public void setMouseData(string str, int _x, int _y, int _true_x, int _true_y)
+        { mousebuttons = str; x = _x; y = _y; Mouse_movements(); true_x = _true_x; true_y = _true_y; }
 
         double mouse_decrease = 1;
         public void Mouse_movements()

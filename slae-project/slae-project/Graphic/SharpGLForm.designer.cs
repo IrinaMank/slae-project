@@ -76,6 +76,7 @@
             this.openGLControl.OpenGLDraw += new SharpGL.RenderEventHandler(this.openGLControl_OpenGLDraw);
             this.openGLControl.Resized += new System.EventHandler(this.openGLControl_Resized);
             this.openGLControl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.openGLControl_MouseDown);
+            this.openGLControl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.openGLControl_MouseMove);
             this.openGLControl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.openGLControl_MouseUp);
             this.openGLControl.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.openGLControl_MouseScroller);
             // 
@@ -404,7 +405,6 @@
             this.Controls.Add(this.openGLControl);
             this.Name = "SharpGLForm";
             this.Text = "Графическое отображение";
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SharpGLForm_MouseMove);
             this.Resize += new System.EventHandler(this.SharpGLForm_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
