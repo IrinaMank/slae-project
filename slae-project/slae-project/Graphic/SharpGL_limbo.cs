@@ -13,7 +13,10 @@ namespace slae_project
 
         private SharpGLForm SharpForm = null;
 
+        //Сюда добавлять матрицы на отображения. Примеры в функции UserGuide_To_Graphic
         public List<GraphicData.GraphicObject> List_Of_Objects;
+
+        //Желательно проверять доступность List_of_Objects перед его вызовом.
         public bool List_of_Objects_is_Available()
         {
             if (SharpForm != null)
@@ -21,10 +24,14 @@ namespace slae_project
                     return true;
             return false;
         }
+
+        //Обновления окна. Вызывать после добавления или удалений матриц из List_of_objects
         public void Refresh_Window()
         {
             if (List_of_Objects_is_Available()) SharpForm.Refresh_Window();
         }
+
+        //Конструктор. Параметр самовызова для ленивости.
         public SharpGL_limbo(bool SelfCallingThingWhenFalse = false)
         {
             //Убрать эту строку когда появится наша кнопочка. А можно и оставить.
@@ -35,6 +42,8 @@ namespace slae_project
         //SharpGL_limbo sharpGL_limbo = new SharpGL_limbo(true); //рядом с кнопочкой
         //sharpGL_limbo.SharpGLCallTheWindow_for_Button(); //в кнопочку
 
+
+        //открывает окно, если оно не было открыто и делает доступным его для добавления матриц
         public void SharpGLCallTheWindow_for_The_Button()
         {
             if (SharpForm != null)
@@ -50,13 +59,24 @@ namespace slae_project
                 User_Guide_To_Graphic();
             }
         }
+
+        //закрывает окно графики если оно существует
         public void SharpGLclose()
         {
             if (List_of_Objects_is_Available()) SharpForm.Close();
         }
         private bool ShowExample = true;
+
+        //Инструкция
         private void User_Guide_To_Graphic()
         {
+            //SharpGLCallTheWindow_for_The_Button() открывает окно графики и 
+            //Делает доступным для записи в List_of_Objects
+
+            //SharpGLclose() закрывает окно и лишает доступности для записи
+
+            //List_of_Objects_is_Available() Проверка доступности для записи
+
             //Примеры добавляемых объектов
             double single_value = 5;
 
@@ -78,9 +98,9 @@ namespace slae_project
             this.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
             this.List_Of_Objects.Add(new GraphicData.GraphicObject("bigdouble", bigdouble));
             this.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix", randomMatrix));
-            //SharpForm.GD.List_Of_Objects.RemoveAt(1); Удалить какойто конкретный
-            //SharpForm.GD.List_Of_Objects.Clear(); //Удалить все.
-            //SharpForm.GD.List_Of_Objects.RemoveAt(List_Of_Objects.Count() - 1); //Удалить последний
+            //this.List_Of_Objects.RemoveAt(1); Удалить какойто конкретный
+            //this.List_Of_Objects.Clear(); //Удалить все.
+            //this.List_Of_Objects.RemoveAt(List_Of_Objects.Count() - 1); //Удалить последний
 
             //ВАЖНО! После добавлений или удалений вызывать вот эту функцию.
             this.Refresh_Window();
