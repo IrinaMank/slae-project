@@ -46,27 +46,6 @@ namespace slae_project
             //установить границы скруллбаров и сбросить мышки-местоположение в лево-нижний угол
             Refresh_Window();
         }
-        public class SharpGLWrappedThread
-        {
-            Thread my_thread;
-            public SharpGLWrappedThread()
-            {
-                my_thread = new Thread(Controller);
-                my_thread.Start();
-
-            }
-            void Controller()
-            {
-
-                while (true) { }
-                /*while (true)
-                {
-                    if (SharpForm != null)
-                        if (!SharpForm.Created)
-                            Application.Exit();
-                } */
-            }
-        }
         /// <summary>
         /// Handles the OpenGLDraw event of the openGLControl control.
         /// </summary>
@@ -151,7 +130,6 @@ namespace slae_project
             {
                 //Тут высчитывается насколько сместился курсор мышки нажатой
                 
-
                 Cursor.Current = Cursors.NoMove2D;
                 GD.mouse.isPressed = true;
 
@@ -168,9 +146,6 @@ namespace slae_project
             {
                 Cursor.Current = Cursors.Hand;
             }
-
-
-
             openGLControl.Refresh();
 
             //Эту штуку приходится вызывать когда чтото с мышкой поделал.
@@ -237,6 +212,17 @@ namespace slae_project
             radioButton2_Double.Checked = false;
             radioButton3_Exponential.Checked = false;
             GD.font_format = 0;
+
+            radioButton1_Number_disabled.Checked = false;
+            GD.TargetNumber = true;
+
+            GD.TargetNumber = true;
+            GD.TargetPlus = true;
+            radioButton1_Number_enabled.Checked = true;
+            radioButton1_Number_disabled.Checked = false;
+            radioButton2_TargetPlus_Enabled.Checked = true;
+            radioButton1_TargetPlus_Disabled.Checked = false;
+            
             Refresh_Window();
         }
 
@@ -419,6 +405,7 @@ namespace slae_project
             {
                 radioButton1_Number_disabled.Checked = false;
                 GD.TargetNumber = true;
+                openGLControl.Refresh();
             }
         }
 
@@ -428,6 +415,7 @@ namespace slae_project
             {
                 radioButton1_Number_enabled.Checked = false;
                 GD.TargetNumber = false;
+                openGLControl.Refresh();
             }
         }
 
@@ -437,6 +425,7 @@ namespace slae_project
             {
                 radioButton1_TargetPlus_Disabled.Checked = false;
                 GD.TargetPlus = true;
+                openGLControl.Refresh();
             }
         }
 
@@ -446,7 +435,9 @@ namespace slae_project
             {
                 radioButton2_TargetPlus_Enabled.Checked = false;
                 GD.TargetPlus = false;
+                openGLControl.Refresh();
             }
+            
         }
     }
 }

@@ -28,25 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1_Graphic = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // button1_Graphic
-            // 
-            this.button1_Graphic.Location = new System.Drawing.Point(93, 112);
-            this.button1_Graphic.Name = "button1_Graphic";
-            this.button1_Graphic.Size = new System.Drawing.Size(75, 23);
-            this.button1_Graphic.TabIndex = 0;
-            this.button1_Graphic.Text = "Графика";
-            this.button1_Graphic.UseVisualStyleBackColor = true;
-            this.button1_Graphic.Click += new System.EventHandler(this.button1_Graphic_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Controls.Add(this.button1_Graphic);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
@@ -54,8 +42,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button button1_Graphic;
     }
 }
 

@@ -9,7 +9,7 @@ namespace slae_project
     public partial class SharpGLForm
     {
 
-        public void setAutoCell()
+        private void setAutoCell()
         {
             int maxWidth = 1;
             int maxAppropriateWidth = 0;

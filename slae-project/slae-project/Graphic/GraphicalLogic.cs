@@ -83,8 +83,6 @@ namespace slae_project
         public List<GraphicObject> List_Of_Objects = new List<GraphicObject>();
 
         public Boolean IsTextEnabled = true;
-        public void TextDisable() { IsTextEnabled = false; }
-        public void TextEnable() { IsTextEnabled = true; }
 
         public void Add_objects()
         {
@@ -107,14 +105,14 @@ namespace slae_project
         PointInt xCellArea;
         PointInt yCellArea;
         private const int AreaRadius = 2;
-        public bool Belongs_xCellArea()
+        private bool Belongs_xCellArea()
         {
             int TempX = mouse.ShiftedPosition.x / Grid.xCellSize;
             if (Grid.X_Y_counter.x > TempX - AreaRadius && Grid.X_Y_counter.x < TempX + openGLControl.Width / Grid.xCellSize + AreaRadius)
                 return true;
             else return false;
         }
-        public bool Belongs_yCellArea()
+        private bool Belongs_yCellArea()
         {
             int TempY = (mouse.ShiftedPosition.y + openGLControl.Height) / Grid.yCellSize;
             if (Grid.X_Y_counter.y > TempY - openGLControl.Height / Grid.yCellSize - AreaRadius && Grid.X_Y_counter.y < TempY + AreaRadius)
@@ -331,7 +329,7 @@ namespace slae_project
             gl.Vertex(x_to, y_to, Line_Height);
             gl.End();
         }
-        private void draw_white_square(int x_from, int y_from, int x_to, int y_to)
+        /*private void draw_white_square(int x_from, int y_from, int x_to, int y_to)
         {
             //x_from -= mouse.ShiftedPosition.x;
             //y_from += mouse.ShiftedPosition.y;
@@ -355,7 +353,7 @@ namespace slae_project
             
 
             gl.End();
-        }
+        }*/
     }
     
     
