@@ -61,7 +61,11 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Graphic\AutoCellAdjust.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Graphic\GraphicalLogic.cs" />
+    <Compile Include="Graphic\SharpGL_limbo.cs" />
     <Compile Include="Matrix\CoordinateMatrix.cs" />
     <Compile Include="Matrix\ILinearOperator.cs" />
     <Compile Include="Matrix\IMatrix.cs" />

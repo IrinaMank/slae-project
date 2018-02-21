@@ -30,13 +30,13 @@
         {
             this.openGLControl = new SharpGL.OpenGLControl();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.radioButton1_TargetPlus_Disabled = new System.Windows.Forms.RadioButton();
+            this.radioButton2_TargetPlus_Enabled = new System.Windows.Forms.RadioButton();
+            this.label2 = new System.Windows.Forms.Label();
             this.button_reset = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.trackBar_FontSize = new System.Windows.Forms.TrackBar();
-            this.label2 = new System.Windows.Forms.Label();
-            this.trackBar_CellHeight = new System.Windows.Forms.TrackBar();
-            this.label3 = new System.Windows.Forms.Label();
-            this.trackBar_CellWidth = new System.Windows.Forms.TrackBar();
             this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.radioButton3_Exponential = new System.Windows.Forms.RadioButton();
@@ -46,17 +46,21 @@
             this.label5 = new System.Windows.Forms.Label();
             this.trackBar_QuantityAfterPoint = new System.Windows.Forms.TrackBar();
             this.button_exit = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.radioButton1_Number_disabled = new System.Windows.Forms.RadioButton();
+            this.radioButton1_Number_enabled = new System.Windows.Forms.RadioButton();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.label6_FAQ = new System.Windows.Forms.Label();
             this.label7_FAQ_move_phrase = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_FontSize)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_CellHeight)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_CellWidth)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_QuantityAfterPoint)).BeginInit();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // openGLControl
@@ -87,19 +91,19 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.button_reset, 0, 11);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.trackBar_FontSize, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.trackBar_CellHeight, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.trackBar_CellWidth, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 7);
             this.tableLayoutPanel1.Controls.Add(this.button_refresh, 0, 10);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 8);
             this.tableLayoutPanel1.Controls.Add(this.trackBar_QuantityAfterPoint, 0, 9);
             this.tableLayoutPanel1.Controls.Add(this.button_exit, 0, 12);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 5);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(565, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 13;
@@ -120,6 +124,70 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(181, 521);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel4.ColumnCount = 2;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.Controls.Add(this.radioButton1_TargetPlus_Disabled, 1, 0);
+            this.tableLayoutPanel4.Controls.Add(this.radioButton2_TargetPlus_Enabled, 0, 0);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(4, 87);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 1;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(173, 34);
+            this.tableLayoutPanel4.TabIndex = 15;
+            // 
+            // radioButton1_TargetPlus_Disabled
+            // 
+            this.radioButton1_TargetPlus_Disabled.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioButton1_TargetPlus_Disabled.AutoSize = true;
+            this.radioButton1_TargetPlus_Disabled.Location = new System.Drawing.Point(89, 3);
+            this.radioButton1_TargetPlus_Disabled.Name = "radioButton1_TargetPlus_Disabled";
+            this.radioButton1_TargetPlus_Disabled.Size = new System.Drawing.Size(81, 28);
+            this.radioButton1_TargetPlus_Disabled.TabIndex = 1;
+            this.radioButton1_TargetPlus_Disabled.TabStop = true;
+            this.radioButton1_TargetPlus_Disabled.Text = "выкл.";
+            this.radioButton1_TargetPlus_Disabled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radioButton1_TargetPlus_Disabled.UseVisualStyleBackColor = true;
+            this.radioButton1_TargetPlus_Disabled.CheckedChanged += new System.EventHandler(this.radioButton1_TargetPlus_Disabled_CheckedChanged);
+            // 
+            // radioButton2_TargetPlus_Enabled
+            // 
+            this.radioButton2_TargetPlus_Enabled.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioButton2_TargetPlus_Enabled.AutoSize = true;
+            this.radioButton2_TargetPlus_Enabled.Checked = true;
+            this.radioButton2_TargetPlus_Enabled.Location = new System.Drawing.Point(3, 3);
+            this.radioButton2_TargetPlus_Enabled.Name = "radioButton2_TargetPlus_Enabled";
+            this.radioButton2_TargetPlus_Enabled.Size = new System.Drawing.Size(80, 28);
+            this.radioButton2_TargetPlus_Enabled.TabIndex = 0;
+            this.radioButton2_TargetPlus_Enabled.TabStop = true;
+            this.radioButton2_TargetPlus_Enabled.Text = "вкл.";
+            this.radioButton2_TargetPlus_Enabled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radioButton2_TargetPlus_Enabled.UseVisualStyleBackColor = true;
+            this.radioButton2_TargetPlus_Enabled.CheckedChanged += new System.EventHandler(this.radioButton2_TargetPlus_Enabled_CheckedChanged);
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label2.Location = new System.Drawing.Point(4, 66);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(173, 17);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Целеуказатель вкл/выкл";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // button_reset
             // 
             this.button_reset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -129,7 +197,7 @@
             this.button_reset.Name = "button_reset";
             this.button_reset.Size = new System.Drawing.Size(173, 30);
             this.button_reset.TabIndex = 3;
-            this.button_reset.Text = "Сбросить";
+            this.button_reset.Text = "Сбросить настройки";
             this.button_reset.UseVisualStyleBackColor = true;
             this.button_reset.Click += new System.EventHandler(this.button_reset_Click);
             // 
@@ -158,58 +226,6 @@
             this.trackBar_FontSize.TabIndex = 3;
             this.trackBar_FontSize.Value = 14;
             this.trackBar_FontSize.ValueChanged += new System.EventHandler(this.trackBar_FontSize_ValueChanged);
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label2.Location = new System.Drawing.Point(4, 66);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(173, 17);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Высота ячейки";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // trackBar_CellHeight
-            // 
-            this.trackBar_CellHeight.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBar_CellHeight.Location = new System.Drawing.Point(4, 87);
-            this.trackBar_CellHeight.Maximum = 100;
-            this.trackBar_CellHeight.Minimum = 20;
-            this.trackBar_CellHeight.Name = "trackBar_CellHeight";
-            this.trackBar_CellHeight.Size = new System.Drawing.Size(173, 34);
-            this.trackBar_CellHeight.TabIndex = 5;
-            this.trackBar_CellHeight.Value = 30;
-            this.trackBar_CellHeight.ValueChanged += new System.EventHandler(this.trackBar_CellHeight_ValueChanged);
-            // 
-            // label3
-            // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label3.Location = new System.Drawing.Point(4, 128);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(173, 17);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Ширина ячейки";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // trackBar_CellWidth
-            // 
-            this.trackBar_CellWidth.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBar_CellWidth.Location = new System.Drawing.Point(4, 149);
-            this.trackBar_CellWidth.Maximum = 300;
-            this.trackBar_CellWidth.Minimum = 20;
-            this.trackBar_CellWidth.Name = "trackBar_CellWidth";
-            this.trackBar_CellWidth.Size = new System.Drawing.Size(173, 34);
-            this.trackBar_CellWidth.TabIndex = 7;
-            this.trackBar_CellWidth.Value = 75;
-            this.trackBar_CellWidth.ValueChanged += new System.EventHandler(this.trackBar_CellWidth_ValueChanged);
             // 
             // label4
             // 
@@ -303,7 +319,7 @@
             this.button_refresh.Name = "button_refresh";
             this.button_refresh.Size = new System.Drawing.Size(173, 30);
             this.button_refresh.TabIndex = 2;
-            this.button_refresh.Text = "Обновить";
+            this.button_refresh.Text = "Тест";
             this.button_refresh.UseVisualStyleBackColor = true;
             this.button_refresh.Click += new System.EventHandler(this.button_refresh_Click);
             // 
@@ -346,6 +362,70 @@
             this.button_exit.UseVisualStyleBackColor = true;
             this.button_exit.Click += new System.EventHandler(this.button_exit_Click);
             // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label3.Location = new System.Drawing.Point(4, 128);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(173, 17);
+            this.label3.TabIndex = 13;
+            this.label3.Text = " Номер строки и столб.";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Controls.Add(this.radioButton1_Number_disabled, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.radioButton1_Number_enabled, 0, 0);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(4, 149);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(173, 34);
+            this.tableLayoutPanel3.TabIndex = 14;
+            // 
+            // radioButton1_Number_disabled
+            // 
+            this.radioButton1_Number_disabled.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioButton1_Number_disabled.AutoSize = true;
+            this.radioButton1_Number_disabled.Location = new System.Drawing.Point(89, 3);
+            this.radioButton1_Number_disabled.Name = "radioButton1_Number_disabled";
+            this.radioButton1_Number_disabled.Size = new System.Drawing.Size(81, 28);
+            this.radioButton1_Number_disabled.TabIndex = 1;
+            this.radioButton1_Number_disabled.TabStop = true;
+            this.radioButton1_Number_disabled.Text = "выкл.";
+            this.radioButton1_Number_disabled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radioButton1_Number_disabled.UseVisualStyleBackColor = true;
+            this.radioButton1_Number_disabled.CheckedChanged += new System.EventHandler(this.radioButton1_Number_disabled_CheckedChanged);
+            // 
+            // radioButton1_Number_enabled
+            // 
+            this.radioButton1_Number_enabled.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioButton1_Number_enabled.AutoSize = true;
+            this.radioButton1_Number_enabled.Checked = true;
+            this.radioButton1_Number_enabled.Location = new System.Drawing.Point(3, 3);
+            this.radioButton1_Number_enabled.Name = "radioButton1_Number_enabled";
+            this.radioButton1_Number_enabled.Size = new System.Drawing.Size(80, 28);
+            this.radioButton1_Number_enabled.TabIndex = 0;
+            this.radioButton1_Number_enabled.TabStop = true;
+            this.radioButton1_Number_enabled.Text = "вкл.";
+            this.radioButton1_Number_enabled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radioButton1_Number_enabled.UseVisualStyleBackColor = true;
+            this.radioButton1_Number_enabled.CheckedChanged += new System.EventHandler(this.radioButton1_Number_enabled_CheckedChanged);
+            // 
             // vScrollBar1
             // 
             this.vScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -382,14 +462,14 @@
             // 
             // label7_FAQ_move_phrase
             // 
-            this.label7_FAQ_move_phrase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label7_FAQ_move_phrase.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label7_FAQ_move_phrase.AutoSize = true;
             this.label7_FAQ_move_phrase.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.label7_FAQ_move_phrase.Location = new System.Drawing.Point(21, 481);
             this.label7_FAQ_move_phrase.Name = "label7_FAQ_move_phrase";
-            this.label7_FAQ_move_phrase.Size = new System.Drawing.Size(489, 17);
+            this.label7_FAQ_move_phrase.Size = new System.Drawing.Size(47, 17);
             this.label7_FAQ_move_phrase.TabIndex = 5;
-            this.label7_FAQ_move_phrase.Text = "Перемещаться по полю можно с помощью зажатой левой кнопкой мыши";
+            this.label7_FAQ_move_phrase.Text = "Совет";
             this.label7_FAQ_move_phrase.Visible = false;
             // 
             // SharpGLForm
@@ -409,12 +489,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_FontSize)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_CellHeight)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_CellWidth)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_QuantityAfterPoint)).EndInit();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -428,10 +510,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button_refresh;
         private System.Windows.Forms.TrackBar trackBar_FontSize;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TrackBar trackBar_CellHeight;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TrackBar trackBar_CellWidth;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.RadioButton radioButton3_Exponential;
@@ -444,6 +522,14 @@
         private System.Windows.Forms.HScrollBar hScrollBar1;
         private System.Windows.Forms.Label label6_FAQ;
         private System.Windows.Forms.Label label7_FAQ_move_phrase;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.RadioButton radioButton1_TargetPlus_Disabled;
+        private System.Windows.Forms.RadioButton radioButton2_TargetPlus_Enabled;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.RadioButton radioButton1_Number_disabled;
+        private System.Windows.Forms.RadioButton radioButton1_Number_enabled;
     }
 }
 
