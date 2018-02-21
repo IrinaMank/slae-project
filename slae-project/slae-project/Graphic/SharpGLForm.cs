@@ -117,6 +117,14 @@ namespace slae_project
             this.Visible = false;
         }
 
+        void setMouseData()
+        {
+            //Первые Х и Y дают GD.mouse.x и GD.mouse.y которые являются точной позицией
+            //курсора для label элементов
+            //А второй Х и Y = GD.mouse.true_x & GD.mouse.true_y для openGLcontrol окна мышка
+            GD.mouse.setMouseData(MouseButtons.ToString(), Cursor.Position.X - Location.X - openGLControl.Location.X + 25, Cursor.Position.Y - Location.Y - openGLControl.Location.Y - 30, Cursor.Position.X - Location.X - openGLControl.Location.X - 8, -Cursor.Position.Y + Location.Y + Size.Height + openGLControl.Location.Y - 30);
+        }
+
         /// <summary>
         /// Происходит при движении мышкой над окном OpenGL
         /// </summary>
@@ -124,7 +132,8 @@ namespace slae_project
         /// <param name="e"></param>
         private void openGLControl_MouseMove(object sender, MouseEventArgs e)
         {
-            GD.mouse.setMouseData(MouseButtons.ToString(), Cursor.Position.X, Cursor.Position.Y, Cursor.Position.X - Location.X - openGLControl.Location.X - 8, -Cursor.Position.Y + Location.Y + Size.Height + openGLControl.Location.Y - 30);
+            setMouseData();
+
             //Меняем курсор мышки на разные в зависимости нажата левая кнопка мышки или нет.
             if (MouseButtons.ToString() == "Left")
             {
@@ -372,25 +381,6 @@ namespace slae_project
             openGLControl.Refresh();
         }
 
-        /// <summary>
-        /// Когда мышка парит над вопросиком в левом нижнем углу экрана.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void label6_FAQ_MouseHover(object sender, EventArgs e)
-        {
-            GD.mouse.setMouseData(MouseButtons.ToString(), Cursor.Position.X, Cursor.Position.Y, Cursor.Position.X - Location.X - openGLControl.Location.X - 8, -Cursor.Position.Y + Location.Y + Size.Height + openGLControl.Location.Y - 30);
-            label7_FAQ_move_phrase.Location = new Point(GD.mouse.true_x, GD.mouse.true_y);
-            label7_FAQ_move_phrase.Visible = true;
-        }
-
-        /// <summary>
-        /// Когда мышка прекращает парить над вопросиком в левом нижнем углу экрана.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-
-
         private int e_Delta_old = 0;
         private void openGLControl_MouseScroller(object sender, MouseEventArgs e)
         {
@@ -446,6 +436,22 @@ namespace slae_project
                 openGLControl.Refresh();
             }
             
+        }
+        private void label_tip(string tip, int shift_x = 0, int shift_y = 0)
+        {
+            setMouseData();
+            label7_FAQ_move_phrase.Text = tip;
+            label7_FAQ_move_phrase.Location = new Point(GD.mouse.x + shift_x, GD.mouse.y + shift_y);
+            label7_FAQ_move_phrase.Visible = true;
+        }
+        private void label6_FAQ_MouseHover(object sender, EventArgs e)
+        {
+            label_tip("С помощью зажатой левой кнопкой мыши, а так же роликом\n" +
+                "можно перемещаться по полю тоже.",0,-20);
+        }
+        private void label6_FAQ_MouseLeave(object sender, EventArgs e)
+        {
+            label7_FAQ_move_phrase.Visible = false;
         }
     }
 }

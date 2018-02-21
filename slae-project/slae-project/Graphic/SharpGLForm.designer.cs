@@ -457,17 +457,19 @@
             this.label6_FAQ.TabIndex = 4;
             this.label6_FAQ.Text = "?";
             this.label6_FAQ.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label6_FAQ.MouseLeave += new System.EventHandler(this.label6_FAQ_MouseLeave);
             this.label6_FAQ.MouseHover += new System.EventHandler(this.label6_FAQ_MouseHover);
             // 
             // label7_FAQ_move_phrase
             // 
             this.label7_FAQ_move_phrase.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label7_FAQ_move_phrase.AutoSize = true;
             this.label7_FAQ_move_phrase.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.label7_FAQ_move_phrase.Location = new System.Drawing.Point(21, 481);
             this.label7_FAQ_move_phrase.Name = "label7_FAQ_move_phrase";
-            this.label7_FAQ_move_phrase.Size = new System.Drawing.Size(489, 17);
+            this.label7_FAQ_move_phrase.Size = new System.Drawing.Size(47, 17);
             this.label7_FAQ_move_phrase.TabIndex = 5;
-            this.label7_FAQ_move_phrase.Text = "Перемещаться по полю можно с помощью зажатой левой кнопкой мыши";
+            this.label7_FAQ_move_phrase.Text = "Совет";
             this.label7_FAQ_move_phrase.Visible = false;
             // 
             // SharpGLForm
