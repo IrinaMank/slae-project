@@ -30,11 +30,11 @@ namespace slae_project
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpGLForm"/> class.
         /// </summary>
-        public SharpGLForm()
+        public SharpGLForm(bool visibility)
         {
             InitializeComponent();
             //SharpGLWrappedThread ThreadController = new SharpGLWrappedThread();
-
+            Visible = visibility;
             //Облегчим себе жизнь. Передадим в главную логическую сразу.
             GD = new GraphicData(openGLControl);
 
@@ -114,7 +114,7 @@ namespace slae_project
         /// <param name="e"></param>
         private void button_exit_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Visible = false;
         }
 
         /// <summary>
@@ -194,22 +194,17 @@ namespace slae_project
         private void button_refresh_Click(object sender, EventArgs e)
         {
             GD.List_Of_Objects.Clear();
-            sharpGL_limbo_access.Initialization(ref GD.List_Of_Objects);
-            sharpGL_limbo_access.UserGuide_access();
+            UR.UserGuide_access(ref GD.List_Of_Objects);
+            Refresh_Window();
         }
-        public class SharpGL_limbo_access : SharpGL_limbo
+        public class UR_access : UserGuide
         {
-            public void Initialization(ref List<GraphicData.GraphicObject> List_Of_Objects)
+            public void UserGuide_access(ref List<GraphicData.GraphicObject> List_Of_Objects)
             {
-                this.List_Of_Objects = List_Of_Objects;
-            }
-            public void UserGuide_access()
-            {
-                
-                User_Guide_To_Graphic();
+                User_Guide_To_Graphic(ref List_Of_Objects);
             }
         }
-        SharpGL_limbo_access sharpGL_limbo_access = new SharpGL_limbo_access();
+        UR_access UR = new UR_access();
         /// <summary>
         /// Сбрасывает все настройки по умолчанию в менюшке справа
         /// И заодно заново отрисовывает и сбрасывает ваше местоположение

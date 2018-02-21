@@ -17,7 +17,7 @@ namespace slae_project
         public List<GraphicData.GraphicObject> List_Of_Objects;
 
         //Желательно проверять доступность List_of_Objects перед его вызовом.
-        public bool List_of_Objects_is_Available()
+        public bool SharpGL_is_opened()
         {
             if (SharpForm != null)
                 if (SharpForm.Enabled)
@@ -28,57 +28,91 @@ namespace slae_project
         //Обновления окна. Вызывать после добавления или удалений матриц из List_of_objects
         public void Refresh_Window()
         {
-            if (List_of_Objects_is_Available()) SharpForm.Refresh_Window();
+            if (SharpGL_is_opened()) SharpForm.Refresh_Window();
         }
 
         //Конструктор. Параметр самовызова для ленивости.
-        public SharpGL_limbo(bool SelfCallingThingWhenFalse = false)
+        public SharpGL_limbo(bool SelfInit = false)
         {
-            //Поставь тут ! чтобы окно само открывалось.
-            if (SelfCallingThingWhenFalse == false) SharpGLCallTheWindow_for_The_Button();
+            //if (SelfInit) SharpGL_Open_hidden();
+
+            //Расскоментируй для самооткрытия
+            //if (SelfInit) SharpGL_Open();
         }
 
         //Образец кнопочки. ,будущей. потом.
         //SharpGL_limbo sharpGL_limbo = new SharpGL_limbo(true); //рядом с кнопочкой
-        //sharpGL_limbo.SharpGLCallTheWindow_for_Button(); //в кнопочку
+        //sharpGL_limbo.SharpGL_Open(); //в кнопочку
 
-
-        //открывает окно, если оно не было открыто и делает доступным его для добавления матриц
-        public void SharpGLCallTheWindow_for_The_Button()
+        //Скрывает, если окно существует
+        public void SharpGL_Hide()
         {
-            if (SharpForm != null)
-                if (SharpForm.Enabled)
-                    SharpForm.Close();
-            SharpForm = new SharpGLForm();
-            SharpForm.Visible = true;
-
-            this.List_Of_Objects = SharpForm.GD.List_Of_Objects;
-
-            if (ShowExample)
+            if (SharpGL_is_opened())
             {
-                User_Guide_To_Graphic();
+                SharpForm.Visible = false;
+                this.List_Of_Objects = SharpForm.GD.List_Of_Objects;
             }
         }
 
-        //закрывает окно графики если оно существует
-        public void SharpGLclose()
+        //Открывает в скрытом режиме. Можно добавлять матрицы.
+        public void SharpGL_Open_hidden()
         {
-            if (List_of_Objects_is_Available()) SharpForm.Close();
+            if (!SharpGL_is_opened()) SharpForm = new SharpGLForm(false);
+            this.List_Of_Objects = SharpForm.GD.List_Of_Objects;
         }
-        private bool ShowExample = false;
 
-        //Инструкция
-        protected void User_Guide_To_Graphic()
+        //Открывает сразу видимым. Можно добавлять матрицы.
+        public void SharpGL_Open()
         {
-            //SharpGLCallTheWindow_for_The_Button() открывает окно графики и 
+            if (!SharpGL_is_opened()) SharpForm = new SharpGLForm(true);
+            this.List_Of_Objects = SharpForm.GD.List_Of_Objects;
+        }
+        //закрывает окно графики если оно существует. Совсем закрыть
+        //По умолчанию открыто скрытым.
+        public void SharpGL_Close()
+        {
+            if (SharpGL_is_opened()) SharpForm.Close();
+        }
+
+        //Сбрасывает все данные
+        public void SharpGL_Reset_Full()
+        {
+            bool visible_status = true;
+            if (SharpGL_is_opened()) 
+            {
+                visible_status = SharpForm.Visible;
+                SharpForm.Close();
+            }
+            if (visible_status) SharpGL_Open(); else if (visible_status) SharpGL_Open_hidden();
+        }
+        public void SharpGL_Reset()
+        {
+            if (SharpGL_is_opened())
+            {
+                List_Of_Objects.Clear();
+            }
+        }
+
+
+        
+    }
+    public class UserGuide
+    {
+        //Инструкция к классу SharpGL_limbo, создан в Form1
+        protected void User_Guide_To_Graphic(ref List<GraphicData.GraphicObject> List_Of_Objects)
+        {
+            //SharpGL_Open_hidden() открывает окно графики и 
             //Делает доступным для записи в List_of_Objects
 
-            //SharpGLclose() закрывает окно и лишает доступности для записи
+            //SharpGL_Open() открывает окно видимым и дает доступ к записи, показывает если оно существует
+            //SharpGL_Open_hidden() открывает окно скрытым и дает доступ к записи
+            //SharpGL_Hide() скрывает окно если оно существует
+            //SharpGL_Reset_Full() сбрасывает данные через переоткрытие, если окно открыто. не меняет статус видимости
+            //SharpGL_Reset() сбрасывает данные введенных матриц если окно открыто
+            //SharpGL_Close() закрывает окно и лишает доступности для записи
 
-            //List_of_Objects_is_Available() Проверка доступности для записи
+            //SharpGL_is_opened() Проверка доступности для записи
 
-            if (List_of_Objects_is_Available())
-            this.List_Of_Objects = SharpForm.GD.List_Of_Objects;
             //Примеры добавляемых объектов
             double single_value = 5;
 
@@ -93,19 +127,19 @@ namespace slae_project
                 for (int j = 0; j < 100; j++) bigdouble[i, j] = i + j;
             //Добавление объектов на отображение.
             //Имя и Число/Вектор/Матрица в формате (double, double[], double[,], List<double>, List<List<double>>) на выбор.
-            this.List_Of_Objects.Add(new GraphicData.GraphicObject("vector4ik", vector4ik));
-            this.List_Of_Objects.Add(new GraphicData.GraphicObject("single_value", single_value));
-            this.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_vectorik", listed_vectorik));
-            this.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
-            this.List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
-            this.List_Of_Objects.Add(new GraphicData.GraphicObject("bigdouble", bigdouble));
-            this.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix", randomMatrix));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("vector4ik", vector4ik));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("single_value", single_value));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("listed_vectorik", listed_vectorik));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("bigdouble", bigdouble));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix", randomMatrix));
             //this.List_Of_Objects.RemoveAt(1); Удалить какойто конкретный
             //this.List_Of_Objects.Clear(); //Удалить все.
             //this.List_Of_Objects.RemoveAt(List_Of_Objects.Count() - 1); //Удалить последний
 
             //ВАЖНО! После добавлений или удалений вызывать вот эту функцию.
-            this.Refresh_Window();
+            //SharpGL_limbo.Refresh_Window();
         }
     }
 }

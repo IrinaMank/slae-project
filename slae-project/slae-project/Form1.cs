@@ -17,6 +17,6 @@ namespace slae_project
             InitializeComponent();
         }
         SharpGL_limbo sharpGL_limbo = new SharpGL_limbo(true); //рядом с кнопочкой
-        //sharpGL_limbo.SharpGLCallTheWindow_for_The_Button(); //в кнопочке
+        //sharpGL_limbo.SharpGL_Open(); //в кнопочке
     }
 }
