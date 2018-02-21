@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-
+using System.IO;
 using SharpGL;
 
 namespace slae_project
@@ -193,19 +193,25 @@ namespace slae_project
             openGLControl.Refresh();
         }
 
-
-        /// <summary>
+          /// <summary>
         /// Справа в менюшке есть кнопка "Обновить", это она.
         /// Просто обновляет изображение и ничего больше.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button_refresh_Click(object sender, EventArgs e)
+        private void button_test_Click(object sender, EventArgs e)
         {
+            /*
             GD.List_Of_Objects.Clear();
             UR.UserGuide_access(ref GD.List_Of_Objects);
             Refresh_Window();
+            */
+
+            AsyncTest.Start();
+
         }
+        Asynchronized AsyncTest = new Asynchronized();
+
         public class UR_access : UserGuide
         {
             public void UserGuide_access(ref List<GraphicData.GraphicObject> List_Of_Objects)

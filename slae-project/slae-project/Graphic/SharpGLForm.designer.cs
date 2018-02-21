@@ -321,7 +321,7 @@
             this.button_refresh.TabIndex = 2;
             this.button_refresh.Text = "Тест";
             this.button_refresh.UseVisualStyleBackColor = true;
-            this.button_refresh.Click += new System.EventHandler(this.button_refresh_Click);
+            this.button_refresh.Click += new System.EventHandler(this.button_test_Click);
             // 
             // label5
             // 
