@@ -37,7 +37,7 @@ namespace slae_project
             //if (SelfInit) SharpGL_Open_hidden();
 
             //Расскоментируй для самооткрытия
-            //if (SelfInit) SharpGL_Open();
+            //if(SelfInit) SharpGL_Open();
         }
 
         //Образец кнопочки. ,будущей. потом.

@@ -379,6 +379,8 @@ namespace slae_project
         /// <param name="e"></param>
         private void label6_FAQ_MouseHover(object sender, EventArgs e)
         {
+            GD.mouse.setMouseData(MouseButtons.ToString(), Cursor.Position.X, Cursor.Position.Y, Cursor.Position.X - Location.X - openGLControl.Location.X - 8, -Cursor.Position.Y + Location.Y + Size.Height + openGLControl.Location.Y - 30);
+            label7_FAQ_move_phrase.Location = new Point(GD.mouse.true_x, GD.mouse.true_y);
             label7_FAQ_move_phrase.Visible = true;
         }
 
@@ -387,10 +389,7 @@ namespace slae_project
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void label6_FAQ_MouseLeave(object sender, EventArgs e)
-        {
-            label7_FAQ_move_phrase.Visible = false;
-        }
+
 
         private int e_Delta_old = 0;
         private void openGLControl_MouseScroller(object sender, MouseEventArgs e)

@@ -197,7 +197,7 @@
             this.button_reset.Name = "button_reset";
             this.button_reset.Size = new System.Drawing.Size(173, 30);
             this.button_reset.TabIndex = 3;
-            this.button_reset.Text = "Сбросить";
+            this.button_reset.Text = "Сбросить настройки";
             this.button_reset.UseVisualStyleBackColor = true;
             this.button_reset.Click += new System.EventHandler(this.button_reset_Click);
             // 
@@ -457,13 +457,11 @@
             this.label6_FAQ.TabIndex = 4;
             this.label6_FAQ.Text = "?";
             this.label6_FAQ.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label6_FAQ.MouseLeave += new System.EventHandler(this.label6_FAQ_MouseLeave);
             this.label6_FAQ.MouseHover += new System.EventHandler(this.label6_FAQ_MouseHover);
             // 
             // label7_FAQ_move_phrase
             // 
-            this.label7_FAQ_move_phrase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label7_FAQ_move_phrase.AutoSize = true;
+            this.label7_FAQ_move_phrase.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label7_FAQ_move_phrase.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.label7_FAQ_move_phrase.Location = new System.Drawing.Point(21, 481);
             this.label7_FAQ_move_phrase.Name = "label7_FAQ_move_phrase";
