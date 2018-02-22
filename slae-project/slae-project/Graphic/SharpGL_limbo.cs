@@ -20,7 +20,7 @@ namespace slae_project
         public bool SharpGL_is_opened()
         {
             if (SharpForm != null)
-                if (SharpForm.Enabled)
+                if (!SharpForm.IsDisposed)
                     return true;
             return false;
         }

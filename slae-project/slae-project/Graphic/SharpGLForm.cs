@@ -460,16 +460,16 @@ namespace slae_project
             label7_FAQ_move_phrase.Visible = false;
         }
 
-        protected SharpGLSaveLoad SharpGLSaveLoadForm = null;
+        SharpGLSaveLoad SharpGLSaveLoadForm = null;
         private void button1_SaveLoad_Click(object sender, EventArgs e)
         {
-            //if (!SharpGLSaveLoadForm_is_opened()) 
+            if (!SharpGLSaveLoadForm_is_opened()) 
             SharpGLSaveLoadForm = new SharpGLSaveLoad();
         }
         public bool SharpGLSaveLoadForm_is_opened()
         {
             if (SharpGLSaveLoadForm != null)
-                if (SharpGLSaveLoadForm.Enabled)
+                if (!SharpGLSaveLoadForm.IsDisposed)
                     return true;
             return false;
         }

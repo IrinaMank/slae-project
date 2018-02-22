@@ -15,6 +15,7 @@ namespace slae_project
         public SharpGLSaveLoad()
         {
             InitializeComponent();
+            this.Show();
         }
     }
 }
