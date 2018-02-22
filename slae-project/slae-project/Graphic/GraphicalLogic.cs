@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SharpGL;
-
+using System.IO;
 namespace slae_project
 {
     /// <summary>
@@ -36,6 +36,45 @@ namespace slae_project
             mouse.ShiftedPosition.x = Math.Abs(Grid.cursorP.x);
         }
 
+        private void ReadMatrix(string path)
+        {
+            using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default);
+            {
+                
+
+            }
+
+        }
+
+        private void WriteMatrix(string path)
+        {
+            using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default)) ;
+            {
+
+
+            }
+
+        }
+
+        private void WriteSettings(string path)
+        {
+            using (StreamWriter reader = new StreamWriter(path, false, System.Text.Encoding.Default)) ;
+            {
+
+
+            }
+
+        }
+
+        private void ReadSettings(string path)
+        {
+            using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default);
+            {
+
+
+            }
+
+        }
         /// <summary>
         /// Вот пример одного выводимого объекта
         /// У него есть имя. И у него есть матрица.
