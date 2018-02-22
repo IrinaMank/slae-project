@@ -37,7 +37,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.property_matrix = new System.Windows.Forms.CheckedListBox();
-            this.startProgramm = new System.Windows.Forms.Button();
+            this.start = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.менюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.информацияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,51 +49,57 @@
             // format_matrix
             // 
             this.format_matrix.FormattingEnabled = true;
-            this.format_matrix.Location = new System.Drawing.Point(401, 94);
+            this.format_matrix.Location = new System.Drawing.Point(301, 76);
+            this.format_matrix.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.format_matrix.Name = "format_matrix";
-            this.format_matrix.Size = new System.Drawing.Size(325, 24);
+            this.format_matrix.Size = new System.Drawing.Size(245, 21);
             this.format_matrix.TabIndex = 0;
             // 
             // solver
             // 
             this.solver.FormattingEnabled = true;
-            this.solver.Location = new System.Drawing.Point(401, 134);
+            this.solver.Location = new System.Drawing.Point(301, 109);
+            this.solver.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.solver.Name = "solver";
-            this.solver.Size = new System.Drawing.Size(325, 24);
+            this.solver.Size = new System.Drawing.Size(245, 21);
             this.solver.TabIndex = 1;
             // 
             // precond
             // 
             this.precond.FormattingEnabled = true;
-            this.precond.Location = new System.Drawing.Point(401, 175);
+            this.precond.Location = new System.Drawing.Point(301, 142);
+            this.precond.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.precond.Name = "precond";
-            this.precond.Size = new System.Drawing.Size(325, 24);
+            this.precond.Size = new System.Drawing.Size(245, 21);
             this.precond.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(128, 94);
+            this.label1.Location = new System.Drawing.Point(96, 76);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(127, 17);
+            this.label1.Size = new System.Drawing.Size(100, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "Формат матрицы:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(128, 134);
+            this.label2.Location = new System.Drawing.Point(96, 109);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 17);
+            this.label2.Size = new System.Drawing.Size(60, 13);
             this.label2.TabIndex = 4;
             this.label2.Text = "Решатель:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(128, 175);
+            this.label3.Location = new System.Drawing.Point(96, 142);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(154, 17);
+            this.label3.Size = new System.Drawing.Size(119, 13);
             this.label3.TabIndex = 5;
             this.label3.Text = "Предобусловливание:";
             // 
@@ -104,9 +110,11 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.property_matrix);
-            this.groupBox1.Location = new System.Drawing.Point(131, 229);
+            this.groupBox1.Location = new System.Drawing.Point(98, 186);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(198, 117);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(148, 95);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Матрица:";
@@ -114,20 +122,23 @@
             // property_matrix
             // 
             this.property_matrix.FormattingEnabled = true;
-            this.property_matrix.Location = new System.Drawing.Point(18, 26);
+            this.property_matrix.Location = new System.Drawing.Point(14, 21);
+            this.property_matrix.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.property_matrix.Name = "property_matrix";
-            this.property_matrix.Size = new System.Drawing.Size(155, 72);
+            this.property_matrix.Size = new System.Drawing.Size(117, 49);
             this.property_matrix.TabIndex = 7;
             this.property_matrix.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.property_matrix_ItemCheck);
             // 
-            // startProgramm
+            // start
             // 
-            this.startProgramm.Location = new System.Drawing.Point(425, 316);
-            this.startProgramm.Name = "startProgramm";
-            this.startProgramm.Size = new System.Drawing.Size(90, 30);
-            this.startProgramm.TabIndex = 7;
-            this.startProgramm.Text = "Старт";
-            this.startProgramm.UseVisualStyleBackColor = true;
+            this.start.Location = new System.Drawing.Point(319, 257);
+            this.start.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.start.Name = "start";
+            this.start.Size = new System.Drawing.Size(68, 24);
+            this.start.TabIndex = 7;
+            this.start.Text = "Старт";
+            this.start.UseVisualStyleBackColor = true;
+            this.start.Click += new System.EventHandler(this.start_Click);
             // 
             // menuStrip1
             // 
@@ -136,7 +147,8 @@
             this.менюToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(840, 28);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(630, 24);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -146,27 +158,27 @@
             this.информацияToolStripMenuItem,
             this.выходToolStripMenuItem});
             this.менюToolStripMenuItem.Name = "менюToolStripMenuItem";
-            this.менюToolStripMenuItem.Size = new System.Drawing.Size(63, 24);
+            this.менюToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.менюToolStripMenuItem.Text = "Меню";
             // 
             // информацияToolStripMenuItem
             // 
             this.информацияToolStripMenuItem.Name = "информацияToolStripMenuItem";
-            this.информацияToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.информацияToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.информацияToolStripMenuItem.Text = "Информация";
             // 
             // выходToolStripMenuItem
             // 
             this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            this.выходToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.выходToolStripMenuItem.Text = "Выход";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(840, 393);
-            this.Controls.Add(this.startProgramm);
+            this.ClientSize = new System.Drawing.Size(630, 319);
+            this.Controls.Add(this.start);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -176,9 +188,9 @@
             this.Controls.Add(this.format_matrix);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -198,7 +210,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckedListBox property_matrix;
-        private System.Windows.Forms.Button startProgramm;
+        private System.Windows.Forms.Button start;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem менюToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem информацияToolStripMenuItem;

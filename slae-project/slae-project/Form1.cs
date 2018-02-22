@@ -12,9 +12,19 @@ namespace slae_project
 {
     public partial class Form1 : Form
     {
+        public string str_format_matrix;
+        public string str_solver;
+        public string str_precond;
+        public bool property_matr = false;
+        Factory factory;
+
+        
+
         public Form1()
         {
+            
             InitializeComponent();
+            openFileDialog1.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";
             format_matrix.Items.Add("Плотный");
             format_matrix.Items.Add("Строчный");
             format_matrix.Items.Add("Строчно - столбцовый");
@@ -40,7 +50,6 @@ namespace slae_project
             property_matrix.Items.Add("Симметричная");
             property_matrix.Items.Add("Несимметричная");
             property_matrix.SelectionMode = SelectionMode.One;
-
         }
         // выбор только одного элемента в checkBox
         private void property_matrix_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -50,6 +59,26 @@ namespace slae_project
                 foreach (int index in list.CheckedIndices)
                     if (index != e.Index)
                         list.SetItemChecked(index, false);
+        }
+
+        private void start_Click(object sender, EventArgs e)
+        {
+             str_format_matrix = format_matrix.SelectedItem.ToString();
+             str_solver = solver.SelectedItem.ToString();
+             str_precond = precond.SelectedItem.ToString();
+             property_matr = false;
+            if (property_matrix.SelectedIndex == 1)
+                property_matr = true;
+            else property_matr = false;
+
+            Form2 formats = new Form2();
+            formats.Show();
+            
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
