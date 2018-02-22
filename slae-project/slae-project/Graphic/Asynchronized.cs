@@ -18,8 +18,8 @@ namespace slae_project
         {
             Console.WriteLine("стартует цикл");
             // это запускает длинное вычисление на пуле потоков
-            var result = await Task.Run(ResultOfCycle);
-            Console.WriteLine("выполнился цикл, результат: " + result);
+            //var result = await Task.Run(ResultOfCycle);
+            //Console.WriteLine("выполнился цикл, результат: " + result);
         }
 
         int ResultOfCycle()

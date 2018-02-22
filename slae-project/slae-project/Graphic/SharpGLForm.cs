@@ -201,16 +201,16 @@ namespace slae_project
         /// <param name="e"></param>
         private void button_test_Click(object sender, EventArgs e)
         {
-            /*
+            
             GD.List_Of_Objects.Clear();
             UR.UserGuide_access(ref GD.List_Of_Objects);
             Refresh_Window();
-            */
+            
 
-            AsyncTest.Start();
+            //AsyncTest.Start();
 
         }
-        Asynchronized AsyncTest = new Asynchronized();
+        //Asynchronized AsyncTest = new Asynchronized();
 
         public class UR_access : UserGuide
         {
