@@ -37,23 +37,59 @@ namespace slae_project
         }
 
 
-
-        private void WriteMatrix(string path)
+        private string matrixRowToString(List<double>row)
         {
-            using (StreamWriter reader = new StreamWriter(path, false, System.Text.Encoding.Default)) ;
+            string outputLine = "";
+            foreach (double element in row)
             {
+                outputLine += element.ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString());
+                outputLine += " ; ";
+            }
+            return outputLine;
+        }
 
+        private List<double> stringToMatrixRow(string strRow)
+        {
+            List<double> row = new List<double>();
+            string[] numbers = strRow.Split(new char[] {';',' '}, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string element in numbers)
+            {
+                try
+                {
+                    row.Add(Convert.ToDouble(element));
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine("Can't convert double in your file");
+                }
+            }
+            return row;
+        }
 
+        private void WriteMatrix(string path, int numObject)
+        {
+            using (StreamWriter writer = new StreamWriter(path, false, System.Text.Encoding.Default))
+            {
+                    writer.WriteLine(List_Of_Objects[numObject].Name);
+                    foreach(List<double> row in List_Of_Objects[numObject].Matrix)
+                    {
+                        writer.WriteLine(matrixRowToString(row));
+                    }
             }
 
         }
 
-        private void ReadMatrix(string path)
+        private void ReadMatrix(string path, int numObject)
         {
-            using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default)) ;
+            using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default))
             {
+                List_Of_Objects[numObject] = new GraphicObject(reader.ReadLine());
                 
-
+                string line = "";
+                while ((line = reader.ReadLine()) != null)
+                {
+                    List_Of_Objects[numObject].Matrix.Add(stringToMatrixRow(line));
+                }
             }
 
         }
@@ -61,7 +97,7 @@ namespace slae_project
 
         private void WriteSettings(string path)
         {
-            using (StreamWriter reader = new StreamWriter(path, false, System.Text.Encoding.Default)) ;
+            using (StreamWriter writer = new StreamWriter(path, false, System.Text.Encoding.Default))
             {
 
 
@@ -71,7 +107,7 @@ namespace slae_project
 
         private void ReadSettings(string path)
         {
-            using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default));
+            using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default))
             {
 
 
@@ -88,7 +124,10 @@ namespace slae_project
             public string Name;
 
             public List<List<double>> Matrix = new List<List<double>>();
-
+            public GraphicObject(string _Name)
+            {
+                this.Name = _Name;
+            }
             public GraphicObject(string _Name, List<List<double>> _Matrix)
             {
                 this.Name = _Name; Matrix = _Matrix;
