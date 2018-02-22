@@ -36,9 +36,21 @@ namespace slae_project
             mouse.ShiftedPosition.x = Math.Abs(Grid.cursorP.x);
         }
 
+
+
+        private void WriteMatrix(string path)
+        {
+            using (StreamWriter reader = new StreamWriter(path, false, System.Text.Encoding.Default)) ;
+            {
+
+
+            }
+
+        }
+
         private void ReadMatrix(string path)
         {
-            using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default);
+            using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default)) ;
             {
                 
 
@@ -46,15 +58,6 @@ namespace slae_project
 
         }
 
-        private void WriteMatrix(string path)
-        {
-            using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default)) ;
-            {
-
-
-            }
-
-        }
 
         private void WriteSettings(string path)
         {
@@ -68,7 +71,7 @@ namespace slae_project
 
         private void ReadSettings(string path)
         {
-            using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default);
+            using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default));
             {
 
 
