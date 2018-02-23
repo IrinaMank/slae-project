@@ -234,6 +234,7 @@ namespace slae_project
             //Draw_Text(mouse.true_x, mouse.true_y, obj.Name, false);
             //
 
+            int Matrix_Counter = 0;
 
             //List_Of_Objects.Reverse();
             //Для каждой матрицы в списке объектов
@@ -250,7 +251,7 @@ namespace slae_project
                 }
                 Grid.X_move();
                 //Напиши как называется текущая матрица
-                Draw_Text(Grid.cursorP.x, Grid.cursorP.y, obj.Name, true);
+                Draw_Text(Grid.cursorP.x, Grid.cursorP.y, "#" + Matrix_Counter.ToString() + " - "+ obj.Name, true); Matrix_Counter++;
                 Grid.Y_move(); Grid.X_nullificate();
 
                 Grid.X_move();

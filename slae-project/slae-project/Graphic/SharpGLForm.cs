@@ -577,29 +577,47 @@ namespace slae_project
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Graphic.SaveLoad subWindow = new Graphic.SaveLoad(Graphic.SaveLoad.WindowType.Save);
-            subWindow.Show();
+            SaveLoad SaveLoadForm = new SaveLoad(SaveLoad.WindowType.Save);
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Graphic.SaveLoad subWindow = new Graphic.SaveLoad(Graphic.SaveLoad.WindowType.Load);
-            subWindow.Show();
+            SaveLoad SaveLoadForm = new SaveLoad(SaveLoad.WindowType.Load);
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        
+
+        //Рядовой! Я хочу свои настройки обратно!
+        //Так точно товарищ-генерал!
+        private void SharpGLForm_Load(object sender, EventArgs e)
+        {
+            ReadSettings();
+            Refresh_Window();
+        }
+
+        //Сохрани текущие настройки рядовой!
+        //Сэр, Есть Сэр!
+        private void SharpGLForm_Deactivate(object sender, EventArgs e)
         {
             WriteSettings();
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void button1_SaveLoad_Click(object sender, EventArgs e)
         {
-            ReadSettings();
-            Refresh_Window();
-
-
+            if (!SaveLoadForm_is_opened())
+            {
+                SaveLoadForm = new SaveLoad(SaveLoad.WindowType.Save);
+            }
+            
         }
-
-        
+        SaveLoad SaveLoadForm = null;
+        public bool SaveLoadForm_is_opened()
+        {
+            if (SaveLoadForm != null)
+                if (!SaveLoadForm.IsDisposed)
+                    return true;
+            return false;
+        }
     }
 }

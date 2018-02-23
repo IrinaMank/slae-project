@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace slae_project.Graphic
+namespace slae_project
 {
 
     public partial class SaveLoad : Form 
@@ -21,30 +21,11 @@ namespace slae_project.Graphic
         WindowType WinType;
         public SaveLoad(WindowType type)
         {
-            WinType = type;
             InitializeComponent();
-            countOfMatrices = (Form1.sharpGL_limbo.List_Of_Objects.Count - 1);
-            switch (type)
-            {
-                case WindowType.Load:
-                    this.Name = "Load";
-                    this.Text = "Load";
-                    button1.Text = "Load";
-                    break;
-                case WindowType.Save:
-                    checkBox1.Visible = false;
-                    button1.Text = "Save";
-                    this.Name = "Save";
-                    this.Text = "Save";
-                    break;
-            }
-        }
+            Show();
 
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
+            WindowTypeChanger(SaveLoad.WindowType.Save);
         }
-        
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
@@ -59,16 +40,6 @@ namespace slae_project.Graphic
             }
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Visible(object sender, EventArgs e)
-        {
-            GroupBox groupBox1 = (GroupBox)sender;
-            groupBox1.Text = "Номер матрицы: (0-" + countOfMatrices.ToString() + ")";
-        }
         private bool CheckNumberFromString(string str, ref int place)
         {
             if (int.TryParse(textBox2.Text, out place) == false)
@@ -86,6 +57,8 @@ namespace slae_project.Graphic
             }
             return true;
         }
+
+        //Кнопка финального сохранения и загрузки
         private void button1_Click(object sender, EventArgs e)
         {
             int place = 0;
@@ -120,11 +93,57 @@ namespace slae_project.Graphic
                     break;
 
             }
+            Refresher();
+        }
+
+
+        private void radioButton1_Save_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1_Save.Checked)
+            {
+                radioButton2_Load.Checked = false;
+                WindowTypeChanger(SaveLoad.WindowType.Save);
+            }
+        }
+
+        private void radioButton2_Load_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton2_Load.Checked)
+            {
+                radioButton1_Save.Checked = false;
+                WindowTypeChanger(SaveLoad.WindowType.Load);
+            }
+        }
+
+        private void Refresher()
+        {
+            countOfMatrices = (Form1.sharpGL_limbo.List_Of_Objects.Count - 1);
+            groupBox1.Text = "Номер матрицы: (0-" + countOfMatrices.ToString() + ")";
+        }
+        private void WindowTypeChanger(WindowType type)
+        {
+            WinType = type;
+            Refresher();
+            switch (type)
+            {
+                case WindowType.Load:
+                    checkBox1.Visible = true;
+                    this.Name = "Загрузить";
+                    this.Text = "Загрузить";
+                    button1.Text = "Загрузить в файл";
+                    break;
+                case WindowType.Save:
+                    checkBox1.Visible = false;
+                    button1.Text = "Сохранить в файл";
+                    this.Name = "Сохранить";
+                    this.Text = "Сохранить";
+                    break;
+            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
+            Refresher();
         }
     }
 }
