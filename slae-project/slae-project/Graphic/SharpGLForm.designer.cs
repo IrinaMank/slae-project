@@ -45,18 +45,21 @@
             this.button_refresh = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.trackBar_QuantityAfterPoint = new System.Windows.Forms.TrackBar();
-            this.button_exit = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.radioButton1_Number_disabled = new System.Windows.Forms.RadioButton();
             this.radioButton1_Number_enabled = new System.Windows.Forms.RadioButton();
+            this.button_exit = new System.Windows.Forms.Button();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.label6_FAQ = new System.Windows.Forms.Label();
             this.label7_FAQ_move_phrase = new System.Windows.Forms.Label();
-            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
@@ -65,6 +68,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_QuantityAfterPoint)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
+            this.tableLayoutPanel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // openGLControl
@@ -107,11 +111,12 @@
             this.tableLayoutPanel1.Controls.Add(this.trackBar_QuantityAfterPoint, 0, 9);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.button_exit, 0, 13);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel5, 0, 12);
+            this.tableLayoutPanel1.Controls.Add(this.button_exit, 0, 14);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel6, 0, 13);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(565, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 14;
+            this.tableLayoutPanel1.RowCount = 15;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.999701F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.999402F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.999701F));
@@ -125,7 +130,8 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.999402F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.999402F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.00368F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(181, 521);
             this.tableLayoutPanel1.TabIndex = 1;
@@ -140,12 +146,12 @@
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.Controls.Add(this.radioButton1_TargetPlus_Disabled, 1, 0);
             this.tableLayoutPanel4.Controls.Add(this.radioButton2_TargetPlus_Enabled, 0, 0);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(4, 80);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(4, 76);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(173, 31);
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(173, 29);
             this.tableLayoutPanel4.TabIndex = 15;
             // 
             // radioButton1_TargetPlus_Disabled
@@ -156,7 +162,7 @@
             this.radioButton1_TargetPlus_Disabled.AutoSize = true;
             this.radioButton1_TargetPlus_Disabled.Location = new System.Drawing.Point(89, 3);
             this.radioButton1_TargetPlus_Disabled.Name = "radioButton1_TargetPlus_Disabled";
-            this.radioButton1_TargetPlus_Disabled.Size = new System.Drawing.Size(81, 25);
+            this.radioButton1_TargetPlus_Disabled.Size = new System.Drawing.Size(81, 23);
             this.radioButton1_TargetPlus_Disabled.TabIndex = 1;
             this.radioButton1_TargetPlus_Disabled.TabStop = true;
             this.radioButton1_TargetPlus_Disabled.Text = "выкл.";
@@ -173,7 +179,7 @@
             this.radioButton2_TargetPlus_Enabled.Checked = true;
             this.radioButton2_TargetPlus_Enabled.Location = new System.Drawing.Point(3, 3);
             this.radioButton2_TargetPlus_Enabled.Name = "radioButton2_TargetPlus_Enabled";
-            this.radioButton2_TargetPlus_Enabled.Size = new System.Drawing.Size(80, 25);
+            this.radioButton2_TargetPlus_Enabled.Size = new System.Drawing.Size(80, 23);
             this.radioButton2_TargetPlus_Enabled.TabIndex = 0;
             this.radioButton2_TargetPlus_Enabled.TabStop = true;
             this.radioButton2_TargetPlus_Enabled.Text = "вкл.";
@@ -187,7 +193,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label2.Location = new System.Drawing.Point(4, 59);
+            this.label2.Location = new System.Drawing.Point(4, 55);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(173, 17);
             this.label2.TabIndex = 12;
@@ -199,9 +205,9 @@
             this.button_reset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.button_reset.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.button_reset.Location = new System.Drawing.Point(4, 403);
+            this.button_reset.Location = new System.Drawing.Point(4, 380);
             this.button_reset.Name = "button_reset";
-            this.button_reset.Size = new System.Drawing.Size(173, 30);
+            this.button_reset.Size = new System.Drawing.Size(173, 29);
             this.button_reset.TabIndex = 3;
             this.button_reset.Text = "Сбросить настройки";
             this.button_reset.UseVisualStyleBackColor = true;
@@ -213,7 +219,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label1.Location = new System.Drawing.Point(4, 2);
+            this.label1.Location = new System.Drawing.Point(4, 1);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(173, 17);
             this.label1.TabIndex = 1;
@@ -224,11 +230,11 @@
             // 
             this.trackBar_FontSize.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBar_FontSize.Location = new System.Drawing.Point(4, 23);
+            this.trackBar_FontSize.Location = new System.Drawing.Point(4, 22);
             this.trackBar_FontSize.Maximum = 24;
             this.trackBar_FontSize.Minimum = 4;
             this.trackBar_FontSize.Name = "trackBar_FontSize";
-            this.trackBar_FontSize.Size = new System.Drawing.Size(173, 31);
+            this.trackBar_FontSize.Size = new System.Drawing.Size(173, 29);
             this.trackBar_FontSize.TabIndex = 3;
             this.trackBar_FontSize.Value = 14;
             this.trackBar_FontSize.ValueChanged += new System.EventHandler(this.trackBar_FontSize_ValueChanged);
@@ -239,7 +245,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label4.Location = new System.Drawing.Point(4, 173);
+            this.label4.Location = new System.Drawing.Point(4, 163);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(173, 17);
             this.label4.TabIndex = 8;
@@ -257,13 +263,13 @@
             this.tableLayoutPanel2.Controls.Add(this.radioButton3_Exponential, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.radioButton2_Double, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.radioButton1_General, 0, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(4, 194);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(4, 184);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 3;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(173, 107);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(173, 99);
             this.tableLayoutPanel2.TabIndex = 9;
             // 
             // radioButton3_Exponential
@@ -273,9 +279,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.radioButton3_Exponential.AutoSize = true;
             this.radioButton3_Exponential.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.radioButton3_Exponential.Location = new System.Drawing.Point(3, 73);
+            this.radioButton3_Exponential.Location = new System.Drawing.Point(3, 69);
             this.radioButton3_Exponential.Name = "radioButton3_Exponential";
-            this.radioButton3_Exponential.Size = new System.Drawing.Size(167, 31);
+            this.radioButton3_Exponential.Size = new System.Drawing.Size(167, 27);
             this.radioButton3_Exponential.TabIndex = 2;
             this.radioButton3_Exponential.Text = "Экспоненциальный";
             this.radioButton3_Exponential.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -289,9 +295,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.radioButton2_Double.AutoSize = true;
             this.radioButton2_Double.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.radioButton2_Double.Location = new System.Drawing.Point(3, 38);
+            this.radioButton2_Double.Location = new System.Drawing.Point(3, 36);
             this.radioButton2_Double.Name = "radioButton2_Double";
-            this.radioButton2_Double.Size = new System.Drawing.Size(167, 29);
+            this.radioButton2_Double.Size = new System.Drawing.Size(167, 27);
             this.radioButton2_Double.TabIndex = 1;
             this.radioButton2_Double.Text = "Дробный";
             this.radioButton2_Double.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -308,7 +314,7 @@
             this.radioButton1_General.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.radioButton1_General.Location = new System.Drawing.Point(3, 3);
             this.radioButton1_General.Name = "radioButton1_General";
-            this.radioButton1_General.Size = new System.Drawing.Size(167, 29);
+            this.radioButton1_General.Size = new System.Drawing.Size(167, 27);
             this.radioButton1_General.TabIndex = 0;
             this.radioButton1_General.TabStop = true;
             this.radioButton1_General.Text = "Основной";
@@ -321,9 +327,9 @@
             this.button_refresh.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.button_refresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.button_refresh.Location = new System.Drawing.Point(4, 365);
+            this.button_refresh.Location = new System.Drawing.Point(4, 344);
             this.button_refresh.Name = "button_refresh";
-            this.button_refresh.Size = new System.Drawing.Size(173, 30);
+            this.button_refresh.Size = new System.Drawing.Size(173, 29);
             this.button_refresh.TabIndex = 2;
             this.button_refresh.Text = "Тест";
             this.button_refresh.UseVisualStyleBackColor = true;
@@ -335,7 +341,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label5.Location = new System.Drawing.Point(4, 306);
+            this.label5.Location = new System.Drawing.Point(4, 287);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(173, 17);
             this.label5.TabIndex = 10;
@@ -347,26 +353,13 @@
             this.trackBar_QuantityAfterPoint.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBar_QuantityAfterPoint.Location = new System.Drawing.Point(4, 327);
+            this.trackBar_QuantityAfterPoint.Location = new System.Drawing.Point(4, 308);
             this.trackBar_QuantityAfterPoint.Maximum = 15;
             this.trackBar_QuantityAfterPoint.Name = "trackBar_QuantityAfterPoint";
-            this.trackBar_QuantityAfterPoint.Size = new System.Drawing.Size(173, 31);
+            this.trackBar_QuantityAfterPoint.Size = new System.Drawing.Size(173, 29);
             this.trackBar_QuantityAfterPoint.TabIndex = 11;
             this.trackBar_QuantityAfterPoint.Value = 3;
             this.trackBar_QuantityAfterPoint.ValueChanged += new System.EventHandler(this.trackBar_QuantityAfterPoint_ValueChanged);
-            // 
-            // button_exit
-            // 
-            this.button_exit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_exit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.button_exit.Location = new System.Drawing.Point(4, 479);
-            this.button_exit.Name = "button_exit";
-            this.button_exit.Size = new System.Drawing.Size(173, 30);
-            this.button_exit.TabIndex = 0;
-            this.button_exit.Text = "Выход";
-            this.button_exit.UseVisualStyleBackColor = true;
-            this.button_exit.Click += new System.EventHandler(this.button_exit_Click);
             // 
             // label3
             // 
@@ -374,7 +367,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label3.Location = new System.Drawing.Point(4, 116);
+            this.label3.Location = new System.Drawing.Point(4, 109);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(173, 17);
             this.label3.TabIndex = 13;
@@ -391,12 +384,12 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Controls.Add(this.radioButton1_Number_disabled, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.radioButton1_Number_enabled, 0, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(4, 137);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(4, 130);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(173, 31);
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(173, 29);
             this.tableLayoutPanel3.TabIndex = 14;
             // 
             // radioButton1_Number_disabled
@@ -407,7 +400,7 @@
             this.radioButton1_Number_disabled.AutoSize = true;
             this.radioButton1_Number_disabled.Location = new System.Drawing.Point(89, 3);
             this.radioButton1_Number_disabled.Name = "radioButton1_Number_disabled";
-            this.radioButton1_Number_disabled.Size = new System.Drawing.Size(81, 25);
+            this.radioButton1_Number_disabled.Size = new System.Drawing.Size(81, 23);
             this.radioButton1_Number_disabled.TabIndex = 1;
             this.radioButton1_Number_disabled.TabStop = true;
             this.radioButton1_Number_disabled.Text = "выкл.";
@@ -424,13 +417,64 @@
             this.radioButton1_Number_enabled.Checked = true;
             this.radioButton1_Number_enabled.Location = new System.Drawing.Point(3, 3);
             this.radioButton1_Number_enabled.Name = "radioButton1_Number_enabled";
-            this.radioButton1_Number_enabled.Size = new System.Drawing.Size(80, 25);
+            this.radioButton1_Number_enabled.Size = new System.Drawing.Size(80, 23);
             this.radioButton1_Number_enabled.TabIndex = 0;
             this.radioButton1_Number_enabled.TabStop = true;
             this.radioButton1_Number_enabled.Text = "вкл.";
             this.radioButton1_Number_enabled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.radioButton1_Number_enabled.UseVisualStyleBackColor = true;
             this.radioButton1_Number_enabled.CheckedChanged += new System.EventHandler(this.radioButton1_Number_enabled_CheckedChanged);
+            // 
+            // button_exit
+            // 
+            this.button_exit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_exit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.button_exit.Location = new System.Drawing.Point(4, 492);
+            this.button_exit.Name = "button_exit";
+            this.button_exit.Size = new System.Drawing.Size(173, 25);
+            this.button_exit.TabIndex = 0;
+            this.button_exit.Text = "Выход";
+            this.button_exit.UseVisualStyleBackColor = true;
+            this.button_exit.Click += new System.EventHandler(this.button_exit_Click);
+            // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.ColumnCount = 2;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.Controls.Add(this.button1, 0, 0);
+            this.tableLayoutPanel5.Controls.Add(this.button2, 1, 0);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(4, 416);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 1;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(173, 29);
+            this.tableLayoutPanel5.TabIndex = 16;
+            // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button1.Location = new System.Drawing.Point(3, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(80, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Сохр.матрицу";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button2.Location = new System.Drawing.Point(89, 3);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(81, 23);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "Загр.матрицу";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // vScrollBar1
             // 
@@ -478,42 +522,43 @@
             this.label7_FAQ_move_phrase.Text = "Совет";
             this.label7_FAQ_move_phrase.Visible = false;
             // 
-            // tableLayoutPanel5
+            // tableLayoutPanel6
             // 
-            this.tableLayoutPanel5.ColumnCount = 2;
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.Controls.Add(this.button1, 0, 0);
-            this.tableLayoutPanel5.Controls.Add(this.button2, 1, 0);
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(4, 441);
-            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
-            this.tableLayoutPanel5.RowCount = 1;
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(173, 31);
-            this.tableLayoutPanel5.TabIndex = 16;
+            this.tableLayoutPanel6.ColumnCount = 2;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel6.Controls.Add(this.button3, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this.button4, 1, 0);
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(4, 452);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.RowCount = 1;
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(173, 33);
+            this.tableLayoutPanel6.TabIndex = 17;
             // 
-            // button1
+            // button3
             // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(3, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(80, 25);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Save Matrix";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button3.Location = new System.Drawing.Point(3, 3);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(80, 27);
+            this.button3.TabIndex = 0;
+            this.button3.Text = "Сохр.настройки";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // button2
+            // button4
             // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button2.Location = new System.Drawing.Point(89, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(81, 25);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "LoadMatrix";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button4.Location = new System.Drawing.Point(89, 3);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(81, 27);
+            this.button4.TabIndex = 1;
+            this.button4.Text = "Загр.настройки";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // SharpGLForm
             // 
@@ -541,6 +586,7 @@
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
             this.tableLayoutPanel5.ResumeLayout(false);
+            this.tableLayoutPanel6.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -577,6 +623,9 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
     }
 }
 

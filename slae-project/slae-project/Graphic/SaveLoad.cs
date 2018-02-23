@@ -23,7 +23,7 @@ namespace slae_project.Graphic
         {
             WinType = type;
             InitializeComponent();
-            countOfMatrices = (Form1.sharpGL_limbo.Get_Form().GD.List_Of_Objects.Count - 1);
+            countOfMatrices = (Form1.sharpGL_limbo.List_Of_Objects.Count - 1);
             switch (type)
             {
                 case WindowType.Load:
@@ -96,7 +96,7 @@ namespace slae_project.Graphic
                     
                     if (checkBox1.Checked == true)
                     {
-                        place = Form1.sharpGL_limbo.Get_Form().GD.List_Of_Objects.Count();
+                        place = Form1.sharpGL_limbo.List_Of_Objects.Count();
                     }
                     else
                     {

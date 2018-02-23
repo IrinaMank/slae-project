@@ -111,25 +111,7 @@ namespace slae_project
         }
 
 
-        public void WriteSettings(string path)
-        {
-            using (StreamWriter writer = new StreamWriter(path, false, System.Text.Encoding.Default))
-            {
-
-
-            }
-
-        }
-
-        public void ReadSettings(string path)
-        {
-            using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default))
-            {
-
-
-            }
-
-        }
+        
         /// <summary>
         /// Вот пример одного выводимого объекта
         /// У него есть имя. И у него есть матрица.

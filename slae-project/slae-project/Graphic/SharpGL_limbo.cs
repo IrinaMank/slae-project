@@ -74,6 +74,16 @@ namespace slae_project
             SharpForm.GD.ReadMatrix(path,numObject);
 
         }
+
+        public void WriteSettings()
+        {
+                SharpForm.WriteSettings();
+        }
+
+        public void ReadSettings()
+        {
+                SharpForm.ReadSettings();
+        }
         //Открывает в скрытом режиме. Можно добавлять матрицы.
         public void SharpGL_Open_hidden()
         {
@@ -113,11 +123,7 @@ namespace slae_project
             }
         }
 
-        public SharpGLForm Get_Form()
-        {
-            return SharpForm;
-        }
-
+        
         
     }
     public class UserGuide

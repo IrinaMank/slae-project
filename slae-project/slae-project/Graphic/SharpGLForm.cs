@@ -15,7 +15,7 @@ using SharpGL;
 
 namespace slae_project
 {
-
+    
     /// <summary>
     /// The main form class.
     /// </summary>
@@ -26,7 +26,7 @@ namespace slae_project
         /// Главное что это структура хранения объектов(числа,векторов,матриц в нашем формате)
         /// </summary>
         public GraphicData GD;
-
+        public string setgsFileName = "settings.txt";
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpGLForm"/> class.
         /// </summary>
@@ -55,6 +55,27 @@ namespace slae_project
         {
             GD.RealDraw();
         }
+
+        public void WriteSettings()
+        {
+            using (StreamWriter writer = new StreamWriter(setgsFileName, false, System.Text.Encoding.Default))
+            {
+                setgsFileName
+
+            }
+
+        }
+
+        public void ReadSettings()
+        {
+            using (StreamReader reader = new StreamReader(setgsFileName, System.Text.Encoding.Default))
+            {
+
+
+            }
+
+        }
+
 
         /// <summary>
         /// Handles the OpenGLInitialized event of the openGLControl control.
@@ -470,6 +491,16 @@ namespace slae_project
         {
             Graphic.SaveLoad subWindow = new Graphic.SaveLoad(Graphic.SaveLoad.WindowType.Load);
             subWindow.Show();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            ReadSettings();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            WriteSettings();
         }
     }
 }
