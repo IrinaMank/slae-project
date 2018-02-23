@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.groupBox2_NumberMatrix = new System.Windows.Forms.GroupBox();
+            this.textBox2_NumberMatrix = new System.Windows.Forms.TextBox();
+            this.groupBox1_NameMatrix = new System.Windows.Forms.GroupBox();
+            this.textBox1_NameMatrix = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -40,58 +40,58 @@
             this.radioButton2_Load = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.button1 = new System.Windows.Forms.Button();
-            this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.groupBox2_NumberMatrix.SuspendLayout();
+            this.groupBox1_NameMatrix.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox2
+            // groupBox2_NumberMatrix
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.groupBox2_NumberMatrix.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.textBox2);
-            this.groupBox2.Location = new System.Drawing.Point(3, 127);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(330, 49);
-            this.groupBox2.TabIndex = 3;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Номер матрицы:";
+            this.groupBox2_NumberMatrix.Controls.Add(this.textBox2_NumberMatrix);
+            this.groupBox2_NumberMatrix.Location = new System.Drawing.Point(3, 127);
+            this.groupBox2_NumberMatrix.Name = "groupBox2_NumberMatrix";
+            this.groupBox2_NumberMatrix.Size = new System.Drawing.Size(330, 49);
+            this.groupBox2_NumberMatrix.TabIndex = 3;
+            this.groupBox2_NumberMatrix.TabStop = false;
+            this.groupBox2_NumberMatrix.Text = "Номер матрицы:";
             // 
-            // textBox2
+            // textBox2_NumberMatrix
             // 
-            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBox2_NumberMatrix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox2.Location = new System.Drawing.Point(50, 22);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(210, 20);
-            this.textBox2.TabIndex = 0;
+            this.textBox2_NumberMatrix.Location = new System.Drawing.Point(50, 22);
+            this.textBox2_NumberMatrix.Name = "textBox2_NumberMatrix";
+            this.textBox2_NumberMatrix.Size = new System.Drawing.Size(210, 20);
+            this.textBox2_NumberMatrix.TabIndex = 0;
             // 
-            // groupBox1
+            // groupBox1_NameMatrix
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.groupBox1_NameMatrix.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Location = new System.Drawing.Point(3, 72);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(330, 49);
-            this.groupBox1.TabIndex = 2;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Имя файла (.txt)";
+            this.groupBox1_NameMatrix.Controls.Add(this.textBox1_NameMatrix);
+            this.groupBox1_NameMatrix.Location = new System.Drawing.Point(3, 72);
+            this.groupBox1_NameMatrix.Name = "groupBox1_NameMatrix";
+            this.groupBox1_NameMatrix.Size = new System.Drawing.Size(330, 49);
+            this.groupBox1_NameMatrix.TabIndex = 2;
+            this.groupBox1_NameMatrix.TabStop = false;
+            this.groupBox1_NameMatrix.Text = "Имя файла (.txt)";
             // 
-            // textBox1
+            // textBox1_NameMatrix
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBox1_NameMatrix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(50, 19);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(210, 20);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textBox1_NameMatrix.Location = new System.Drawing.Point(50, 19);
+            this.textBox1_NameMatrix.Name = "textBox1_NameMatrix";
+            this.textBox1_NameMatrix.Size = new System.Drawing.Size(210, 20);
+            this.textBox1_NameMatrix.TabIndex = 0;
+            this.textBox1_NameMatrix.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // tableLayoutPanel1
             // 
@@ -100,8 +100,8 @@
             this.tableLayoutPanel1.Controls.Add(this.checkBox1, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.groupBox3, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox1_NameMatrix, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox2_NumberMatrix, 0, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -228,10 +228,10 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "SaveLoad";
             this.Text = "SaveLoad";
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.groupBox2_NumberMatrix.ResumeLayout(false);
+            this.groupBox2_NumberMatrix.PerformLayout();
+            this.groupBox1_NameMatrix.ResumeLayout(false);
+            this.groupBox1_NameMatrix.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -244,10 +244,10 @@
         }
 
         #endregion
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.GroupBox groupBox2_NumberMatrix;
+        private System.Windows.Forms.TextBox textBox2_NumberMatrix;
+        private System.Windows.Forms.GroupBox groupBox1_NameMatrix;
+        private System.Windows.Forms.TextBox textBox1_NameMatrix;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.GroupBox groupBox3;

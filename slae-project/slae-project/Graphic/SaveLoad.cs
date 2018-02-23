@@ -32,17 +32,17 @@ namespace slae_project
             CheckBox checkBox1 = (CheckBox)sender;
             if(checkBox1.Checked == true)
             {
-                textBox2.Enabled = false;
+                textBox2_NumberMatrix.Enabled = false;
             }
             else
             {
-                textBox2.Enabled = true;
+                textBox2_NumberMatrix.Enabled = true;
             }
         }
 
         private bool CheckNumberFromString(string str, ref int place)
         {
-            if (int.TryParse(textBox2.Text, out place) == false)
+            if (int.TryParse(str, out place) == false)
             {
                 MessageBox.Show("Это не число");
                 return false;
@@ -73,23 +73,26 @@ namespace slae_project
                     }
                     else
                     {
-                        if(CheckNumberFromString(textBox2.Text,ref place) == false)
+                        if(CheckNumberFromString(textBox2_NumberMatrix.Text,ref place) == false)
                         {
                             return;
                         }
                     }
-                    Form1.sharpGL_limbo.ReadMatrix(textBox1.Text + ".txt", place);
+                    Form1.sharpGL_limbo.ReadMatrix("GraphicData_" + textBox1_NameMatrix.Text + ".txt", place);
                     Form1.sharpGL_limbo.Refresh_Window();
-                    Close();
+
+                    MessageBox.Show("GraphicData_" + textBox1_NameMatrix.Text + ".txt" + " загружен.");
+                    //Close();
                     break;
                 case WindowType.Save:
-                    if (CheckNumberFromString(textBox2.Text, ref place) == false)
+                    if (CheckNumberFromString(textBox2_NumberMatrix.Text, ref place) == false)
                     {
                         return;
                     }
-                    Form1.sharpGL_limbo.WriteMatrix(textBox1.Text + ".txt", place);
-                   
-                    Close();
+                    Form1.sharpGL_limbo.WriteMatrix("GraphicData_" + textBox1_NameMatrix.Text + ".txt", place);
+
+                    MessageBox.Show("GraphicData_" + textBox1_NameMatrix.Text + ".txt" + " сохранен.");
+                    //Close();
                     break;
 
             }
@@ -118,7 +121,7 @@ namespace slae_project
         private void Refresher()
         {
             countOfMatrices = (Form1.sharpGL_limbo.List_Of_Objects.Count - 1);
-            groupBox1.Text = "Номер матрицы: (0-" + countOfMatrices.ToString() + ")";
+            groupBox2_NumberMatrix.Text = "Номер матрицы: (0-" + countOfMatrices.ToString() + ")";
         }
         private void WindowTypeChanger(WindowType type)
         {
