@@ -332,7 +332,8 @@ namespace slae_project
         /// <param name="e"></param>
         private void button_test_Click(object sender, EventArgs e)
         {
-            
+            GD.List_Of_Objects.Clear();
+            Refresh_Window();
             
             
             

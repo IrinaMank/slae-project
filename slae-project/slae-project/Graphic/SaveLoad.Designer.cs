@@ -83,7 +83,7 @@
             this.groupBox1_NameMatrix.Size = new System.Drawing.Size(330, 49);
             this.groupBox1_NameMatrix.TabIndex = 2;
             this.groupBox1_NameMatrix.TabStop = false;
-            this.groupBox1_NameMatrix.Text = "Имя файла (.txt)";
+            this.groupBox1_NameMatrix.Text = "Имя файла (GraphicData_?.txt)";
             // 
             // textBox1_NameMatrix
             // 

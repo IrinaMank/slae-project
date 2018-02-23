@@ -50,11 +50,11 @@
             this.radioButton1_Number_disabled = new System.Windows.Forms.RadioButton();
             this.radioButton1_Number_enabled = new System.Windows.Forms.RadioButton();
             this.button_exit = new System.Windows.Forms.Button();
+            this.button1_SaveLoad = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.label6_FAQ = new System.Windows.Forms.Label();
             this.label7_FAQ_move_phrase = new System.Windows.Forms.Label();
-            this.button1_SaveLoad = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
@@ -140,7 +140,7 @@
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(173, 32);
             this.tableLayoutPanel4.TabIndex = 15;
             // 
@@ -319,7 +319,7 @@
             this.button_refresh.Name = "button_refresh";
             this.button_refresh.Size = new System.Drawing.Size(173, 31);
             this.button_refresh.TabIndex = 2;
-            this.button_refresh.Text = "Тест";
+            this.button_refresh.Text = "Очистить";
             this.button_refresh.UseVisualStyleBackColor = true;
             this.button_refresh.Click += new System.EventHandler(this.button_test_Click);
             // 
@@ -376,7 +376,7 @@
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(173, 32);
             this.tableLayoutPanel3.TabIndex = 14;
             // 
@@ -425,6 +425,18 @@
             this.button_exit.UseVisualStyleBackColor = true;
             this.button_exit.Click += new System.EventHandler(this.button_exit_Click);
             // 
+            // button1_SaveLoad
+            // 
+            this.button1_SaveLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1_SaveLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.button1_SaveLoad.Location = new System.Drawing.Point(4, 436);
+            this.button1_SaveLoad.Name = "button1_SaveLoad";
+            this.button1_SaveLoad.Size = new System.Drawing.Size(173, 31);
+            this.button1_SaveLoad.TabIndex = 16;
+            this.button1_SaveLoad.Text = "Сохранение/Загрузка";
+            this.button1_SaveLoad.UseVisualStyleBackColor = true;
+            this.button1_SaveLoad.Click += new System.EventHandler(this.button1_SaveLoad_Click);
+            // 
             // vScrollBar1
             // 
             this.vScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -470,18 +482,6 @@
             this.label7_FAQ_move_phrase.TabIndex = 5;
             this.label7_FAQ_move_phrase.Text = "Совет";
             this.label7_FAQ_move_phrase.Visible = false;
-            // 
-            // button1_SaveLoad
-            // 
-            this.button1_SaveLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1_SaveLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.button1_SaveLoad.Location = new System.Drawing.Point(4, 436);
-            this.button1_SaveLoad.Name = "button1_SaveLoad";
-            this.button1_SaveLoad.Size = new System.Drawing.Size(173, 31);
-            this.button1_SaveLoad.TabIndex = 16;
-            this.button1_SaveLoad.Text = "Сохранение/Загрузка";
-            this.button1_SaveLoad.UseVisualStyleBackColor = true;
-            this.button1_SaveLoad.Click += new System.EventHandler(this.button1_SaveLoad_Click);
             // 
             // SharpGLForm
             // 
