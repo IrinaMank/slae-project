@@ -31,13 +31,27 @@ namespace slae_project
             if (SharpGL_is_opened()) SharpForm.Refresh_Window();
         }
 
+        private class UR_access : UserGuide
+        {
+            public void UserGuide_access(ref List<GraphicData.GraphicObject> List_Of_Objects)
+            {
+                User_Guide_To_Graphic(ref List_Of_Objects);
+            }
+        }
+        UR_access UR = new UR_access();
         //Конструктор. Параметр самовызова для ленивости.
         public SharpGL_limbo(bool SelfInit = false)
         {
             //if (SelfInit) SharpGL_Open_hidden();
 
             //Расскоментируй для самооткрытия
-            if (SelfInit) SharpGL_Open();
+            if (SelfInit)
+            {
+                SharpGL_Open();
+                UR.UserGuide_access(ref List_Of_Objects);
+                Refresh_Window();
+            }
+
         }
 
         //Образец кнопочки. ,будущей. потом.

@@ -325,9 +325,8 @@ namespace slae_project
         private void button_test_Click(object sender, EventArgs e)
         {
             
-            GD.List_Of_Objects.Clear();
-            UR.UserGuide_access(ref GD.List_Of_Objects);
-            Refresh_Window();
+            
+            
             
 
             //AsyncTest.Start();
@@ -335,14 +334,7 @@ namespace slae_project
         }
         //Asynchronized AsyncTest = new Asynchronized();
 
-        public class UR_access : UserGuide
-        {
-            public void UserGuide_access(ref List<GraphicData.GraphicObject> List_Of_Objects)
-            {
-                User_Guide_To_Graphic(ref List_Of_Objects);
-            }
-        }
-        UR_access UR = new UR_access();
+        
         /// <summary>
         /// Сбрасывает все настройки по умолчанию в менюшке справа
         /// И заодно заново отрисовывает и сбрасывает ваше местоположение
