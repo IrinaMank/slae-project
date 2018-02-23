@@ -15,7 +15,7 @@ using SharpGL;
 
 namespace slae_project
 {
-
+    
     /// <summary>
     /// The main form class.
     /// </summary>
@@ -26,7 +26,7 @@ namespace slae_project
         /// Главное что это структура хранения объектов(числа,векторов,матриц в нашем формате)
         /// </summary>
         public GraphicData GD;
-
+        public string setgsFileName = "settings.txt";
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpGLForm"/> class.
         /// </summary>
@@ -55,6 +55,129 @@ namespace slae_project
         {
             GD.RealDraw();
         }
+        /// <summary>
+        /// Записать текущие настройки в файл settings.txt
+        /// </summary>
+        private void WriteSettings()
+        {
+            using (StreamWriter writer = new StreamWriter(setgsFileName, false, System.Text.Encoding.Default))
+            {
+                
+                writer.WriteLine(trackBar_FontSize.Value);
+                if(radioButton2_TargetPlus_Enabled.Checked == true)
+                {
+                    writer.WriteLine(1);
+                }
+                else
+                {
+                    writer.WriteLine(0);
+                }
+                if (radioButton1_Number_enabled.Checked == true)
+                {
+                    writer.WriteLine(1);
+                }
+                else
+                {
+                    writer.WriteLine(0);
+                }
+
+                if(radioButton1_General.Checked == true)
+                {
+                    writer.WriteLine(0);
+                }
+                else if(radioButton2_Double.Checked == true)
+                {
+                    writer.WriteLine(1);
+                }
+                else if(radioButton3_Exponential.Checked == true)
+                {
+                    writer.WriteLine(2);
+                }
+                writer.WriteLine(trackBar_QuantityAfterPoint.Value);
+
+
+            }
+
+        }
+
+        private void errorFileMessage()
+        {
+            MessageBox.Show("Неправильный файл");
+        }
+        /// <summary>
+        /// Прочитать настройки из файла settings.txt
+        /// </summary>
+        private void ReadSettings()
+        {
+            using (StreamReader reader = new StreamReader(setgsFileName, System.Text.Encoding.Default))
+            {
+                int inputNumber;
+                bool error;
+
+                error = int.TryParse(reader.ReadLine(), out inputNumber);
+                if (error == false || inputNumber < 0) { errorFileMessage(); return; }
+                trackBar_FontSize.Value = inputNumber;
+
+                error = int.TryParse(reader.ReadLine(), out inputNumber);
+                if (error == false) { errorFileMessage(); return; }
+                switch(inputNumber)
+                {
+                    case 0:
+                        radioButton2_TargetPlus_Enabled.Checked = false;
+                        radioButton1_TargetPlus_Disabled.Checked = true;
+                        break;
+                    case 1:
+                        radioButton2_TargetPlus_Enabled.Checked = true;
+                        radioButton1_TargetPlus_Disabled.Checked = false;
+                        break;
+                    default:
+                        errorFileMessage(); return;
+                }
+
+                error = int.TryParse(reader.ReadLine(), out inputNumber);
+                if (error == false) { errorFileMessage(); return; }
+
+                switch (inputNumber)
+                {
+                    case 0:
+                        radioButton1_Number_enabled.Checked = false;
+                        radioButton1_Number_disabled.Checked = true;
+                        break;
+                    case 1:
+                        radioButton1_Number_enabled.Checked = true;
+                        radioButton1_Number_disabled.Checked = false;
+                        break;
+                    default:
+                        errorFileMessage(); return;
+                }
+                
+
+                error = int.TryParse(reader.ReadLine(), out inputNumber);
+                if (error == false) { errorFileMessage(); return; }
+                
+                switch (inputNumber)
+                {
+                    case 0:
+                        radioButton1_General.Checked = true;
+                        break;
+                    case 1:
+                        radioButton2_Double.Checked = true;
+                        break;
+                    case 2:
+                        radioButton3_Exponential.Checked = true;
+                        break;
+                    default:
+                        errorFileMessage(); return;
+                }
+
+                error = int.TryParse(reader.ReadLine(), out inputNumber);
+                if (error == false || inputNumber<0) { errorFileMessage(); return; }
+                trackBar_QuantityAfterPoint.Value = inputNumber;
+
+            }
+
+        }
+
 
         /// <summary>
         /// Handles the OpenGLInitialized event of the openGLControl control.
@@ -460,18 +583,31 @@ namespace slae_project
             label7_FAQ_move_phrase.Visible = false;
         }
 
-        SharpGLSaveLoad SharpGLSaveLoadForm = null;
-        private void button1_SaveLoad_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            if (!SharpGLSaveLoadForm_is_opened()) 
-            SharpGLSaveLoadForm = new SharpGLSaveLoad();
+            Graphic.SaveLoad subWindow = new Graphic.SaveLoad(Graphic.SaveLoad.WindowType.Save);
+            subWindow.Show();
         }
-        public bool SharpGLSaveLoadForm_is_opened()
+
+        private void button2_Click(object sender, EventArgs e)
         {
-            if (SharpGLSaveLoadForm != null)
-                if (!SharpGLSaveLoadForm.IsDisposed)
-                    return true;
-            return false;
+            Graphic.SaveLoad subWindow = new Graphic.SaveLoad(Graphic.SaveLoad.WindowType.Load);
+            subWindow.Show();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            WriteSettings();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            ReadSettings();
+            Refresh_Window();
+
+
+        }
+
+        
     }
 }
