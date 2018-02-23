@@ -106,6 +106,7 @@ namespace slae_project.Graphic
                         }
                     }
                     Form1.sharpGL_limbo.ReadMatrix(textBox1.Text + ".txt", place);
+                    Form1.sharpGL_limbo.Refresh_Window();
                     Close();
                     break;
                 case WindowType.Save:
@@ -114,6 +115,7 @@ namespace slae_project.Graphic
                         return;
                     }
                     Form1.sharpGL_limbo.WriteMatrix(textBox1.Text + ".txt", place);
+                   
                     Close();
                     break;
 

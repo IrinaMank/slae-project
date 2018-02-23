@@ -106,7 +106,9 @@ namespace slae_project
                 {
                     List_Of_Objects[numObject].Matrix.Add(stringToMatrixRow(line));
                 }
+                Form1.sharpGL_limbo.Refresh_Window();
             }
+
 
         }
 
