@@ -11,7 +11,7 @@ using System.Windows.Forms;
 namespace slae_project.Graphic
 {
 
-    public partial class SaveLoad : Form
+    public partial class SaveLoad : Form 
     {
         int countOfMatrices;
         public enum WindowType
