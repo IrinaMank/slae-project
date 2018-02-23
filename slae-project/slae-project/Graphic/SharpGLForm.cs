@@ -459,5 +459,17 @@ namespace slae_project
         {
             label7_FAQ_move_phrase.Visible = false;
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Graphic.SaveLoad subWindow = new Graphic.SaveLoad(Graphic.SaveLoad.WindowType.Save);
+            subWindow.Show();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Graphic.SaveLoad subWindow = new Graphic.SaveLoad(Graphic.SaveLoad.WindowType.Load);
+            subWindow.Show();
+        }
     }
 }

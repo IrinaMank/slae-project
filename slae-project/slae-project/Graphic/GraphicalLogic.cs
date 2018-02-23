@@ -66,7 +66,12 @@ namespace slae_project
             return row;
         }
 
-        private void WriteMatrix(string path, int numObject)
+        /// <summary>
+        /// Записать матрицу в файл
+        /// </summary>
+        /// <param name="path">Путь к файлу</param>
+        /// <param name="numObject">Номер матрицы в массиве объектов</param>
+        public void WriteMatrix(string path, int numObject)
         {
             using (StreamWriter writer = new StreamWriter(path, false, System.Text.Encoding.Default))
             {
@@ -79,12 +84,23 @@ namespace slae_project
 
         }
 
-        private void ReadMatrix(string path, int numObject)
+        /// <summary>
+        /// Считать матрицу из файла
+        /// </summary>
+        /// <param name="path">Путь к файлу</param>
+        /// <param name="numObject">Номер матрицы в массиве объектов</param>
+        public void ReadMatrix(string path, int numObject)
         {
             using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default))
             {
-                List_Of_Objects[numObject] = new GraphicObject(reader.ReadLine());
-                
+                if (numObject > List_Of_Objects.Count - 1)
+                {
+                    List_Of_Objects.Add(new GraphicObject(reader.ReadLine()));
+                }
+                else
+                {
+                    List_Of_Objects[numObject] = new GraphicObject(reader.ReadLine());
+                }
                 string line = "";
                 while ((line = reader.ReadLine()) != null)
                 {
@@ -95,7 +111,7 @@ namespace slae_project
         }
 
 
-        private void WriteSettings(string path)
+        public void WriteSettings(string path)
         {
             using (StreamWriter writer = new StreamWriter(path, false, System.Text.Encoding.Default))
             {
@@ -105,7 +121,7 @@ namespace slae_project
 
         }
 
-        private void ReadSettings(string path)
+        public void ReadSettings(string path)
         {
             using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default))
             {

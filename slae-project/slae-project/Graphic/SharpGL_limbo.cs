@@ -53,7 +53,27 @@ namespace slae_project
                 this.List_Of_Objects = SharpForm.GD.List_Of_Objects;
             }
         }
+        /// <summary>
+        /// Записать матрицу в файл
+        /// </summary>
+        /// <param name="path">Путь к файлу</param>
+        /// <param name="numObject">Номер матрицы в массиве объектов</param>
+        public void WriteMatrix(string path, int numObject)
+        {
+            SharpForm.GD.WriteMatrix(path, numObject);
 
+        }
+
+        /// <summary>
+        /// Считать матрицу из файла
+        /// </summary>
+        /// <param name="path">Путь к файлу</param>
+        /// <param name="numObject">Номер матрицы в массиве объектов</param>
+        public void ReadMatrix(string path, int numObject)
+        {
+            SharpForm.GD.ReadMatrix(path,numObject);
+
+        }
         //Открывает в скрытом режиме. Можно добавлять матрицы.
         public void SharpGL_Open_hidden()
         {
@@ -73,7 +93,7 @@ namespace slae_project
         {
             if (SharpGL_is_opened()) SharpForm.Close();
         }
-
+     
         //Сбрасывает все данные
         public void SharpGL_Reset_Full()
         {
@@ -93,6 +113,10 @@ namespace slae_project
             }
         }
 
+        public SharpGLForm Get_Form()
+        {
+            return SharpForm;
+        }
 
         
     }
