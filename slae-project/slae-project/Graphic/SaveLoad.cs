@@ -19,14 +19,14 @@ namespace slae_project
             Save = 0, Load = 1
         };
         WindowType WinType;
-        public SaveLoad(WindowType type)
+        public SaveLoad(WindowType type, SharpGLForm sharp)
         {
             InitializeComponent();
             Show();
-
+            refered_sharp = sharp;
             WindowTypeChanger(SaveLoad.WindowType.Save);
         }
-
+        SharpGLForm refered_sharp = null;
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox checkBox1 = (CheckBox)sender;
@@ -69,7 +69,7 @@ namespace slae_project
                     
                     if (checkBox1.Checked == true)
                     {
-                        place = Form1.sharpGL_limbo.List_Of_Objects.Count();
+                        place = refered_sharp.GD.List_Of_Objects.Count();
                     }
                     else
                     {
@@ -78,8 +78,8 @@ namespace slae_project
                             return;
                         }
                     }
-                    Form1.sharpGL_limbo.ReadMatrix("GraphicData_" + textBox1_NameMatrix.Text + ".txt", place);
-                    Form1.sharpGL_limbo.Refresh_Window();
+                    refered_sharp.ReadMatrix("GraphicData_" + textBox1_NameMatrix.Text + ".txt", place);
+                    refered_sharp.Refresh_Window();
 
                     MessageBox.Show("GraphicData_" + textBox1_NameMatrix.Text + ".txt" + " загружен.");
                     //Close();
@@ -89,7 +89,7 @@ namespace slae_project
                     {
                         return;
                     }
-                    Form1.sharpGL_limbo.WriteMatrix("GraphicData_" + textBox1_NameMatrix.Text + ".txt", place);
+                    refered_sharp.WriteMatrix("GraphicData_" + textBox1_NameMatrix.Text + ".txt", place);
 
                     MessageBox.Show("GraphicData_" + textBox1_NameMatrix.Text + ".txt" + " сохранен.");
                     //Close();
@@ -120,7 +120,7 @@ namespace slae_project
 
         private void Refresher()
         {
-            countOfMatrices = (Form1.sharpGL_limbo.List_Of_Objects.Count - 1);
+            countOfMatrices = (refered_sharp.GD.List_Of_Objects.Count - 1);
             if (countOfMatrices == -1) groupBox2_NumberMatrix.Text = "диапазон матриц: Матриц не обнаружено.";
             else groupBox2_NumberMatrix.Text = "диапазон матриц: (0-" + countOfMatrices.ToString() + ")";
         }

@@ -111,73 +111,79 @@ namespace slae_project
         /// </summary>
         private void ReadSettings()
         {
-            using (StreamReader reader = new StreamReader(setgsFileName, System.Text.Encoding.Default))
+            try
             {
-                int inputNumber;
-                bool error;
-
-                error = int.TryParse(reader.ReadLine(), out inputNumber);
-                if (error == false || inputNumber < 0) { errorFileMessage(); return; }
-                trackBar_FontSize.Value = inputNumber;
-
-                error = int.TryParse(reader.ReadLine(), out inputNumber);
-                if (error == false) { errorFileMessage(); return; }
-                switch(inputNumber)
+                using (StreamReader reader = new StreamReader(setgsFileName, System.Text.Encoding.Default))
                 {
-                    case 0:
-                        radioButton2_TargetPlus_Enabled.Checked = false;
-                        radioButton1_TargetPlus_Disabled.Checked = true;
-                        break;
-                    case 1:
-                        radioButton2_TargetPlus_Enabled.Checked = true;
-                        radioButton1_TargetPlus_Disabled.Checked = false;
-                        break;
-                    default:
-                        errorFileMessage(); return;
+                    int inputNumber;
+                    bool error;
+
+                    error = int.TryParse(reader.ReadLine(), out inputNumber);
+                    if (error == false || inputNumber < 0) { errorFileMessage(); return; }
+                    trackBar_FontSize.Value = inputNumber;
+
+                    error = int.TryParse(reader.ReadLine(), out inputNumber);
+                    if (error == false) { errorFileMessage(); return; }
+                    switch (inputNumber)
+                    {
+                        case 0:
+                            radioButton2_TargetPlus_Enabled.Checked = false;
+                            radioButton1_TargetPlus_Disabled.Checked = true;
+                            break;
+                        case 1:
+                            radioButton2_TargetPlus_Enabled.Checked = true;
+                            radioButton1_TargetPlus_Disabled.Checked = false;
+                            break;
+                        default:
+                            errorFileMessage(); return;
+                    }
+
+                    error = int.TryParse(reader.ReadLine(), out inputNumber);
+                    if (error == false) { errorFileMessage(); return; }
+
+                    switch (inputNumber)
+                    {
+                        case 0:
+                            radioButton1_Number_enabled.Checked = false;
+                            radioButton1_Number_disabled.Checked = true;
+                            break;
+                        case 1:
+                            radioButton1_Number_enabled.Checked = true;
+                            radioButton1_Number_disabled.Checked = false;
+                            break;
+                        default:
+                            errorFileMessage(); return;
+                    }
+
+
+                    error = int.TryParse(reader.ReadLine(), out inputNumber);
+                    if (error == false) { errorFileMessage(); return; }
+
+                    switch (inputNumber)
+                    {
+                        case 0:
+                            radioButton1_General.Checked = true;
+                            break;
+                        case 1:
+                            radioButton2_Double.Checked = true;
+                            break;
+                        case 2:
+                            radioButton3_Exponential.Checked = true;
+                            break;
+                        default:
+                            errorFileMessage(); return;
+                    }
+
+                    error = int.TryParse(reader.ReadLine(), out inputNumber);
+                    if (error == false || inputNumber < 0) { errorFileMessage(); return; }
+                    trackBar_QuantityAfterPoint.Value = inputNumber;
+
                 }
-
-                error = int.TryParse(reader.ReadLine(), out inputNumber);
-                if (error == false) { errorFileMessage(); return; }
-
-                switch (inputNumber)
-                {
-                    case 0:
-                        radioButton1_Number_enabled.Checked = false;
-                        radioButton1_Number_disabled.Checked = true;
-                        break;
-                    case 1:
-                        radioButton1_Number_enabled.Checked = true;
-                        radioButton1_Number_disabled.Checked = false;
-                        break;
-                    default:
-                        errorFileMessage(); return;
-                }
-                
-
-                error = int.TryParse(reader.ReadLine(), out inputNumber);
-                if (error == false) { errorFileMessage(); return; }
-                
-                switch (inputNumber)
-                {
-                    case 0:
-                        radioButton1_General.Checked = true;
-                        break;
-                    case 1:
-                        radioButton2_Double.Checked = true;
-                        break;
-                    case 2:
-                        radioButton3_Exponential.Checked = true;
-                        break;
-                    default:
-                        errorFileMessage(); return;
-                }
-
-                error = int.TryParse(reader.ReadLine(), out inputNumber);
-                if (error == false || inputNumber<0) { errorFileMessage(); return; }
-                trackBar_QuantityAfterPoint.Value = inputNumber;
+            }
+            catch (Exception WhoNeedsError)
+            {
 
             }
-
         }
 
 
@@ -577,17 +583,6 @@ namespace slae_project
             label7_FAQ_move_phrase.Visible = false;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            SaveLoad SaveLoadForm = new SaveLoad(SaveLoad.WindowType.Save);
-            
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            SaveLoad SaveLoadForm = new SaveLoad(SaveLoad.WindowType.Load);
-        }
-
        
 
         //Сохрани текущие настройки рядовой!
@@ -601,7 +596,7 @@ namespace slae_project
         {
             if (!SaveLoadForm_is_opened())
             {
-                SaveLoadForm = new SaveLoad(SaveLoad.WindowType.Save);
+                SaveLoadForm = new SaveLoad(SaveLoad.WindowType.Save,this);
             }
             
         }
@@ -612,6 +607,82 @@ namespace slae_project
                 if (!SaveLoadForm.IsDisposed)
                     return true;
             return false;
+        }
+
+        private string matrixRowToString(List<double> row)
+        {
+            string outputLine = "";
+            foreach (double element in row)
+            {
+                outputLine += element.ToString(GD.font_format.ToString() + GD.FontQuanitityAfterPoint.ToString());
+                outputLine += " ; ";
+            }
+            return outputLine;
+        }
+
+        private List<double> stringToMatrixRow(string strRow)
+        {
+            List<double> row = new List<double>();
+            string[] numbers = strRow.Split(new char[] { ';', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string element in numbers)
+            {
+                try
+                {
+                    row.Add(Convert.ToDouble(element));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Can't convert double in your file");
+                }
+            }
+            return row;
+        }
+
+        /// <summary>
+        /// Записать матрицу в файл
+        /// </summary>
+        /// <param name="path">Путь к файлу</param>
+        /// <param name="numObject">Номер матрицы в массиве объектов</param>
+        public void WriteMatrix(string path, int numObject)
+        {
+            using (StreamWriter writer = new StreamWriter(path, false, System.Text.Encoding.Default))
+            {
+                writer.WriteLine(GD.List_Of_Objects[numObject].Name);
+                writer.WriteLine(GD.List_Of_Objects[numObject].Name);
+                foreach (List<double> row in GD.List_Of_Objects[numObject].Matrix)
+                {
+                    writer.WriteLine(matrixRowToString(row));
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Считать матрицу из файла
+        /// </summary>
+        /// <param name="path">Путь к файлу</param>
+        /// <param name="numObject">Номер матрицы в массиве объектов</param>
+        public void ReadMatrix(string path, int numObject)
+        {
+            using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default))
+            {
+                if (numObject > GD.List_Of_Objects.Count - 1)
+                {
+                    GD.List_Of_Objects.Add(new GraphicData.GraphicObject(reader.ReadLine()));
+                }
+                else
+                {
+                    GD.List_Of_Objects[numObject] = new GraphicData.GraphicObject(reader.ReadLine());
+                }
+                string line = "";
+                while ((line = reader.ReadLine()) != null)
+                {
+                    GD.List_Of_Objects[numObject].Matrix.Add(stringToMatrixRow(line));
+                }
+                Refresh_Window();
+            }
+
+
         }
     }
 }

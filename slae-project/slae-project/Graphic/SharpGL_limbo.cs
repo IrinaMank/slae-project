@@ -43,10 +43,11 @@ namespace slae_project
         public SharpGL_limbo(bool SelfInit = false)
         {
             //if (SelfInit) SharpGL_Open_hidden();
-
+            Console.WriteLine("1");
             //Расскоментируй для самооткрытия
             if (SelfInit)
             {
+                Console.WriteLine("2");
                 SharpGL_Open();
                 UR.UserGuide_access(ref List_Of_Objects);
                 Refresh_Window();
@@ -74,7 +75,7 @@ namespace slae_project
         /// <param name="numObject">Номер матрицы в массиве объектов</param>
         public void WriteMatrix(string path, int numObject)
         {
-            SharpForm.GD.WriteMatrix(path, numObject);
+            SharpForm.WriteMatrix(path, numObject);
 
         }
 
@@ -85,7 +86,7 @@ namespace slae_project
         /// <param name="numObject">Номер матрицы в массиве объектов</param>
         public void ReadMatrix(string path, int numObject)
         {
-            SharpForm.GD.ReadMatrix(path,numObject);
+            SharpForm.ReadMatrix(path,numObject);
 
         }
         
@@ -101,6 +102,7 @@ namespace slae_project
         {
             if (!SharpGL_is_opened()) SharpForm = new SharpGLForm(true);
             this.List_Of_Objects = SharpForm.GD.List_Of_Objects;
+            SharpForm.Show();
         }
         //закрывает окно графики если оно существует. Совсем закрыть
         //По умолчанию открыто скрытым.
