@@ -27,13 +27,15 @@ namespace slae_project.Graphic
             switch (type)
             {
                 case WindowType.Load:
-                    Name = "Load";
+                    this.Name = "Load";
+                    this.Text = "Load";
                     button1.Text = "Load";
                     break;
                 case WindowType.Save:
                     checkBox1.Visible = false;
                     button1.Text = "Save";
-                    Name = "Save";
+                    this.Name = "Save";
+                    this.Text = "Save";
                     break;
             }
         }
