@@ -649,7 +649,7 @@ namespace slae_project
             using (StreamWriter writer = new StreamWriter(path, false, System.Text.Encoding.Default))
             {
                 writer.WriteLine(GD.List_Of_Objects[numObject].Name);
-                writer.WriteLine(GD.List_Of_Objects[numObject].Name);
+                //writer.WriteLine(GD.List_Of_Objects[numObject].Name);
                 foreach (List<double> row in GD.List_Of_Objects[numObject].Matrix)
                 {
                     writer.WriteLine(matrixRowToString(row));
