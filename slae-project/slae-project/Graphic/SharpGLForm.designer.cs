@@ -497,7 +497,6 @@
             this.Name = "SharpGLForm";
             this.Text = "Графическое отображение";
             this.Deactivate += new System.EventHandler(this.SharpGLForm_Deactivate);
-            this.Load += new System.EventHandler(this.SharpGLForm_Load);
             this.Resize += new System.EventHandler(this.SharpGLForm_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);

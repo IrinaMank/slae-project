@@ -70,6 +70,7 @@
             this.textBox2_NumberMatrix.Name = "textBox2_NumberMatrix";
             this.textBox2_NumberMatrix.Size = new System.Drawing.Size(210, 20);
             this.textBox2_NumberMatrix.TabIndex = 0;
+            this.textBox2_NumberMatrix.TextChanged += new System.EventHandler(this.textBox2_NumberMatrix_TextChanged);
             // 
             // groupBox1_NameMatrix
             // 

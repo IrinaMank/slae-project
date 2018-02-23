@@ -121,7 +121,8 @@ namespace slae_project
         private void Refresher()
         {
             countOfMatrices = (Form1.sharpGL_limbo.List_Of_Objects.Count - 1);
-            groupBox2_NumberMatrix.Text = "Номер матрицы: (0-" + countOfMatrices.ToString() + ")";
+            if (countOfMatrices == -1) groupBox2_NumberMatrix.Text = "диапазон матриц: Матриц не обнаружено.";
+            else groupBox2_NumberMatrix.Text = "диапазон матриц: (0-" + countOfMatrices.ToString() + ")";
         }
         private void WindowTypeChanger(WindowType type)
         {
@@ -152,6 +153,11 @@ namespace slae_project
         private void button2_Exit_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void textBox2_NumberMatrix_TextChanged(object sender, EventArgs e)
+        {
+            Refresher();
         }
     }
 }

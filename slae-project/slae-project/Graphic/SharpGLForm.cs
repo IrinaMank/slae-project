@@ -43,6 +43,8 @@ namespace slae_project
             openGLControl.RenderTrigger = RenderTrigger.Manual;
             openGLControl.DoRender();
 
+            ReadSettings();
+
             //установить границы скруллбаров и сбросить мышки-местоположение в лево-нижний угол
             Refresh_Window();
         }
@@ -586,15 +588,7 @@ namespace slae_project
             SaveLoad SaveLoadForm = new SaveLoad(SaveLoad.WindowType.Load);
         }
 
-        
-
-        //Рядовой! Я хочу свои настройки обратно!
-        //Так точно товарищ-генерал!
-        private void SharpGLForm_Load(object sender, EventArgs e)
-        {
-            ReadSettings();
-            Refresh_Window();
-        }
+       
 
         //Сохрани текущие настройки рядовой!
         //Сэр, Есть Сэр!
