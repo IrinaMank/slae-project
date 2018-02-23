@@ -148,5 +148,10 @@ namespace slae_project
         {
             Refresher();
         }
+
+        private void button2_Exit_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

@@ -40,6 +40,7 @@
             this.radioButton2_Load = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.button1 = new System.Windows.Forms.Button();
+            this.button2_Exit = new System.Windows.Forms.Button();
             this.groupBox2_NumberMatrix.SuspendLayout();
             this.groupBox1_NameMatrix.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -194,15 +195,15 @@
             this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel2.ColumnCount = 1;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Controls.Add(this.button1, 0, 0);
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.button1, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.button2_Exit, 0, 0);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 237);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(330, 50);
             this.tableLayoutPanel2.TabIndex = 6;
             // 
@@ -212,13 +213,28 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.AutoSize = true;
-            this.button1.Location = new System.Drawing.Point(3, 3);
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.button1.Location = new System.Drawing.Point(168, 3);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(324, 44);
+            this.button1.Size = new System.Drawing.Size(159, 44);
             this.button1.TabIndex = 4;
             this.button1.Text = "commit";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2_Exit
+            // 
+            this.button2_Exit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2_Exit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.button2_Exit.Location = new System.Drawing.Point(3, 3);
+            this.button2_Exit.Name = "button2_Exit";
+            this.button2_Exit.Size = new System.Drawing.Size(159, 44);
+            this.button2_Exit.TabIndex = 5;
+            this.button2_Exit.Text = "Выход";
+            this.button2_Exit.UseVisualStyleBackColor = true;
+            this.button2_Exit.Click += new System.EventHandler(this.button2_Exit_Click);
             // 
             // SaveLoad
             // 
@@ -256,5 +272,6 @@
         private System.Windows.Forms.RadioButton radioButton2_Load;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2_Exit;
     }
 }
