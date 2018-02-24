@@ -226,7 +226,7 @@
             this.trackBar_FontSize.Size = new System.Drawing.Size(173, 32);
             this.trackBar_FontSize.TabIndex = 3;
             this.trackBar_FontSize.Value = 14;
-            this.trackBar_FontSize.ValueChanged += new System.EventHandler(this.trackBar_FontSize_ValueChanged);
+            this.trackBar_FontSize.MouseCaptureChanged += new System.EventHandler(this.trackBar_FontSize_MouseCaptureChanged);
             // 
             // label4
             // 
@@ -347,7 +347,7 @@
             this.trackBar_QuantityAfterPoint.Size = new System.Drawing.Size(173, 32);
             this.trackBar_QuantityAfterPoint.TabIndex = 11;
             this.trackBar_QuantityAfterPoint.Value = 3;
-            this.trackBar_QuantityAfterPoint.ValueChanged += new System.EventHandler(this.trackBar_QuantityAfterPoint_ValueChanged);
+            this.trackBar_QuantityAfterPoint.MouseCaptureChanged += new System.EventHandler(this.trackBar_QuantityAfterPoint_MouseCaptureChanged);
             // 
             // label3
             // 

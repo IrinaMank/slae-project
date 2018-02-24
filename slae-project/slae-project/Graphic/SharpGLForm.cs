@@ -390,17 +390,7 @@ namespace slae_project
             //openGLControl.Refresh();
         }
 
-        /// <summary>
-        /// Функция реагирующая на изменение ползунка размера шрифта
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void trackBar_FontSize_ValueChanged(object sender, EventArgs e)
-        {
-            GD.FontSize = trackBar_FontSize.Value;
-            setAutoCell();
-           // openGLControl.Refresh();
-        }
+        
 
         /// <summary>
         /// Функция реагирующая на изменение размеров окна
@@ -426,17 +416,7 @@ namespace slae_project
             vScrollBar1.Value = Math.Abs(GD.mouse.BorderEnd.y);
             hScrollBar1.Value = Math.Abs(GD.mouse.BorderBegin.x);
         }
-        /// <summary>
-        /// Функция реагирующая на изменения ползунка за колво знаков после запятой.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void trackBar_QuantityAfterPoint_ValueChanged(object sender, EventArgs e)
-        {
-            GD.FontQuanitityAfterPoint = trackBar_QuantityAfterPoint.Value;
-            setAutoCell();
-            Refresh_Window();
-        }
+
 
         /// <summary>
         /// Функция реагирующая на изменение галочки на "Основной" формат записи чисел
@@ -702,5 +682,30 @@ namespace slae_project
             }
 
         }
+
+        
+        /// <summary>
+        /// Функция реагирующая на изменение ползунка размера шрифта
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void trackBar_FontSize_MouseCaptureChanged(object sender, EventArgs e)
+        {
+            GD.FontSize = trackBar_FontSize.Value;
+            setAutoCell();
+        }
+
+        /// <summary>
+        /// Функция реагирующая на изменения ползунка за колво знаков после запятой.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void trackBar_QuantityAfterPoint_MouseCaptureChanged(object sender, EventArgs e)
+        {
+            GD.FontQuanitityAfterPoint = trackBar_QuantityAfterPoint.Value;
+            setAutoCell();
+            Refresh_Window();
+        }
+
     }
 }
