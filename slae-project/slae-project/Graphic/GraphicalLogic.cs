@@ -151,7 +151,7 @@ namespace slae_project
         public void DrawingInitializer()
         {
             LeftTopCellOfEachMatrix.Clear();
-
+            Grid.NetWorkOS_X.Clear();
         }
 
         public bool TargetPlus = true;
@@ -304,8 +304,8 @@ namespace slae_project
             int OS_x_begin = 0, OS_x_end = 0, OS_y_begin = 0, OS_y_end = 0;
             AreaCalculator(ref OS_x_end, ref OS_x_begin, ref OS_y_end, ref OS_y_begin);
 
-            if (Grid.NetWorkOS_X.Count != 0 && false)
-                for (int x = OS_x_begin; (x < OS_x_end)||(x < Grid.NetWorkOS_X.Count()); x++)
+            if (Grid.NetWorkOS_X.Count != 0 && true)
+                for (int x = OS_x_begin; (x < OS_x_end)&&(x < Grid.NetWorkOS_X.Count()); x++)
                 {
                     foreach (var func in Grid.NetWorkOS_X[x].List_of_func)
                         if (func.func_type == Net.FunctionType.DrawLine)
