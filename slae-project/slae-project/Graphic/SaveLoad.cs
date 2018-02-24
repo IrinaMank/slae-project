@@ -29,8 +29,11 @@ namespace slae_project
         SharpGLForm refered_sharp = null;
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            CheckBox checkBox1 = (CheckBox)sender;
-            if(checkBox1.Checked == true)
+            Wrapped_checkBox1_CheckedChangedReaction();
+        }
+        private void Wrapped_checkBox1_CheckedChangedReaction()
+        {
+            if (checkBox1.Checked == true && WinType == SaveLoad.WindowType.Load)
             {
                 textBox2_NumberMatrix.Enabled = false;
             }
@@ -39,7 +42,6 @@ namespace slae_project
                 textBox2_NumberMatrix.Enabled = true;
             }
         }
-
         private bool CheckNumberFromString(string str, ref int place)
         {
             if (int.TryParse(str, out place) == false)
@@ -119,6 +121,7 @@ namespace slae_project
 
         private void Refresher()
         {
+            Wrapped_checkBox1_CheckedChangedReaction();
             countOfMatrices = (refered_sharp.GD.List_Of_Objects.Count - 1);
             if (countOfMatrices == -1) groupBox2_NumberMatrix.Text = "диапазон матриц: Матриц не обнаружено.";
             else groupBox2_NumberMatrix.Text = "диапазон матриц: (0-" + countOfMatrices.ToString() + ")";
