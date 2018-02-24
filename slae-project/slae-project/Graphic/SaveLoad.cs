@@ -81,7 +81,7 @@ namespace slae_project
                     refered_sharp.ReadMatrix("GraphicData_" + textBox1_NameMatrix.Text + ".txt", place);
                     refered_sharp.Refresh_Window();
 
-                    MessageBox.Show("GraphicData_" + textBox1_NameMatrix.Text + ".txt" + " загружен.");
+                    
                     //Close();
                     break;
                 case WindowType.Save:
@@ -91,7 +91,6 @@ namespace slae_project
                     }
                     refered_sharp.WriteMatrix("GraphicData_" + textBox1_NameMatrix.Text + ".txt", place);
 
-                    MessageBox.Show("GraphicData_" + textBox1_NameMatrix.Text + ".txt" + " сохранен.");
                     //Close();
                     break;
 

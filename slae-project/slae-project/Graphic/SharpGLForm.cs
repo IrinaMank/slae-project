@@ -646,14 +646,24 @@ namespace slae_project
         /// <param name="numObject">Номер матрицы в массиве объектов</param>
         public void WriteMatrix(string path, int numObject)
         {
-            using (StreamWriter writer = new StreamWriter(path, false, System.Text.Encoding.Default))
+            try
             {
-                writer.WriteLine(GD.List_Of_Objects[numObject].Name);
-                //writer.WriteLine(GD.List_Of_Objects[numObject].Name);
-                foreach (List<double> row in GD.List_Of_Objects[numObject].Matrix)
+                using (StreamWriter writer = new StreamWriter(path, false, System.Text.Encoding.Default))
                 {
-                    writer.WriteLine(matrixRowToString(row));
+                    writer.WriteLine(GD.List_Of_Objects[numObject].Name);
+                    //writer.WriteLine(GD.List_Of_Objects[numObject].Name);
+                    foreach (List<double> row in GD.List_Of_Objects[numObject].Matrix)
+                    {
+                        writer.WriteLine(matrixRowToString(row));
+                    }
+
+                    MessageBox.Show(path + " сохранен.");
                 }
+
+            }
+            catch (Exception YouShouldGiveTheErrorToSomebodyElse)
+            {
+                MessageBox.Show(YouShouldGiveTheErrorToSomebodyElse.Message, "Трай Кетчуп ловко поймал ошибку!");
             }
 
         }
@@ -665,24 +675,31 @@ namespace slae_project
         /// <param name="numObject">Номер матрицы в массиве объектов</param>
         public void ReadMatrix(string path, int numObject)
         {
-            using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default))
+            try
             {
-                if (numObject > GD.List_Of_Objects.Count - 1)
+                using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default))
                 {
-                    GD.List_Of_Objects.Add(new GraphicData.GraphicObject(reader.ReadLine()));
+                    if (numObject > GD.List_Of_Objects.Count - 1)
+                    {
+                        GD.List_Of_Objects.Add(new GraphicData.GraphicObject(reader.ReadLine()));
+                    }
+                    else
+                    {
+                        GD.List_Of_Objects[numObject] = new GraphicData.GraphicObject(reader.ReadLine());
+                    }
+                    string line = "";
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        GD.List_Of_Objects[numObject].Matrix.Add(stringToMatrixRow(line));
+                    }
+                    MessageBox.Show(path + " загружен.");
+                    Refresh_Window();
                 }
-                else
-                {
-                    GD.List_Of_Objects[numObject] = new GraphicData.GraphicObject(reader.ReadLine());
-                }
-                string line = "";
-                while ((line = reader.ReadLine()) != null)
-                {
-                    GD.List_Of_Objects[numObject].Matrix.Add(stringToMatrixRow(line));
-                }
-                Refresh_Window();
             }
-
+            catch (Exception IdontNeedErrors)
+            {
+                MessageBox.Show(IdontNeedErrors.Message, "Файл не обнаружен!");
+            }
 
         }
     }
