@@ -235,9 +235,9 @@ namespace slae_project
             //  Set the modelview matrix.
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
 
-            if (GD == null)
-                openGLControl.Refresh();
-            else Refresh_Window();
+            
+            if (GD != null) Refresh_Window();
+            else openGLControl.Refresh();
         }
 
         /// <summary>
@@ -383,10 +383,11 @@ namespace slae_project
         /// </summary>
         public void Refresh_Window()
         {
-            openGLControl.Refresh();
-            SetScrollBars();
             GD.RealDraw_Try_To_Initialize = true;
             openGLControl.Refresh();
+            SetScrollBars();
+            
+            //openGLControl.Refresh();
         }
 
         /// <summary>
@@ -410,7 +411,7 @@ namespace slae_project
         /// <param name="e"></param>
         private void SharpGLForm_Resize(object sender, EventArgs e)
         {
-            Refresh_Window();
+            //Refresh_Window();
         }
 
         /// <summary>
