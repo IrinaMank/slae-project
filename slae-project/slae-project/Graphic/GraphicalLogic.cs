@@ -111,7 +111,7 @@ namespace slae_project
         PointInt CurrentCell;
         PointInt xCellArea;
         PointInt yCellArea;
-        private const int AreaRadius = 2;
+        private const int AreaRadius = 3;
 
         //Если вести счёт ячеек в обычных цифрах(как X_Y_counter), данная функция выдает
         //По обоим осям рабочую зону, которую надо отобразить на экран
@@ -335,6 +335,29 @@ namespace slae_project
             //It's real draw now
             //Grid.DeadPoint.y = Grid.NetWorkValue.Count()* Grid.yCellSize;
             LaserCrossroad();
+            NumberCrossroad();
+        }
+        private void NumberCrossroad()
+        {
+            if (TargetNumber)
+            {
+                Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + (((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize)).ToString(), 0, 0, 0);
+
+                //Щас используется абсолютное значение y, нам надо узнать текущую матрицу и вычесть
+                //LeftTopCellOfEachMatrix
+
+                if (LeftTopCellOfEachMatrix.Count() != 0)
+                {
+                    Point CurrentMatrix = LeftTopCellOfEachMatrix[0];
+                    int y_pointed = mouse.ShiftedPosition.y + openGLControl.Height - mouse.true_y - Grid.yCellSize / 4;
+                    foreach (var thing in LeftTopCellOfEachMatrix)
+                    { if (thing.Y * Grid.yCellSize < y_pointed) CurrentMatrix = thing; else break; }
+
+                    int y = ((y_pointed - CurrentMatrix.Y * Grid.yCellSize) / Grid.yCellSize);
+                    //int y = (mouse.ShiftedPosition.y + openGLControl.Height - mouse.true_y) / Grid.yCellSize;
+                    Draw_Text(mouse.true_x + 20, mouse.true_y, "- " + y.ToString(), 0, 0, 0);
+                }
+            }
         }
         private void LaserCrossroad()
         {
