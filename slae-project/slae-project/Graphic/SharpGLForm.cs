@@ -12,7 +12,6 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.IO;
 using SharpGL;
-
 namespace slae_project
 {
     
@@ -36,7 +35,7 @@ namespace slae_project
             //SharpGLWrappedThread ThreadController = new SharpGLWrappedThread();
             Visible = visibility;
             //Облегчим себе жизнь. Передадим в главную логическую сразу.
-            GD = new GraphicData(openGLControl);
+            GD = new GraphicData(openGLControl,this);
 
             //Manual Рендеринг, мы же не делаем игру, так что смысла в RealTime FPS нету.
             //Для повторной отрисовки вызовите функцию openGLControl.Refresh();
@@ -707,5 +706,6 @@ namespace slae_project
             Refresh_Window();
         }
 
+        
     }
 }

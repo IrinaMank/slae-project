@@ -36,6 +36,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="SharpGL">
       <HintPath>Graphic\SharpGLCore.2.3.0.1\lib\net40\SharpGL.dll</HintPath>
     </Reference>

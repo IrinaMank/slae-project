@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using SharpGL;
 using System.IO;
+using System.Diagnostics;
+using Microsoft.VisualBasic.Devices;
 namespace slae_project
 {
     /// <summary>
@@ -17,14 +19,16 @@ namespace slae_project
     public class GraphicData
     {
         public OpenGLControl openGLControl;
+        public SharpGLForm sharpGLform;
         public Single FontSize = 14.0f;
         public enum FontFormat { G, F, E };
         public FontFormat font_format = FontFormat.G;
         public int FontQuanitityAfterPoint = 3;
 
-    public GraphicData(OpenGLControl openGLController)
+    public GraphicData(OpenGLControl openGLController, SharpGLForm sharpGLformer)
         {
             openGLControl = openGLController;
+            sharpGLform = sharpGLformer;
             mouse = new MouseClass(ref Grid,openGLControl);
             Add_objects();
             MoveToEndCursor();
@@ -153,7 +157,17 @@ namespace slae_project
             LeftTopCellOfEachMatrix.Clear();
             Grid.NetWorkOS_X.Clear();
         }
-
+        ComputerInfo Comp = new ComputerInfo();
+        bool MemoryChecker()
+        {
+            if (Comp.AvailablePhysicalMemory / 1048576 < 100)
+            {
+                MessageBox.Show("Извините, но у вас закончилась оперативная память. Порог 100мб достигнут.", "Ошибка");
+                sharpGLform.Close();
+                return true;
+            }
+            return false;
+        }
         public bool TargetPlus = true;
         public bool TargetNumber = true;
         /// <summary>
@@ -162,6 +176,7 @@ namespace slae_project
         /// <param name="openGLControl"></param>
         public void RealDraw()
         {
+            if (MemoryChecker()) return;
             if (RealDraw_Try_To_Initialize)
             {
                 DrawingInitializer();
@@ -228,7 +243,7 @@ namespace slae_project
                     //Для каждого вектора текущей матрицы
                     foreach (var vect in obj.Matrix)
                     {
-
+                        if (MemoryChecker()) return;
                         X_old = Grid.cursorP.x;
                         Y_old = Grid.cursorP.y;
 
