@@ -706,6 +706,21 @@ namespace slae_project
             Refresh_Window();
         }
 
-        
+        private void SharpGLForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Clearer();
+        }
+
+        private void SharpGLForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Clearer();
+        }
+        private void Clearer()
+        {
+            GD.Grid.NetWorkValue.Clear();
+            GD.Grid.NetWorkOS_X.Clear();
+            GD.Grid.NetWorkOS_Y.Clear();
+            GC.Collect(20000);
+        }
     }
 }
