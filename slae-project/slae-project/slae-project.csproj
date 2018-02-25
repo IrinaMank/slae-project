@@ -67,6 +67,7 @@
     <Compile Include="Graphic\GraphicalLogic.cs" />
     <Compile Include="Graphic\SharpGL_limbo.cs" />
     <Compile Include="Matrix\CoordinateMatrix.cs" />
+    <Compile Include="Matrix\DenseMatrix.cs" />
     <Compile Include="Matrix\ILinearOperator.cs" />
     <Compile Include="Matrix\IMatrix.cs" />
     <Compile Include="Solver\LOSSolver.cs" />
