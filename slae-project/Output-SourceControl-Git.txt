@@ -1,0 +1,25 @@
+﻿Opening repositories:
+C:\Users\DNS-1\Documents\GitHub\slae-project
+Cannot complete the operation because of existing changes to the following 2 files:
+	slae-project/slae-project/Properties/Resources.Designer.cs
+	slae-project/slae-project/Properties/Settings.Designer.cs
+Cannot complete the operation because of existing changes to the following 2 files:
+	slae-project/slae-project/Properties/Resources.Designer.cs
+	slae-project/slae-project/Properties/Settings.Designer.cs
+Cannot complete the operation because of existing changes to the following 4 files:
+	slae-project/slae-project/App.config
+	slae-project/slae-project/Properties/Resources.Designer.cs
+	slae-project/slae-project/Properties/Settings.Designer.cs
+	slae-project/slae-project/slae-project.csproj
+Cannot complete the operation because of existing changes to the following 2 files:
+	slae-project/slae-project/Properties/Resources.Designer.cs
+	slae-project/slae-project/Properties/Settings.Designer.cs
+Cannot complete the operation because of existing changes to the following 2 files:
+	slae-project/slae-project/Properties/Resources.Designer.cs
+	slae-project/slae-project/Properties/Settings.Designer.cs
+Cannot complete the operation because of existing changes to the following 2 files:
+	slae-project/slae-project/Properties/Resources.Designer.cs
+	slae-project/slae-project/Properties/Settings.Designer.cs
+Cannot complete the operation because of existing changes to the following 2 files:
+	slae-project/slae-project/Properties/Resources.Designer.cs
+	slae-project/slae-project/Properties/Settings.Designer.cs
