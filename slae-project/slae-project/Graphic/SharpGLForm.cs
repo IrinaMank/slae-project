@@ -356,7 +356,10 @@ namespace slae_project
         {
             trackBar_QuantityAfterPoint.Value = GD.FontQuanitityAfterPoint = 3;
             trackBar_FontSize.Value = 14; GD.FontSize = 14;
-            
+
+            GD.Grid.xCellSize = 80;
+            GD.Grid.yCellSize = 35;
+
             radioButton1_General.Checked = true;
             radioButton2_Double.Checked = false;
             radioButton3_Exponential.Checked = false;
@@ -380,9 +383,9 @@ namespace slae_project
         /// Она обновляет изображение, настраивает максимумы скруллбаров(ибо оно зависит от границ матриц)
         /// И сбрасывает местоположение в лево-нижний угол
         /// </summary>
-        public void Refresh_Window()
+        public void Refresh_Window(bool TryInit = true)
         {
-            GD.RealDraw_Try_To_Initialize = true;
+            if (TryInit) GD.RealDraw_Try_To_Initialize = true;
             openGLControl.Refresh();
             SetScrollBars();
             GD.MoveToEndCursor();
@@ -713,7 +716,7 @@ namespace slae_project
         {
             GD.FontQuanitityAfterPoint = trackBar_QuantityAfterPoint.Value;
             setAutoCell();
-            Refresh_Window();
+            Refresh_Window(false);
         }
 
         private void SharpGLForm_FormClosed(object sender, FormClosedEventArgs e)

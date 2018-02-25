@@ -175,7 +175,7 @@ namespace slae_project
             //this.List_Of_Objects.RemoveAt(1); Удалить какойто конкретный
             //this.List_Of_Objects.Clear(); //Удалить все.
             //this.List_Of_Objects.RemoveAt(List_Of_Objects.Count() - 1); //Удалить последний
-            
+
             //ВАЖНО! После добавлений или удалений вызывать вот эту функцию.
             //SharpGL_limbo.Refresh_Window();
         }
