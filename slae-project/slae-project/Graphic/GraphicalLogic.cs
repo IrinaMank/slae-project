@@ -29,6 +29,7 @@ namespace slae_project
         {
             openGLControl = openGLController;
             sharpGLform = sharpGLformer;
+            Grid= new Net(this);
             mouse = new MouseClass(ref Grid,openGLControl);
             Add_objects();
             MoveToEndCursor();
@@ -108,7 +109,7 @@ namespace slae_project
         /// <summary>
         /// В каком то роде Grid это курсор на консольном окне.
         /// </summary>
-        public Net Grid = new Net();
+        public Net Grid;
         public MouseClass mouse;
 
         public bool RealDraw_Try_To_Initialize = true;
@@ -566,16 +567,24 @@ namespace slae_project
         public List<List<NetWorkValueableCell>> NetWorkValue = new List<List<NetWorkValueableCell>>();
         public List<NetWorkOSCell> NetWorkOS_X = new List<NetWorkOSCell>();
         public List<NetWorkOSCell> NetWorkOS_Y = new List<NetWorkOSCell>();
-        public Net()
+        public Net(GraphicData _GD_link)
         {
+            GD_link = _GD_link;
             cursorP = new PointInt(initP.x, initP.y);
         }
+        GraphicData GD_link;
         public void X_move()
         {
             cursorP.x += xCellSize;
             X_Y_counter.x++;
 
-            NetWorkValue[X_Y_counter.y].Add(new NetWorkValueableCell(new Point(cursorP.x, cursorP.y),0));
+            if (YourRequireNewMemory)
+                NetWorkValue[X_Y_counter.y].Add(new NetWorkValueableCell(new Point(cursorP.x, cursorP.y), 0));
+            else
+            {
+                NetWorkValue[X_Y_counter.y][X_Y_counter.x].CellCursorP.X = cursorP.x;
+                NetWorkValue[X_Y_counter.y][X_Y_counter.x].CellCursorP.Y = cursorP.y;
+            }
         }
         public void X_nullificate()
         {
@@ -588,21 +597,69 @@ namespace slae_project
             cursorP.y -= yCellSize;
             X_Y_counter.y++;
 
-            NetWorkValue.Add(new List<NetWorkValueableCell>());
-            NetWorkValue[X_Y_counter.y].Add(new NetWorkValueableCell(new Point(initP.x, cursorP.y), 0));
+            if (YourRequireNewMemory)
+            {
+                NetWorkValue.Add(new List<NetWorkValueableCell>());
+                NetWorkValue[X_Y_counter.y].Add(new NetWorkValueableCell(new Point(initP.x, cursorP.y), 0));
+            }
+            else NetWorkValue[X_Y_counter.y][0].CellCursorP.Y = cursorP.y;
+
             NetWorkOS_Y.Add(new NetWorkOSCell());
+        }
+        List<int> MemorySizeChangeChecker = new List<int>();
+        bool YourRequireNewMemory = true;
+        bool InitiaiteMemoryChecking()
+        {
+            int counter = 0;
+            foreach (var Object in GD_link.List_Of_Objects)
+                foreach (var vector in Object.Matrix)
+                {
+                    if (MemorySizeChangeChecker.Count() > counter)
+                    {
+                        if (MemorySizeChangeChecker[counter] != vector.Count())
+                            return false;
+                    }
+                    else return false;
+
+                    counter++;
+                }
+            return true;
+        }
+        void InitiaiteMemoryRewriter()
+        {
+            MemorySizeChangeChecker.Clear();
+            int counter = 0;
+            foreach (var Object in GD_link.List_Of_Objects)
+                foreach (var vector in Object.Matrix)
+                {
+                    MemorySizeChangeChecker.Add(vector.Count());
+                }
         }
         public void Y_nullificate()
         {
             cursorP.y = initP.y;
             X_Y_counter.y = 0;
 
-            NetWorkValue.Clear();
-            NetWorkValue.Add(new List<NetWorkValueableCell>());
-            NetWorkValue[X_Y_counter.y].Add(new NetWorkValueableCell(new Point(initP.x, cursorP.y), 0));
-
+            if (GD_link.List_Of_Objects.Count() != 0)
+                if (InitiaiteMemoryChecking())
+                {
+                    YourRequireNewMemory = false;
+                }
+                else
+                {
+                    YourRequireNewMemory = true;
+                    InitiaiteMemoryRewriter();
+                }
+            //else NetWorkValue[X_Y_counter.y][X_Y_counter.x].CellCursorP.Y = cursorP.y;
+            if (YourRequireNewMemory)
+            {
+                NetWorkValue.Clear();
+                NetWorkValue.Add(new List<NetWorkValueableCell>());
+                NetWorkValue[X_Y_counter.y].Add(new NetWorkValueableCell(new Point(initP.x, initP.y), 0));
+            }
             NetWorkOS_Y.Clear();
             NetWorkOS_Y.Add(new NetWorkOSCell());
+
         }
 
     }
