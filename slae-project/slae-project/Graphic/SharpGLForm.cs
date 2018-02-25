@@ -445,8 +445,7 @@ namespace slae_project
                 radioButton2_Double.Checked = false;
                 radioButton3_Exponential.Checked = false;
             }
-            setAutoCell();
-            Refresh_Window(false);
+            AutoSizeCell_Reaction_Wrapped();
         }
 
         /// <summary>
@@ -462,8 +461,7 @@ namespace slae_project
                 radioButton1_General.Checked = false;
                 radioButton3_Exponential.Checked = false;
             }
-            setAutoCell();
-            Refresh_Window(false);
+            AutoSizeCell_Reaction_Wrapped();
         }
 
         /// <summary>
@@ -479,8 +477,7 @@ namespace slae_project
                 radioButton2_Double.Checked = false;
                 radioButton1_General.Checked = false;
             }
-            setAutoCell();
-            Refresh_Window(false);
+            AutoSizeCell_Reaction_Wrapped();
         }
 
         /// <summary>
@@ -737,6 +734,10 @@ namespace slae_project
 
         private void trackBar_FontSize_ValueChanged(object sender, EventArgs e)
         {
+            AutoSizeCell_Reaction_Wrapped();
+        }
+        private void AutoSizeCell_Reaction_Wrapped()
+        {
             if (trackBar_FontSize.Value >= 4)
             {
                 GD.FontSize = trackBar_FontSize.Value;
@@ -751,19 +752,18 @@ namespace slae_project
                 int size = 17 + trackBar_FontSize.Value;
                 GD.Grid.xCellSize = size;
                 GD.Grid.yCellSize = size;
-                
+
                 if (size < 6) GD.BoolLinesAreEnabled = false;
                 else GD.BoolLinesAreEnabled = true;
 
                 Refresh_Window(false);
             }
         }
-
         private void trackBar_QuantityAfterPoint_ValueChanged(object sender, EventArgs e)
         {
             GD.FontQuanitityAfterPoint = trackBar_QuantityAfterPoint.Value;
-            setAutoCell();
-            Refresh_Window(false);
+
+            AutoSizeCell_Reaction_Wrapped();
         }
     }
 }
