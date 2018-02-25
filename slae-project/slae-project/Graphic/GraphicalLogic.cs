@@ -267,7 +267,7 @@ namespace slae_project
                             //if (Belongs_yCellArea())
                             //if (Belongs_xCellArea())
                             //{
-                            Grid.NetWorkValue[Grid.X_Y_counter.y][Grid.X_Y_counter.x].Cellvalue = value;
+                            Grid.NetWorkValue[Grid.X_Y_counter.y][Grid.X_Y_counter.x] = value;
                             //Draw_Text(Grid.cursorP.x, Grid.cursorP.y, value.ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
                             //}
                             Grid.X_move();
@@ -342,8 +342,11 @@ namespace slae_project
                 for (int x = OS_x_begin; x < OS_x_end; x++)
                 {
                     if (x < Grid.NetWorkValue[y].Count())
-                        if (!double.IsNaN(Grid.NetWorkValue[y][x].Cellvalue))
-                            Draw_Text(Grid.NetWorkValue[y][x].CellCursorP.X, Grid.NetWorkValue[y][x].CellCursorP.Y, Grid.NetWorkValue[y][x].Cellvalue.ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
+                        if (!double.IsNaN(Grid.NetWorkValue[y][x]))
+                            Draw_Text(x * Grid.xCellSize + Grid.initP.x, -y * Grid.yCellSize + Grid.initP.y, Grid.NetWorkValue[y][x].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
+
+
+
                 }
             }
 
@@ -552,16 +555,14 @@ namespace slae_project
         }
         public class NetWorkValueableCell
         {
-            public NetWorkValueableCell(Point in_CursorP,double in_value = Double.NaN)
+            public NetWorkValueableCell(double in_value = Double.NaN)
             {
-                CellCursorP = in_CursorP;
                 Cellvalue = in_value;
             }
-            public Point CellCursorP;
             public double Cellvalue;
         }
         //The Network has been established
-        public List<List<NetWorkValueableCell>> NetWorkValue = new List<List<NetWorkValueableCell>>();
+        public List<List<double>> NetWorkValue = new List<List<double>>();
         public List<NetWorkOSCell> NetWorkOS_X = new List<NetWorkOSCell>();
         public List<NetWorkOSCell> NetWorkOS_Y = new List<NetWorkOSCell>();
         public Net(GraphicData _GD_link)
@@ -576,12 +577,7 @@ namespace slae_project
             X_Y_counter.x++;
 
             if (YourRequireNewMemory)
-                NetWorkValue[X_Y_counter.y].Add(new NetWorkValueableCell(new Point(cursorP.x, cursorP.y)));
-            else
-            {
-                NetWorkValue[X_Y_counter.y][X_Y_counter.x].CellCursorP.X = cursorP.x;
-                NetWorkValue[X_Y_counter.y][X_Y_counter.x].CellCursorP.Y = cursorP.y;
-            }
+                NetWorkValue[X_Y_counter.y].Add(double.NaN);
         }
         public void X_nullificate()
         {
@@ -596,10 +592,9 @@ namespace slae_project
 
             if (YourRequireNewMemory)
             {
-                NetWorkValue.Add(new List<NetWorkValueableCell>());
-                NetWorkValue[X_Y_counter.y].Add(new NetWorkValueableCell(new Point(initP.x, cursorP.y)));
+                NetWorkValue.Add(new List<double>());
+                NetWorkValue[X_Y_counter.y].Add(double.NaN);
             }
-            else NetWorkValue[X_Y_counter.y][0].CellCursorP.Y = cursorP.y;
 
             NetWorkOS_Y.Add(new NetWorkOSCell());
         }
@@ -651,8 +646,8 @@ namespace slae_project
             if (YourRequireNewMemory)
             {
                 NetWorkValue.Clear();
-                NetWorkValue.Add(new List<NetWorkValueableCell>());
-                NetWorkValue[X_Y_counter.y].Add(new NetWorkValueableCell(new Point(initP.x, initP.y)));
+                NetWorkValue.Add(new List<double>());
+                NetWorkValue[X_Y_counter.y].Add(double.NaN);
             }
             NetWorkOS_Y.Clear();
             NetWorkOS_Y.Add(new NetWorkOSCell());
