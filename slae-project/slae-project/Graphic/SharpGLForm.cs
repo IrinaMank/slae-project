@@ -42,7 +42,7 @@ namespace slae_project
             openGLControl.RenderTrigger = RenderTrigger.Manual;
             openGLControl.DoRender();
 
-            ReadSettings();
+            //ReadSettings();
 
             //установить границы скруллбаров и сбросить мышки-местоположение в лево-нижний угол
             Refresh_Window();
@@ -235,7 +235,7 @@ namespace slae_project
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
 
             
-            if (GD != null) Refresh_Window();
+            if (GD != null) Refresh_Window(GD.RealDraw_Try_To_Initialize);
             else openGLControl.Refresh();
         }
 
