@@ -5,20 +5,22 @@ using System.Windows.Forms;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using slae_project.Vector.VectorExceptions;
 
-namespace slae_project.Matrix
+namespace slae_project.Vector
 {
-    class SimpleVector : IVector
+    public class SimpleVector : IVector
     {
         public int Size { get; }
 
-        public double Norm => CalcNorm();
-        private double CalcNorm()
-        {
+        public double Norm {
+            get
+            {
                 double result = 0;
-                for (int i = 0; i<Size; i++)
+                for (int i = 0; i < Size; i++)
                     result += this[i] * this[i];
                 return Math.Sqrt(result);
+            }
         }
 
     public double[] elements;
@@ -36,7 +38,7 @@ namespace slae_project.Matrix
             }
         }
         
-        SimpleVector()
+       public SimpleVector()
         {
 
         }
@@ -49,7 +51,7 @@ namespace slae_project.Matrix
             if (m > 0)
                 Size = m;
             else
-                Size = 1;
+                throw new WrongSizeException();
             elements = new double[Size];
             SetConst();
         }
@@ -59,7 +61,6 @@ namespace slae_project.Matrix
             Size = b.Length;
             elements = new double[Size];
             b.CopyTo(elements,0);
-            SetConst();
         }
 
         public IVector Add(IVector b, double coef1 = 1.0, double coef2 = 1.0, bool _override = false)
@@ -117,7 +118,7 @@ namespace slae_project.Matrix
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return GetEnumerator();
         }
 
         public object Clone()

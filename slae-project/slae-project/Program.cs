@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using slae_project.Matrix;
+using slae_project.Vector;
 namespace slae_project
 {
     static class Program
@@ -16,7 +17,7 @@ namespace slae_project
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new Form1());           
         }
     }
 }

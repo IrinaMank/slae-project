@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Threading;
 namespace slae_project
 {
     public partial class Form1 : Form
@@ -16,5 +16,7 @@ namespace slae_project
         {
             InitializeComponent();
         }
+        public SharpGL_limbo sharpGL_limbo = new SharpGL_limbo(true); //рядом с кнопочкой
+        //sharpGL_limbo.SharpGL_Open(); //в кнопочке
     }
 }
