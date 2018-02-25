@@ -7,9 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-/*
- * нужен ли класс для создания имитации транспонированной матрицы (скорее всего да)
-*/
+
 
 namespace slae_project.Matrix
 {
@@ -21,8 +19,7 @@ namespace slae_project.Matrix
             public SparseRowColumnMatrix Matrix { get; set; }
             public ILinearOperator Transpose => Matrix;
             public ILinearOperator T => Matrix;
-            //????????????????????
-            public IVector Diagonal => Matrix.Diagonal;
+            public IVector Diagonal { get; }
             public int Size => Matrix.Size;
             public IVector MultL(IVector x, bool UseDiagonal) => Matrix.MultLT(x, UseDiagonal);
             public IVector SolveL(IVector x, bool UseDiagonal) => Matrix.SolveLT(x, UseDiagonal);
@@ -43,7 +40,6 @@ namespace slae_project.Matrix
         // портрет сохраняется
         private double[] L;
         private double[] U;
-        // пока выделим диагональ
         private double[] D;
         public double this[int i, int j]
         {
@@ -82,19 +78,26 @@ namespace slae_project.Matrix
 
         public ILinearOperator Transpose => new TransposeIllusion { Matrix = this };
         public ILinearOperator T => new TransposeIllusion { Matrix = this };
+        
 
-        public IVector Diagonal => throw new NotImplementedException();
+         public IVector Diagonal
+         {
+            get {
+                IVector diag = new SimpleVector(this.di);
+                return diag;
+            } 
+             
+         }
 
-       /* public IVector Diagonal()
+            //дописать обход, зачем он вообще нужен?
+        public IEnumerator<(double value, int row, int col)> GetEnumerator()
         {
-            IVector result = new SimpleVector(Size);
-            for (int i = 0; i < Size; i++)
-                result[i] = di[i];
-            return result;
-        }*/
-
-        
-        
+            throw new NotImplementedException();
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
 
         /// <summary>
         /// Инициализация матрицы массивами ig,jg,di,al,au
@@ -106,9 +109,6 @@ namespace slae_project.Matrix
         /// <param name="au">Элементы верхней диагонали</param>
         public SparseRowColumnMatrix(int[] ig, int[] jg, double[] di, double[] al, double[] au)
         {
-            //TODO: отлавливание неккоректного задания матрицы
-            // допустим все корректно
-
             this.di = di;
             this.ig = ig;
             this.jg = jg;
@@ -148,23 +148,11 @@ namespace slae_project.Matrix
             // пусть опять же все корректно
             // Версия с отдельным выделением диагонали di
 
-            //издержки изменений версий
-            //L = new List<double> { };
-            //U = new List<double> { };
-            //D = new List<double> { };
             double sum_l, sum_u, sum_d;
-
-            /*for (int i = 0; i < ig[Size]; i++)
-            {
-                L[i] = al[i];
-                U[i] = au[i];
-            }*/
-
+            
             L = al;
             U = au;
-
-            /*for (int i = 0; i < Size; i++)
-                D[i] = di[i];*/
+            
             D = di;
 
             for (int k = 1, k1 = 0; k <= Size; k++, k1++)
