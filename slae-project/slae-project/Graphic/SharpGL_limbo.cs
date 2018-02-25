@@ -43,11 +43,11 @@ namespace slae_project
         public SharpGL_limbo(bool SelfInit = false)
         {
             //if (SelfInit) SharpGL_Open_hidden();
-            Console.WriteLine("1");
+
+
             //Расскоментируй для самооткрытия
-            if (SelfInit)
+            if (false)//(SelfInit)
             {
-                Console.WriteLine("2");
                 SharpGL_Open();
                 UR.UserGuide_access(ref List_Of_Objects);
                 Refresh_Window();

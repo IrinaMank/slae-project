@@ -65,7 +65,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Graphic\Asynchronized.cs" />
     <Compile Include="Graphic\AutoCellAdjust.cs">
       <SubType>Form</SubType>
     </Compile>
