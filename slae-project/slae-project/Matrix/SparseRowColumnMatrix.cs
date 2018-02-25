@@ -6,7 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using slae_project.Vector;
+using slae_project.Matrix.MatrixExceptions;
 
 
 namespace slae_project.Matrix
@@ -181,7 +182,7 @@ namespace slae_project.Matrix
                     L[m] = L[m] - sum_l;
                     U[m] = (U[m] - sum_u) / D[jg[m]];
                     if (double.IsInfinity(U[m]))
-                        throw new Exception("Ошибка при LU предобуславливании!");
+                        throw new LUFailException("Ошибка при LU предобуславливании!");
                     sum_d += L[m] * U[m];
                 }
                 D[k1] = L[k1] - sum_d;
@@ -202,7 +203,7 @@ namespace slae_project.Matrix
             {
                     //проверка корректности
                 if (this.Size != x.Size)
-                    throw new Exception("Ошибка. Различие в размерности вектора и матрицы в функции SolveL");
+                    throw new DifferentSizeException("Ошибка. Различие в размерности вектора и матрицы в функции SolveL");
                 else
                 {
                     IVector result = new SimpleVector(this.Size);
@@ -221,7 +222,7 @@ namespace slae_project.Matrix
                 }
             }
             else
-                throw new Exception("Ошибка. Невозможно выполнить функцию SolveL, т.к. не удалось сделать разложение LU.");
+                throw new CannotMultException("Ошибка. Невозможно выполнить функцию SolveL, т.к. не удалось сделать разложение LU.");
 
             // можно было сделать главное условие if(UseDiagonal==true) и разбиение на два цикла, но так компактнее
         }
@@ -234,7 +235,7 @@ namespace slae_project.Matrix
             {
                 //проверка корректности
                 if (this.Size != x.Size)
-                    throw new Exception("Ошибка. Различие в размерности вектора и матрицы в функции SolveU");
+                    throw new DifferentSizeException("Ошибка. Различие в размерности вектора и матрицы в функции SolveU");
                 else
                 {
                     IVector result = (IVector)x.Clone();
@@ -250,7 +251,7 @@ namespace slae_project.Matrix
                 }
             }
             else
-                throw new Exception("Ошибка. Невозможно выполнить функцию SolveU, т.к. не удалось сделать разложение LU.");
+                throw new CannotMultException("Ошибка. Невозможно выполнить функцию SolveU, т.к. не удалось сделать разложение LU.");
         }
 
 
@@ -261,7 +262,7 @@ namespace slae_project.Matrix
             if (LU_was_made)
             {
                 if (this.Size != x.Size)
-                    throw new Exception("Ошибка. Различие в размерности вектора и матрицы в функции MultL");
+                    throw new DifferentSizeException("Ошибка. Различие в размерности вектора и матрицы в функции MultL");
                 else
                 {
                     IVector result = new SimpleVector(this.Size);
@@ -276,7 +277,7 @@ namespace slae_project.Matrix
                 }
             }
             else
-                throw new Exception("Ошибка. Невозможно выполнить функцию MultL, т.к. не удалось сделать разложение LU.");
+                throw new CannotMultException("Ошибка. Невозможно выполнить функцию MultL, т.к. не удалось сделать разложение LU.");
 
         }
 
@@ -287,7 +288,7 @@ namespace slae_project.Matrix
             if (LU_was_made)
             {
                 if (this.Size != x.Size)
-                    throw new Exception("Ошибка. Различие в размерности вектора и матрицы в функции MultU");
+                    throw new DifferentSizeException("Ошибка. Различие в размерности вектора и матрицы в функции MultU");
                 else
                 {
                     IVector result = new SimpleVector(Size);
@@ -303,7 +304,7 @@ namespace slae_project.Matrix
                 }
             }
             else
-                throw new Exception("Ошибка. Невозможно выполнить функцию MultU, т.к. не удалось сделать разложение LU.");
+                throw new CannotMultException("Ошибка. Невозможно выполнить функцию MultU, т.к. не удалось сделать разложение LU.");
           
         }
 
@@ -334,7 +335,7 @@ namespace slae_project.Matrix
             {
                 //проверка корректности
                 if (this.Size != x.Size)
-                    throw new Exception("Ошибка. Различие в размерности вектора и матрицы в функции SolveLT");
+                    throw new DifferentSizeException("Ошибка. Различие в размерности вектора и матрицы в функции SolveLT");
                 else
                 {
                     IVector result = (IVector)x.Clone();
@@ -350,7 +351,7 @@ namespace slae_project.Matrix
                 }
             }
             else
-                throw new Exception("Ошибка. Невозможно выполнить функцию SolveLT, т.к. не удалось сделать разложение LU.");
+                throw new CannotMultException("Ошибка. Невозможно выполнить функцию SolveLT, т.к. не удалось сделать разложение LU.");
 
         }
 
@@ -362,7 +363,7 @@ namespace slae_project.Matrix
             {
                 //проверка корректности
                 if (this.Size != x.Size)
-                    throw new Exception("Ошибка. Различие в размерности вектора и матрицы в функции SolveUT");
+                    throw new DifferentSizeException("Ошибка. Различие в размерности вектора и матрицы в функции SolveUT");
                 else
                 {
                     IVector result = new SimpleVector(this.Size);
@@ -381,7 +382,7 @@ namespace slae_project.Matrix
                 }
             }
             else
-                throw new Exception("Ошибка. Невозможно выполнить функцию SolveUT, т.к. не удалось сделать разложение LU.");
+                throw new CannotMultException("Ошибка. Невозможно выполнить функцию SolveUT, т.к. не удалось сделать разложение LU.");
 
         }
 
@@ -392,7 +393,7 @@ namespace slae_project.Matrix
             if (LU_was_made)
             {
                 if (this.Size != x.Size)
-                    throw new Exception("Ошибка. Различие в размерности вектора и матрицы в функции MultLT");
+                    throw new DifferentSizeException("Ошибка. Различие в размерности вектора и матрицы в функции MultLT");
                 else
                 {
                     IVector result = new SimpleVector(Size);
@@ -408,7 +409,7 @@ namespace slae_project.Matrix
                 }
             }
             else
-                throw new Exception("Ошибка. Невозможно выполнить функцию MultLT, т.к. не удалось сделать разложение LU.");
+                throw new CannotMultException("Ошибка. Невозможно выполнить функцию MultLT, т.к. не удалось сделать разложение LU.");
 
         }
 
@@ -419,7 +420,7 @@ namespace slae_project.Matrix
             if (LU_was_made)
             {
                 if (this.Size != x.Size)
-                    throw new Exception("Ошибка. Различие в размерности вектора и матрицы в функции MultUT");
+                    throw new DifferentSizeException("Ошибка. Различие в размерности вектора и матрицы в функции MultUT");
                 else
                 {
                     IVector result = new SimpleVector(this.Size);
@@ -434,7 +435,7 @@ namespace slae_project.Matrix
                 }
             }
             else
-                throw new Exception("Ошибка. Невозможно выполнить функцию MultUT, т.к. не удалось сделать разложение LU.");
+                throw new CannotMultException("Ошибка. Невозможно выполнить функцию MultUT, т.к. не удалось сделать разложение LU.");
 
         }
     }
