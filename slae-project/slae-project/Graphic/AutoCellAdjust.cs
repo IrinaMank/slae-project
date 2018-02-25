@@ -16,6 +16,9 @@ namespace slae_project
             int tempWidth;
             int borderIndent = 10;
 
+            if (GD.font_format == GraphicData.FontFormat.G && GD.FontQuanitityAfterPoint == 0)
+                maxAppropriateWidth = maxWidth + GD.FontQuanitityAfterPoint + 2;
+            else
             switch (GD.font_format)
             {
                 case GraphicData.FontFormat.G:
