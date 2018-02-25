@@ -375,7 +375,7 @@ namespace slae_project
             radioButton2_TargetPlus_Enabled.Checked = true;
             radioButton1_TargetPlus_Disabled.Checked = false;
             
-            Refresh_Window();
+            Refresh_Window(false);
         }
 
         /// <summary>
@@ -388,7 +388,7 @@ namespace slae_project
             if (TryInit) GD.RealDraw_Try_To_Initialize = true;
             openGLControl.Refresh();
             SetScrollBars();
-            GD.MoveToEndCursor();
+            //GD.MoveToEndCursor();
             //openGLControl.Refresh();
         }
 
@@ -444,7 +444,7 @@ namespace slae_project
                 radioButton3_Exponential.Checked = false;
             }
             setAutoCell();
-            Refresh_Window();
+            Refresh_Window(false);
         }
 
         /// <summary>
@@ -461,7 +461,7 @@ namespace slae_project
                 radioButton3_Exponential.Checked = false;
             }
             setAutoCell();
-            Refresh_Window();
+            Refresh_Window(false);
         }
 
         /// <summary>
@@ -478,7 +478,7 @@ namespace slae_project
                 radioButton1_General.Checked = false;
             }
             setAutoCell();
-            Refresh_Window();
+            Refresh_Window(false);
         }
 
         /// <summary>
@@ -703,8 +703,7 @@ namespace slae_project
         /// <param name="e"></param>
         private void trackBar_FontSize_MouseCaptureChanged(object sender, EventArgs e)
         {
-            GD.FontSize = trackBar_FontSize.Value;
-            setAutoCell();
+            
         }
 
         /// <summary>
@@ -714,9 +713,7 @@ namespace slae_project
         /// <param name="e"></param>
         private void trackBar_QuantityAfterPoint_MouseCaptureChanged(object sender, EventArgs e)
         {
-            GD.FontQuanitityAfterPoint = trackBar_QuantityAfterPoint.Value;
-            setAutoCell();
-            Refresh_Window(false);
+            
         }
 
         private void SharpGLForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -734,6 +731,19 @@ namespace slae_project
             GD.Grid.NetWorkOS_X.Clear();
             GD.Grid.NetWorkOS_Y.Clear();
             GC.Collect(20000);
+        }
+
+        private void trackBar_FontSize_ValueChanged(object sender, EventArgs e)
+        {
+            GD.FontSize = trackBar_FontSize.Value;
+            setAutoCell();
+        }
+
+        private void trackBar_QuantityAfterPoint_ValueChanged(object sender, EventArgs e)
+        {
+            GD.FontQuanitityAfterPoint = trackBar_QuantityAfterPoint.Value;
+            setAutoCell();
+            Refresh_Window(false);
         }
     }
 }
