@@ -516,10 +516,10 @@ namespace slae_project
             //x_to -=  + 3;
             //y_to +=  + Grid.yCellSize * 3 / 4;
 
-            x_from += - 3;
-            y_from += - Grid.yCellSize / 4;
-            x_to +=  + Grid.yCellSize * 3 / 4;
-            y_to +=  + Grid.yCellSize * 3 / 4;
+            x_from += - 3 - 1;
+            y_from += - Grid.yCellSize / 4 - 1;
+            x_to +=  + Grid.yCellSize * 3 / 4 + 1;
+            y_to +=  + Grid.yCellSize * 3 / 4 + 1;
 
             //x_from += -5;
             //y_from += -5;
