@@ -374,7 +374,9 @@ namespace slae_project
             radioButton1_Number_disabled.Checked = false;
             radioButton2_TargetPlus_Enabled.Checked = true;
             radioButton1_TargetPlus_Disabled.Checked = false;
-            
+
+            GD.BoolTextIsEnabledOtherwiseQuads = true;
+
             Refresh_Window(false);
         }
 
@@ -735,8 +737,26 @@ namespace slae_project
 
         private void trackBar_FontSize_ValueChanged(object sender, EventArgs e)
         {
-            GD.FontSize = trackBar_FontSize.Value;
-            setAutoCell();
+            if (trackBar_FontSize.Value >= 4)
+            {
+                GD.FontSize = trackBar_FontSize.Value;
+                GD.BoolTextIsEnabledOtherwiseQuads = true;
+                setAutoCell();
+                GD.BoolLinesAreEnabled = true;
+            }
+            else
+            {
+                GD.BoolTextIsEnabledOtherwiseQuads = false;
+
+                int size = 17 + trackBar_FontSize.Value;
+                GD.Grid.xCellSize = size;
+                GD.Grid.yCellSize = size;
+                
+                if (size < 6) GD.BoolLinesAreEnabled = false;
+                else GD.BoolLinesAreEnabled = true;
+
+                Refresh_Window(false);
+            }
         }
 
         private void trackBar_QuantityAfterPoint_ValueChanged(object sender, EventArgs e)

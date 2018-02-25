@@ -274,6 +274,9 @@ namespace slae_project
                             TempMaxWidth = value.ToString().Length;
                             if (TempMaxWidth > ViktorsMaxWidth) ViktorsMaxWidth = TempMaxWidth;
 
+                            if (value < double_min) double_min = value;
+                            if (value > double_max) double_max = value;
+
                             Grid.X_move();
                         }
 
@@ -327,7 +330,9 @@ namespace slae_project
                 {
                     foreach (var func in Grid.NetWorkOS_X[x].List_of_func)
                         if (func.func_type == Net.FunctionType.DrawLine)
-                            draw_line(cursor_X(func.value1), cursor_Y(func.value2), cursor_X(func.value3), cursor_Y(func.value4));
+                        {
+                            if (BoolLinesAreEnabled) draw_line(cursor_X(func.value1), cursor_Y(func.value2), cursor_X(func.value3), cursor_Y(func.value4));
+                        }
                         else if (func.func_type == Net.FunctionType.DrawText)
                             Draw_Text(cursor_X(func.value1), cursor_Y(func.value2), func.str);
                 }
@@ -336,7 +341,9 @@ namespace slae_project
             {
                 foreach (var func in Grid.NetWorkOS_Y[y].List_of_func)
                     if (func.func_type == Net.FunctionType.DrawLine)
-                        draw_line(cursor_X(func.value1), cursor_Y(func.value2), cursor_X(func.value3), cursor_Y(func.value4));
+                    {
+                        if (BoolLinesAreEnabled) draw_line(cursor_X(func.value1), cursor_Y(func.value2), cursor_X(func.value3), cursor_Y(func.value4));
+                    }
                     else if (func.func_type == Net.FunctionType.DrawText)
                         Draw_Text(cursor_X(func.value1), cursor_Y(func.value2), func.str);
 
@@ -346,7 +353,10 @@ namespace slae_project
                 {
                     if (x < Grid.NetWorkValue[y].Count())
                         if (!double.IsNaN(Grid.NetWorkValue[y][x]))
-                            Draw_Text(cursor_X(x), cursor_Y(y), Grid.NetWorkValue[y][x].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
+                        {
+                            if (BoolTextIsEnabledOtherwiseQuads) Draw_Text(cursor_X(x), cursor_Y(y), Grid.NetWorkValue[y][x].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
+                            else draw_white_square(cursor_X(x), cursor_Y(y), Grid.NetWorkValue[y][x]);
+                        }
 
 
 
@@ -358,6 +368,8 @@ namespace slae_project
             LaserCrossroad();
             NumberCrossroad();
         }
+        public bool BoolTextIsEnabledOtherwiseQuads = true;
+        public bool BoolLinesAreEnabled = true;
         private int cursor_X(int value)
         {
             return value * Grid.xCellSize + Grid.initP.x;
@@ -417,7 +429,7 @@ namespace slae_project
                 in_x -= mouse.ShiftedPosition.x;
                 in_y += +mouse.ShiftedPosition.y;
             }
-            gl.DrawText(in_x, in_y, r, g, b, "", FontSize, phrase);
+            gl.DrawText(in_x, in_y, r, g, b, "", 14, phrase);
         }
         void Draw_Horizontal_numbers_for_matrix(GraphicObject obj)
         {
@@ -430,7 +442,7 @@ namespace slae_project
                 //определенной оси Y, хмм, мы можем воспользоваться старой доброй yCellBelong функций. точняк.
                 while (Grid.X_Y_counter.x >= Grid.NetWorkOS_X.Count())
                     Grid.NetWorkOS_X.Add(new Net.NetWorkOSCell());
-                Grid.NetWorkOS_X[Grid.X_Y_counter.x].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, Count_by_X.ToString(), Grid.cursorP.x, Grid.cursorP.y));
+                Grid.NetWorkOS_X[Grid.X_Y_counter.x].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, Count_by_X.ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
                 //Draw_Text(Grid.cursorP.x, Grid.cursorP.y, Count_by_X.ToString());
                 
                 Grid.X_move();
@@ -489,19 +501,40 @@ namespace slae_project
             gl.Vertex(x_to, y_to, Line_Height);
             gl.End();
         }
-        /*private void draw_white_square(int x_from, int y_from, int x_to, int y_to)
+
+        private double double_min = double.MaxValue;
+        private double double_max = double.MinValue;
+        private void draw_white_square(int x_from, int y_from, double value)
         {
-            //x_from -= mouse.ShiftedPosition.x;
-            //y_from += mouse.ShiftedPosition.y;
-            //x_to -= mouse.ShiftedPosition.x;
-            //y_to += mouse.ShiftedPosition.y;
+            x_from -= mouse.ShiftedPosition.x;
+            y_from += mouse.ShiftedPosition.y;
+            int x_to = x_from;
+            int y_to = y_from;
+
+            //x_from -=  + 3;
+            //y_from +=  + Grid.yCellSize * 3 / 4;
+            //x_to -=  + 3;
+            //y_to +=  + Grid.yCellSize * 3 / 4;
+
+            x_from += - 3;
+            y_from += - Grid.yCellSize / 4;
+            x_to +=  + Grid.yCellSize * 3 / 4;
+            y_to +=  + Grid.yCellSize * 3 / 4;
+
+            //x_from += -5;
+            //y_from += -5;
+            //x_to += 0;
+            //y_to += 0;
 
             //Чтобы не прописывать постоянно
             OpenGL gl = openGLControl.OpenGL;
             //  Clear the color and depth buffer.
             //  Load the identity matrix.
             gl.LoadIdentity();
-            gl.Color(0.0f, 0.0f, 0.0f, 1.0f); //Must have, weirdness!
+
+            float temp_procent_color = (float)((value - double_min) / (double_max - double_min));
+
+            gl.Color(temp_procent_color, 0.0f, 1.0f - temp_procent_color, 1.0f); //Must have, weirdness!
             gl.Begin(OpenGL.GL_QUADS);
 
             Single Line_Height = -0.4f;
@@ -513,7 +546,7 @@ namespace slae_project
             
 
             gl.End();
-        }*/
+        }
     }
     
     

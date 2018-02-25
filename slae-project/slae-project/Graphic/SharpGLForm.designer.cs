@@ -221,7 +221,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.trackBar_FontSize.Location = new System.Drawing.Point(4, 24);
             this.trackBar_FontSize.Maximum = 24;
-            this.trackBar_FontSize.Minimum = 4;
+            this.trackBar_FontSize.Minimum = -13;
             this.trackBar_FontSize.Name = "trackBar_FontSize";
             this.trackBar_FontSize.Size = new System.Drawing.Size(173, 32);
             this.trackBar_FontSize.TabIndex = 3;

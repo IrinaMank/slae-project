@@ -155,7 +155,7 @@ namespace slae_project
             double single_value = 5;
 
             double[] vector4ik = new double[40]; for (int i = 0; i < 40; i++) vector4ik[i] = i;
-            double[,] randomMatrix = new double[,] { { 123, 2, 3, 4 }, { -12345678912345, 4, 1, 1 }, { 5, 6, 1, 1 } };
+            double[,] randomMatrix = new double[,] { { 123, 2, 3, 4 }, { -1, 4, 1, 1 }, { 5, 6, 1, 1 } };
 
             List<double> listed_vectorik = new List<double>() { 1, 2, 3, 4, 5 };
             List<List<double>> listed_matrix = new List<List<double>>() { new List<double> { 1, 2 }, new List<double> { 3, 4 }, new List<double> { 5, 6 } };
