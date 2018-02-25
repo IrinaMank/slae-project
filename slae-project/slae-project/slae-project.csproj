@@ -69,6 +69,7 @@
     <Compile Include="Matrix\CoordinateMatrix.cs" />
     <Compile Include="Matrix\ILinearOperator.cs" />
     <Compile Include="Matrix\IMatrix.cs" />
+    <Compile Include="Matrix\SparseRowColumnMatrix.cs" />
     <Compile Include="Solver\LOSSolver.cs" />
     <Compile Include="Matrix\MatrixExceptions\CannotMultException.cs" />
     <Compile Include="Matrix\MatrixExceptions\CannotSolveSLAEException.cs" />
