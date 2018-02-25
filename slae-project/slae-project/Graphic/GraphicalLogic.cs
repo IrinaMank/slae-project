@@ -264,6 +264,7 @@ namespace slae_project
                         //Пиши его значения в строчку
                         foreach (var value in vect)
                         {
+                            if (Grid.X_Y_counter.x % 1000 == 0) if (MemoryChecker()) return;
                             //if (Belongs_yCellArea())
                             //if (Belongs_xCellArea())
                             //{
