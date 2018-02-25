@@ -385,7 +385,7 @@ namespace slae_project
             GD.RealDraw_Try_To_Initialize = true;
             openGLControl.Refresh();
             SetScrollBars();
-            
+            GD.MoveToEndCursor();
             //openGLControl.Refresh();
         }
 
@@ -407,13 +407,23 @@ namespace slae_project
         /// Высчитывает границы скруллбаров максимумов и 
         /// местоположение мышки-обзора в левый нижний угол возвращает
         /// </summary>
-        void SetScrollBars()
+        public void SetScrollBars()
         {
-            GD.mouse.BorderEndRecalculate();
-            hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.x);
-            vScrollBar1.Minimum = GD.mouse.BorderBegin.y; vScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.y);
-            vScrollBar1.Value = Math.Abs(GD.mouse.BorderEnd.y);
-            hScrollBar1.Value = Math.Abs(GD.mouse.BorderBegin.x);
+            if (GD != null)
+            {
+                if (GD.mouse != null)
+                {
+                    GD.mouse.BorderEndRecalculate();
+                    hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.x);
+                    vScrollBar1.Minimum = GD.mouse.BorderBegin.y; vScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.y);
+
+                    if (GD.mouse.BorderEnd.y >= GD.mouse.BorderBegin.y)
+                    vScrollBar1.Value = Math.Abs(GD.mouse.BorderEnd.y);
+
+                    if (GD.mouse.BorderBegin.x <= GD.mouse.BorderEnd.x)
+                    hScrollBar1.Value = Math.Abs(GD.mouse.BorderBegin.x);
+                }
+            }
         }
 
 
@@ -715,7 +725,7 @@ namespace slae_project
         {
             Clearer();
         }
-        private void Clearer()
+        public void Clearer()
         {
             GD.Grid.NetWorkValue.Clear();
             GD.Grid.NetWorkOS_X.Clear();

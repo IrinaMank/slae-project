@@ -163,7 +163,7 @@ namespace slae_project
             if (Comp.AvailablePhysicalMemory / 1048576 < 100)
             {
                 MessageBox.Show("Извините, но у вас закончилась оперативная память. Порог 100мб достигнут.", "Ошибка");
-                sharpGLform.Close();
+                sharpGLform.Clearer();
                 return true;
             }
             return false;
@@ -301,7 +301,7 @@ namespace slae_project
 
                 Grid.DeadPoint.y = -Grid.cursorP.y;
                 //Возвращает курсор по Y координатами в саааамое начало.
-
+                sharpGLform.SetScrollBars();
             }
 
             PartialDrawer();
@@ -667,8 +667,22 @@ namespace slae_project
         }
         public void BorderEndRecalculate()
         {
-            BorderEnd.x = +Grid.DeadPoint.x - openGLControl.Width + Grid.xCellSize;
-            BorderEnd.y = Grid.DeadPoint.y;
+            if (Grid != null)
+            {
+                if (Grid.NetWorkOS_X != null && Grid.NetWorkOS_Y != null)
+                {
+                    BorderEnd.x = Grid.NetWorkOS_X.Count() * Grid.xCellSize;//+Grid.DeadPoint.x - openGLControl.Width + Grid.xCellSize;
+                    BorderEnd.y = Grid.NetWorkOS_Y.Count() * Grid.yCellSize;//Grid.DeadPoint.y;
+
+                    BorderEnd.x -= openGLControl.Width;
+                    BorderEnd.y -= openGLControl.Height;
+                }
+            }
+            else
+            {
+                BorderEnd.x = 50;
+                BorderEnd.y = 50;
+            }
         }
         public PointInt BorderBegin = new PointInt(15, 10);//самый верхний левый угол для ShiftedPosition
         public PointInt BorderEnd = new PointInt(15, 10);//самый нижний правый угол для ShiftedPosition
