@@ -46,7 +46,7 @@ namespace slae_project
 
 
             //Убери восклицательный знак для открытия
-            if (SelfInit)
+            if (!SelfInit)
             {
                 SharpGL_Open();
                 UR.UserGuide_access(ref List_Of_Objects);
