@@ -164,8 +164,8 @@ namespace slae_project
         {
             if (Comp.AvailablePhysicalMemory / 1048576 < 100)
             {
-                MessageBox.Show("Извините, но у вас закончилась оперативная память. Порог 100мб достигнут.", "Ошибка");
                 sharpGLform.Clearer();
+                MessageBox.Show("Извините, но у вас закончилась оперативная память. Порог 100мб достигнут.", "Ошибка"); 
                 return true;
             }
             return false;
