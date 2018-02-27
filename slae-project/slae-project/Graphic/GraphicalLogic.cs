@@ -678,6 +678,7 @@ namespace slae_project
             X_Y_counter.y = 0;
 
             if (GD_link.List_Of_Objects.Count() != 0)
+            {
                 if (InitiaiteMemoryChecking())
                 {
                     YourRequireNewMemory = false;
@@ -687,6 +688,8 @@ namespace slae_project
                     YourRequireNewMemory = true;
                     InitiaiteMemoryRewriter();
                 }
+            }
+            else YourRequireNewMemory = true;
             //else NetWorkValue[X_Y_counter.y][X_Y_counter.x].CellCursorP.Y = cursorP.y;
             if (YourRequireNewMemory)
             {
