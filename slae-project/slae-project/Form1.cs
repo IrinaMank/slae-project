@@ -72,10 +72,18 @@ namespace slae_project
 
             Form2 formats = new Form2();
             formats.Show();
-            
+
+            button1.Visible = true;
+
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
         {
 
         }

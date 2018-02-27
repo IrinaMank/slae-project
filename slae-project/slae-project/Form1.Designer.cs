@@ -42,6 +42,7 @@
             this.менюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.информацияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -50,7 +51,7 @@
             // 
             this.format_matrix.FormattingEnabled = true;
             this.format_matrix.Location = new System.Drawing.Point(301, 76);
-            this.format_matrix.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.format_matrix.Margin = new System.Windows.Forms.Padding(2);
             this.format_matrix.Name = "format_matrix";
             this.format_matrix.Size = new System.Drawing.Size(245, 21);
             this.format_matrix.TabIndex = 0;
@@ -59,7 +60,7 @@
             // 
             this.solver.FormattingEnabled = true;
             this.solver.Location = new System.Drawing.Point(301, 109);
-            this.solver.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.solver.Margin = new System.Windows.Forms.Padding(2);
             this.solver.Name = "solver";
             this.solver.Size = new System.Drawing.Size(245, 21);
             this.solver.TabIndex = 1;
@@ -68,7 +69,7 @@
             // 
             this.precond.FormattingEnabled = true;
             this.precond.Location = new System.Drawing.Point(301, 142);
-            this.precond.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.precond.Margin = new System.Windows.Forms.Padding(2);
             this.precond.Name = "precond";
             this.precond.Size = new System.Drawing.Size(245, 21);
             this.precond.TabIndex = 2;
@@ -111,9 +112,9 @@
             // 
             this.groupBox1.Controls.Add(this.property_matrix);
             this.groupBox1.Location = new System.Drawing.Point(98, 186);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(148, 95);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
@@ -123,7 +124,7 @@
             // 
             this.property_matrix.FormattingEnabled = true;
             this.property_matrix.Location = new System.Drawing.Point(14, 21);
-            this.property_matrix.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.property_matrix.Margin = new System.Windows.Forms.Padding(2);
             this.property_matrix.Name = "property_matrix";
             this.property_matrix.Size = new System.Drawing.Size(117, 49);
             this.property_matrix.TabIndex = 7;
@@ -132,11 +133,11 @@
             // start
             // 
             this.start.Location = new System.Drawing.Point(319, 257);
-            this.start.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.start.Margin = new System.Windows.Forms.Padding(2);
             this.start.Name = "start";
-            this.start.Size = new System.Drawing.Size(68, 24);
+            this.start.Size = new System.Drawing.Size(123, 24);
             this.start.TabIndex = 7;
-            this.start.Text = "Старт";
+            this.start.Text = "Загрузить данные";
             this.start.UseVisualStyleBackColor = true;
             this.start.Click += new System.EventHandler(this.start_Click);
             // 
@@ -173,11 +174,23 @@
             this.выходToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.выходToolStripMenuItem.Text = "Выход";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(460, 257);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(118, 23);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Получить решение";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(630, 319);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.start);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
@@ -215,6 +228,7 @@
         private System.Windows.Forms.ToolStripMenuItem менюToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem информацияToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
+        private System.Windows.Forms.Button button1;
     }
 }
 

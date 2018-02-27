@@ -14,9 +14,13 @@ namespace slae_project
    
     public partial class Form2 : Form
     {
-        List<Label> name_arr = new List<Label>();
+        
+        Dictionary<int, Label> name_arr = new Dictionary<int, Label>();
         Dictionary<int, TextBox> puths = new Dictionary<int, TextBox>();
         factory fact;
+        public Dictionary<string, string> filenames_format = new Dictionary<string, string>(); // словарь: ключ - название массива, значение - путь к файлу
+        
+
         public Form2()
         {
             InitializeComponent();
@@ -35,9 +39,9 @@ namespace slae_project
 
             Label name = new Label();
             name.Text = arrays[i];
-            name.Size = new Size(15, 15);
+            name.Size = new Size(25, 15);
             name.Location = new System.Drawing.Point(x_l, y);
-            name_arr.Add(name);
+            name_arr.Add(y, name);
             this.Controls.Add(name);
 
             TextBox puth = new TextBox();
@@ -61,7 +65,25 @@ namespace slae_project
             button_load.Text = "ОК";
             button_load.Size = new Size(183, 23);
             button_load.Location = new Point(x_p, y);
+            button_load.Click += new System.EventHandler(this.button_load_Click);
             this.Controls.Add(button_load);
+
+           
+        }
+        private void button_load_Click(object sender, EventArgs e)
+        {
+            TextBox value = new TextBox();
+            int y = 50;
+            int i = 0;
+            for (i = 0; i < puths.Count(); i++, y += 50)
+            { puths.TryGetValue(y, out value);
+                if (value.Text.ToString() == "")
+                    MessageBox.Show("Заполнены не все поля!");
+                break;
+            }
+            if(i== puths.Count())  this.Close();
+
+
         }
         private void button_Click(object sender, EventArgs e)
         {
@@ -71,12 +93,17 @@ namespace slae_project
             TextBox value = new TextBox();
             puths.TryGetValue(coord.Y, out value);
 
+            Label val_label = new Label();
+            name_arr.TryGetValue(coord.Y, out val_label);
+
+            
+
             if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
                 return;
             //получаем выбранный файл
-            string filename_ia = openFileDialog1.FileName;
-            // читаем файл в строку
-            value.Text = filename_ia;
+            string filename = openFileDialog1.FileName;
+            value.Text = filename;
+            filenames_format.Add(val_label.Text.ToString(), filename);
         }
     }
 }
