@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 
 namespace slae_project
 {
-    public class Factory:Form1
+    class factory
     {
         List<string> arr_format;
-        public string Get_format() {
-            return str_format_matrix;
+        Form1 main_form;
+        public string Get_format()
+        {
+            return main_form.str_format_matrix;
         }
         //public List<string> Set_arrays()
         //{
         //    // return arr_format=get_empty_arrays(); передают вектор <string>
         //}
-        
     }
 }

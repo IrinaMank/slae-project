@@ -16,6 +16,7 @@ namespace slae_project
     {
         List<Label> name_arr = new List<Label>();
         Dictionary<int, TextBox> puths = new Dictionary<int, TextBox>();
+        factory fact;
         public Form2()
         {
             InitializeComponent();
@@ -24,7 +25,7 @@ namespace slae_project
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            //  List<string> arrays = factory.Set_arrays();
+            //List<string> arrays = fact.Set_arrays();
             List<string> arrays = new List<string> { "ia", "ig", "ggu", "ggl" };
             int count_arr = arrays.Count();     
             int x_l = 36, y = 50, x_p = 100, x_b = 315;
@@ -33,7 +34,7 @@ namespace slae_project
             {
 
             Label name = new Label();
-            name.Text = arrays[0];
+            name.Text = arrays[i];
             name.Size = new Size(15, 15);
             name.Location = new System.Drawing.Point(x_l, y);
             name_arr.Add(name);

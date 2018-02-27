@@ -12,14 +12,13 @@ namespace slae_project
 {
     public partial class Form1 : Form
     {
-        public string str_format_matrix;
-        public string str_solver;
-        public string str_precond;
-        public bool property_matr = false;
-        Factory factory;
+        public string str_format_matrix; //формат матрицы
+        public string str_solver; //тип решателя
+        public string str_precond; //тип предобусловлевания
+        public bool property_matr = false; //симметричность матрицы: по умолчанию несимметричная
 
-        
 
+     
         public Form1()
         {
             
