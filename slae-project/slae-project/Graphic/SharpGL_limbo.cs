@@ -46,7 +46,7 @@ namespace slae_project
 
 
             //Убери восклицательный знак для открытия
-            if (!SelfInit)
+            if (SelfInit)
             {
                 SharpGL_Open();
                 UR.UserGuide_access(ref List_Of_Objects);
@@ -161,8 +161,8 @@ namespace slae_project
             List<List<double>> listed_matrix = new List<List<double>>() { new List<double> { 1, 2 }, new List<double> { 3, 4 }, new List<double> { 5, 6 } };
 
             double[,] bigdouble = new double[10000, 10000];
-            for (int i = 0; i < 10000; i++)
-                for (int j = 0; j < 10000; j++) bigdouble[i, j] = i + j;
+           // for (int i = 0; i < 10000; i++)
+             //   for (int j = 0; j < 10000; j++) bigdouble[i, j] = i + j;
             //Добавление объектов на отображение.
             //Имя и Число/Вектор/Матрица в формате (double, double[], double[,], List<double>, List<List<double>>) на выбор.
             List_Of_Objects.Add(new GraphicData.GraphicObject("vector4ik", vector4ik));
