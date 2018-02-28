@@ -8,7 +8,7 @@ using slae_project.Vector;
 namespace UnitTestProject
 {
     [TestClass]
-    public class MatrixTests
+    public class CoordinateMatrixTests
     {
         private TestContext testContextInstance;
 
