@@ -107,6 +107,7 @@ namespace slae_project.Vector
         }
         public bool CompareWith(IVector a, double prec = 1e-5)
         {
+            //ПМ-43 восхитительны
             if (this.Size == a.Size)
             {
                 for (int i = 0; i < Size; i++)
