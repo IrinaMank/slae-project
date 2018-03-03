@@ -171,6 +171,7 @@ namespace slae_project
             List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
             List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
             List_Of_Objects.Add(new GraphicData.GraphicObject("bigdouble", bigdouble));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", 0,5,5));
             List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix", randomMatrix));
             //this.List_Of_Objects.RemoveAt(1); Удалить какойто конкретный
             //this.List_Of_Objects.Clear(); //Удалить все.

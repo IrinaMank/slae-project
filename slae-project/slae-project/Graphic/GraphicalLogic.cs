@@ -10,6 +10,7 @@ using SharpGL;
 using System.IO;
 using System.Diagnostics;
 using Microsoft.VisualBasic.Devices;
+using slae_project.Matrix;
 namespace slae_project
 {
     /// <summary>
@@ -58,13 +59,20 @@ namespace slae_project
             public List<List<double>> Matrix = new List<List<double>>();
 
             public int xCellCount = 0, yCellCount = 0;
-            //public GraphicObject(string _Name)
-            //{
-            //    this.Name = _Name;
-            //}
+            public GraphicObject(string _Name, double _Value, int _xCellCount, int _yCellCount)
+            {
+                //for Imatrix.
+                this.Name = _Name;
+                //this.Name = _Name; Matrix.Add(new List<double>()); Matrix[0].Add(double.NaN);
+
+                xCellCount = _xCellCount;
+                yCellCount = _yCellCount;
+            }
             public GraphicObject(string _Name, List<List<double>> _Matrix)
             {
                 this.Name = _Name; Matrix = _Matrix;
+                xCellCount = Matrix[0].Count();
+                yCellCount = Matrix.Count();
             }
             public GraphicObject(string _Name, double[,] _Matrix)
             {
@@ -80,18 +88,26 @@ namespace slae_project
                     }
                     
                 }
+                xCellCount = Matrix[0].Count();
+                yCellCount = Matrix.Count();
             }
             public GraphicObject(string _Name, List<double> _Vector)
             {
                 this.Name = _Name; Matrix.Add(new List<double>(_Vector));
+                xCellCount = Matrix[0].Count();
+                yCellCount = Matrix.Count();
             }
             public GraphicObject(string _Name, double[] _Vector)
             {
                 this.Name = _Name; Matrix.Add(new List<double>(_Vector.ToList()));
+                xCellCount = Matrix[0].Count();
+                yCellCount = Matrix.Count();
             }
             public GraphicObject(string _Name, double _Value)
             {
                 this.Name = _Name; Matrix.Add(new List<double>()); Matrix[0].Add(_Value);
+                xCellCount = Matrix[0].Count();
+                yCellCount = Matrix.Count();
             }
         }
 
@@ -272,7 +288,7 @@ namespace slae_project
 
                         //Рисует горизонтальные линии матрицы
 
-                        Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", X_old + 1, Y_old, Grid.X_Y_counter.x, Grid.X_Y_counter.y));      
+                              
 
                         Grid.Y_move();
                         X_new = Grid.X_Y_counter.x;
@@ -282,12 +298,13 @@ namespace slae_project
                         Grid.X_nullificate();
                     }
                     //Рисует вертикальные линии матрицы
-                    Draw_Vertical_net_for_matrix(obj, Y_start);
-
-                    //Рисует последнюю горизонтальную линию матрицы
-                    Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", X_new, Y_new, Grid.X_Y_counter.x + 1, Y_new));
+                    Draw_line_net_for_matrix(obj, Y_start);
 
                     Grid.Y_move();
+
+                    int NewY = Y_start + obj.yCellCount + 1;
+                    //Grid.X_Y_counter.y = NewY;
+                    while (Grid.X_Y_counter.y < NewY) Grid.Y_move();
                 }
 
                 //Возвращает курсор по Y координатами в саааамое начало.
@@ -421,7 +438,7 @@ namespace slae_project
             OpenGL gl = openGLControl.OpenGL;
             int Count_by_X = 1;
 
-            foreach (var value in obj.Matrix[0])
+            for (int i = 0; i < obj.xCellCount; i++)
             {
                 //На заметку. Тут не смотря их наличие по ОсиХ, их надо отображать лишь на
                 //определенной оси Y, хмм, мы можем воспользоваться старой доброй yCellBelong функций. точняк.
@@ -437,24 +454,31 @@ namespace slae_project
             Grid.X_move();
             Grid.X_nullificate();
         }
-        void Draw_Vertical_net_for_matrix(GraphicObject obj, int Y_start)
+        void Draw_line_net_for_matrix(GraphicObject obj, int Y_start)
         {
             Grid.X_move();
-            foreach (var value in obj.Matrix[0])
+            for(int i = 0; i < obj.xCellCount; i++)
             {
                 //if (Belongs_xCellArea())
                 while (Grid.X_Y_counter.x >= Grid.NetWorkOS_X.Count())
                     Grid.NetWorkOS_X.Add(new Net.NetWorkOSCell());
-                Grid.NetWorkOS_X[Grid.X_Y_counter.x].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", Grid.X_Y_counter.x, Y_start, Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                Grid.NetWorkOS_X[Grid.X_Y_counter.x].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", Grid.X_Y_counter.x, Y_start, Grid.X_Y_counter.x, Y_start + obj.yCellCount));
                 //draw_line(Grid.cursorP.x, Y_start,Grid.cursorP.x, Grid.cursorP.y);
                 Grid.X_move();
             }
             while (Grid.X_Y_counter.x >= Grid.NetWorkOS_X.Count())
                 Grid.NetWorkOS_X.Add(new Net.NetWorkOSCell());
-            Grid.NetWorkOS_X[Grid.X_Y_counter.x].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", Grid.X_Y_counter.x, Y_start, Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+            Grid.NetWorkOS_X[Grid.X_Y_counter.x].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", Grid.X_Y_counter.x, Y_start, Grid.X_Y_counter.x, Y_start + obj.yCellCount));
             //draw_line(Grid.cursorP.x, Y_start,Grid.cursorP.x, Grid.cursorP.y);
 
+            Grid.X_nullificate();
             Grid.X_move();
+            Grid.X_Y_counter.y = Y_start;
+            for (int i = 0; i <= obj.yCellCount; i++)
+            { 
+                Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", Grid.X_Y_counter.x, Grid.X_Y_counter.y, Grid.X_Y_counter.x + obj.xCellCount, Grid.X_Y_counter.y));
+                Grid.Y_move();
+            }   
             Grid.X_nullificate();
         }
         /// <summary>
@@ -619,13 +643,16 @@ namespace slae_project
             cursorP.y -= yCellSize;
             X_Y_counter.y++;
 
-            if (YourRequireNewMemory)
+            while (X_Y_counter.y >= NetWorkOS_Y.Count()|| X_Y_counter.y >= NetWorkValue.Count())
             {
-                NetWorkValue.Add(new List<double>());
-                NetWorkValue[X_Y_counter.y].Add(double.NaN);
-            }
+                if (YourRequireNewMemory)
+                {
+                    NetWorkValue.Add(new List<double>());
+                    NetWorkValue[X_Y_counter.y].Add(double.NaN);
+                }
 
-            NetWorkOS_Y.Add(new NetWorkOSCell());
+                NetWorkOS_Y.Add(new NetWorkOSCell());
+            }
         }
         List<int> MemorySizeChangeChecker = new List<int>();
         bool YourRequireNewMemory = true;
