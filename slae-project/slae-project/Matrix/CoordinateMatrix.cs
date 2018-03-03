@@ -285,6 +285,11 @@ namespace slae_project.Matrix
                 end = 0;
             else
                 end = 1;
+            int l = 0;
+            if (partM == L)
+                l = 0;
+            else
+                l = 1;
 
             IVector result = new SimpleVector(Size);
             if (transpose)
@@ -294,7 +299,7 @@ namespace slae_project.Matrix
                     var line = partM[i];
                     for (int j = 0; j < line.Length - end; j++)
                     {
-                        result[i] += line[j] * x[j];
+                        result[j+i*l] += line[j] * x[j+i*l];
                     }
                 }
             }
@@ -305,7 +310,7 @@ namespace slae_project.Matrix
                     var line = partM[i];
                     for (int j = 0; j < line.Length - end; j++)
                     {
-                        result[j] += line[j] * x[j];
+                        result[i] += line[j] * x[j+i*l];
                     }
                 }
             }

@@ -15,22 +15,21 @@ namespace slae_project
         [STAThread]
         static void Main()
         {
-            //(int, int)[] coord = new(int, int)[16];
-            //double[] val = new double[16] { 1, 4, 4, 4, 1, 1, 3, 3, 1, 1, 1, 2, 1, 1, 1, 1 };
+            (int, int)[] coord = new(int, int)[16];
+            double[] val = new double[16] { 1, 4, 4, 4, 1, 1, 3, 3, 1, 1, 1, 2, 1, 1, 1, 1 };
 
-            //for (int i = 0; i < 16; i++)
-            //{
-            //    coord[i] = (i / 4, i % 4);
-            //}
+            for (int i = 0; i < 16; i++)
+            {
+                coord[i] = (i / 4, i % 4);
+            }
 
-            //IMatrix mar = new CoordinateMatrix(coord, val);
-            //IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
-            //IVector y;
+            IMatrix mar = new CoordinateMatrix(coord, val);
+            IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
+            IVector y;
 
-            //y = mar.MultL(x);
-            //IVector right = new SimpleVector(new double[4] { 1, 2, 3, 4 });
-            //y.CompareWith(right, 1e-5);
-            CoordinateMatrix.localtest();
+            y = mar.T.MultU(x);
+            IVector right = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+            y.CompareWith(right, 1e-5);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
