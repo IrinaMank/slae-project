@@ -56,10 +56,12 @@ namespace slae_project
             public string Name;
 
             public List<List<double>> Matrix = new List<List<double>>();
-            public GraphicObject(string _Name)
-            {
-                this.Name = _Name;
-            }
+
+            public int xCellCount = 0, yCellCount = 0;
+            //public GraphicObject(string _Name)
+            //{
+            //    this.Name = _Name;
+            //}
             public GraphicObject(string _Name, List<List<double>> _Matrix)
             {
                 this.Name = _Name; Matrix = _Matrix;
@@ -247,17 +249,8 @@ namespace slae_project
                         X_old = Grid.X_Y_counter.x;
                         Y_old = Grid.X_Y_counter.y;
 
-                        //if (Belongs_yCellArea())
-                        //{
-                        //Y оси идет тоже самое. Не смотря на его отображаемость. По оси Икс проверяй отображать ли.
-                        Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, Count_by_Y.ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
-                        //Draw_Text(Grid.cursorP.x + 25, Grid.cursorP.y, Count_by_Y.ToString());
+                       Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, Count_by_Y.ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
 
-                        /* НомероУказатель надо переделать на вариант получше.
-                            if (TargetNumber)
-                                if (Math.Abs(Grid.cursorP.y + Target_Y_value) < Target_Y_radius)
-                                    Draw_Text(mouse.true_x + 20, mouse.true_y, "- " + Count_by_Y.ToString(),0,0,0);*/
-                        //}
                         Count_by_Y++; Grid.X_move();
 
                         int TempMaxWidth = 0;
@@ -265,13 +258,9 @@ namespace slae_project
                         foreach (var value in vect)
                         {
                             if (Grid.X_Y_counter.x % 1000 == 0) if (MemoryChecker()) return;
-                            //if (Belongs_yCellArea())
-                            //if (Belongs_xCellArea())
-                            //{
-                            Grid.NetWorkValue[Grid.X_Y_counter.y][Grid.X_Y_counter.x] = value;
-                            //Draw_Text(Grid.cursorP.x, Grid.cursorP.y, value.ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
-                            //}
 
+                            Grid.NetWorkValue[Grid.X_Y_counter.y][Grid.X_Y_counter.x] = value;
+                
                             TempMaxWidth = value.ToString().Length;
                             if (TempMaxWidth > ViktorsMaxWidth) ViktorsMaxWidth = TempMaxWidth;
 
@@ -282,12 +271,8 @@ namespace slae_project
                         }
 
                         //Рисует горизонтальные линии матрицы
-                        //if (Belongs_yCellArea())
 
-                        //while (Grid.X_Y_counter.x >= Grid.NetWorkOS_X.Count())
-                        //Grid.NetWorkOS_X.Add(new Net.NetWorkOSCell());
-                        Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", X_old + 1, Y_old, Grid.X_Y_counter.x, Grid.X_Y_counter.y));
-                        //draw_line(X_old + Grid.xCellSize, Y_old,Grid.cursorP.x, Grid.cursorP.y);
+                        Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", X_old + 1, Y_old, Grid.X_Y_counter.x, Grid.X_Y_counter.y));      
 
                         Grid.Y_move();
                         X_new = Grid.X_Y_counter.x;
@@ -300,9 +285,8 @@ namespace slae_project
                     Draw_Vertical_net_for_matrix(obj, Y_start);
 
                     //Рисует последнюю горизонтальную линию матрицы
-                    //if (Belongs_yCellArea())
                     Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", X_new, Y_new, Grid.X_Y_counter.x + 1, Y_new));
-                    //draw_line(X_new, Y_new,Grid.cursorP.x + Grid.xCellSize, Y_new);
+
                     Grid.Y_move();
                 }
 

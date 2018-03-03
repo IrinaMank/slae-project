@@ -670,19 +670,27 @@ namespace slae_project
             {
                 using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default))
                 {
-                    if (numObject > GD.List_Of_Objects.Count - 1)
-                    {
-                        GD.List_Of_Objects.Add(new GraphicData.GraphicObject(reader.ReadLine()));
-                    }
-                    else
-                    {
-                        GD.List_Of_Objects[numObject] = new GraphicData.GraphicObject(reader.ReadLine());
-                    }
+                    List<List<double>> object_to_add = new List<List<double>>();
+                    string name;
+                    //GD.List_Of_Objects
+
+                    name = reader.ReadLine();
+
                     string line = "";
                     while ((line = reader.ReadLine()) != null)
                     {
-                        GD.List_Of_Objects[numObject].Matrix.Add(stringToMatrixRow(line));
+                        object_to_add.Add(stringToMatrixRow(line));
                     }
+
+                    if (numObject > GD.List_Of_Objects.Count - 1)
+                    {
+                        GD.List_Of_Objects.Add(new GraphicData.GraphicObject(name, object_to_add));
+                    }
+                    else
+                    {
+                        GD.List_Of_Objects[numObject] = new GraphicData.GraphicObject(name, object_to_add);
+                    }
+
                     MessageBox.Show(path + " загружен.");
                     Refresh_Window();
                 }
