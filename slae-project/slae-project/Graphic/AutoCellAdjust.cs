@@ -26,6 +26,9 @@ namespace slae_project
         */
         public void setAutoCell()
         {
+            GD.Grid.xCellSize_old = (GD.Grid.xCellSize);
+            GD.Grid.yCellSize_old = (GD.Grid.yCellSize);
+
             int maxWidth = GD.ViktorsMaxWidth;
             int maxAppropriateWidth = 0;
             int tempWidth;

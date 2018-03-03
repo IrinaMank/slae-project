@@ -378,6 +378,7 @@ namespace slae_project
             GD.BoolTextIsEnabledOtherwiseQuads = true;
 
             Refresh_Window(false);
+            SetScrollBars_to_the_end();
         }
 
         /// <summary>
@@ -418,15 +419,43 @@ namespace slae_project
             {
                 if (GD.mouse != null)
                 {
+                    //double v_old = ((double)vScrollBar1.Value / GD.Grid.yCellSize_old),
+                    //    h_old = ((double)hScrollBar1.Value / GD.Grid.xCellSize_old);
+
+                    GD.mouse.BorderEndRecalculate();
+                    hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.x);
+                    vScrollBar1.Minimum = GD.mouse.BorderBegin.y; vScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.y);
+
+                    //(((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize))
+
+                    //int v_new = GD.mouse.ShiftedPosition.x
+                    //+ openGLControl.Width / 2;
+                    //int h_new = GD.mouse.ShiftedPosition.y
+                     //   + openGLControl.Height / 2;
+
+                    //vScrollBar1.Value = (int)(v_old * GD.Grid.yCellSize);
+                    //hScrollBar1.Value = (int)(h_old * GD.Grid.xCellSize);
+                }
+            }
+        }
+
+        public void SetScrollBars_to_the_end()
+        {
+            if (GD != null)
+            {
+                if (GD.mouse != null)
+                {
+
                     GD.mouse.BorderEndRecalculate();
                     hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.x);
                     vScrollBar1.Minimum = GD.mouse.BorderBegin.y; vScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.y);
 
                     if (GD.mouse.BorderEnd.y >= GD.mouse.BorderBegin.y)
-                    vScrollBar1.Value = Math.Abs(GD.mouse.BorderEnd.y);
+                        vScrollBar1.Value = Math.Abs(GD.mouse.BorderEnd.y);
 
                     if (GD.mouse.BorderBegin.x <= GD.mouse.BorderEnd.x)
-                    hScrollBar1.Value = Math.Abs(GD.mouse.BorderBegin.x);
+                        hScrollBar1.Value = Math.Abs(GD.mouse.BorderBegin.x);
+
                 }
             }
         }
@@ -746,6 +775,9 @@ namespace slae_project
         }
         private void AutoSizeCell_Reaction_Wrapped()
         {
+            double hold = (double)(hScrollBar1.Value + openGLControl.Width / 2) / GD.Grid.xCellSize;
+            double vold = (double)(vScrollBar1.Value + openGLControl.Height / 2) / GD.Grid.yCellSize;
+
             if (trackBar_FontSize.Value >= 4)
             {
                 GD.FontSize = trackBar_FontSize.Value;
@@ -766,6 +798,18 @@ namespace slae_project
 
                 Refresh_Window(false);
             }
+
+            int hnew = (int)(hold * GD.Grid.xCellSize) - openGLControl.Width / 2;
+            int vnew = (int)(vold * GD.Grid.yCellSize) - openGLControl.Height / 2;
+
+            if (hnew < hScrollBar1.Minimum) hnew = hScrollBar1.Minimum;
+            if (hnew > hScrollBar1.Maximum) hnew = hScrollBar1.Maximum;
+            if (vnew < vScrollBar1.Minimum) vnew = vScrollBar1.Minimum;
+            if (vnew > vScrollBar1.Maximum) vnew = vScrollBar1.Maximum;
+
+            hScrollBar1.Value = hnew;
+            vScrollBar1.Value = vnew;
+
         }
         private void trackBar_QuantityAfterPoint_ValueChanged(object sender, EventArgs e)
         {

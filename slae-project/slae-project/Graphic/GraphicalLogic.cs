@@ -135,6 +135,7 @@ namespace slae_project
         PointInt CurrentCell;
         PointInt xCellArea;
         PointInt yCellArea;
+
         private const int AreaRadius = 3;
 
         //Если вести счёт ячеек в обычных цифрах(как X_Y_counter), данная функция выдает
@@ -308,7 +309,8 @@ namespace slae_project
                 }
 
                 //Возвращает курсор по Y координатами в саааамое начало.
-                sharpGLform.SetScrollBars();
+                //sharpGLform.SetScrollBars();
+                sharpGLform.SetScrollBars_to_the_end();
             }
 
             PartialDrawer();
@@ -587,6 +589,8 @@ namespace slae_project
         public PointInt DeadPoint = new PointInt(0,0);//Самый нижний правый конец поля курсором!
         public PointInt X_Y_counter = new PointInt(0, 0);
         public int xCellSize = 80, yCellSize = 30;
+
+        public int xCellSize_old = 80, yCellSize_old = 30;
 
         public enum FunctionType { DrawText, DrawLine, DrawQuad };
         public class NetWorkOSCell
