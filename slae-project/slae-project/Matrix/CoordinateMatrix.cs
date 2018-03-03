@@ -153,35 +153,31 @@ namespace slae_project.Matrix
             // Разложение
             try
             {
+
                 for (int i = 0; i < Size; i++)
                 {
-                    L[i][0] = this[i, 0];
-                    U[0][i] = this[0, i] / L[0][0];
+                    L[i][0] = this[i,0];
+                    U[0][i] = this[0,i] / L[0][0];
                 }
+                
                 double sum;
                 for (int i = 1; i < Size; i++)
                 {
-                    for (int j = 1; j < Size; j++)
+                    for (int j = i; j < Size; j++)
                     {
-                        if (i >= j)
-                        {
-                            sum = 0;
-                            for (int k = 0; k < j; k++)
-                                sum += L[i][k] * U[k][j-k];
-
-                            L[i][j] = this[i, j] - sum;
-                        }
-
-                        if (j >= i)
-                        {
                             sum = 0;
                             for (int k = 0; k < i; k++)
-                                sum += L[i][k] * U[k][j-k];
+                                sum += L[i][k] * U[k][j - k];
 
-                            U[i][j-i] = (this[i, j] - sum) / L[i][i];
-                        }
+                            U[i][j - i] = this[i, j] - sum;
+                            sum = 0;
+                            for (int k = 0; k < i; k++)
+                                sum += L[j][k] * U[k][i - k];
+
+                            L[j][i] = (this[j,i] - sum) / U[i][0];
                     }
-                }
+
+            }
                 LU_was_made = true;
             }
             catch (DivideByZeroException)
