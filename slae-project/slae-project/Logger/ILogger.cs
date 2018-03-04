@@ -9,7 +9,7 @@ namespace slae_project.ILogger
     public class Logger:IDisposable
     {
         private System.IO.StreamWriter fileStream;
-        private string defaultLogFile = "../log/log.txt";
+        private string defaultLogFile = "./log.txt";
 
         public Logger()
         {

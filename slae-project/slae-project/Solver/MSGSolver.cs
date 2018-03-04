@@ -28,7 +28,7 @@ namespace slae_project.Solver
             if (b.Norm == 0)
                 return x;
 
-            double scalApZ, scalRR, alpha, beta = 1.0;
+            double scalAzZ, scalRR, alpha, beta = 1.0;
 
             IVector r = b.Add(A.Matrix.Mult(Initial), 1, -1);
             r = A.SSolve(A.SMult(r));
@@ -48,14 +48,17 @@ namespace slae_project.Solver
                 Az = A.Matrix.Transpose.Mult(Atz);
                 Az = A.QMult(Az);
 
-                scalApZ = Az.ScalarMult(z);
+                scalAzZ = Az.ScalarMult(z);
 
-                alpha = scalRR / scalApZ;
+                if (scalAzZ == 0) throw new Exception("Division by 0");
+
+                alpha = scalRR / scalAzZ;
 
                 x.Add(z, 1, alpha, true);
                 r.Add(Az, 1, -alpha, true);
 
                 beta = scalRR;
+                if (scalRR == 0) throw new Exception("Division by 0");
                 scalRR = r.ScalarMult(r);
                 beta = scalRR / beta;
 
