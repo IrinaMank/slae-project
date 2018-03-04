@@ -5,13 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using slae_project.Matrix;
 using slae_project.Vector;
-
+using slae_project.Preconditioner;
+using slae_project.ILogger;
 
 namespace slae_project.Solver
 {
 
-    interface ISolver
+    public interface ISolver
     {
-        IVector Solve(IMatrix A, IVector B, IVector Initial, double Precision, int Maxiter);
+        IVector Solve(IPreconditioner A, IVector B, IVector Initial, double Precision, int Maxiter, Logger lgoger);
+        
     }
 }

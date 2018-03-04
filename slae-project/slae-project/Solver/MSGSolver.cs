@@ -1,4 +1,6 @@
-﻿using slae_project.Matrix;
+﻿using slae_project.ILogger;
+using slae_project.Matrix;
+using slae_project.Preconditioner;
 using slae_project.Vector;
 using System;
 using System.Collections.Generic;
@@ -19,33 +21,49 @@ namespace slae_project.Solver
         /// <param name="Precision">Точность</param>
         /// <param name="Maxiter">Максимальное число итераций</param>
         /// <returns>Вектор x - решение СЛАУ Ax=b с заданной точностью</returns>
-        public IVector Solve(IMatrix A, IVector b, IVector Initial, double Precision, int Maxiter)
+        public IVector Solve(IPreconditioner A, IVector b, IVector Initial, double Precision, int Maxiter, Logger logger)
         {
-            IVector x = new SimpleVector(b.Size);
+            IVector x = Initial;
 
             if (b.Norm == 0)
                 return x;
 
-            double alpha, beta = 1.0;
+            double scalApZ, scalRR, alpha, beta = 1.0;
 
-            IVector r = b.Add(A.Mult(Initial), 1, -1);
-            double r_r = r.ScalarMult(r);
-            IVector Az, z = r;
+            IVector r = b.Add(A.Matrix.Mult(Initial), 1, -1);
+            r = A.SSolve(A.SMult(r));
+            IVector Az, Atz, z = A.Matrix.Transpose.Mult(r);
+            r = A.QMult(z);
 
-            for (int iter = 0; iter < Maxiter && r.Norm / b.Norm > Precision && beta > 0; iter++)
+            z = r;
+            scalRR = r.ScalarMult(r);
+            double normR = Math.Sqrt(scalRR) / b.Norm;
+
+            for (int iter = 0; iter < Maxiter && normR > Precision && beta > 0; iter++)
             {
-                Az = A.Mult(z);
-                r_r = r.ScalarMult(r);
-                alpha = r_r / (Az.ScalarMult(z));
+                Az = A.QSolve(z);
+
+                Atz = A.Matrix.Mult(Az);
+                Atz = A.SSolve(A.SMult(Atz));
+                Az = A.Matrix.Transpose.Mult(Atz);
+                Az = A.QMult(Az);
+
+                scalApZ = Az.ScalarMult(z);
+
+                alpha = scalRR / scalApZ;
+
                 x.Add(z, 1, alpha, true);
                 r.Add(Az, 1, -alpha, true);
 
-                beta = r_r;
-                r_r = r.ScalarMult(r);
-                beta = r_r / beta;
+                beta = scalRR;
+                scalRR = r.ScalarMult(r);
+                beta = scalRR / beta;
 
                 z = r.Add(z, 1, beta);
-            }
+                normR = Math.Sqrt(scalRR) / b.Norm;
+
+                logger.writeIteration(iter, normR);
+            };
             return x;
         }
     }

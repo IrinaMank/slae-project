@@ -69,7 +69,7 @@
     <Compile Include="Form2.cs">
       <SubType>Form</SubType>
     </Compile>
-        <Compile Include="Form2.Designer.cs">
+    <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
     <Compile Include="Graphic\AutoCellAdjust.cs">
@@ -83,10 +83,14 @@
       <DependentUpon>SaveLoad.cs</DependentUpon>
     </Compile>
     <Compile Include="Graphic\SharpGL_limbo.cs" />
+    <Compile Include="Logger\ILogger.cs" />
     <Compile Include="Matrix\CoordinateMatrix.cs" />
     <Compile Include="Matrix\ILinearOperator.cs" />
     <Compile Include="Matrix\IMatrix.cs" />
     <Compile Include="Matrix\SparseRowColumnMatrix.cs" />
+    <Compile Include="Preconditioner\DiagonalPreconditioner.cs" />
+    <Compile Include="Preconditioner\IPreconditioner.cs" />
+    <Compile Include="Preconditioner\NoPreconditioner.cs" />
     <Compile Include="Solver\LOSSolver.cs" />
     <Compile Include="Matrix\MatrixExceptions\CannotMultException.cs" />
     <Compile Include="Matrix\MatrixExceptions\CannotSolveSLAEException.cs" />
