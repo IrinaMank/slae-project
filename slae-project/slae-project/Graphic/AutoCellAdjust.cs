@@ -9,63 +9,52 @@ namespace slae_project
     public partial class SharpGLForm
     {
 
-        private void setAutoCell()
+        /*
+        * Авторазмерщик ширины/высоты ячейки в зависимости от размера шрифта
+
+        Switch(В зависимости от формата записи, Основной, Дробный или Экспоненциальный)
         {
-            int maxWidth = 1;
+        Ширина ячейки = Колво_символов_числа_в_обычном_дабл(основном) + Колво_знаков_после_запятой + Константа(варьируемая от формата записи), эти три числа по разному комбинируются для этих трех форматов.
+        }
+
+        На вход просит Колво_символов_числа_в_обычном_дабл(основном) = double.ToString().Length
+        и Колво_знаков_после_запятой
+        И тип формата записи чисел.
+        И в конце умножаются на Размер шрифта
+
+        И дает ширину и высоту ячейки
+        */
+        public void setAutoCell()
+        {
+            int maxWidth = GD.ViktorsMaxWidth;
             int maxAppropriateWidth = 0;
             int tempWidth;
             int borderIndent = 10;
-            int constant = 0;
-            foreach (var obj in GD.List_Of_Objects)
-            {
 
-                foreach (var vect in obj.Matrix)
-                {
-                    foreach (var value in vect)
+            if (GD.font_format == GraphicData.FontFormat.G && GD.FontQuanitityAfterPoint == 0)
+                maxAppropriateWidth = maxWidth + GD.FontQuanitityAfterPoint + 2;
+            else
+            switch (GD.font_format)
+            {
+                case GraphicData.FontFormat.G:
+                    maxAppropriateWidth = System.Math.Min(GD.FontQuanitityAfterPoint, maxWidth);
+                    if (maxWidth > GD.FontQuanitityAfterPoint)
                     {
-
-                        tempWidth = value.ToString(GD.font_format.ToString() + GD.FontQuanitityAfterPoint.ToString()).Length;
-
-
-                        if (maxWidth < tempWidth)
-                        {
-                            maxWidth = tempWidth;
-                        }
-
+                        maxAppropriateWidth = GD.FontQuanitityAfterPoint + 7;
                     }
-                }
-
-            }
-            switch (GD.font_format)
-            {
-                case GraphicData.FontFormat.G:
-                    maxAppropriateWidth = (int)((double)(GD.FontSize) * 0.685) + 0;
                     break;
                 case GraphicData.FontFormat.F:
-                    maxAppropriateWidth = (int)((double)(GD.FontSize) * 0.65) + 0;
+                    maxAppropriateWidth = maxWidth + GD.FontQuanitityAfterPoint + 2;
                     break;
                 case GraphicData.FontFormat.E:
-                    maxAppropriateWidth = (int)((double)(GD.FontSize) * 0.65) + 0;
-                    break;
-            }
-            switch (GD.font_format)
-            {
-                case GraphicData.FontFormat.G:
-                    constant = 0;
-                    break;
-                case GraphicData.FontFormat.F:
-                    constant = 10;
-                    if (GD.FontSize == 6) constant += 10;
-                    break;
-                case GraphicData.FontFormat.E:
-                    constant = 5;
+                    maxAppropriateWidth = GD.FontQuanitityAfterPoint + 7;
                     break;
             }
 
 
-            GD.Grid.xCellSize = (int)(maxAppropriateWidth * maxWidth) + constant + 10;
+            GD.Grid.xCellSize = (int)(maxAppropriateWidth * GD.FontSize * 2.0 / 3.0) + 10;
             GD.Grid.yCellSize = (int)(GD.FontSize) + 10;
-            Refresh_Window();
+            Refresh_Window(false);
 
         }
     }

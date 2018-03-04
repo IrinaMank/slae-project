@@ -7,7 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SharpGL;
-
+using System.IO;
+using System.Diagnostics;
+using Microsoft.VisualBasic.Devices;
 namespace slae_project
 {
     /// <summary>
@@ -17,14 +19,17 @@ namespace slae_project
     public class GraphicData
     {
         public OpenGLControl openGLControl;
+        public SharpGLForm sharpGLform;
         public Single FontSize = 14.0f;
         public enum FontFormat { G, F, E };
         public FontFormat font_format = FontFormat.G;
         public int FontQuanitityAfterPoint = 3;
 
-    public GraphicData(OpenGLControl openGLController)
+    public GraphicData(OpenGLControl openGLController, SharpGLForm sharpGLformer)
         {
             openGLControl = openGLController;
+            sharpGLform = sharpGLformer;
+            Grid= new Net(this);
             mouse = new MouseClass(ref Grid,openGLControl);
             Add_objects();
             MoveToEndCursor();
@@ -32,10 +37,15 @@ namespace slae_project
         public void MoveToEndCursor()
         {
             RealDraw();
-            mouse.ShiftedPosition.y = -Grid.cursorP.y - Grid.yCellSize;
-            mouse.ShiftedPosition.x = Math.Abs(Grid.cursorP.x);
+            //mouse.ShiftedPosition.y = -Grid.cursorP.y - Grid.yCellSize;
+            //mouse.ShiftedPosition.x = Math.Abs(Grid.cursorP.x);
+            int temp = mouse.BorderEnd.y;
         }
 
+
+        
+
+        
         /// <summary>
         /// Вот пример одного выводимого объекта
         /// У него есть имя. И у него есть матрица.
@@ -46,7 +56,10 @@ namespace slae_project
             public string Name;
 
             public List<List<double>> Matrix = new List<List<double>>();
-
+            public GraphicObject(string _Name)
+            {
+                this.Name = _Name;
+            }
             public GraphicObject(string _Name, List<List<double>> _Matrix)
             {
                 this.Name = _Name; Matrix = _Matrix;
@@ -86,7 +99,7 @@ namespace slae_project
 
         public void Add_objects()
         {
-            //Пример как работать с этой формой
+            //Пример как работать с этой формой  
             //Добавление, удаление и очищение объектов.
 
         }
@@ -97,14 +110,35 @@ namespace slae_project
         /// <summary>
         /// В каком то роде Grid это курсор на консольном окне.
         /// </summary>
-        public Net Grid = new Net();
+        public Net Grid;
         public MouseClass mouse;
 
         public bool RealDraw_Try_To_Initialize = true;
         PointInt CurrentCell;
         PointInt xCellArea;
         PointInt yCellArea;
-        private const int AreaRadius = 2;
+        private const int AreaRadius = 3;
+
+        //Если вести счёт ячеек в обычных цифрах(как X_Y_counter), данная функция выдает
+        //По обоим осям рабочую зону, которую надо отобразить на экран
+        private void AreaCalculator(ref int X_high, ref int X_low, ref int Y_high, ref int Y_low)
+        {
+            int TempX = mouse.ShiftedPosition.x / Grid.xCellSize;
+            X_high = TempX + openGLControl.Width / Grid.xCellSize + AreaRadius;
+            X_low = TempX - AreaRadius;
+
+            int TempY = (mouse.ShiftedPosition.y + openGLControl.Height) / Grid.yCellSize;
+            Y_high = TempY + AreaRadius;
+            Y_low = TempY - openGLControl.Height / Grid.yCellSize - AreaRadius;
+
+            if (X_low < 0) X_low = 0;
+            if (X_high < 0) X_high = 0;
+            if (Y_low < 0) Y_low = 0;
+            if (Y_high < 0) Y_high = 0;
+
+            if (Grid.NetWorkValue.Count() < Y_high) Y_high = Grid.NetWorkValue.Count();
+        }
+        List<Point> LeftTopCellOfEachMatrix = new List<Point>();
         private bool Belongs_xCellArea()
         {
             int TempX = mouse.ShiftedPosition.x / Grid.xCellSize;
@@ -120,6 +154,22 @@ namespace slae_project
             else return false;
         }
 
+        public void DrawingInitializer()
+        {
+            LeftTopCellOfEachMatrix.Clear();
+            Grid.NetWorkOS_X.Clear();
+        }
+        ComputerInfo Comp = new ComputerInfo();
+        bool MemoryChecker()
+        {
+            if (Comp.AvailablePhysicalMemory / 1048576 < 100)
+            {
+                MessageBox.Show("Извините, но у вас закончилась оперативная память. Порог 100мб достигнут.", "Ошибка");
+                sharpGLform.Clearer();
+                return true;
+            }
+            return false;
+        }
         public bool TargetPlus = true;
         public bool TargetNumber = true;
         /// <summary>
@@ -128,143 +178,259 @@ namespace slae_project
         /// <param name="openGLControl"></param>
         public void RealDraw()
         {
-            RealDraw_Try_To_Initialize = true;
+            Grid.initP.y = openGLControl.Height - Grid.yCellSize;
 
+            if (MemoryChecker()) return;
+            if (RealDraw_Try_To_Initialize)
+            {
+                DrawingInitializer();
+
+                RealDraw_Try_To_Initialize = false;
+
+                
+
+                Grid.DeadPoint.x = 0;
+                Grid.Y_nullificate();
+
+                int Matrix_Counter = 0;
+
+                //List_Of_Objects.Reverse();
+                //Для каждой матрицы в списке объектов
+                foreach (var obj in List_Of_Objects)
+                {
+                    //Отдели от предыдущей двумя очень длинными горизонтальными линиями
+                    //if (Belongs_yCellArea()) {
+                    Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", 0, Grid.X_Y_counter.y, 1000, Grid.X_Y_counter.y));
+                    Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", 0, Grid.X_Y_counter.y, 1000, Grid.X_Y_counter.y));
+                    //}
+
+                    //draw_line(0, Grid.cursorP.y,100000, Grid.cursorP.y);
+                    //draw_line(0, Grid.cursorP.y + 2,100000, Grid.cursorP.y + 2);
+                    
+                    Grid.X_move();
+
+                    //Напиши как называется текущая матрица
+                    Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, "#" + Matrix_Counter.ToString() + " - " + obj.Name, Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                    Matrix_Counter++;
+                    //Draw_Text(Grid.cursorP.x, Grid.cursorP.y, "#" + Matrix_Counter.ToString() + " - " + obj.Name); 
+                    Grid.Y_move(); Grid.X_nullificate();
+
+                    Grid.X_move();
+                    int Count_by_Y = 1;
+
+                    //Запомнить левый верхний уголо матрицы для определения текущей строке и столбца.
+                    //Мысля. Достаточно будет найти число с игреком чуть меньшим текущего
+                    //И значит эту ячейку использовать для вычисления текущих координат. И выйти 1,1
+                    LeftTopCellOfEachMatrix.Add(new Point(Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+
+                    //if (Belongs_yCellArea()) 
+                    Draw_Horizontal_numbers_for_matrix(obj);
+                    Grid.Y_move();
+
+                    int X_start = Grid.X_Y_counter.x;
+                    int Y_start = Grid.X_Y_counter.y;
+
+                    int X_old = Grid.X_Y_counter.x;
+                    int Y_old = Grid.X_Y_counter.y;
+
+                    int X_new = Grid.X_Y_counter.x;
+                    int Y_new = Grid.X_Y_counter.y;
+
+                    /* Change location for it
+                     * if (TargetNumber)
+                        Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + (((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize)).ToString(),0,0,0);*/
+
+                    //Для каждого вектора текущей матрицы
+                    foreach (var vect in obj.Matrix)
+                    {
+                        if (MemoryChecker()) return;
+                        X_old = Grid.X_Y_counter.x;
+                        Y_old = Grid.X_Y_counter.y;
+
+                        //if (Belongs_yCellArea())
+                        //{
+                        //Y оси идет тоже самое. Не смотря на его отображаемость. По оси Икс проверяй отображать ли.
+                        Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, Count_by_Y.ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                        //Draw_Text(Grid.cursorP.x + 25, Grid.cursorP.y, Count_by_Y.ToString());
+
+                        /* НомероУказатель надо переделать на вариант получше.
+                            if (TargetNumber)
+                                if (Math.Abs(Grid.cursorP.y + Target_Y_value) < Target_Y_radius)
+                                    Draw_Text(mouse.true_x + 20, mouse.true_y, "- " + Count_by_Y.ToString(),0,0,0);*/
+                        //}
+                        Count_by_Y++; Grid.X_move();
+
+                        int TempMaxWidth = 0;
+                        //Пиши его значения в строчку
+                        foreach (var value in vect)
+                        {
+                            if (Grid.X_Y_counter.x % 1000 == 0) if (MemoryChecker()) return;
+                            //if (Belongs_yCellArea())
+                            //if (Belongs_xCellArea())
+                            //{
+                            Grid.NetWorkValue[Grid.X_Y_counter.y][Grid.X_Y_counter.x] = value;
+                            //Draw_Text(Grid.cursorP.x, Grid.cursorP.y, value.ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
+                            //}
+
+                            TempMaxWidth = value.ToString().Length;
+                            if (TempMaxWidth > ViktorsMaxWidth) ViktorsMaxWidth = TempMaxWidth;
+
+                            if (value < double_min) double_min = value;
+                            if (value > double_max) double_max = value;
+
+                            Grid.X_move();
+                        }
+
+                        //Рисует горизонтальные линии матрицы
+                        //if (Belongs_yCellArea())
+
+                        //while (Grid.X_Y_counter.x >= Grid.NetWorkOS_X.Count())
+                        //Grid.NetWorkOS_X.Add(new Net.NetWorkOSCell());
+                        Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", X_old + 1, Y_old, Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                        //draw_line(X_old + Grid.xCellSize, Y_old,Grid.cursorP.x, Grid.cursorP.y);
+
+                        Grid.Y_move();
+                        X_new = Grid.X_Y_counter.x;
+                        Y_new = Grid.X_Y_counter.y;
+
+                        //Верни курсор в начало строки.
+                        Grid.X_nullificate();
+                    }
+                    //Рисует вертикальные линии матрицы
+                    Draw_Vertical_net_for_matrix(obj, Y_start);
+
+                    //Рисует последнюю горизонтальную линию матрицы
+                    //if (Belongs_yCellArea())
+                    Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", X_new, Y_new, Grid.X_Y_counter.x + 1, Y_new));
+                    //draw_line(X_new, Y_new,Grid.cursorP.x + Grid.xCellSize, Y_new);
+                    Grid.Y_move();
+                }
+
+                //Возвращает курсор по Y координатами в саааамое начало.
+                sharpGLform.SetScrollBars();
+            }
+
+            PartialDrawer();
+
+        }
+        public int ViktorsMaxWidth = 0;
+        private void PartialDrawer()
+        {
             //  Get the OpenGL object.
             OpenGL gl = openGLControl.OpenGL;
-
             //  Clear the color and depth buffer.
             gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
-
             //  Load the identity matrix.
             gl.LoadIdentity();
 
-            Grid.initP.y = openGLControl.Height - Grid.yCellSize;
+            int OS_x_begin = 0, OS_x_end = 0, OS_y_begin = 0, OS_y_end = 0;
+            AreaCalculator(ref OS_x_end, ref OS_x_begin, ref OS_y_end, ref OS_y_begin);
 
-            Grid.DeadPoint.x = 0;
-            Grid.Y_nullificate();
+            if (Grid.NetWorkOS_X.Count != 0 && true)
+                for (int x = OS_x_begin; (x < OS_x_end)&&(x < Grid.NetWorkOS_X.Count()); x++)
+                {
+                    foreach (var func in Grid.NetWorkOS_X[x].List_of_func)
+                        if (func.func_type == Net.FunctionType.DrawLine)
+                        {
+                            if (BoolLinesAreEnabled) draw_line(cursor_X(func.value1), cursor_Y(func.value2), cursor_X(func.value3), cursor_Y(func.value4));
+                        }
+                        else if (func.func_type == Net.FunctionType.DrawText)
+                            Draw_Text(cursor_X(func.value1), cursor_Y(func.value2), func.str);
+                }
 
+            for (int y = OS_y_begin; y < OS_y_end; y++)
+            {
+                foreach (var func in Grid.NetWorkOS_Y[y].List_of_func)
+                    if (func.func_type == Net.FunctionType.DrawLine)
+                    {
+                        if (BoolLinesAreEnabled) draw_line(cursor_X(func.value1), cursor_Y(func.value2), cursor_X(func.value3), cursor_Y(func.value4));
+                    }
+                    else if (func.func_type == Net.FunctionType.DrawText)
+                        Draw_Text(cursor_X(func.value1), cursor_Y(func.value2), func.str);
+
+                //if (y >= 0 && y < Grid.NetWorkValue.Count())
+                //Draw_Text(Grid.NetWorkValue[y][0].CellCursorP.X+20, Grid.NetWorkValue[y][0].CellCursorP.Y, y.ToString());
+                for (int x = OS_x_begin; x < OS_x_end; x++)
+                {
+                    if (x < Grid.NetWorkValue[y].Count())
+                        if (!double.IsNaN(Grid.NetWorkValue[y][x]))
+                        {
+                            if (BoolTextIsEnabledOtherwiseQuads) Draw_Text(cursor_X(x), cursor_Y(y), Grid.NetWorkValue[y][x].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
+                            else draw_white_square(cursor_X(x), cursor_Y(y), Grid.NetWorkValue[y][x]);
+                        }
+
+
+
+                }
+            }
+
+            //It's real draw now
+            //Grid.DeadPoint.y = Grid.NetWorkValue.Count()* Grid.yCellSize;
+            LaserCrossroad();
+            NumberCrossroad();
+        }
+        public bool BoolTextIsEnabledOtherwiseQuads = true;
+        public bool BoolLinesAreEnabled = true;
+        private int cursor_X(int value)
+        {
+            return value * Grid.xCellSize + Grid.initP.x;
+        }
+        private int cursor_Y(int value)
+        {
+            return -value * Grid.yCellSize + Grid.initP.y;
+        }
+        private void NumberCrossroad()
+        {
+            if (TargetNumber)
+            {
+                Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + (((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize)).ToString(), 0, 0, 0);
+
+                //Щас используется абсолютное значение y, нам надо узнать текущую матрицу и вычесть
+                //LeftTopCellOfEachMatrix
+
+                if (LeftTopCellOfEachMatrix.Count() != 0)
+                {
+                    Point CurrentMatrix = LeftTopCellOfEachMatrix[0];
+                    int y_pointed = mouse.ShiftedPosition.y + openGLControl.Height - mouse.true_y - Grid.yCellSize / 4;
+                    foreach (var thing in LeftTopCellOfEachMatrix)
+                    { if (thing.Y * Grid.yCellSize < y_pointed) CurrentMatrix = thing; else break; }
+
+                    int y = ((y_pointed - CurrentMatrix.Y * Grid.yCellSize) / Grid.yCellSize);
+                    //int y = (mouse.ShiftedPosition.y + openGLControl.Height - mouse.true_y) / Grid.yCellSize;
+                    Draw_Text(mouse.true_x + 20, mouse.true_y, "- " + y.ToString(), 0, 0, 0);
+                }
+            }
+        }
+        private void LaserCrossroad()
+        {
             //Целеуказатель плюсиком зеленый
             if (TargetPlus)
             {
                 draw_line(0, mouse.true_y, openGLControl.Width, mouse.true_y, false, 0, 1, 0);
                 draw_line(mouse.true_x, 0, mouse.true_x, openGLControl.Height, false, 0, 1, 0);
             }
-            //Draw_Text(mouse.true_x, mouse.true_y, obj.Name, false);
-            //
-
-
-            //List_Of_Objects.Reverse();
-            //Для каждой матрицы в списке объектов
-            foreach (var obj in List_Of_Objects)
-            {
-                //Отдели от предыдущей двумя очень длинными горизонтальными линиями
-                if (Belongs_yCellArea())
-                {
-                    draw_line(0, Grid.cursorP.y,
-                                    100000, Grid.cursorP.y);
-
-                    draw_line(0, Grid.cursorP.y + 2,
-                                    100000, Grid.cursorP.y + 2);
-                }
-                Grid.X_move();
-                //Напиши как называется текущая матрица
-                Draw_Text(Grid.cursorP.x, Grid.cursorP.y, obj.Name, true);
-                Grid.Y_move(); Grid.X_nullificate();
-
-                Grid.X_move();
-                int Count_by_Y = 1;
-
-
-                if (Belongs_yCellArea()) Draw_Horizontal_numbers_for_matrix(obj);
-                Grid.Y_move();
-
-                int X_start = Grid.cursorP.x;
-                int Y_start = Grid.cursorP.y;
-
-                int X_old = Grid.cursorP.x;
-                int Y_old = Grid.cursorP.y;
-
-                int X_new = Grid.cursorP.x;
-                int Y_new = Grid.cursorP.y;
-
-
-                int Target_Y_value = mouse.ShiftedPosition.y + Grid.yCellSize / 4 - mouse.true_y;
-                int Target_Y_radius = Grid.yCellSize / 2;
-
-                //int Target_X_value = mouse.ShiftedPosition.x + Grid.xCellSize / 2 - 12 - mouse.true_x;
-                //int Target_X_radius = Grid.xCellSize / 2;
-
-                if (TargetNumber)
-                Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + (((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize)).ToString(), false);
-                //Для каждого вектора текущей матрицы
-                foreach (var vect in obj.Matrix)
-                {
-
-                    X_old = Grid.cursorP.x;
-                    Y_old = Grid.cursorP.y;
-
-                    if (Belongs_yCellArea())
-                    {
-                        Draw_Text(Grid.cursorP.x + 25, Grid.cursorP.y, Count_by_Y.ToString(), true);
-
-                        if (TargetNumber)
-                        if (Math.Abs(Grid.cursorP.y + Target_Y_value) < Target_Y_radius)
-                        Draw_Text(mouse.true_x + 20, mouse.true_y, "- " + Count_by_Y.ToString(), false);
-                    }
-                    Count_by_Y++; Grid.X_move();
-
-                    //Пиши его значения в строчку
-                    foreach (var value in vect)
-                    {
-                        if (Belongs_yCellArea())
-                            if (Belongs_xCellArea())
-                            {
-                                Draw_Text(Grid.cursorP.x, Grid.cursorP.y, value.ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()), true);
-                            }
-                        Grid.X_move();
-                    }
-
-                    //Рисует горизонтальные линии матрицы
-                    if (Belongs_yCellArea())
-                        draw_line(X_old + Grid.xCellSize, Y_old,
-                                Grid.cursorP.x, Grid.cursorP.y);
-
-                    Grid.Y_move();
-                    X_new = Grid.cursorP.x;
-                    Y_new = Grid.cursorP.y;
-
-                    if (Grid.cursorP.x > Grid.DeadPoint.x) Grid.DeadPoint.x = Grid.cursorP.x;
-                    //Верни курсор в начало строки.
-                    Grid.X_nullificate();
-                }
-                //Рисует вертикальные линии матрицы
-                Draw_Vertical_net_for_matrix(obj, Y_start);
-
-                //Рисует последнюю горизонтальную линию матрицы
-                if (Belongs_yCellArea())
-                    draw_line(X_new, Y_new,
-                                Grid.cursorP.x + Grid.xCellSize, Y_new);
-                Grid.Y_move();
-            }
-
-            Grid.DeadPoint.y = -Grid.cursorP.y;
-            //Возвращает курсор по Y координатами в саааамое начало.
-
-            //List_Of_Objects.Reverse();
-            RealDraw_Try_To_Initialize = false;
-
         }
-        void Draw_Text(int in_x, int in_y, string phrase, bool autoshifted, Single r = 0, Single g = 0, Single b = 0)
+        void Draw_Text(int in_x, int in_y, string phrase)
         {
             OpenGL gl = openGLControl.OpenGL;
 
-            if (autoshifted)
+            if (true)
             {
                 in_x -= mouse.ShiftedPosition.x;
                 in_y += +mouse.ShiftedPosition.y;
             }
-            gl.DrawText(in_x, in_y, r, g, b, "", FontSize, phrase);
+            gl.DrawText(in_x, in_y, 0, 0, 0, "", FontSize, phrase);
+        }
+        void Draw_Text(int in_x, int in_y, string phrase, Single r, Single g, Single b)
+        {
+            OpenGL gl = openGLControl.OpenGL;
+
+            if (false)
+            {
+                in_x -= mouse.ShiftedPosition.x;
+                in_y += +mouse.ShiftedPosition.y;
+            }
+            gl.DrawText(in_x, in_y, r, g, b, "", 14, phrase);
         }
         void Draw_Horizontal_numbers_for_matrix(GraphicObject obj)
         {
@@ -273,11 +439,13 @@ namespace slae_project
 
             foreach (var value in obj.Matrix[0])
             {
-                if (Belongs_xCellArea())
-                {
-                    Draw_Text(Grid.cursorP.x, Grid.cursorP.y, Count_by_X.ToString(), true, 0.0f, 0.0f, 0.0f);
-                }
-
+                //На заметку. Тут не смотря их наличие по ОсиХ, их надо отображать лишь на
+                //определенной оси Y, хмм, мы можем воспользоваться старой доброй yCellBelong функций. точняк.
+                while (Grid.X_Y_counter.x >= Grid.NetWorkOS_X.Count())
+                    Grid.NetWorkOS_X.Add(new Net.NetWorkOSCell());
+                Grid.NetWorkOS_X[Grid.X_Y_counter.x].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, Count_by_X.ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                //Draw_Text(Grid.cursorP.x, Grid.cursorP.y, Count_by_X.ToString());
+                
                 Grid.X_move();
                 Count_by_X++;
             }
@@ -290,13 +458,18 @@ namespace slae_project
             Grid.X_move();
             foreach (var value in obj.Matrix[0])
             {
-                if (Belongs_xCellArea())
-                    draw_line(Grid.cursorP.x, Y_start,
-                            Grid.cursorP.x, Grid.cursorP.y);
+                //if (Belongs_xCellArea())
+                while (Grid.X_Y_counter.x >= Grid.NetWorkOS_X.Count())
+                    Grid.NetWorkOS_X.Add(new Net.NetWorkOSCell());
+                Grid.NetWorkOS_X[Grid.X_Y_counter.x].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", Grid.X_Y_counter.x, Y_start, Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                //draw_line(Grid.cursorP.x, Y_start,Grid.cursorP.x, Grid.cursorP.y);
                 Grid.X_move();
             }
-            draw_line(Grid.cursorP.x, Y_start,
-                            Grid.cursorP.x, Grid.cursorP.y);
+            while (Grid.X_Y_counter.x >= Grid.NetWorkOS_X.Count())
+                Grid.NetWorkOS_X.Add(new Net.NetWorkOSCell());
+            Grid.NetWorkOS_X[Grid.X_Y_counter.x].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", Grid.X_Y_counter.x, Y_start, Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+            //draw_line(Grid.cursorP.x, Y_start,Grid.cursorP.x, Grid.cursorP.y);
+
             Grid.X_move();
             Grid.X_nullificate();
         }
@@ -329,19 +502,40 @@ namespace slae_project
             gl.Vertex(x_to, y_to, Line_Height);
             gl.End();
         }
-        /*private void draw_white_square(int x_from, int y_from, int x_to, int y_to)
+
+        private double double_min = double.MaxValue;
+        private double double_max = double.MinValue;
+        private void draw_white_square(int x_from, int y_from, double value)
         {
-            //x_from -= mouse.ShiftedPosition.x;
-            //y_from += mouse.ShiftedPosition.y;
-            //x_to -= mouse.ShiftedPosition.x;
-            //y_to += mouse.ShiftedPosition.y;
+            x_from -= mouse.ShiftedPosition.x;
+            y_from += mouse.ShiftedPosition.y;
+            int x_to = x_from;
+            int y_to = y_from;
+
+            //x_from -=  + 3;
+            //y_from +=  + Grid.yCellSize * 3 / 4;
+            //x_to -=  + 3;
+            //y_to +=  + Grid.yCellSize * 3 / 4;
+
+            x_from += - 3 - 1;
+            y_from += - Grid.yCellSize / 4 - 1;
+            x_to +=  + Grid.yCellSize * 3 / 4 + 1;
+            y_to +=  + Grid.yCellSize * 3 / 4 + 1;
+
+            //x_from += -5;
+            //y_from += -5;
+            //x_to += 0;
+            //y_to += 0;
 
             //Чтобы не прописывать постоянно
             OpenGL gl = openGLControl.OpenGL;
             //  Clear the color and depth buffer.
             //  Load the identity matrix.
             gl.LoadIdentity();
-            gl.Color(0.0f, 0.0f, 0.0f, 1.0f); //Must have, weirdness!
+
+            float temp_procent_color = (float)((value - double_min) / (double_max - double_min));
+
+            gl.Color(temp_procent_color, 0.0f, 1.0f - temp_procent_color, 1.0f); //Must have, weirdness!
             gl.Begin(OpenGL.GL_QUADS);
 
             Single Line_Height = -0.4f;
@@ -353,7 +547,7 @@ namespace slae_project
             
 
             gl.End();
-        }*/
+        }
     }
     
     
@@ -386,14 +580,49 @@ namespace slae_project
         public PointInt X_Y_counter = new PointInt(0, 0);
         public int xCellSize = 80, yCellSize = 30;
 
-        public Net()
+        public enum FunctionType { DrawText, DrawLine, DrawQuad };
+        public class NetWorkOSCell
         {
+            public List<OSCell> List_of_func = new List<OSCell>();
+        }
+        public class OSCell
+        {
+            public OSCell(FunctionType in_func, string in_str, int _value1, int _value2, int _value3 = 0, int _value4 = 0)
+            {
+                func_type = in_func; str = in_str;
+                value1 = _value1; value2 = _value2; value3 = _value3; value4 = _value4;
+            }
+            public FunctionType func_type;
+
+            //z = NumberMatrix, y = NumberRow, x = NumberColumn;
+            public int value1, value2, value3, value4;
+            public string str;
+        }
+        public class NetWorkValueableCell
+        {
+            public NetWorkValueableCell(double in_value = Double.NaN)
+            {
+                Cellvalue = in_value;
+            }
+            public double Cellvalue;
+        }
+        //The Network has been established
+        public List<List<double>> NetWorkValue = new List<List<double>>();
+        public List<NetWorkOSCell> NetWorkOS_X = new List<NetWorkOSCell>();
+        public List<NetWorkOSCell> NetWorkOS_Y = new List<NetWorkOSCell>();
+        public Net(GraphicData _GD_link)
+        {
+            GD_link = _GD_link;
             cursorP = new PointInt(initP.x, initP.y);
         }
+        GraphicData GD_link;
         public void X_move()
         {
             cursorP.x += xCellSize;
             X_Y_counter.x++;
+
+            if (YourRequireNewMemory)
+                NetWorkValue[X_Y_counter.y].Add(double.NaN);
         }
         public void X_nullificate()
         {
@@ -405,11 +634,72 @@ namespace slae_project
         {
             cursorP.y -= yCellSize;
             X_Y_counter.y++;
+
+            if (YourRequireNewMemory)
+            {
+                NetWorkValue.Add(new List<double>());
+                NetWorkValue[X_Y_counter.y].Add(double.NaN);
+            }
+
+            NetWorkOS_Y.Add(new NetWorkOSCell());
+        }
+        List<int> MemorySizeChangeChecker = new List<int>();
+        bool YourRequireNewMemory = true;
+        bool InitiaiteMemoryChecking()
+        {
+            int counter = 0;
+            foreach (var Object in GD_link.List_Of_Objects)
+                foreach (var vector in Object.Matrix)
+                {
+                    if (MemorySizeChangeChecker.Count() > counter)
+                    {
+                        if (MemorySizeChangeChecker[counter] != vector.Count())
+                            return false;
+                    }
+                    else return false;
+
+                    counter++;
+                }
+            return true;
+        }
+        void InitiaiteMemoryRewriter()
+        {
+            MemorySizeChangeChecker.Clear();
+            int counter = 0;
+            foreach (var Object in GD_link.List_Of_Objects)
+                foreach (var vector in Object.Matrix)
+                {
+                    MemorySizeChangeChecker.Add(vector.Count());
+                }
         }
         public void Y_nullificate()
         {
             cursorP.y = initP.y;
             X_Y_counter.y = 0;
+
+            if (GD_link.List_Of_Objects.Count() != 0)
+            {
+                if (InitiaiteMemoryChecking())
+                {
+                    YourRequireNewMemory = false;
+                }
+                else
+                {
+                    YourRequireNewMemory = true;
+                    InitiaiteMemoryRewriter();
+                }
+            }
+            else YourRequireNewMemory = true;
+            //else NetWorkValue[X_Y_counter.y][X_Y_counter.x].CellCursorP.Y = cursorP.y;
+            if (YourRequireNewMemory)
+            {
+                NetWorkValue.Clear();
+                NetWorkValue.Add(new List<double>());
+                NetWorkValue[X_Y_counter.y].Add(double.NaN);
+            }
+            NetWorkOS_Y.Clear();
+            NetWorkOS_Y.Add(new NetWorkOSCell());
+
         }
 
     }
@@ -474,8 +764,22 @@ namespace slae_project
         }
         public void BorderEndRecalculate()
         {
-            BorderEnd.x = +Grid.DeadPoint.x - openGLControl.Width + Grid.xCellSize;
-            BorderEnd.y = Grid.DeadPoint.y;
+            if (Grid != null)
+            {
+                if (Grid.NetWorkOS_X != null && Grid.NetWorkOS_Y != null)
+                {
+                    BorderEnd.x = Grid.NetWorkOS_X.Count() * Grid.xCellSize;//+Grid.DeadPoint.x - openGLControl.Width + Grid.xCellSize;
+                    BorderEnd.y = Grid.NetWorkOS_Y.Count() * Grid.yCellSize;//Grid.DeadPoint.y;
+
+                    BorderEnd.x -= openGLControl.Width;
+                    BorderEnd.y -= openGLControl.Height;
+                }
+            }
+            else
+            {
+                BorderEnd.x = 50;
+                BorderEnd.y = 50;
+            }
         }
         public PointInt BorderBegin = new PointInt(15, 10);//самый верхний левый угол для ShiftedPosition
         public PointInt BorderEnd = new PointInt(15, 10);//самый нижний правый угол для ShiftedPosition

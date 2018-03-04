@@ -20,7 +20,7 @@ namespace slae_project
         public bool SharpGL_is_opened()
         {
             if (SharpForm != null)
-                if (SharpForm.Enabled)
+                if (!SharpForm.IsDisposed)
                     return true;
             return false;
         }
@@ -31,13 +31,28 @@ namespace slae_project
             if (SharpGL_is_opened()) SharpForm.Refresh_Window();
         }
 
+        private class UR_access : UserGuide
+        {
+            public void UserGuide_access(ref List<GraphicData.GraphicObject> List_Of_Objects)
+            {
+                User_Guide_To_Graphic(ref List_Of_Objects);
+            }
+        }
+        UR_access UR = new UR_access();
         //Конструктор. Параметр самовызова для ленивости.
         public SharpGL_limbo(bool SelfInit = false)
         {
             //if (SelfInit) SharpGL_Open_hidden();
 
-            //Расскоментируй для самооткрытия
-            //if (SelfInit) SharpGL_Open();
+
+            //Убери восклицательный знак для открытия
+            if (!SelfInit)
+            {
+                SharpGL_Open();
+                UR.UserGuide_access(ref List_Of_Objects);
+                Refresh_Window();
+            }
+
         }
 
         //Образец кнопочки. ,будущей. потом.
@@ -53,7 +68,28 @@ namespace slae_project
                 this.List_Of_Objects = SharpForm.GD.List_Of_Objects;
             }
         }
+        /// <summary>
+        /// Записать матрицу в файл
+        /// </summary>
+        /// <param name="path">Путь к файлу</param>
+        /// <param name="numObject">Номер матрицы в массиве объектов</param>
+        public void WriteMatrix(string path, int numObject)
+        {
+            SharpForm.WriteMatrix(path, numObject);
 
+        }
+
+        /// <summary>
+        /// Считать матрицу из файла
+        /// </summary>
+        /// <param name="path">Путь к файлу</param>
+        /// <param name="numObject">Номер матрицы в массиве объектов</param>
+        public void ReadMatrix(string path, int numObject)
+        {
+            SharpForm.ReadMatrix(path,numObject);
+
+        }
+        
         //Открывает в скрытом режиме. Можно добавлять матрицы.
         public void SharpGL_Open_hidden()
         {
@@ -66,14 +102,16 @@ namespace slae_project
         {
             if (!SharpGL_is_opened()) SharpForm = new SharpGLForm(true);
             this.List_Of_Objects = SharpForm.GD.List_Of_Objects;
+            SharpForm.Show();
         }
         //закрывает окно графики если оно существует. Совсем закрыть
         //По умолчанию открыто скрытым.
         public void SharpGL_Close()
         {
             if (SharpGL_is_opened()) SharpForm.Close();
+            SharpForm = null;
         }
-
+     
         //Сбрасывает все данные
         public void SharpGL_Reset_Full()
         {
@@ -93,7 +131,7 @@ namespace slae_project
             }
         }
 
-
+        
         
     }
     public class UserGuide
@@ -117,14 +155,14 @@ namespace slae_project
             double single_value = 5;
 
             double[] vector4ik = new double[40]; for (int i = 0; i < 40; i++) vector4ik[i] = i;
-            double[,] randomMatrix = new double[,] { { 123, 2, 3, 4 }, { -12345678912345, 4, 1, 1 }, { 5, 6, 1, 1 } };
+            double[,] randomMatrix = new double[,] { { 123, 2, 3, 4 }, { -1, 4, 1, 1 }, { 5, 6, 1, 1 } };
 
             List<double> listed_vectorik = new List<double>() { 1, 2, 3, 4, 5 };
             List<List<double>> listed_matrix = new List<List<double>>() { new List<double> { 1, 2 }, new List<double> { 3, 4 }, new List<double> { 5, 6 } };
 
-            double[,] bigdouble = new double[100, 100];
-            for (int i = 0; i < 100; i++)
-                for (int j = 0; j < 100; j++) bigdouble[i, j] = i + j;
+            double[,] bigdouble = new double[1000, 1000];
+            for (int i = 0; i < 1000; i++)
+                for (int j = 0; j < 1000; j++) bigdouble[i, j] = i + j;
             //Добавление объектов на отображение.
             //Имя и Число/Вектор/Матрица в формате (double, double[], double[,], List<double>, List<List<double>>) на выбор.
             List_Of_Objects.Add(new GraphicData.GraphicObject("vector4ik", vector4ik));

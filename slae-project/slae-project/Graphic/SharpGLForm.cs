@@ -10,12 +10,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-
+using System.IO;
 using SharpGL;
-
 namespace slae_project
 {
-
+    
     /// <summary>
     /// The main form class.
     /// </summary>
@@ -26,7 +25,7 @@ namespace slae_project
         /// Главное что это структура хранения объектов(числа,векторов,матриц в нашем формате)
         /// </summary>
         public GraphicData GD;
-
+        public string setgsFileName = "settings.txt";
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpGLForm"/> class.
         /// </summary>
@@ -36,12 +35,14 @@ namespace slae_project
             //SharpGLWrappedThread ThreadController = new SharpGLWrappedThread();
             Visible = visibility;
             //Облегчим себе жизнь. Передадим в главную логическую сразу.
-            GD = new GraphicData(openGLControl);
+            GD = new GraphicData(openGLControl,this);
 
             //Manual Рендеринг, мы же не делаем игру, так что смысла в RealTime FPS нету.
             //Для повторной отрисовки вызовите функцию openGLControl.Refresh();
             openGLControl.RenderTrigger = RenderTrigger.Manual;
             openGLControl.DoRender();
+
+            //ReadSettings();
 
             //установить границы скруллбаров и сбросить мышки-местоположение в лево-нижний угол
             Refresh_Window();
@@ -55,6 +56,135 @@ namespace slae_project
         {
             GD.RealDraw();
         }
+        /// <summary>
+        /// Записать текущие настройки в файл settings.txt
+        /// </summary>
+        private void WriteSettings()
+        {
+            using (StreamWriter writer = new StreamWriter(setgsFileName, false, System.Text.Encoding.Default))
+            {
+                
+                writer.WriteLine(trackBar_FontSize.Value);
+                if(radioButton2_TargetPlus_Enabled.Checked == true)
+                {
+                    writer.WriteLine(1);
+                }
+                else
+                {
+                    writer.WriteLine(0);
+                }
+                if (radioButton1_Number_enabled.Checked == true)
+                {
+                    writer.WriteLine(1);
+                }
+                else
+                {
+                    writer.WriteLine(0);
+                }
+
+                if(radioButton1_General.Checked == true)
+                {
+                    writer.WriteLine(0);
+                }
+                else if(radioButton2_Double.Checked == true)
+                {
+                    writer.WriteLine(1);
+                }
+                else if(radioButton3_Exponential.Checked == true)
+                {
+                    writer.WriteLine(2);
+                }
+                writer.WriteLine(trackBar_QuantityAfterPoint.Value);
+
+
+            }
+
+        }
+
+        private void errorFileMessage()
+        {
+            MessageBox.Show("Неправильный файл");
+        }
+        /// <summary>
+        /// Прочитать настройки из файла settings.txt
+        /// </summary>
+        private void ReadSettings()
+        {
+            try
+            {
+                using (StreamReader reader = new StreamReader(setgsFileName, System.Text.Encoding.Default))
+                {
+                    int inputNumber;
+                    bool error;
+
+                    error = int.TryParse(reader.ReadLine(), out inputNumber);
+                    if (error == false || inputNumber < 0) { errorFileMessage(); return; }
+                    trackBar_FontSize.Value = inputNumber;
+
+                    error = int.TryParse(reader.ReadLine(), out inputNumber);
+                    if (error == false) { errorFileMessage(); return; }
+                    switch (inputNumber)
+                    {
+                        case 0:
+                            radioButton2_TargetPlus_Enabled.Checked = false;
+                            radioButton1_TargetPlus_Disabled.Checked = true;
+                            break;
+                        case 1:
+                            radioButton2_TargetPlus_Enabled.Checked = true;
+                            radioButton1_TargetPlus_Disabled.Checked = false;
+                            break;
+                        default:
+                            errorFileMessage(); return;
+                    }
+
+                    error = int.TryParse(reader.ReadLine(), out inputNumber);
+                    if (error == false) { errorFileMessage(); return; }
+
+                    switch (inputNumber)
+                    {
+                        case 0:
+                            radioButton1_Number_enabled.Checked = false;
+                            radioButton1_Number_disabled.Checked = true;
+                            break;
+                        case 1:
+                            radioButton1_Number_enabled.Checked = true;
+                            radioButton1_Number_disabled.Checked = false;
+                            break;
+                        default:
+                            errorFileMessage(); return;
+                    }
+
+
+                    error = int.TryParse(reader.ReadLine(), out inputNumber);
+                    if (error == false) { errorFileMessage(); return; }
+
+                    switch (inputNumber)
+                    {
+                        case 0:
+                            radioButton1_General.Checked = true;
+                            break;
+                        case 1:
+                            radioButton2_Double.Checked = true;
+                            break;
+                        case 2:
+                            radioButton3_Exponential.Checked = true;
+                            break;
+                        default:
+                            errorFileMessage(); return;
+                    }
+
+                    error = int.TryParse(reader.ReadLine(), out inputNumber);
+                    if (error == false || inputNumber < 0) { errorFileMessage(); return; }
+                    trackBar_QuantityAfterPoint.Value = inputNumber;
+
+                }
+            }
+            catch (Exception WhoNeedsError)
+            {
+
+            }
+        }
+
 
         /// <summary>
         /// Handles the OpenGLInitialized event of the openGLControl control.
@@ -104,7 +234,9 @@ namespace slae_project
             //  Set the modelview matrix.
             gl.MatrixMode(OpenGL.GL_MODELVIEW);
 
-            openGLControl.Refresh();
+            
+            if (GD != null) Refresh_Window(GD.RealDraw_Try_To_Initialize);
+            else openGLControl.Refresh();
         }
 
         /// <summary>
@@ -193,27 +325,26 @@ namespace slae_project
             openGLControl.Refresh();
         }
 
-
-        /// <summary>
+          /// <summary>
         /// Справа в менюшке есть кнопка "Обновить", это она.
         /// Просто обновляет изображение и ничего больше.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button_refresh_Click(object sender, EventArgs e)
+        private void button_test_Click(object sender, EventArgs e)
         {
             GD.List_Of_Objects.Clear();
-            UR.UserGuide_access(ref GD.List_Of_Objects);
             Refresh_Window();
+            
+            
+            
+
+            //AsyncTest.Start();
+
         }
-        public class UR_access : UserGuide
-        {
-            public void UserGuide_access(ref List<GraphicData.GraphicObject> List_Of_Objects)
-            {
-                User_Guide_To_Graphic(ref List_Of_Objects);
-            }
-        }
-        UR_access UR = new UR_access();
+        //Asynchronized AsyncTest = new Asynchronized();
+
+        
         /// <summary>
         /// Сбрасывает все настройки по умолчанию в менюшке справа
         /// И заодно заново отрисовывает и сбрасывает ваше местоположение
@@ -225,7 +356,10 @@ namespace slae_project
         {
             trackBar_QuantityAfterPoint.Value = GD.FontQuanitityAfterPoint = 3;
             trackBar_FontSize.Value = 14; GD.FontSize = 14;
-            
+
+            GD.Grid.xCellSize = 80;
+            GD.Grid.yCellSize = 35;
+
             radioButton1_General.Checked = true;
             radioButton2_Double.Checked = false;
             radioButton3_Exponential.Checked = false;
@@ -240,8 +374,10 @@ namespace slae_project
             radioButton1_Number_disabled.Checked = false;
             radioButton2_TargetPlus_Enabled.Checked = true;
             radioButton1_TargetPlus_Disabled.Checked = false;
-            
-            Refresh_Window();
+
+            GD.BoolTextIsEnabledOtherwiseQuads = true;
+
+            Refresh_Window(false);
         }
 
         /// <summary>
@@ -249,25 +385,16 @@ namespace slae_project
         /// Она обновляет изображение, настраивает максимумы скруллбаров(ибо оно зависит от границ матриц)
         /// И сбрасывает местоположение в лево-нижний угол
         /// </summary>
-        public void Refresh_Window()
+        public void Refresh_Window(bool TryInit = true)
         {
+            if (TryInit) GD.RealDraw_Try_To_Initialize = true;
             openGLControl.Refresh();
             SetScrollBars();
-            GD.RealDraw_Try_To_Initialize = true;
-            openGLControl.Refresh();
+            //GD.MoveToEndCursor();
+            //openGLControl.Refresh();
         }
 
-        /// <summary>
-        /// Функция реагирующая на изменение ползунка размера шрифта
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void trackBar_FontSize_ValueChanged(object sender, EventArgs e)
-        {
-            GD.FontSize = trackBar_FontSize.Value;
-            setAutoCell();
-           // openGLControl.Refresh();
-        }
+        
 
         /// <summary>
         /// Функция реагирующая на изменение размеров окна
@@ -278,35 +405,32 @@ namespace slae_project
         /// <param name="e"></param>
         private void SharpGLForm_Resize(object sender, EventArgs e)
         {
-            openGLControl.Refresh();
-            GD.MoveToEndCursor();
-
-            SetScrollBars();
+            //Refresh_Window();
         }
 
         /// <summary>
         /// Высчитывает границы скруллбаров максимумов и 
         /// местоположение мышки-обзора в левый нижний угол возвращает
         /// </summary>
-        void SetScrollBars()
+        public void SetScrollBars()
         {
-            GD.mouse.BorderEndRecalculate();
-            hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.x);
-            vScrollBar1.Minimum = GD.mouse.BorderBegin.y; vScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.y);
-            vScrollBar1.Value = Math.Abs(GD.mouse.BorderEnd.y);
-            hScrollBar1.Value = Math.Abs(GD.mouse.BorderBegin.x);
+            if (GD != null)
+            {
+                if (GD.mouse != null)
+                {
+                    GD.mouse.BorderEndRecalculate();
+                    hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.x);
+                    vScrollBar1.Minimum = GD.mouse.BorderBegin.y; vScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.y);
+
+                    if (GD.mouse.BorderEnd.y >= GD.mouse.BorderBegin.y)
+                    vScrollBar1.Value = Math.Abs(GD.mouse.BorderEnd.y);
+
+                    if (GD.mouse.BorderBegin.x <= GD.mouse.BorderEnd.x)
+                    hScrollBar1.Value = Math.Abs(GD.mouse.BorderBegin.x);
+                }
+            }
         }
-        /// <summary>
-        /// Функция реагирующая на изменения ползунка за колво знаков после запятой.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void trackBar_QuantityAfterPoint_ValueChanged(object sender, EventArgs e)
-        {
-            GD.FontQuanitityAfterPoint = trackBar_QuantityAfterPoint.Value;
-            setAutoCell();
-            Refresh_Window();
-        }
+
 
         /// <summary>
         /// Функция реагирующая на изменение галочки на "Основной" формат записи чисел
@@ -321,8 +445,7 @@ namespace slae_project
                 radioButton2_Double.Checked = false;
                 radioButton3_Exponential.Checked = false;
             }
-            setAutoCell();
-            Refresh_Window();
+            AutoSizeCell_Reaction_Wrapped();
         }
 
         /// <summary>
@@ -338,8 +461,7 @@ namespace slae_project
                 radioButton1_General.Checked = false;
                 radioButton3_Exponential.Checked = false;
             }
-            setAutoCell();
-            Refresh_Window();
+            AutoSizeCell_Reaction_Wrapped();
         }
 
         /// <summary>
@@ -355,8 +477,7 @@ namespace slae_project
                 radioButton2_Double.Checked = false;
                 radioButton1_General.Checked = false;
             }
-            setAutoCell();
-            Refresh_Window();
+            AutoSizeCell_Reaction_Wrapped();
         }
 
         /// <summary>
@@ -452,6 +573,197 @@ namespace slae_project
         private void label6_FAQ_MouseLeave(object sender, EventArgs e)
         {
             label7_FAQ_move_phrase.Visible = false;
+        }
+
+       
+
+        //Сохрани текущие настройки рядовой!
+        //Сэр, Есть Сэр!
+        private void SharpGLForm_Deactivate(object sender, EventArgs e)
+        {
+            WriteSettings();
+        }
+
+        private void button1_SaveLoad_Click(object sender, EventArgs e)
+        {
+            if (!SaveLoadForm_is_opened())
+            {
+                SaveLoadForm = new SaveLoad(SaveLoad.WindowType.Save,this);
+            }
+            
+        }
+        SaveLoad SaveLoadForm = null;
+        public bool SaveLoadForm_is_opened()
+        {
+            if (SaveLoadForm != null)
+                if (!SaveLoadForm.IsDisposed)
+                    return true;
+            return false;
+        }
+
+        private string matrixRowToString(List<double> row)
+        {
+            string outputLine = "";
+            foreach (double element in row)
+            {
+                outputLine += element.ToString(GD.font_format.ToString() + GD.FontQuanitityAfterPoint.ToString());
+                outputLine += " ; ";
+            }
+            return outputLine;
+        }
+
+        private List<double> stringToMatrixRow(string strRow)
+        {
+            List<double> row = new List<double>();
+            string[] numbers = strRow.Split(new char[] { ';', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string element in numbers)
+            {
+                try
+                {
+                    row.Add(Convert.ToDouble(element));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Can't convert double in your file");
+                }
+            }
+            return row;
+        }
+
+        /// <summary>
+        /// Записать матрицу в файл
+        /// </summary>
+        /// <param name="path">Путь к файлу</param>
+        /// <param name="numObject">Номер матрицы в массиве объектов</param>
+        public void WriteMatrix(string path, int numObject)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(path, false, System.Text.Encoding.Default))
+                {
+                    writer.WriteLine(GD.List_Of_Objects[numObject].Name);
+                    //writer.WriteLine(GD.List_Of_Objects[numObject].Name);
+                    foreach (List<double> row in GD.List_Of_Objects[numObject].Matrix)
+                    {
+                        writer.WriteLine(matrixRowToString(row));
+                    }
+
+                    MessageBox.Show(path + " сохранен.");
+                }
+
+            }
+            catch (Exception YouShouldGiveTheErrorToSomebodyElse)
+            {
+                MessageBox.Show(YouShouldGiveTheErrorToSomebodyElse.Message, "Трай Кетчуп ловко поймал ошибку!");
+            }
+
+        }
+
+        /// <summary>
+        /// Считать матрицу из файла
+        /// </summary>
+        /// <param name="path">Путь к файлу</param>
+        /// <param name="numObject">Номер матрицы в массиве объектов</param>
+        public void ReadMatrix(string path, int numObject)
+        {
+            try
+            {
+                using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default))
+                {
+                    if (numObject > GD.List_Of_Objects.Count - 1)
+                    {
+                        GD.List_Of_Objects.Add(new GraphicData.GraphicObject(reader.ReadLine()));
+                    }
+                    else
+                    {
+                        GD.List_Of_Objects[numObject] = new GraphicData.GraphicObject(reader.ReadLine());
+                    }
+                    string line = "";
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        GD.List_Of_Objects[numObject].Matrix.Add(stringToMatrixRow(line));
+                    }
+                    MessageBox.Show(path + " загружен.");
+                    Refresh_Window();
+                }
+            }
+            catch (Exception IdontNeedErrors)
+            {
+                MessageBox.Show(IdontNeedErrors.Message, "Файл не обнаружен!");
+            }
+
+        }
+
+        
+        /// <summary>
+        /// Функция реагирующая на изменение ползунка размера шрифта
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void trackBar_FontSize_MouseCaptureChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        /// <summary>
+        /// Функция реагирующая на изменения ползунка за колво знаков после запятой.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void trackBar_QuantityAfterPoint_MouseCaptureChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void SharpGLForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Clearer();
+        }
+
+        private void SharpGLForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Clearer();
+        }
+        public void Clearer()
+        {
+            GD.Grid.NetWorkValue.Clear();
+            GD.Grid.NetWorkOS_X.Clear();
+            GD.Grid.NetWorkOS_Y.Clear();
+            GC.Collect(20000);
+        }
+
+        private void trackBar_FontSize_ValueChanged(object sender, EventArgs e)
+        {
+            AutoSizeCell_Reaction_Wrapped();
+        }
+        private void AutoSizeCell_Reaction_Wrapped()
+        {
+            if (trackBar_FontSize.Value >= 4)
+            {
+                GD.FontSize = trackBar_FontSize.Value;
+                GD.BoolTextIsEnabledOtherwiseQuads = true;
+                setAutoCell();
+                GD.BoolLinesAreEnabled = true;
+            }
+            else
+            {
+                GD.BoolTextIsEnabledOtherwiseQuads = false;
+
+                int size = 17 + trackBar_FontSize.Value;
+                GD.Grid.xCellSize = size;
+                GD.Grid.yCellSize = size;
+
+                if (size < 6) GD.BoolLinesAreEnabled = false;
+                else GD.BoolLinesAreEnabled = true;
+
+                Refresh_Window(false);
+            }
+        }
+        private void trackBar_QuantityAfterPoint_ValueChanged(object sender, EventArgs e)
+        {
+            GD.FontQuanitityAfterPoint = trackBar_QuantityAfterPoint.Value;
+
+            AutoSizeCell_Reaction_Wrapped();
         }
     }
 }
