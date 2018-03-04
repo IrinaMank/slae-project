@@ -7,17 +7,10 @@ using System.Runtime.Serialization;
 
 namespace slae_project.Matrix.MatrixExceptions
 {
-    [Serializable]
     public class DifferentSizeException : ApplicationException
     {
-
-        public DifferentSizeException() { }
-
-        public DifferentSizeException(string message) : base(message) { }
-
-        public DifferentSizeException(string message, Exception inner) : base(message, inner) { }
-
-        protected DifferentSizeException(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
+        private static string base_message = "Используемые объекты имеют разную размерность. ";
+        public DifferentSizeException() : base(base_message) { }
+        public DifferentSizeException(string message) : base(base_message + message) { }
     }
 }

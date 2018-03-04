@@ -29,6 +29,9 @@ namespace slae_project.Matrix
             public IVector MultU(IVector x, bool UseDiagonal) => Matrix.MultUT(x, UseDiagonal);
             public IVector SolveU(IVector x, bool UseDiagonal) => Matrix.SolveUT(x, UseDiagonal);
         }
+        private List<string> LUSTATES = new List<string> { "none", "simple", "seidel" };
+        // Отображает, какой именно формат разложения сейчас используется
+        public string LUSTATE;
         // Элементы матрицы
         Dictionary<(int i, int j), double> elements = new Dictionary<(int i, int j), double>();
         //Идентефикатор выполненности LU - разложения
@@ -60,6 +63,7 @@ namespace slae_project.Matrix
                     elements[(i, j)] = value;
                     // Это нормально, с учетом того, что матрицы не часто меняют
                     LU_was_made = false;
+                    LUSTATE = "none";
                 }
             }
         }
@@ -141,7 +145,7 @@ namespace slae_project.Matrix
         }
         //TODO: Написать эффективный алгоритм
         //С учетом того, что портрет не сохраняется
-        private void MakeLU()
+        public void MakeLU()
         { //Выделение памяти
             L = new List<double[]> { };
             U = new List<double[]> { };
@@ -179,10 +183,12 @@ namespace slae_project.Matrix
 
             }
                 LU_was_made = true;
+                LUSTATE = "simple";
             }
             catch (DivideByZeroException)
             {
                 LU_was_made = false;
+                LUSTATE = "none";
                 throw new LUFailException();
             }
         }
@@ -495,6 +501,74 @@ namespace slae_project.Matrix
             y = mar.T.SolveU(x);
             y = mar.T.SolveL(y);
             //should be {1/3 1/2 1 -5/6}
+        }
+
+        public void MakeLUSeidel()
+        {
+            //Выделение памяти
+            L = new List<double[]> { };
+            U = new List<double[]> { };
+            for (int i = 1; i <= Size; i++)
+            {
+                L.Add(new double[i]);
+                U.Add(new double[Size - i + 1]);
+            }
+            // Разложение
+            try
+            {
+                for (int i = 0; i < Size; i++)
+                {
+                    for (int j = 0; j < Size; j++)
+                    {
+                        if(i >= j)
+                            L[i][j] = this[i, j];
+                        else
+                            U[i][j - i] = this[i, j];
+                    }
+                }
+                LU_was_made = true;
+                LUSTATE = "seidel";
+            }
+            catch (DivideByZeroException)
+            {
+                LUSTATE = "none";
+                LU_was_made = false;
+                throw new LUFailException();
+            }
+        }
+        /// <summary>
+        /// Усножение вектора на диагональ матрицы (диагональную матрицу)
+        /// </summary>
+        /// <param name="a">Умножаемый вектор</param>
+        public IVector SolveD(IVector a)
+        {
+            if (this.Size != a.Size)
+                throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
+
+            IVector result = new SimpleVector(Size);
+            for (int i = 0; i < Size; i++)
+            {
+                result[i] = a[i] / this[i, i];
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Усножение вектора на диагональ матрицы (диагональную матрицу)
+        /// </summary>
+        /// <param name="a">Умножаемый вектор</param>
+        public IVector MultR(IVector a)
+        {
+            if (this.Size != a.Size)
+                throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
+
+            IVector result = new SimpleVector(Size);
+            foreach (var el in elements)
+            {
+                if(el.Key.i!= el.Key.j)
+                    result[el.Key.i] += el.Value * a[el.Key.j];
+            }
+            return result;
         }
     }
 }
