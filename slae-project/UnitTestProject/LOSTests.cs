@@ -4,6 +4,8 @@ using slae_project.Matrix;
 using slae_project.Vector.VectorExceptions;
 using slae_project.Vector;
 using slae_project.Solver;
+using slae_project.Logger;
+
 namespace UnitTestProject
 {
     [TestClass]
@@ -31,7 +33,8 @@ namespace UnitTestProject
             IVector rigthX = new SimpleVector(valX);
 
             LOSSolver s = new LOSSolver();
-            IVector x = s.Solve(mar, b, x0, 1e-8, 10000);
+            ILogger logger = new ILogger();
+            IVector x = s.Solve(mar, b, x0, 1e-8, 10000,logger);
 
             Assert.IsTrue(x.CompareWith(rigthX, 1e-5));
         }
