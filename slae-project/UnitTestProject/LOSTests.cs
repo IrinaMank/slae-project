@@ -1,10 +1,12 @@
 ﻿using System;
+using slae_project.ILogger;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using slae_project.Matrix;
 using slae_project.Vector.VectorExceptions;
 using slae_project.Vector;
 using slae_project.Solver;
-using slae_project.Logger;
+using slae_project.Preconditioner;
+
 
 namespace UnitTestProject
 {
@@ -27,14 +29,14 @@ namespace UnitTestProject
             }
 
             IMatrix mar = new CoordinateMatrix(coord, valMatrix);
-
+            IPreconditioner preconditioner = new NoPreconditioner(mar);
             IVector b = new SimpleVector(valB);
             IVector x0 = new SimpleVector(5);
             IVector rigthX = new SimpleVector(valX);
 
             LOSSolver s = new LOSSolver();
-            ILogger logger = new ILogger();
-            IVector x = s.Solve(mar, b, x0, 1e-8, 10000,logger);
+            Logger logger = new Logger();
+            IVector x = s.Solve(preconditioner, b, x0, 1e-8, 10000,logger);
 
             Assert.IsTrue(x.CompareWith(rigthX, 1e-5));
         }
@@ -55,13 +57,13 @@ namespace UnitTestProject
             }
 
             IMatrix mar = new CoordinateMatrix(coord, valMatrix);
-
+            IPreconditioner preconditioner = new NoPreconditioner(mar);
             IVector b = new SimpleVector(valB);
             IVector x0 = new SimpleVector(5);
             IVector rigthX = new SimpleVector(valX);
-
+            Logger logger = new Logger();
             LOSSolver s = new LOSSolver();
-            IVector x = s.Solve(mar, b, x0, 1e-8, 10000);
+            IVector x = s.Solve(preconditioner, b, x0, 1e-8, 10000, logger);
 
             Assert.IsTrue(x.CompareWith(rigthX, 1e-8));
         }
@@ -81,13 +83,14 @@ namespace UnitTestProject
             coord[2] = (2, 2);
 
             IMatrix mar = new CoordinateMatrix(coord, valMatrix);
-
+            IPreconditioner preconditioner = new NoPreconditioner(mar);
             IVector b = new SimpleVector(valB);
             IVector x0 = new SimpleVector(3);
             IVector rigthX = new SimpleVector(valX);
 
+            Logger logger = new Logger();
             LOSSolver s = new LOSSolver();
-            IVector x = s.Solve(mar, b, x0, 1e-8, 10000);
+            IVector x = s.Solve(preconditioner, b, x0, 1e-8, 10000, logger);
 
             Assert.IsTrue(x.CompareWith(rigthX, 1e-4));
         }

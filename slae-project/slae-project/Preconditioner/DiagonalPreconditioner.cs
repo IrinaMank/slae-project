@@ -8,7 +8,7 @@ using slae_project.Vector;
 
 namespace slae_project.Preconditioner
 {
-    class DiagonalPreconditioner : IPreconditioner
+    public class DiagonalPreconditioner : IPreconditioner
     {
         IMatrix matrix;
         public DiagonalPreconditioner(IMatrix matr)
