@@ -49,5 +49,13 @@ namespace slae_project.Vector
         /// </summary>
         /// <param name="v">Задаваемое значение</param>
         void SetConst(double v = 0);
+
+        /// <summary>
+        /// Сравнение вектора с другим вектором того же размера.
+        /// </summary>
+        /// <param name="a">Вектор, с которым происходит сравнение.</param>
+        /// <param name="prec">Точность, с которой числа считаются равными друг другу.</param>
+        /// <returns></returns>
+        bool CompareWith( IVector b, double prec);
     }
 }
