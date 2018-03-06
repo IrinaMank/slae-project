@@ -30,7 +30,14 @@ namespace slae_project.Vector
         {
             get
             {
-                return elements[key];
+                try
+                {
+                    return elements[key];
+                }
+                catch
+                {
+                    throw new IndexOutOfRangeException();
+                }
             }
             set
             {
