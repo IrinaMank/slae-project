@@ -25,9 +25,10 @@ namespace slae_project.Matrix
             public int Size => Matrix.Size;
             public IVector MultL(IVector x, bool UseDiagonal) => Matrix.MultLT(x, UseDiagonal);
             public IVector SolveL(IVector x, bool UseDiagonal) => Matrix.SolveLT(x, UseDiagonal);
-            public IVector Mult(IVector x) => Matrix.MultT(x);
+            public IVector Mult(IVector x, bool UseDiagonal) => Matrix.MultT(x);
             public IVector MultU(IVector x, bool UseDiagonal) => Matrix.MultUT(x, UseDiagonal);
             public IVector SolveU(IVector x, bool UseDiagonal) => Matrix.SolveUT(x, UseDiagonal);
+            public IVector SolveD(IVector x) => Matrix.SolveD(x);
         }
         private List<string> LUSTATES = new List<string> { "none", "simple", "seidel" };
         // Отображает, какой именно формат разложения сейчас используется
@@ -131,15 +132,26 @@ namespace slae_project.Matrix
             }
             this.Size = maxij+1;
         }
-        public IVector Mult(IVector x)
+        public IVector Mult(IVector x, bool UseDiagonal = true)
         {
             if (this.Size != x.Size)
                 throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
 
             IVector result = new SimpleVector(Size);
-            foreach (var el in elements)
+            if (UseDiagonal)
             {
-                result[el.Key.i] += el.Value * x[el.Key.j];
+                foreach (var el in elements)
+                {
+                    result[el.Key.i] += el.Value * x[el.Key.j];
+                }
+            }
+            else
+            {
+                foreach (var el in elements)
+                {
+                    if (el.Key.i != el.Key.j)
+                        result[el.Key.i] += el.Value * x[el.Key.j];
+                }
             }
             return result;
         }
@@ -492,7 +504,7 @@ namespace slae_project.Matrix
             IMatrix mar = new CoordinateMatrix(coord, val);
             IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
 
-            IVector y = mar.Mult(x);
+            IVector y = mar.Mult(x,true);
             IVector z = (IVector)y.Clone();
             z = mar.SolveL(x);
             z = mar.SolveU(z);
@@ -549,24 +561,6 @@ namespace slae_project.Matrix
             for (int i = 0; i < Size; i++)
             {
                 result[i] = a[i] / this[i, i];
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Усножение вектора на диагональ матрицы (диагональную матрицу)
-        /// </summary>
-        /// <param name="a">Умножаемый вектор</param>
-        public IVector MultR(IVector a)
-        {
-            if (this.Size != a.Size)
-                throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
-
-            IVector result = new SimpleVector(Size);
-            foreach (var el in elements)
-            {
-                if(el.Key.i!= el.Key.j)
-                    result[el.Key.i] += el.Value * a[el.Key.j];
             }
             return result;
         }
