@@ -19,6 +19,7 @@ namespace slae_project
         [STAThread]
         static void Main()
         {
+            CoordinateMatrix.localtest();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

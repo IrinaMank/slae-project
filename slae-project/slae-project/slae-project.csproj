@@ -97,6 +97,7 @@
     <Compile Include="Matrix\MatrixExceptions\DifferentSizeException.cs" />
     <Compile Include="Matrix\MatrixExceptions\LUFailException.cs" />
     <Compile Include="Solver\MSGSolver.cs" />
+    <Compile Include="Matrix\SparseRowColumnMatrix.cs" />
     <Compile Include="Vector\IVector.cs" />
     <Compile Include="Vector\SimpleVector.cs" />
     <Compile Include="Program.cs" />
