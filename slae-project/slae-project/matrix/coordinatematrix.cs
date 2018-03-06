@@ -25,7 +25,7 @@ namespace slae_project.Matrix
             public int Size => Matrix.Size;
             public IVector MultL(IVector x, bool UseDiagonal) => Matrix.MultLT(x, UseDiagonal);
             public IVector SolveL(IVector x, bool UseDiagonal) => Matrix.SolveLT(x, UseDiagonal);
-            public IVector Mult(IVector x, bool UseDiagonal) => Matrix.MultT(x);
+            public IVector Mult(IVector x, bool UseDiagonal) => Matrix.MultT(x, UseDiagonal);
             public IVector MultU(IVector x, bool UseDiagonal) => Matrix.MultUT(x, UseDiagonal);
             public IVector SolveU(IVector x, bool UseDiagonal) => Matrix.SolveUT(x, UseDiagonal);
             public IVector SolveD(IVector x) => Matrix.SolveD(x);
@@ -321,7 +321,7 @@ namespace slae_project.Matrix
                     var line = partM[i];
                     for (int j = 0; j < line.Length - end; j++)
                     {
-                        result[j+i*l] += line[j] * x[j+i*l];
+                        result[j+i*l] += line[j] * x[i];
                     }
                 }
             }
@@ -354,16 +354,27 @@ namespace slae_project.Matrix
                 return CommoLUMult(x, U, UseDiagonal, false);
             throw new LUFailException();
         }
-        protected IVector MultT(IVector x)
+        protected IVector MultT(IVector x, bool UseDiagonal)
         {
             if (this.Size != x.Size)
             {
                 throw new DifferentSizeException("Не удалось выполнить LU-разложение");
             }
             IVector result = new SimpleVector(Size);
-            foreach (var el in elements)
+            if (UseDiagonal)
             {
-                result[el.Key.j] += el.Value * x[el.Key.i];
+                foreach (var el in elements)
+                {
+                    result[el.Key.j] += el.Value * x[el.Key.i];
+                }
+            }
+            else
+            {
+                foreach (var el in elements)
+                {
+                    if (el.Key.i != el.Key.j)
+                        result[el.Key.j] += el.Value * x[el.Key.i];
+                }
             }
             return result;
         }
@@ -510,13 +521,20 @@ namespace slae_project.Matrix
 
             IVector y = mar.Mult(x,true);
             IVector z = (IVector)y.Clone();
+
             z = mar.SolveL(x);
             z = mar.SolveU(z);
-            //should be {5 0 0 -1}
+            //should be { 5 0 0 - 1}
 
             y = mar.T.SolveU(x);
             y = mar.T.SolveL(y);
             //should be {1/3 1/2 1 -5/6}
+
+            IVector ut = mar.T.MultU(x);
+            //should be {1 -2 -4 -5}
+
+            IVector lt = mar.T.MultL(x);
+            //should be {10 9 7 4}
         }
 
         public void MakeLUSeidel()

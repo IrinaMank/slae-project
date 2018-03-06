@@ -23,9 +23,10 @@ namespace slae_project.Matrix
             public int Size => Matrix.Size;
             public IVector MultL(IVector x, bool UseDiagonal) => Matrix.MultLT(x, UseDiagonal);
             public IVector SolveL(IVector x, bool UseDiagonal) => Matrix.SolveLT(x, UseDiagonal);
-            public IVector Mult(IVector x) => Matrix.MultT(x);
+            public IVector Mult(IVector x, bool UseDiagonal) => Matrix.MultT(x,UseDiagonal);
             public IVector MultU(IVector x, bool UseDiagonal) => Matrix.MultUT(x, UseDiagonal);
             public IVector SolveU(IVector x, bool UseDiagonal) => Matrix.SolveUT(x, UseDiagonal);
+            public IVector SolveD(IVector x) => Matrix.SolveD(x);
         }
 
 
@@ -118,15 +119,17 @@ namespace slae_project.Matrix
         }
 
         //Какие еще могут быть виды инициализации, кроме заданных векторов?
-        public IVector Mult(IVector x)
+        public IVector Mult(IVector x, bool UseDiagonal)
         {
             //проверка на корректное умножение (размеры вектора и матрицы)
             //допустим все корректно
             int j;
             IVector result = new SimpleVector(Size);
+            if(UseDiagonal)
+                for (int i = 0; i < this.Size; i++)
+                    result[i] = di[i] * x[i];
             for (int i = 0; i < this.Size; i++)
             {
-                result[i] = di[i] * x[i];
                 {
                     for (int k = ig[i]; k < ig[i + 1]; k++)
                     {
@@ -307,13 +310,17 @@ namespace slae_project.Matrix
           
         }
 
-        protected IVector MultT(IVector x)
+        protected IVector MultT(IVector x,bool UseDiagonal)
         {
             int j;
             IVector result = new SimpleVector(Size);
+            if (UseDiagonal)
+            {
+                for (int i = 0; i < this.Size; i++)
+                    result[i] = di[i] * x[i];
+            }
             for (int i = 0; i < this.Size; i++)
             {
-                result[i] = di[i] * x[i];
                 {
                     for (int k = ig[i]; k < ig[i + 1]; k++)
                     {
@@ -436,6 +443,15 @@ namespace slae_project.Matrix
             else
                 throw new Exception("Ошибка. Невозможно выполнить функцию MultUT, т.к. не удалось сделать разложение LU.");
 
+        }
+        public IVector SolveD(IVector x)
+        {
+            if (this.Size != x.Size)
+                throw new Exception("Ошибка. Различие в размерности вектора и матрицы в функции SolveL");
+            IVector result = new SimpleVector(Size);
+            for (int i = 0; i < Size; i++)
+                result[i] = x[i] / di[i];
+            return result;
         }
     }
 }
