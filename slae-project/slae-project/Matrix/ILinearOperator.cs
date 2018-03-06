@@ -81,5 +81,8 @@ namespace slae_project.Matrix
         /// Длина стороны квадратной матрицы
         /// </summary>
         int Size { get; }
+
+        void MakeLU();
+        void MakeLUSeidel();
     }
 }

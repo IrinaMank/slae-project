@@ -29,11 +29,9 @@ namespace slae_project.Matrix
             public IVector MultU(IVector x, bool UseDiagonal) => Matrix.MultUT(x, UseDiagonal);
             public IVector SolveU(IVector x, bool UseDiagonal) => Matrix.SolveUT(x, UseDiagonal);
             public IVector SolveD(IVector x) => Matrix.SolveD(x);
+            public void MakeLU() => Matrix.MakeLU();
+            public void MakeLUSeidel() => Matrix.MakeLUSeidel();
         }
-        private List<string> LUSTATES = new List<string> { "none", "simple", "seidel" };
-        // Отображает, какой именно формат разложения сейчас используется
-        public string LUSTATE;
-        // Элементы матрицы
         Dictionary<(int i, int j), double> elements = new Dictionary<(int i, int j), double>();
         //Идентефикатор выполненности LU - разложения
         // = false после любого изменения матрицы
@@ -64,7 +62,6 @@ namespace slae_project.Matrix
                     elements[(i, j)] = value;
                     // Это нормально, с учетом того, что матрицы не часто меняют
                     LU_was_made = false;
-                    LUSTATE = "none";
                 }
             }
         }
@@ -199,12 +196,10 @@ namespace slae_project.Matrix
 
             }
                 LU_was_made = true;
-                LUSTATE = "simple";
             }
             catch (DivideByZeroException)
             {
                 LU_was_made = false;
-                LUSTATE = "none";
                 throw new LUFailException();
             }
         }
@@ -561,11 +556,9 @@ namespace slae_project.Matrix
                     }
                 }
                 LU_was_made = true;
-                LUSTATE = "seidel";
             }
             catch (DivideByZeroException)
             {
-                LUSTATE = "none";
                 LU_was_made = false;
                 throw new LUFailException();
             }

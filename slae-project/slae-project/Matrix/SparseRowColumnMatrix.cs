@@ -27,6 +27,8 @@ namespace slae_project.Matrix
             public IVector MultU(IVector x, bool UseDiagonal) => Matrix.MultUT(x, UseDiagonal);
             public IVector SolveU(IVector x, bool UseDiagonal) => Matrix.SolveUT(x, UseDiagonal);
             public IVector SolveD(IVector x) => Matrix.SolveD(x);
+            public void MakeLU() => Matrix.MakeLU();
+            public void MakeLUSeidel() => Matrix.MakeLUSeidel();
         }
 
 
@@ -146,7 +148,7 @@ namespace slae_project.Matrix
         /// <summary>
         /// Создание LU разложения
         /// </summary>
-        private void MakeLU()
+        public void MakeLU()
         {
             // пусть опять же все корректно
             // Версия с отдельным выделением диагонали di
@@ -452,6 +454,11 @@ namespace slae_project.Matrix
             for (int i = 0; i < Size; i++)
                 result[i] = x[i] / di[i];
             return result;
+        }
+
+        public void MakeLUSeidel()
+        {
+            throw new NotImplementedException();
         }
     }
 }
