@@ -29,8 +29,9 @@ namespace slae_project.Matrix
             public IVector MultU(IVector x, bool UseDiagonal) => Matrix.MultUT(x, UseDiagonal);
             public IVector SolveU(IVector x, bool UseDiagonal) => Matrix.SolveUT(x, UseDiagonal);
             public IVector SolveD(IVector x) => Matrix.SolveD(x);
+            public void MakeLU() => Matrix.MakeLU();
+            public void MakeLUSeidel() => Matrix.MakeLUSeidel();
         }
-        // Элементы матрицы
         Dictionary<(int i, int j), double> elements = new Dictionary<(int i, int j), double>();
         //Идентефикатор выполненности LU - разложения
         // = false после любого изменения матрицы
@@ -106,7 +107,7 @@ namespace slae_project.Matrix
                 if (coord[i][1] > maxij)
                     maxij = coord[i][1];
             }
-            this.Size = maxij+1;
+            this.Size = maxij + 1;
         }
         /// <summary>
         /// Инициализация матрицы массивом координат и массивом значений
@@ -126,7 +127,7 @@ namespace slae_project.Matrix
                 if (coord[i].x > maxij)
                     maxij = coord[i].y;
             }
-            this.Size = maxij+1;
+            this.Size = maxij + 1;
         }
         public CoordinateMatrix(int size)
         {
@@ -172,28 +173,28 @@ namespace slae_project.Matrix
 
                 for (int i = 0; i < Size; i++)
                 {
-                    L[i][0] = this[i,0];
-                    U[0][i] = this[0,i] / L[0][0];
+                    L[i][0] = this[i, 0];
+                    U[0][i] = this[0, i] / L[0][0];
                 }
-                
+
                 double sum;
                 for (int i = 1; i < Size; i++)
                 {
                     for (int j = i; j < Size; j++)
                     {
-                            sum = 0;
-                            for (int k = 0; k < i; k++)
-                                sum += L[i][k] * U[k][j - k];
+                        sum = 0;
+                        for (int k = 0; k < i; k++)
+                            sum += L[i][k] * U[k][j - k];
 
-                            U[i][j - i] = this[i, j] - sum;
-                            sum = 0;
-                            for (int k = 0; k < i; k++)
-                                sum += L[j][k] * U[k][i - k];
+                        U[i][j - i] = this[i, j] - sum;
+                        sum = 0;
+                        for (int k = 0; k < i; k++)
+                            sum += L[j][k] * U[k][i - k];
 
-                            L[j][i] = (this[j,i] - sum) / U[i][0];
+                        L[j][i] = (this[j, i] - sum) / U[i][0];
                     }
 
-            }
+                }
                 LU_was_made = true;
             }
             catch (DivideByZeroException)
@@ -315,7 +316,7 @@ namespace slae_project.Matrix
                     var line = partM[i];
                     for (int j = 0; j < line.Length - end; j++)
                     {
-                        result[j+i*l] += line[j] * x[i];
+                        result[j + i * l] += line[j] * x[i];
                     }
                 }
             }
@@ -326,7 +327,7 @@ namespace slae_project.Matrix
                     var line = partM[i];
                     for (int j = 0; j < line.Length - end; j++)
                     {
-                        result[i] += line[j] * x[j+i*l];
+                        result[i] += line[j] * x[j + i * l];
                     }
                 }
             }
@@ -394,7 +395,7 @@ namespace slae_project.Matrix
                 {
                     if (Math.Abs(x[Size - 1]) < EQU_TO_ZERO)
                     {
-                        result[Size-1] = 0;
+                        result[Size - 1] = 0;
                     }
                     else
                         throw new CannotSolveSLAEExcpetion("Система неразрешима.");
@@ -423,7 +424,7 @@ namespace slae_project.Matrix
                     {
                         result[j] -= result[i] * L[i][j];
                     }
-                   
+
                 }
                 return result;
             }
@@ -475,9 +476,9 @@ namespace slae_project.Matrix
 
                     for (int j = 1 + d; j < line.Length; j++)
                     {
-                        result[j+i] -= result[i] * U[i][j];
+                        result[j + i] -= result[i] * U[i][j];
                     }
-                    
+
                 }
                 return result;
             }
@@ -513,7 +514,7 @@ namespace slae_project.Matrix
             IMatrix mar = new CoordinateMatrix(coord, val);
             IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
 
-            IVector y = mar.Mult(x,true);
+            IVector y = mar.Mult(x, true);
             IVector z = (IVector)y.Clone();
 
             z = mar.SolveL(x);
@@ -548,7 +549,7 @@ namespace slae_project.Matrix
                 {
                     for (int j = 0; j < Size; j++)
                     {
-                        if(i >= j)
+                        if (i >= j)
                             L[i][j] = this[i, j];
                         else
                             U[i][j - i] = this[i, j];
