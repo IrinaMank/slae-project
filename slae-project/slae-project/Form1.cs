@@ -87,5 +87,36 @@ namespace slae_project
         {
 
         }
+
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("В основном окне выбираются формат матрицы, решатель и предобусловливание. \nДля начала, выберите формат матрицы, решатель и предобусловливатель. \nПосле чего нужно выбрать тип матрицы (симметричная/несимметричная) и далее нажать кнопку Старт ", "Помощь", MessageBoxButtons.OK, MessageBoxIcon.Question);
+        }
+
+        private void aboutProgramToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(
+        "Написать разработчикам?", "Visit", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk
+    ) == DialogResult.Yes)
+            {
+                System.Diagnostics.Process.Start("http://pm43@mail.ru");
+            }
+            //MessageBox.Show("BLABLABLA версия 0.1. от 25 марта 2018. Специальное издание для Windows \nНаписать разработчикам: " , "О программе", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+        }
+
+
+
+
+        //private void linkLabel1_Click(object sender, EventArgs e)
+        //{
+
+        //    linkLabel1.Links[0].Visited = true;
+        //    string target = linkLabel1.Links[0].LinkData as string;
+        //    if (null != target && (target.StartsWith("http") || target.StartsWith("www")))
+        //        System.Diagnostics.Process.Start(target);
+        //    else
+        //        MessageBox.Show("Item clicked: " + target);
+        //}
     }
 }
