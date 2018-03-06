@@ -29,9 +29,8 @@ namespace slae_project.Matrix
             public IVector MultU(IVector x, bool UseDiagonal) => Matrix.MultUT(x, UseDiagonal);
             public IVector SolveU(IVector x, bool UseDiagonal) => Matrix.SolveUT(x, UseDiagonal);
             public IVector SolveD(IVector x) => Matrix.SolveD(x);
-            public void MakeLU() => Matrix.MakeLU();
-            public void MakeLUSeidel() => Matrix.MakeLUSeidel();
         }
+        // Элементы матрицы
         Dictionary<(int i, int j), double> elements = new Dictionary<(int i, int j), double>();
         //Идентефикатор выполненности LU - разложения
         // = false после любого изменения матрицы
