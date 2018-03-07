@@ -83,6 +83,8 @@
       <DependentUpon>SaveLoad.cs</DependentUpon>
     </Compile>
     <Compile Include="Graphic\SharpGL_limbo.cs" />
+    <Compile Include="Logger\ConsoleLogger.cs" />
+    <Compile Include="Logger\FileLogger.cs" />
     <Compile Include="Logger\ILogger.cs" />
     <Compile Include="Matrix\CoordinateMatrix.cs" />
     <Compile Include="Matrix\ILinearOperator.cs" />
