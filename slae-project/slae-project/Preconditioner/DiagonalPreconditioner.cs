@@ -27,22 +27,22 @@ namespace slae_project.Preconditioner
 
         public IVector QMult(IVector v)
         {
-            throw new NotImplementedException();
+           return matrix.SolveD(v);
         }
 
         public IVector QSolve(IVector v)
         {
-            throw new NotImplementedException();
+            return matrix.SolveD(v);
         }
 
         public IVector SMult(IVector v)
         {
-            throw new NotImplementedException();
+            return matrix.SolveD(v);
         }
 
         public IVector SSolve(IVector v)
         {
-            throw new NotImplementedException();
+            return matrix.SolveD(v);
         }
     }
 }

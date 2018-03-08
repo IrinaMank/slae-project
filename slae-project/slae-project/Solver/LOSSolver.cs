@@ -1,4 +1,4 @@
-﻿using slae_project.ILogger;
+﻿using slae_project.Logger;
 using slae_project.Matrix;
 using slae_project.Preconditioner;
 using slae_project.Vector;
@@ -21,7 +21,7 @@ namespace slae_project.Solver
         /// <param name="Precision">Точность</param>
         /// <param name="Maxiter">Максимальное число итераций</param>
         /// <returns>Вектор x - решение СЛАУ Ax=b с заданной точностью</returns>
-        public IVector Solve(IPreconditioner A, IVector b, IVector Initial, double Precision, int Maxiter, Logger logger)
+        public IVector Solve(IPreconditioner A, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
         {
             IVector x = new SimpleVector(b.Size);
 

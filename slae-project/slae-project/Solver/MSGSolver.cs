@@ -1,4 +1,4 @@
-﻿using slae_project.ILogger;
+﻿using slae_project.Logger;
 using slae_project.Matrix;
 using slae_project.Preconditioner;
 using slae_project.Vector;
@@ -21,9 +21,9 @@ namespace slae_project.Solver
         /// <param name="Precision">Точность</param>
         /// <param name="Maxiter">Максимальное число итераций</param>
         /// <returns>Вектор x - решение СЛАУ Ax=b с заданной точностью</returns>
-        public IVector Solve(IPreconditioner A, IVector b, IVector Initial, double Precision, int Maxiter, Logger logger)
+        public IVector Solve(IPreconditioner A, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
         {
-            IVector x = Initial;
+            IVector x = Initial.Clone() as IVector;
 
             if (b.Norm == 0)
                 return x;
@@ -33,9 +33,9 @@ namespace slae_project.Solver
             IVector r = b.Add(A.Matrix.Mult(Initial), 1, -1);
             r = A.SSolve(A.SMult(r));
             IVector Az, Atz, z = A.Matrix.Transpose.Mult(r);
-            r = A.QMult(z);
+            z = A.QMult(z);
 
-            z = r;
+            r = z.Clone() as IVector;
             scalRR = r.ScalarMult(r);
             double normR = Math.Sqrt(scalRR) / b.Norm;
 
@@ -65,9 +65,9 @@ namespace slae_project.Solver
                 z = r.Add(z, 1, beta);
                 normR = Math.Sqrt(scalRR) / b.Norm;
 
-                logger.writeIteration(iter, normR);
+                Logger.WriteIteration(iter, normR);
             };
-            return x;
+            return A.SSolve(x);
         }
     }
 }

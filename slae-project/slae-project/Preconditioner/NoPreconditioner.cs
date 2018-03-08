@@ -26,22 +26,22 @@ namespace slae_project.Preconditioner
 
         IVector IPreconditioner.QMult(IVector v)
         {
-            return v;
+            return v.Clone() as IVector;
         }
 
         IVector IPreconditioner.QSolve(IVector v)
         {
-            return v;
+            return v.Clone() as IVector;
         }
 
         IVector IPreconditioner.SMult(IVector v)
         {
-            return v;
+            return v.Clone() as IVector;
         }
 
         IVector IPreconditioner.SSolve(IVector v)
         {
-            return v;
+            return v.Clone() as IVector;
         }
     }
 }
