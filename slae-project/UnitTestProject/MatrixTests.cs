@@ -775,11 +775,11 @@ namespace UnitTestProject
             }
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
+            IVector x = new SimpleVector(new double[4] { 10, 9, 7, 4 });
             IVector y;
 
-            y = mar.T.MultL(x);
-            IVector right = new SimpleVector(new double[4] { 1, 5, 16 / 3.0, 35 / 6.0 });
+            y = mar.T.SolveL(x);
+            IVector right = new SimpleVector(new double[4] { 1, 2, 3, 4 });
             Assert.IsTrue(y.CompareWith(right, 1e-5));
         }
 
@@ -795,11 +795,11 @@ namespace UnitTestProject
             }
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+            IVector x = new SimpleVector(new double[4] { 24, 8, -3, 4 });
             IVector y;
 
             y = mar.T.SolveL(x);
-            IVector right = new SimpleVector(new double[4] { 1, 0, -2, 0 });
+            IVector right = new SimpleVector(new double[4] { 1, 2, 3, 4 });
             Assert.IsTrue(y.CompareWith(right, 1e-5));
 
         }
@@ -826,10 +826,10 @@ namespace UnitTestProject
             }
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+            IVector x = new SimpleVector(new double[4] { 727, -276, -57, 75 });
 
             IVector result = mar.T.SolveL(x);
-            IVector right = new SimpleVector(new double[4] { 1, -3, 29 / 2.0, -839 / 150.0 });
+            IVector right = new SimpleVector(new double[4] { 1, 1, 2, 75 });
 
             Assert.IsTrue(result.CompareWith(right, 1e-5));
         }
@@ -851,10 +851,10 @@ namespace UnitTestProject
             coord[11] = (3, 3);
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+            IVector x = new SimpleVector(new double[4] { 11, 473, 54, 93 });
 
             IVector result = mar.T.SolveL(x);
-            IVector right = new SimpleVector(new double[4] { 1, 2, -9, -30 / 31.0 });
+            IVector right = new SimpleVector(new double[4] { 1, 1, 2, 93 });
 
             Assert.IsTrue(result.CompareWith(right, 1e-5));
         }
