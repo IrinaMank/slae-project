@@ -117,7 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
+  <data name="infoTextBox.Text" xml:space="preserve">
+    <value>В основном окне выбираются формат матрицы, решатель и предобусловливание.
+Для начала, выберите формат матрицы, решатель и предобусловливатель. 
+После чего нужно выбрать тип матрицы (симметричная/несимметричная) и далее нажать кнопку Старт</value>
+  </data>
 </root>
