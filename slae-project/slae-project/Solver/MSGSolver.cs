@@ -21,7 +21,7 @@ namespace slae_project.Solver
         /// <param name="Precision">Точность</param>
         /// <param name="Maxiter">Максимальное число итераций</param>
         /// <returns>Вектор x - решение СЛАУ Ax=b с заданной точностью</returns>
-        public IVector Solve(IPreconditioner A, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
+        public IVector Solve(IPreconditioner Preconditioner, IMatrix A, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
         {
             IVector x = Initial.Clone() as IVector;
 
@@ -30,10 +30,10 @@ namespace slae_project.Solver
 
             double scalAzZ, scalRR, alpha, beta = 1.0;
 
-            IVector r = b.Add(A.Matrix.Mult(Initial), 1, -1);
-            r = A.SSolve(A.SMult(r));
-            IVector Az, Atz, z = A.Matrix.Transpose.Mult(r);
-            z = A.QMult(z);
+            IVector r = b.Add(A.Mult(Initial), 1, -1);
+            r = Preconditioner.SSolve(Preconditioner.SMult(r));
+            IVector Az, Atz, z = A.Transpose.Mult(r);
+            z = Preconditioner.QMult(z);
 
             r = z.Clone() as IVector;
             scalRR = r.ScalarMult(r);
@@ -41,12 +41,12 @@ namespace slae_project.Solver
 
             for (int iter = 0; iter < Maxiter && normR > Precision && beta > 0; iter++)
             {
-                Az = A.QSolve(z);
+                Az = Preconditioner.QSolve(z);
 
-                Atz = A.Matrix.Mult(Az);
-                Atz = A.SSolve(A.SMult(Atz));
-                Az = A.Matrix.Transpose.Mult(Atz);
-                Az = A.QMult(Az);
+                Atz = A.Mult(Az);
+                Atz = Preconditioner.SSolve(Preconditioner.SMult(Atz));
+                Az = A.Transpose.Mult(Atz);
+                Az = Preconditioner.QMult(Az);
 
                 scalAzZ = Az.ScalarMult(z);
 
@@ -67,7 +67,7 @@ namespace slae_project.Solver
 
                 Logger.WriteIteration(iter, normR);
             };
-            return A.SSolve(x);
+            return Preconditioner.QSolve(x);
         }
     }
 }
