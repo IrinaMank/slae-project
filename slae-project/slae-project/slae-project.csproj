@@ -93,6 +93,7 @@
     <Compile Include="Preconditioner\DiagonalPreconditioner.cs" />
     <Compile Include="Preconditioner\IPreconditioner.cs" />
     <Compile Include="Preconditioner\NoPreconditioner.cs" />
+    <Compile Include="Solver\BSGStabSolve.cs" />
     <Compile Include="Solver\LOSSolver.cs" />
     <Compile Include="Matrix\MatrixExceptions\CannotMultException.cs" />
     <Compile Include="Matrix\MatrixExceptions\CannotSolveSLAEException.cs" />
