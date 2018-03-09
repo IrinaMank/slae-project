@@ -29,9 +29,6 @@ namespace slae_project.Matrix
             public IVector MultU(IVector x, bool UseDiagonal) => Matrix.MultUT(x, UseDiagonal);
             public IVector SolveU(IVector x, bool UseDiagonal) => Matrix.SolveUT(x, UseDiagonal);
             public IVector SolveD(IVector x) => Matrix.SolveD(x);
-            //добавлено, чтобы избавиться от билд ошибок
-            public void MakeLU() { } 
-            public void MakeLUSeidel() { } 
         }
         private List<string> LUSTATES = new List<string> { "none", "simple", "seidel" };
         // Отображает, какой именно формат разложения сейчас используется
