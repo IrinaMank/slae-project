@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>slae_project</RootNamespace>
     <AssemblyName>slae-project</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -93,6 +93,7 @@
     <Compile Include="Preconditioner\DiagonalPreconditioner.cs" />
     <Compile Include="Preconditioner\IPreconditioner.cs" />
     <Compile Include="Preconditioner\NoPreconditioner.cs" />
+    <Compile Include="Solver\BSGStabSolve.cs" />
     <Compile Include="Solver\LOSSolver.cs" />
     <Compile Include="Matrix\MatrixExceptions\CannotMultException.cs" />
     <Compile Include="Matrix\MatrixExceptions\CannotSolveSLAEException.cs" />
