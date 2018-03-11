@@ -13,7 +13,7 @@ namespace slae_project.Solver
 
     public interface ISolver
     {
-        IVector Solve(IPreconditioner A, IVector B, IVector Initial, double Precision, int Maxiter, ILogger Logger );
+        IVector Solve(IPreconditioner Preconditioner,IMatrix A, IVector B, IVector Initial, double Precision, int Maxiter, ILogger Logger );
         
     }
 }
