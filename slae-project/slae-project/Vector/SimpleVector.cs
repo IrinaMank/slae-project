@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using slae_project.Vector.VectorExceptions;
 
 namespace slae_project.Vector
 {
@@ -12,13 +13,14 @@ namespace slae_project.Vector
     {
         public int Size { get; }
 
-        public double Norm => CalcNorm();
-        private double CalcNorm()
-        {
+        public double Norm {
+            get
+            {
                 double result = 0;
-                for (int i = 0; i<Size; i++)
+                for (int i = 0; i < Size; i++)
                     result += this[i] * this[i];
                 return Math.Sqrt(result);
+            }
         }
 
     public double[] elements;
@@ -28,7 +30,14 @@ namespace slae_project.Vector
         {
             get
             {
-                return elements[key];
+                try
+                {
+                    return elements[key];
+                }
+                catch
+                {
+                    throw new IndexOutOfRangeException();
+                }
             }
             set
             {
@@ -49,7 +58,7 @@ namespace slae_project.Vector
             if (m > 0)
                 Size = m;
             else
-                Size = 1;
+                throw new WrongSizeException();
             elements = new double[Size];
             SetConst();
         }
@@ -59,7 +68,6 @@ namespace slae_project.Vector
             Size = b.Length;
             elements = new double[Size];
             b.CopyTo(elements,0);
-            SetConst();
         }
 
         public IVector Add(IVector b, double coef1 = 1.0, double coef2 = 1.0, bool _override = false)
@@ -104,7 +112,23 @@ namespace slae_project.Vector
             for (int i = 0; i < Size; i++)
                 elements[i] = v;
         }
+        public bool CompareWith(IVector a, double prec = 1e-5)
+        {
+            //ПМ-43 восхитительны
+            if (this.Size == a.Size)
+            {
+                for (int i = 0; i < Size; i++)
+                {
+                    if (this[i] + prec > a[i] &&
+                        this[i] - prec < a[i])
+                        continue;
+                    return false;
+                }
 
+                return true;
+            }
+            throw new WrongSizeException();
+        }
         public IEnumerator<(double value, int index)> GetEnumerator()
         {
             IEnumerable<(double value, int index)> F()
@@ -117,7 +141,7 @@ namespace slae_project.Vector
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return GetEnumerator();
         }
 
         public object Clone()
@@ -125,5 +149,6 @@ namespace slae_project.Vector
             SimpleVector clon = new SimpleVector(this.elements);
             return clon;
         }
+
     }
 }

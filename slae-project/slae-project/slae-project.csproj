@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>slae_project</RootNamespace>
     <AssemblyName>slae-project</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -32,7 +32,20 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="SharpGL">
+      <HintPath>Graphic\SharpGLCore.2.3.0.1\lib\net40\SharpGL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpGL.SceneGraph">
+      <HintPath>Graphic\SharpGLCore.2.3.0.1\lib\net40\SharpGL.SceneGraph.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpGL.WinForms">
+      <HintPath>Graphic\SharpGLforWinForms.2.3.0.1\lib\net40\SharpGL.WinForms.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,22 +59,68 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="factory.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Graphic\AutoCellAdjust.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Graphic\GraphicalLogic.cs" />
+    <Compile Include="Graphic\SaveLoad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Graphic\SaveLoad.Designer.cs">
+      <DependentUpon>SaveLoad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Graphic\SharpGL_limbo.cs" />
+    <Compile Include="Logger\ConsoleLogger.cs" />
+    <Compile Include="Logger\FileLogger.cs" />
+    <Compile Include="Logger\ILogger.cs" />
     <Compile Include="Matrix\CoordinateMatrix.cs" />
     <Compile Include="Matrix\ILinearOperator.cs" />
     <Compile Include="Matrix\IMatrix.cs" />
+    <Compile Include="Matrix\SparseRowColumnMatrix.cs" />
+    <Compile Include="Preconditioner\DiagonalPreconditioner.cs" />
+    <Compile Include="Preconditioner\IPreconditioner.cs" />
+    <Compile Include="Preconditioner\LUPreconditioner.cs" />
+    <Compile Include="Preconditioner\NoPreconditioner.cs" />
     <Compile Include="Solver\LOSSolver.cs" />
+    <Compile Include="Matrix\MatrixExceptions\CannotMultException.cs" />
+    <Compile Include="Matrix\MatrixExceptions\CannotSolveSLAEException.cs" />
+    <Compile Include="Matrix\MatrixExceptions\DifferentSizeException.cs" />
+    <Compile Include="Matrix\MatrixExceptions\LUFailException.cs" />
     <Compile Include="Solver\MSGSolver.cs" />
     <Compile Include="Vector\IVector.cs" />
     <Compile Include="Vector\SimpleVector.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solver\ISolver.cs" />
+    <Compile Include="Vector\VectorExceptions\WrongSizeException.cs" />
+    <Compile Include="Graphic\SharpGLForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Graphic\SharpGLForm.designer.cs">
+      <DependentUpon>SharpGLForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form2.resx">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphic\SaveLoad.resx">
+      <DependentUpon>SaveLoad.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -72,6 +131,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Graphic\SharpGLForm.resx">
+      <DependentUpon>SharpGLForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

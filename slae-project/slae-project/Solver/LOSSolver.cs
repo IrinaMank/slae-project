@@ -21,7 +21,6 @@ namespace slae_project.Solver
         /// <param name="Precision">Точность</param>
         /// <param name="Maxiter">Максимальное число итераций</param>
         /// <returns>Вектор x - решение СЛАУ Ax=b с заданной точностью</returns>
-        /// 
         public IVector Solve(IPreconditioner A, IMatrix AA, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
         {
             IVector x = new SimpleVector(b.Size);
@@ -68,47 +67,6 @@ namespace slae_project.Solver
             }
             return x;
         }
-
-        public IVector Solve2(IPreconditioner A, IMatrix AA, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
-        {
-            IVector x = new SimpleVector(b.Size);
-
-            if (b.Norm == 0)
-                return x;
-
-            double alpha = 0.0, beta = 0.0;
-
-            IVector r = b.Add(AA.Mult(Initial), 1, -1); //r_0 = f - Ax_0
-            IVector Ar, z = r; // z_0 = r_0
-            IVector p = AA.Mult(z); // p_0 = Az_0
-            double p_r = 0.0, p_p = 0.0;
-            double scal = 1.0;/* p_r - alpha * alpha * p_p;*/
-
-            double scalRR = r.ScalarMult(r);
-            double normR = Math.Sqrt(scalRR) / b.Norm;
-
-            for (int iter = 0; iter < Maxiter && normR > Precision; iter++)
-            //for (int iter = 0; iter < Maxiter && ; iter++)
-            {
-                p_r = p.ScalarMult(r); //(p_k-1,r_k-1)
-                p_p = p.ScalarMult(p); //(p_k-1,p_k-1)
-                alpha = p_r / p_p;
-                x.Add(z, 1, alpha, true); // x_k = x_k-1 = alfa_k*z_k-1
-
-                scal = p_r - alpha * alpha * p_p;
-
-                r.Add(p, 1, -alpha, true); // r_k = r_k-1 - alfa_k*p_k-1
-                Ar = AA.Mult(r); // Ar_k
-                beta = -(p.ScalarMult(Ar) / p_p);
-                z = r.Add(z, 1, beta); //z_k = r_k + beta_k*z_k-1
-                p = Ar.Add(p, 1, beta); // p_k = Ar_k + beta_k*p_k-1
-                if (scalRR == 0) throw new Exception("Division by 0");
-                scalRR = r.ScalarMult(r);
-                normR = Math.Sqrt(scalRR) / b.Norm;
-            }
-            return x;
-        }
-
 
     }
 }
