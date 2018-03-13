@@ -10,38 +10,16 @@ namespace slae_project.Preconditioner
 {
     class LUPreconditioner : IPreconditioner
     {
-        public IMatrix matrix;
+        public IMatrix matrix { get; }
 
         public LUPreconditioner(IMatrix matr)
         {
-            matrix = matr;
+            matrix = (IMatrix)matr.Clone();
             matrix.MakeLU();
         }
-        public IMatrix Matrix
-        {
-            get
-            {
-                return matrix;
-            }
-        }
-        public IVector QMult(IVector v)
-        {
-            return matrix.MultL(v);
-        }
-
-        public IVector QSolve(IVector v)
-        {
-            return matrix.SolveL(v);
-        }
-
-        public IVector SMult(IVector v)
-        {
-            return matrix.MultU(v);
-        }
-
-        public IVector SSolve(IVector v)
-        {
-            return matrix.SolveU(v);
-        }
+        public IVector MultL(IVector v) => matrix.MultL(v);
+        public IVector MultU(IVector v) => matrix.MultU(v);
+        public IVector SolveL(IVector v) => matrix.SolveL(v);
+        public IVector SolveU(IVector v) => matrix.SolveU(v);
     }
 }
