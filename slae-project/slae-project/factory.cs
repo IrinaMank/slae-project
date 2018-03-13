@@ -15,8 +15,7 @@ namespace slae_project
         Dictionary<string, string> S = Form2.filenames_format;//словарь путей до массивов
         static IMatrix CreateMatrix(string typename)//конструкторы пустых матриц для каждого формата - результат в arr_format
         {
-            slae_project.Matrix.CoordinateMatrix coordinateMatrix ;
-
+            
             switch (typename)
             {
                 case "Координатный": return coordinateMatrix(Form1.Size_Matrix); // public CoordinateMatrix(int size) как вызвать?
