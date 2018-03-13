@@ -47,7 +47,7 @@ namespace slae_project.Solver
 
             for (int iter = 0; iter < Maxiter && normR > Precision; iter++)
             {
-                LAUz = Preconditioner.SSolve(Preconditioner.SMult(z));//U(-1)z(k - 1)
+                LAUz = Preconditioner.SMult(z);//U(-1)z(k - 1)
                 LAUz = A.Mult(LAUz);//AU(-1)z(k-1)
                 LAUz = Preconditioner.QMult(LAUz);//L(-1)AU(-1)z(k-1)
 
