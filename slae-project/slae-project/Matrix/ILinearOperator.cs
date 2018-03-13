@@ -83,6 +83,6 @@ namespace slae_project.Matrix
         int Size { get; }
 
         void MakeLU();
-        //void MakeLUSeidel();
+        void MakeLUSeidel();
     }
 }

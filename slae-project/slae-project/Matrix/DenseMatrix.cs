@@ -21,11 +21,9 @@ namespace slae_project.Matrix
             public int Size => Matrix.Size;
             public IVector MultL(IVector x, bool UseDiagonal) => Matrix.MultLT(x, UseDiagonal);
             public IVector SolveL(IVector x, bool UseDiagonal) => Matrix.SolveLT(x, UseDiagonal);
-            public IVector Mult(IVector x, bool UseDiagonal) => Matrix.MultT(x, UseDiagonal);
+            public IVector Mult(IVector x) => Matrix.MultT(x);
             public IVector MultU(IVector x, bool UseDiagonal) => Matrix.MultUT(x, UseDiagonal);
             public IVector SolveU(IVector x, bool UseDiagonal) => Matrix.SolveUT(x, UseDiagonal);
-            public IVector SolveD(IVector x) => Matrix.SolveLT(x);
-            public void MakeLU() => throw new NotImplementedException();
         }
         // Матрица
         private double[,] d_matrix;
@@ -88,8 +86,6 @@ namespace slae_project.Matrix
         /// <param name="val">Двумерный массив значений</param>
         public DenseMatrix(double[,] val)
         {
-            this.Size = val.GetLength(0);
-            d_matrix = new double[Size, Size];
             for (int i = 0; i < val.GetLength(0); i++)
             {
                 for (int j = 0; j < val.GetLength(0); j++)
@@ -97,40 +93,10 @@ namespace slae_project.Matrix
                     this.d_matrix[i, j] = val[i, j];
                 }
             }
-            
+            this.Size = d_matrix.GetLength(0);
         }
 
-        public DenseMatrix(int Size)
-        {
-            d_matrix = new double[Size, Size];
-            this.Size = Size;
-            for (int i = 0; i < Size; i++)
-            {
-                for (int j = 0; j < Size; j++)
-                {
-                    this.d_matrix[i, j] = 0;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Инициализация матрицы координатной матрицей
-        /// </summary>
-        /// <param name="c_matrix">Матрица в координатном формате</param>
-        public DenseMatrix(CoordinateMatrix c_matrix)
-        {
-            d_matrix = new double[c_matrix.Size, c_matrix.Size];
-            this.Size = Size;
-
-            for (int i = 0; i < Size; i++)
-                for (int j = 0; j < Size; j++)
-                    d_matrix[i, j] = 0;
-
-            foreach (var val in c_matrix)
-                this.d_matrix[val.row, val.col] = val.value;
-        }
-
-        public IVector Mult(IVector x, bool UseDiagonal = true)
+        public IVector Mult(IVector x)
         {
             if (this.Size != x.Size)
                 throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
@@ -145,7 +111,7 @@ namespace slae_project.Matrix
         /// <summary>
         /// LU разложение
         /// </summary>
-        public void MakeLU()
+        private void MakeLU()
         {
             L = new List<double[]> { };
             U = new List<double[]> { };
@@ -337,7 +303,7 @@ namespace slae_project.Matrix
                 return CommoLUMult(x, U, UseDiagonal, false);
             throw new LUFailException();
         }
-        protected IVector MultT(IVector x, bool UseDiagonal)
+        protected IVector MultT(IVector x)
         {
             if (this.Size != x.Size)
             {
@@ -481,18 +447,6 @@ namespace slae_project.Matrix
             if (LU_was_made)
                 return CommoLUMult(x, U, UseDiagonal, true);
             throw new LUFailException();
-        }
-
-        //решение СЛАУ диагональ
-        public IVector SolveD(IVector x)
-        {
-            throw new NotImplementedException();
-        }
-
-        public object Clone()
-        {
-            DenseMatrix copy = new DenseMatrix(d_matrix);
-            return copy;
         }
     }
 }
