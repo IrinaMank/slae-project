@@ -87,6 +87,7 @@
     <Compile Include="Logger\FileLogger.cs" />
     <Compile Include="Logger\ILogger.cs" />
     <Compile Include="Matrix\CoordinateMatrix.cs" />
+    <Compile Include="Matrix\DenseMatrix.cs" />
     <Compile Include="Matrix\ILinearOperator.cs" />
     <Compile Include="Matrix\IMatrix.cs" />
     <Compile Include="Matrix\SparseRowColumnMatrix.cs" />
