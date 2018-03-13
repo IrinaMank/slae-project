@@ -21,6 +21,7 @@ namespace slae_project.Solver
         /// <param name="Precision">Точность</param>
         /// <param name="Maxiter">Максимальное число итераций</param>
         /// <returns>Вектор x - решение СЛАУ Ax=b с заданной точностью</returns>
+
         public IVector Solve(IPreconditioner Preconditioner, IMatrix A, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
         {
             IVector x = (IVector)Initial.Clone();
