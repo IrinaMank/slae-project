@@ -10,11 +10,34 @@ namespace slae_project.Preconditioner
 {
     public interface IPreconditioner
     {
-        IMatrix Matrix { get; }
+        IMatrix matrix { get; }
 
-        IVector SMult(IVector v);
-        IVector SSolve(IVector v);
-        IVector QMult(IVector v);
-        IVector QSolve(IVector v);
+        /// <summary>
+        /// Умножение вектора v на нижнюю треугольную матрицу
+        /// </summary>
+        /// <param name="v">Умножаемый вектор</param>
+        /// <returns></returns>
+        IVector MultL(IVector v);
+
+        /// <summary>
+        /// Умножение вектора v на верхнюю треугольную матрицу
+        /// </summary>
+        /// <param name="v">Умножаемый вектор</param>
+        /// <returns></returns>
+        IVector MultU(IVector v);
+
+        /// <summary>
+        /// Решить СЛАУ с нижней треугольной матрицей относительно вектора v
+        /// </summary>
+        /// <param name="v">Правая часть СЛАУ</param>
+        /// <returns></returns>
+        IVector SolveL(IVector v);
+
+        /// <summary>
+        /// Решить СЛАУ с верхней треугольной матрицей относительно вектора v
+        /// </summary>
+        /// <param name="v">Правая часть СЛАУ</param>
+        /// <returns></returns>
+        IVector SolveU(IVector v);
     }
 }
