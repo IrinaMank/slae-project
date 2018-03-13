@@ -9,12 +9,19 @@ using System.Threading.Tasks;
 namespace slae_project.Preconditioner
 {
     public interface IPreconditioner
-    {
-        IMatrix Matrix { get; }
 
-        IVector SMult(IVector v);
-        IVector SSolve(IVector v);
-        IVector QMult(IVector v);
-        IVector QSolve(IVector v);
+    {
+        IVector MultL(IVector v);
+        IVector SolveL(IVector v);
+        IVector MultU(IVector v);
+        IVector SolveU(IVector v);
+    }
+    public class UseMatrixPreconditioner : IPreconditioner
+    {
+        protected IMatrix m;
+        IVector IPreconditioner.MultL(IVector v) => m.MultL(v);
+        IVector IPreconditioner.MultU(IVector v) => m.MultU(v);
+        IVector IPreconditioner.SolveL(IVector v) => m.SolveL(v);
+        IVector IPreconditioner.SolveU(IVector v) => m.SolveU(v);
     }
 }
