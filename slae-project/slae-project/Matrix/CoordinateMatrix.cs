@@ -40,9 +40,6 @@ namespace slae_project.Matrix
                 throw new NotImplementedException();
             }
         }
-        private List<string> LUSTATES = new List<string> { "none", "simple", "seidel" };
-        // Отображает, какой именно формат разложения сейчас используется
-        public string LUSTATE;
         // Элементы матрицы
         Dictionary<(int i, int j), double> elements = new Dictionary<(int i, int j), double>();
         //Идентефикатор выполненности LU - разложения
@@ -74,7 +71,6 @@ namespace slae_project.Matrix
                     elements[(i, j)] = value;
                     // Это нормально, с учетом того, что матрицы не часто меняют
                     LU_was_made = false;
-                    LUSTATE = "none";
                 }
             }
         }
@@ -146,6 +142,10 @@ namespace slae_project.Matrix
         {
             this.Size = size;
         }
+        public CoordinateMatrix(Dictionary<(int i, int j), double> elemets)
+        {
+            this.elements = elements;
+        }
         public IVector Mult(IVector x, bool UseDiagonal = true)
         {
             if (this.Size != x.Size)
@@ -209,12 +209,10 @@ namespace slae_project.Matrix
 
             }
                 LU_was_made = true;
-                LUSTATE = "simple";
             }
             catch (DivideByZeroException)
             {
                 LU_was_made = false;
-                LUSTATE = "none";
                 throw new LUFailException();
             }
         }
@@ -571,11 +569,9 @@ namespace slae_project.Matrix
                     }
                 }
                 LU_was_made = true;
-                LUSTATE = "seidel";
             }
             catch (DivideByZeroException)
             {
-                LUSTATE = "none";
                 LU_was_made = false;
                 throw new LUFailException();
             }
@@ -595,6 +591,11 @@ namespace slae_project.Matrix
                 result[i] = a[i] / this[i, i];
             }
             return result;
+        }
+
+        public object Clone()
+        {
+            CoordinateMatrix copy = new CoordinateMatrix()
         }
     }
 }

@@ -18,11 +18,11 @@ namespace slae_project
             
             switch (typename)
             {
-                case "Координатный": return new coordinateMatrix(Form1.Size_Matrix); // public CoordinateMatrix(int size) как вызвать?
-                case "Плотный": return new Dense_matrix(Form1.Size_Matrix);//
-                case "Строчный": return new SparseRowMatrix(Form1.Size_Matrix);
-                case "Строчно - столбцовый": return new SparseRowColumnMatrix(Form1.Size_Matrix);
-                default: return new coordinateMatrix(Form1.Size_Matrix);
+                case "Координатный": return coordinateMatrix(Form1.Size_Matrix); // public CoordinateMatrix(int size) как вызвать?
+                case "Плотный": return Dense_matrix(Form1.Size_Matrix);//
+                case "Строчный": return SparseRowMatrix(Form1.Size_Matrix);
+                case "Строчно - столбцовый": return SparseRowColumnMatrix(Form1.Size_Matrix);
+                default: break;
             }
 
         }
