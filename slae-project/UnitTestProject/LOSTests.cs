@@ -1,5 +1,5 @@
 ﻿using System;
-using slae_project.ILogger;
+using slae_project.Logger;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using slae_project.Matrix;
 using slae_project.Vector.VectorExceptions;
@@ -13,6 +13,7 @@ namespace UnitTestProject
     [TestClass]
     public class LOSTests
     {
+        ILogger logger = new FileLogger();
         //вычислительный тест
         //Результат: не пройдено
         [TestMethod]
@@ -35,10 +36,11 @@ namespace UnitTestProject
             IVector rigthX = new SimpleVector(valX);
 
             LOSSolver s = new LOSSolver();
-            Logger logger = new Logger();
+            //Logger logger = new Logger();
             IVector x = s.Solve(preconditioner, b, x0, 1e-8, 10000,logger);
 
             Assert.IsTrue(x.CompareWith(rigthX, 1e-5));
+            logger.Dispose();
         }
 
         //тест с нулевой правой частью
@@ -61,10 +63,10 @@ namespace UnitTestProject
             IVector b = new SimpleVector(valB);
             IVector x0 = new SimpleVector(5);
             IVector rigthX = new SimpleVector(valX);
-            Logger logger = new Logger();
+            //Logger logger = new Logger();
             LOSSolver s = new LOSSolver();
             IVector x = s.Solve(preconditioner, b, x0, 1e-8, 10000, logger);
-
+            logger.Dispose();
             Assert.IsTrue(x.CompareWith(rigthX, 1e-8));
         }
 
@@ -88,10 +90,10 @@ namespace UnitTestProject
             IVector x0 = new SimpleVector(3);
             IVector rigthX = new SimpleVector(valX);
 
-            Logger logger = new Logger();
+            //Logger logger = new Logger();
             LOSSolver s = new LOSSolver();
             IVector x = s.Solve(preconditioner, b, x0, 1e-8, 10000, logger);
-
+            logger.Dispose();
             Assert.IsTrue(x.CompareWith(rigthX, 1e-4));
         }
     }
