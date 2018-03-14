@@ -40,4 +40,14 @@ namespace slae_project.Preconditioner
         /// <returns></returns>
         IVector SolveU(IVector v);
     }
+
+    public class UseMatrixPreconditioner : IPreconditioner
+    {
+        protected IMatrix m;
+        IVector IPreconditioner.MultL(IVector v) => m.MultL(v);
+        IVector IPreconditioner.MultU(IVector v) => m.MultU(v);
+        IVector IPreconditioner.SolveL(IVector v) => m.SolveL(v);
+        IVector IPreconditioner.SolveU(IVector v) => m.SolveU(v);
+
+    }
 }

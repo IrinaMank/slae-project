@@ -31,9 +31,9 @@ namespace slae_project.Solver
             double scalAzZ, scalRR, alpha, beta = 1.0;
 
             IVector r = b.Add(A.Mult(Initial), 1, -1);
-            r = Preconditioner.SSolve(Preconditioner.SMult(r));
+            r = Preconditioner.SolveU(Preconditioner.MultU(r));
             IVector Az, Atz, z = A.Transpose.Mult(r);
-            z = Preconditioner.QMult(z);
+            z = Preconditioner.MultL(z);
 
             r = z.Clone() as IVector;
             scalRR = r.ScalarMult(r);
@@ -41,12 +41,12 @@ namespace slae_project.Solver
 
             for (int iter = 0; iter < Maxiter && normR > Precision && beta > 0; iter++)
             {
-                Az = Preconditioner.QSolve(z);
+                Az = Preconditioner.SolveL(z);
 
                 Atz = A.Mult(Az);
-                Atz = Preconditioner.SSolve(Preconditioner.SMult(Atz));
+                Atz = Preconditioner.SolveU(Preconditioner.MultU(Atz));
                 Az = A.Transpose.Mult(Atz);
-                Az = Preconditioner.QMult(Az);
+                Az = Preconditioner.MultL(Az);
 
                 scalAzZ = Az.ScalarMult(z);
 
@@ -67,7 +67,7 @@ namespace slae_project.Solver
 
                 Logger.WriteIteration(iter, normR);
             };
-            return Preconditioner.QSolve(x);
+            return Preconditioner.SolveL(x);
         }
     }
 }
