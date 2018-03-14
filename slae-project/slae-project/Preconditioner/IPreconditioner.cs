@@ -10,8 +10,6 @@ namespace slae_project.Preconditioner
 {
     public interface IPreconditioner
     {
-        IMatrix matrix { get; }
-
         /// <summary>
         /// Умножение вектора v на нижнюю треугольную матрицу
         /// </summary>

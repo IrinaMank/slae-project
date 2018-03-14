@@ -29,7 +29,7 @@ namespace slae_project.Matrix
             public IVector SolveU(IVector x, bool UseDiagonal) => Matrix.SolveUT(x, UseDiagonal);
             public IVector SolveD(IVector x) => Matrix.SolveD(x);
             public void MakeLU() => Matrix.MakeLU();
-            public void MakeLUSeidel() => Matrix.MakeLUSeidel();
+            public object Clone() => Matrix.Clone();
         }
 
 
