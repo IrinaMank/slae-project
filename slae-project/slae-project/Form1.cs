@@ -25,7 +25,7 @@ namespace slae_project
             InitializeComponent();
             openFileDialog1.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";
             maskedTextBox1_size.Mask = "00000";
-            foreach(string i in factory.GetFormat)
+            foreach (string i in factory.GetFormat)
             {
                 format_matrix.Items.Add(i);
             }

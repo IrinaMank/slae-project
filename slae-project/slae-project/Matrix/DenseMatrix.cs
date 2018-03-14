@@ -26,6 +26,7 @@ namespace slae_project.Matrix
             public IVector SolveU(IVector x, bool UseDiagonal) => Matrix.SolveUT(x, UseDiagonal);
             public IVector SolveD(IVector x) => Matrix.SolveLT(x);
             public void MakeLU() => throw new NotImplementedException();
+            public object Clone() => Matrix.Clone();
         }
         // Матрица
         private double[,] d_matrix;

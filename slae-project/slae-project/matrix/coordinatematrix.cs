@@ -30,7 +30,7 @@ namespace slae_project.Matrix
             public IVector MultU(IVector x, bool UseDiagonal) => Matrix.MultUT(x, UseDiagonal);
             public IVector SolveU(IVector x, bool UseDiagonal) => Matrix.SolveUT(x, UseDiagonal);
             public IVector SolveD(IVector x) => Matrix.SolveD(x);
-
+            public object Clone() => Matrix.Clone();
             public void MakeLU()
             {
                 throw new NotImplementedException();
