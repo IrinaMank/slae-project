@@ -35,9 +35,9 @@ namespace slae_project
             }
 
             IMatrix mar = new CoordinateMatrix(coord, valMatrix);
-            //NoPreconditioner mart = new NoPreconditioner(mar);
-           // LUPreconditioner mart = new LUPreconditioner(mar);
-                  DiagonalPreconditioner preco = new DiagonalPreconditioner(mar);	
+            //NoPreconditioner preco = new NoPreconditioner();
+            LUPreconditioner preco = new LUPreconditioner(mar);
+            //DiagonalPreconditioner preco = new DiagonalPreconditioner(mar);	
 
             IVector b = new SimpleVector(valB);
             IVector x0 = new SimpleVector(10);
@@ -51,7 +51,6 @@ namespace slae_project
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
         }
     }
 }
