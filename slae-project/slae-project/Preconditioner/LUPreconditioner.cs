@@ -8,18 +8,12 @@ using slae_project.Vector;
 
 namespace slae_project.Preconditioner
 {
-    class LUPreconditioner : IPreconditioner
+    class LUPreconditioner : UseMatrixPreconditioner
     {
-        public IMatrix matrix { get; }
-
         public LUPreconditioner(IMatrix matr)
         {
-            matrix = (IMatrix)matr.Clone();
-            matrix.MakeLU();
+            m = matr.Clone() as IMatrix;
+            m.MakeLU();
         }
-        public IVector MultL(IVector v) => matrix.MultL(v);
-        public IVector MultU(IVector v) => matrix.MultU(v);
-        public IVector SolveL(IVector v) => matrix.SolveL(v);
-        public IVector SolveU(IVector v) => matrix.SolveU(v);
     }
 }
