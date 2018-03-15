@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 namespace slae_project
 {
     //Класс взаимодействия с внешним миром.
-    public class SharpGL_limbo
+    public static class SharpGL_limbo
     {
         //SharpGL_limbo SharpGL = new SharpGL_limbo();
 
-        protected SharpGLForm SharpForm = null;
+        static SharpGLForm SharpForm = null;
 
         //Сюда добавлять матрицы на отображения. Примеры в функции UserGuide_To_Graphic
-        public List<GraphicData.GraphicObject> List_Of_Objects;
+        public static List<GraphicData.GraphicObject> List_Of_Objects;
 
         //Желательно проверять доступность List_of_Objects перед его вызовом.
-        public bool SharpGL_is_opened()
+        public static bool SharpGL_is_opened()
         {
             if (SharpForm != null)
                 if (!SharpForm.IsDisposed)
@@ -26,7 +26,7 @@ namespace slae_project
         }
 
         //Обновления окна. Вызывать после добавления или удалений матриц из List_of_objects
-        public void Refresh_Window()
+        public static void Refresh_Window()
         {
             if (SharpGL_is_opened()) SharpForm.Refresh_Window();
         }
@@ -38,9 +38,9 @@ namespace slae_project
                 User_Guide_To_Graphic(ref List_Of_Objects);
             }
         }
-        UR_access UR = new UR_access();
+        static UR_access UR = new UR_access();
         //Конструктор. Параметр самовызова для ленивости.
-        public SharpGL_limbo(bool SelfInit = false)
+        /*public static SharpGL_limbo(bool SelfInit = false)
         {
             //if (SelfInit) SharpGL_Open_hidden();
 
@@ -53,19 +53,19 @@ namespace slae_project
                 Refresh_Window();
             }
 
-        }
+    }*/
 
         //Образец кнопочки. ,будущей. потом.
         //SharpGL_limbo sharpGL_limbo = new SharpGL_limbo(true); //рядом с кнопочкой
         //sharpGL_limbo.SharpGL_Open(); //в кнопочку
 
         //Скрывает, если окно существует
-        public void SharpGL_Hide()
+        static public void SharpGL_Hide()
         {
             if (SharpGL_is_opened())
             {
                 SharpForm.Visible = false;
-                this.List_Of_Objects = SharpForm.GD.List_Of_Objects;
+                List_Of_Objects = SharpForm.GD.List_Of_Objects;
             }
         }
         /// <summary>
@@ -73,7 +73,7 @@ namespace slae_project
         /// </summary>
         /// <param name="path">Путь к файлу</param>
         /// <param name="numObject">Номер матрицы в массиве объектов</param>
-        public void WriteMatrix(string path, int numObject)
+        static public void WriteMatrix(string path, int numObject)
         {
             SharpForm.WriteMatrix(path, numObject);
 
@@ -84,36 +84,43 @@ namespace slae_project
         /// </summary>
         /// <param name="path">Путь к файлу</param>
         /// <param name="numObject">Номер матрицы в массиве объектов</param>
-        public void ReadMatrix(string path, int numObject)
+        static public void ReadMatrix(string path, int numObject)
         {
             SharpForm.ReadMatrix(path,numObject);
 
         }
-        
+
         //Открывает в скрытом режиме. Можно добавлять матрицы.
-        public void SharpGL_Open_hidden()
+        static public void SharpGL_Open_hidden()
         {
             if (!SharpGL_is_opened()) SharpForm = new SharpGLForm(false);
-            this.List_Of_Objects = SharpForm.GD.List_Of_Objects;
+            List_Of_Objects = SharpForm.GD.List_Of_Objects;
         }
 
         //Открывает сразу видимым. Можно добавлять матрицы.
-        public void SharpGL_Open()
+        static public void SharpGL_Open()
         {
             if (!SharpGL_is_opened()) SharpForm = new SharpGLForm(true);
-            this.List_Of_Objects = SharpForm.GD.List_Of_Objects;
+            List_Of_Objects = SharpForm.GD.List_Of_Objects;
             SharpForm.Show();
+        }
+        //Запуск в тестовом режиме.
+        static public void SharpGL_Open_Test()
+        {
+            SharpGL_Open();
+            UR.UserGuide_access(ref List_Of_Objects);
+            Refresh_Window();
         }
         //закрывает окно графики если оно существует. Совсем закрыть
         //По умолчанию открыто скрытым.
-        public void SharpGL_Close()
+        static public void SharpGL_Close()
         {
             if (SharpGL_is_opened()) SharpForm.Close();
             SharpForm = null;
         }
-     
+
         //Сбрасывает все данные
-        public void SharpGL_Reset_Full()
+        static public void SharpGL_Reset_Full()
         {
             bool visible_status = true;
             if (SharpGL_is_opened()) 
@@ -123,7 +130,7 @@ namespace slae_project
             }
             if (visible_status) SharpGL_Open(); else if (visible_status) SharpGL_Open_hidden();
         }
-        public void SharpGL_Reset()
+        static public void SharpGL_Reset()
         {
             if (SharpGL_is_opened())
             {
