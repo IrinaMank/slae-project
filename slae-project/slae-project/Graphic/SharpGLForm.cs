@@ -306,7 +306,20 @@ namespace slae_project
                 //Мышка нажата
                 GD.mouse.isPressed = true;
             }
+            else if (MouseButtons.ToString() == "Right")
+            {
+                MessageBox.Show(""
+                    + "Текущая матрица: " 
+                    + GD.Number_of_current_matrix.ToString()
+                    + "\r\nТекущий столбец: "
+                    + GD.Number_of_current_column.ToString()
+                    + "\r\nТекущая строка: "
+                    + GD.Number_of_current_row.ToString()
+                    + "\r\nТекущее значение: "
+                    + GD.List_Of_Objects[GD.Number_of_current_matrix][GD.Number_of_current_column, GD.Number_of_current_row].ToString()
+                    , "Ячейка");
 
+            }
             Application.DoEvents();
         }
 

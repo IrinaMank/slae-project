@@ -109,6 +109,22 @@ namespace slae_project
                 xCellCount = Matrix[0].Count();
                 yCellCount = Matrix.Count();
             }
+
+            public double this[int column, int row]
+            {
+                get
+                {
+                    try
+                    {
+                        return Matrix[row - 1][column - 1];
+                    }
+                    catch (Exception ex)
+                    {
+                        return 0;
+                    }
+                }
+
+            }
         }
 
         public List<GraphicObject> List_Of_Objects = new List<GraphicObject>();
@@ -382,11 +398,15 @@ namespace slae_project
         {
             return -value * Grid.yCellSize + Grid.initP.y;
         }
+
+        public int Number_of_current_matrix = 0;
+        public int Number_of_current_row = 0;
+        public int Number_of_current_column = 0;
         private void NumberCrossroad()
         {
             if (TargetNumber)
             {
-                Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + (((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize)).ToString(), 0, 0, 0);
+                Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + (Number_of_current_column = ((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize)).ToString(), 0, 0, 0);
 
                 //Щас используется абсолютное значение y, нам надо узнать текущую матрицу и вычесть
                 //LeftTopCellOfEachMatrix
@@ -395,12 +415,19 @@ namespace slae_project
                 {
                     Point CurrentMatrix = LeftTopCellOfEachMatrix[0];
                     int y_pointed = mouse.ShiftedPosition.y + openGLControl.Height - mouse.true_y - Grid.yCellSize / 4;
-                    foreach (var thing in LeftTopCellOfEachMatrix)
-                    { if (thing.Y * Grid.yCellSize < y_pointed) CurrentMatrix = thing; else break; }
+                    for(int i = 0; i < LeftTopCellOfEachMatrix.Count(); i++)
+                    {
+                        if (LeftTopCellOfEachMatrix[i].Y * Grid.yCellSize < y_pointed)
+                        {
+                            CurrentMatrix = LeftTopCellOfEachMatrix[i];
+                            Number_of_current_matrix = i;
+                        }
+                        else break;
+                    }
 
                     int y = ((y_pointed - CurrentMatrix.Y * Grid.yCellSize) / Grid.yCellSize);
                     //int y = (mouse.ShiftedPosition.y + openGLControl.Height - mouse.true_y) / Grid.yCellSize;
-                    Draw_Text(mouse.true_x + 20, mouse.true_y, "- " + y.ToString(), 0, 0, 0);
+                    Draw_Text(mouse.true_x + 20, mouse.true_y, "- " + (Number_of_current_row = y).ToString(), 0, 0, 0);
                 }
             }
         }
