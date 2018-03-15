@@ -13,9 +13,9 @@ namespace slae_project.Logger
         {
             AllocConsole();
         }
-        public void WriteIteration(int number, double residual)
+        public void WriteIteration(int number, double residual, double percent)
         {
-            String msg = String.Format("Iteration: {0} \t residual: {1}", number, residual);
+            String msg = String.Format("Iteration: {0} \t residual: {1} \t percent: {2}", number, residual, percent);
             System.Console.WriteLine(msg);
         }
         [DllImport("kernel32.dll", SetLastError = true)]

@@ -43,9 +43,9 @@ namespace slae_project
             IVector x0 = new SimpleVector(10);
             IVector rigthX = new SimpleVector(valX);
 
-            MSGSolver s = new MSGSolver();
-            ConsoleLogger logger = new ConsoleLogger();
-            IVector x = s.Solve(preco,mar, b, x0, 1e-10, 1000, logger);
+            LOSSolver s = new LOSSolver();
+            FileLogger logger = new FileLogger();
+            IVector x = s.Solve(preco,mar, b, x0, 1e-10, 10000, logger);
 
            // logger.Dispose();
 
