@@ -13,6 +13,7 @@ namespace slae_project.Matrix
 {
     public class CoordinateMatrix : IMatrix
     {
+
         /// <summary>
         /// Класс для удобного и быстрого доступа к элементам транспонированной матрицы
         /// без создания таковой
@@ -47,7 +48,6 @@ namespace slae_project.Matrix
         //Идентефикатор выполненности LU - разложения
         // = false после любого изменения матрицы
         // = true после выполнения LU - разложения
-        bool LU_was_made = false;
         // Значение, начиная с которого любое число считается равным нулю
         private double EQU_TO_ZERO { get; } = 1e-10;
         public double this[int i, int j]
@@ -70,7 +70,6 @@ namespace slae_project.Matrix
                 {
                     elements[(i, j)] = value;
                     // Это нормально, с учетом того, что матрицы не часто меняют
-                    LU_was_made = false;
                 }
             }
         }
@@ -83,7 +82,8 @@ namespace slae_project.Matrix
         //TODO: Метод и правда должен что-то возвращать
         public IVector Diagonal => throw new NotImplementedException();
 
-        public List<string> requiredFileNames => throw new NotImplementedException();
+        public Dictionary<string, string> requiredFileNames => throw new NotImplementedException();
+
 
         // Для выпендрежников, которые решили обойти матрицу поэлементно
         public IEnumerator<(double value, int row, int col)> GetEnumerator()
