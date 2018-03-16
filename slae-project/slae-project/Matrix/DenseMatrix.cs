@@ -16,7 +16,7 @@ namespace slae_project.Matrix
     public class DenseMatrix : IMatrix
     {
         //Описание необходимых для работы файлов
-        public Dictionary<string, string> requiredFileNames => new Dictionary<string, string>
+        public static Dictionary<string, string> requiredFileNames => new Dictionary<string, string>
         {
             {
                 "dense",
@@ -79,7 +79,6 @@ namespace slae_project.Matrix
                 return diag;
             }
         }
-        Dictionary<string, string> IMatrix.requiredFileNames => throw new NotImplementedException();
         // Для выпендрежников, которые решили обойти матрицу поэлементно
         public IEnumerator<(double value, int row, int col)> GetEnumerator()
         {
@@ -591,7 +590,7 @@ namespace slae_project.Matrix
             //should be { 10, 9, 7, 4 }
         }
 
-        public void FillByFiles(Dictionary<string, string> paths)
+        public DenseMatrix(Dictionary<string, string> paths)
         {
             StreamReader reader;
             try
