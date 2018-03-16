@@ -10,11 +10,6 @@ namespace slae_project.Matrix
 {
     public interface IMatrix : ILinearOperator, IEnumerable<(double value, int row, int col)>, ICloneable
     {
-
-        /// <summary>
-        /// Названия файлов, набором которых можно инициализировать матрицу и описание структуры этих файлов.
-        /// </summary>
-        Dictionary<string, string> requiredFileNames { get; }
         // Если в матрице нет i,j-го элемента, то метод должен возвращать 0
         /// <summary>
         /// Доступ к i,j-му элементу матрицы
@@ -23,11 +18,5 @@ namespace slae_project.Matrix
         /// <param name="j"></param>
         /// <returns></returns>
         double this[int i, int j] { get; set; }
-
-        /// <summary>
-        /// Заполнение матрицы значениями из файлов. 
-        /// </summary>
-        /// <param name="paths">Словарь в формате "Название требуемого файла" - "Путь до файла". Необходимые файлы можно получить из параметра requiredFileNames.</param>
-        void FillByFiles(Dictionary<string, string> paths);
     }
 }
