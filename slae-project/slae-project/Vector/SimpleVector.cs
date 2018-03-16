@@ -30,7 +30,14 @@ namespace slae_project.Vector
         {
             get
             {
-                return elements[key];
+                try
+                {
+                    return elements[key];
+                }
+                catch
+                {
+                    throw new IndexOutOfRangeException();
+                }
             }
             set
             {
@@ -105,7 +112,23 @@ namespace slae_project.Vector
             for (int i = 0; i < Size; i++)
                 elements[i] = v;
         }
+        public bool CompareWith(IVector a, double prec = 1e-5)
+        {
+            //ПМ-43 восхитительны
+            if (this.Size == a.Size)
+            {
+                for (int i = 0; i < Size; i++)
+                {
+                    if (this[i] + prec > a[i] &&
+                        this[i] - prec < a[i])
+                        continue;
+                    return false;
+                }
 
+                return true;
+            }
+            throw new WrongSizeException();
+        }
         public IEnumerator<(double value, int index)> GetEnumerator()
         {
             IEnumerable<(double value, int index)> F()
@@ -126,5 +149,6 @@ namespace slae_project.Vector
             SimpleVector clon = new SimpleVector(this.elements);
             return clon;
         }
+
     }
 }
