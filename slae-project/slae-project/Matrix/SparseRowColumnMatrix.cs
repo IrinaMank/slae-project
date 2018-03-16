@@ -115,7 +115,7 @@ namespace slae_project.Matrix
              
          }
 
-        public List<string> requiredFileNames => throw new NotImplementedException();
+        public Dictionary<string, string> requiredFileNames => throw new NotImplementedException();
 
         public IEnumerator<(double value, int row, int col)> GetEnumerator()
         {

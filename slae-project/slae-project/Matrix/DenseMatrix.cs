@@ -68,8 +68,7 @@ namespace slae_project.Matrix
                 return diag;
             }
         }
-
-        public List<string> requiredFileNames => throw new NotImplementedException();
+        Dictionary<string, string> IMatrix.requiredFileNames => throw new NotImplementedException();
 
         // Для выпендрежников, которые решили обойти матрицу поэлементно
         public IEnumerator<(double value, int row, int col)> GetEnumerator()
