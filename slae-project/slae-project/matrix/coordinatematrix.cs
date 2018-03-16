@@ -83,6 +83,8 @@ namespace slae_project.Matrix
         //TODO: Метод и правда должен что-то возвращать
         public IVector Diagonal => throw new NotImplementedException();
 
+        public List<string> requiredFileNames => throw new NotImplementedException();
+
         // Для выпендрежников, которые решили обойти матрицу поэлементно
         public IEnumerator<(double value, int row, int col)> GetEnumerator()
         {
@@ -147,6 +149,12 @@ namespace slae_project.Matrix
             this.elements = elemets.ToDictionary(entry => entry.Key, entry => entry.Value);
             this.Size = size;
         }
+
+        public CoordinateMatrix()
+        {
+            this.Size = 0;
+        }
+
         public IVector Mult(IVector x, bool UseDiagonal = true)
         {
             if (this.Size != x.Size)
@@ -598,6 +606,11 @@ namespace slae_project.Matrix
         public object Clone()
         {
             return new CoordinateMatrix(this.elements, Size);
+        }
+
+        public void FillByFiles(Dictionary<string, string> paths)
+        {
+            throw new NotImplementedException();
         }
     }
 }

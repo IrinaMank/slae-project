@@ -114,7 +114,9 @@ namespace slae_project.Matrix
             } 
              
          }
-        
+
+        public List<string> requiredFileNames => throw new NotImplementedException();
+
         public IEnumerator<(double value, int row, int col)> GetEnumerator()
         {
             IEnumerable<(double value, int row, int col)> F()
@@ -289,6 +291,10 @@ namespace slae_project.Matrix
                 }
             }
             
+        }
+
+        public SparseRowColumnMatrix()
+        {
         }
 
         //public static List<string> GetFileName()
@@ -697,6 +703,11 @@ namespace slae_project.Matrix
         public object Clone()
         {
             return new SparseRowColumnMatrix(this.ig, this.jg, this.di, this.al, this.au);
+        }
+
+        public void FillByFiles(Dictionary<string, string> paths)
+        {
+            throw new NotImplementedException();
         }
     }
 }
