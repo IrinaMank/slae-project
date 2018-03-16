@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using slae_project.Vector;
 using slae_project.Matrix.MatrixExceptions;
+using slae_project.Preconditioner;
 namespace slae_project.Matrix
 {
     public class DenseMatrix : IMatrix
@@ -30,10 +31,9 @@ namespace slae_project.Matrix
         }
         // Матрица
         private double[,] d_matrix;
+        double extraDiagVal = 0;
 
         bool LU_was_made = false;
-        private List<double[]> L;
-        private List<double[]> U;
         // Значение, начиная с которого любое число считается равным нулю
         private double EQU_TO_ZERO { get; } = 1e-10;
         public double this[int i, int j]
@@ -134,6 +134,7 @@ namespace slae_project.Matrix
 
         public DenseMatrix()
         {
+            this.Size = 0;
         }
 
         public IVector Mult(IVector x, bool UseDiagonal = true)
@@ -153,195 +154,180 @@ namespace slae_project.Matrix
         /// </summary>
         public void MakeLU()
         {
-            L = new List<double[]> { };
-            U = new List<double[]> { };
-            for (int i = 1; i <= Size; i++)
-            {
-                L.Add(new double[i]);
-                U.Add(new double[Size - i + 1]);
-            }
-            // Разложение
             try
             {
-                for (int i = 0; i < Size; i++)
+
+                for (int k = 0; k < Size; k++)
                 {
-                    L[i][0] = this[i, 0];
-                    U[0][i] = this[0, i] / L[0][0];
-                }
-                double sum;
-                for (int i = 1; i < Size; i++)
-                {
-                    for (int j = 1; j < Size; j++)
+                    for (int j = k; j < Size; j++)
                     {
-                        if (i >= j)
-                        {
-                            sum = 0;
-                            for (int k = 0; k < j; k++)
-                                sum += L[i][k] * U[k][j - k];
-
-                            L[i][j] = this[i, j] - sum;
-                        }
-
-                        if (j >= i)
-                        {
-                            sum = 0;
-                            for (int k = 0; k < i; k++)
-                                sum += L[i][k] * U[k][j - k];
-
-                            U[i][j - i] = (this[i, j] - sum) / L[i][i];
-                        }
+                        double sum = 0;
+                        for (int u = 0; u < k; u++)
+                            sum += this[k, u] * this[u, j];
+                        this[k, j] = this[k, j] - sum;
+                    }
+                    for (int i = k + 1; i < Size; i++)
+                    {
+                        double sum = 0;
+                        for (int u = 0; u < k; u++)
+                            sum += this[i, u] * this[u, k];
+                        this[i, k] = (this[i, k] - sum) / this[k, k];
                     }
                 }
-                LU_was_made = true;
+                extraDiagVal = 1;
             }
             catch (DivideByZeroException)
             {
-                LU_was_made = false;
-                throw new LUFailException();
+                throw new LUFailException("Произошло деление на ноль.");
             }
         }
         public IVector SolveL(IVector x, bool UseDiagonal = true)
         {
-            if (!LU_was_made)
-                MakeLU();
-            if (LU_was_made)
+            IVector result = new SimpleVector(Size);
+            if (!UseDiagonal)
             {
-                int d;
-                if (UseDiagonal)
-                    d = 0;
+                if (Math.Abs(x[0]) < EQU_TO_ZERO)
+                {
+                    result[0] = 0;
+                }
                 else
-                    d = 1;
-
-                IVector result = new SimpleVector(Size);
-                if (!UseDiagonal)
-                {
-                    if (Math.Abs(x[0]) < EQU_TO_ZERO)
-                    {
-                        result[0] = 0;
-                    }
-                    else
-                        throw new CannotSolveSLAEExcpetion("Система неразрешима.");
-                }
-                for (int i = 0 + d; i < L.Count; i++)
-                {
-                    var line = L[i];
-                    result[i] = x[i];
-                    for (int j = 0; j < line.Length - 1 - d; j++)
-                        result[i] -= result[j] * line[j];
-                    try
-                    {
-                        result[i] /= line[line.Length - 1 - d];
-                    }
-                    catch (DivideByZeroException)
-                    {
-                        throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
-                    }
-                }
-                return result;
+                    throw new CannotSolveSLAEExcpetion("Система неразрешима.");
             }
-            throw new LUFailException();
+            for (int i = 0; i < Size; i++)
+            {
+                result[i] = x[i];
+                for (int j = 0; j < i; j++)
+                    result[i] -= result[j] * this[i, j];
+                try
+                {
+                    if (extraDiagVal == 0)
+                        result[i] /= this[i, i];
+                    else
+                        result[i] /= extraDiagVal;
+                }
+                catch (DivideByZeroException)
+                {
+                    throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
+                }
+            }
+            return result;
         }
 
         public IVector SolveU(IVector x, bool UseDiagonal = true)
         {
-            if (!LU_was_made)
-                MakeLU();
-            if (LU_was_made)
+            IVector result = new SimpleVector(Size);
+            if (!UseDiagonal)
             {
-                int d;
-                if (UseDiagonal)
-                    d = 0;
+                if (Math.Abs(x[Size - 1]) < EQU_TO_ZERO)
+                {
+                    result[Size - 1] = 0;
+                }
                 else
-                    d = 1;
-
-                IVector result = new SimpleVector(Size);
-                if (!UseDiagonal)
-                {
-                    if (Math.Abs(x[Size - 1]) < EQU_TO_ZERO)
-                    {
-                        result[Size - 1] = 0;
-                    }
-                    else
-                        throw new CannotSolveSLAEExcpetion("Система неразрешима.");
-                }
-                for (int i = Size - 1 - d; i >= 0; i--)
-                {
-                    var line = U[i];
-                    var offset = Size - line.Length;
-                    result[i] = x[i];
-                    for (int j = 1 + d; j < line.Length; j++)
-                        result[i] -= result[j + offset] * line[j];
-                    try
-                    {
-                        result[i] /= line[0 + d];
-                    }
-                    catch (DivideByZeroException)
-                    {
-                        throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
-                    }
-                }
-                return result;
+                    throw new CannotSolveSLAEExcpetion("Система неразрешима.");
             }
-            throw new LUFailException();
+            for (int i = Size - 1; i >= 0; i--)
+            {
+                int line_length = Size - i;
+                result[i] = x[i];
+                for (int j = i + 1; j < Size; j++)
+                    result[i] -= result[j] * this[i, j];
+                try
+                {
+                    result[i] /= this[i, i];
+                }
+                catch (DivideByZeroException)
+                {
+                    throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
+                }
+            }
+            return result;
         }
-        /// <summary>
-        /// Обобщение уможения на матрицы разложения
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="partM">Либо L-, либо U-матрица из данного класса</param>
-        /// <param name="use_diagonal"></param>
-        /// <returns></returns>
-        private IVector CommoLUMult(IVector x, List<double[]> partM, bool use_diagonal, bool transpose)
+        public IVector MultL(IVector x, bool UseDiagonal = true)
         {
-            int end, t;
-
-            if (use_diagonal)
-                end = 0;
-            else
-                end = 1;
+            if (this.Size != x.Size)
+                throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
 
             IVector result = new SimpleVector(Size);
-            if (transpose)
+            if (UseDiagonal)
             {
-                for (int i = 0; i < partM.Count; i++)
+                if (extraDiagVal == 0)
                 {
-                    var line = partM[i];
-                    for (int j = 0; j < line.Length - end; j++)
+                    for (int i = 0; i < Size; i++)
                     {
-                        result[i] += line[j] * x[j];
+                        for (int j = 0; j < Size; j++)
+                        {
+                            //нижний треугольник с диагональю
+                            if (i >= j)
+                            {
+
+                                result[i] += d_matrix[i, j] * x[j];
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < Size; i++)
+                    {
+                        for (int j = 0; j < Size; j++)
+                        {
+                            if (i > j)
+                            {
+                                result[i] += d_matrix[i, j] * x[j];
+                                continue;
+                            }
+                            //диагональ
+                            if (i == j)
+                            {
+                                result[i] += extraDiagVal * x[j];
+                            }
+                        }
                     }
                 }
             }
             else
             {
-                for (int i = 0; i < partM.Count; i++)
+                for (int i = 0; i < Size; i++)
                 {
-                    var line = partM[i];
-                    for (int j = 0; j < line.Length - end; j++)
+                    for (int j = 0; j < Size; j++)
                     {
-                        result[j] += line[j] * x[j];
+                        if (i > j)
+                            result[i] += d_matrix[i, j] * x[j];
                     }
                 }
             }
             return result;
         }
 
-        public IVector MultL(IVector x, bool UseDiagonal = true)
-        {
-            if (!LU_was_made)
-                MakeLU();
-            if (LU_was_made)
-                return CommoLUMult(x, L, UseDiagonal, false);
-            throw new LUFailException();
-        }
-
         public IVector MultU(IVector x, bool UseDiagonal = true)
         {
-            if (!LU_was_made)
-                MakeLU();
-            if (LU_was_made)
-                return CommoLUMult(x, U, UseDiagonal, false);
-            throw new LUFailException();
+            if (this.Size != x.Size)
+                throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
+
+            IVector result = new SimpleVector(Size);
+            if (UseDiagonal)
+            {
+                for (int i = 0; i < Size; i++)
+                {
+                    for (int j = 0; j < Size; j++)
+                    {
+                        if (i <= j)
+                            result[i] += d_matrix[i, j] * x[j];
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < Size; i++)
+                {
+                    for (int j = 0; j < Size; j++)
+                    {
+                        if (i < j)
+                            result[i] += d_matrix[i, j] * x[j];
+                    }
+                }
+            }
+            return result;
         }
         protected IVector MultT(IVector x, bool UseDiagonal)
         {
@@ -350,11 +336,25 @@ namespace slae_project.Matrix
                 throw new DifferentSizeException("Не удалось выполнить LU-разложение");
             }
             IVector result = new SimpleVector(Size);
-            for (int i = 0; i < Size; i++)
+            if (UseDiagonal)
             {
-                for (int j = 0; j < Size; j++)
+                for (int i = 0; i < Size; i++)
                 {
-                    result[i] += d_matrix[j, i] * x[j];
+                    for (int j = 0; j < Size; j++)
+                    {
+                        result[i] += d_matrix[j, i] * x[j];
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < Size; i++)
+                {
+                    for (int j = 0; j < Size; j++)
+                    {
+                        if (i != j)
+                            result[i] += d_matrix[j, i] * x[j];
+                    }
                 }
             }
             return result;
@@ -362,143 +362,219 @@ namespace slae_project.Matrix
 
         protected IVector SolveLT(IVector x, bool UseDiagonal = true)
         {
-            if (!LU_was_made)
-                MakeLU();
-            if (LU_was_made)
+            IVector result = new SimpleVector(Size);
+            for (int i = 0; i < Size; i++)
+                result[i] = x[i];
+
+            if (!UseDiagonal)
             {
-                int d;
-                if (UseDiagonal)
-                    d = 0;
+                if (Math.Abs(x[Size - 1]) < EQU_TO_ZERO)
+                {
+                    result[Size - 1] = 0;
+                }
                 else
-                    d = 1;
-
-                IVector result = new SimpleVector(Size);
-                for (int i = 0; i < Size; i++)
-                    result[i] = x[i];
-
-                if (!UseDiagonal)
-                {
-                    if (Math.Abs(x[Size - 1]) < EQU_TO_ZERO)
-                    {
-                        result[Size - 1] = 0;
-                    }
-                    else
-                        throw new CannotSolveSLAEExcpetion("Система неразрешима.");
-                    return null;
-                }
-                for (int i = Size - 1; i >= d; i--)
-                {
-                    var line = L[i];
-                    var offset = Size - line.Length;
-                    try
-                    {
-                        if (UseDiagonal)
-                        {
-                            result[i] /= line[line.Length - 1];
-                        }
-                        else
-                        {
-                            result[i] /= L[i + 1][line.Length - 2];
-                        }
-                    }
-                    catch (DivideByZeroException)
-                    {
-                        throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
-                    }
-                    for (int j = 0; j < line.Length - d - 1; j++)
-                    {
-                        result[j] -= result[i] * L[i][j];
-                    }
-
-                }
-                return result;
+                    throw new CannotSolveSLAEExcpetion("Система неразрешима.");
+                return null;
             }
-            throw new LUFailException();
+            for (int i = Size - 1; i >= 0; i--)
+            {
+                int line_length = i;
+                try
+                {
+                    result[i] /= this[i, line_length - 1];
+                }
+                catch (DivideByZeroException)
+                {
+                    throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
+                }
+                for (int j = 0; j < line_length - 1; j++)
+                {
+                    result[j] -= result[i] * this[i, j];
+                }
+
+            }
+            return result;
         }
 
         protected IVector SolveUT(IVector x, bool UseDiagonal = true)
         {
-            if (!LU_was_made)
-                MakeLU();
-            if (LU_was_made)
+            IVector result = new SimpleVector(Size);
+            for (int i = 0; i < Size; i++)
+                result[i] = x[i];
+
+            if (!UseDiagonal)
             {
-                int d;
-                if (UseDiagonal)
-                    d = 0;
+                if (Math.Abs(x[0]) < EQU_TO_ZERO)
+                {
+                    result[0] = 0;
+                }
                 else
-                    d = 1;
-
-                IVector result = new SimpleVector(Size);
-                for (int i = 0; i < Size; i++)
-                    result[i] = x[i];
-
-                if (!UseDiagonal)
-                {
-                    if (Math.Abs(x[0]) < EQU_TO_ZERO)
-                    {
-                        result[0] = 0;
-                    }
-                    else
-                        throw new CannotSolveSLAEExcpetion("Система неразрешима.");
-                }
-                for (int i = 0; i < Size - d; i++)
-                {
-                    var line = U[i];
-                    try
-                    {
-                        if (UseDiagonal)
-                        {
-                            result[i] /= line[0];
-                        }
-                        else
-                        {
-                            result[i] /= U[i - 1][1];
-                        }
-                    }
-                    catch (DivideByZeroException)
-                    {
-                        throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
-                    }
-
-                    for (int j = 1 + d; j < line.Length; j++)
-                    {
-                        result[j + i] -= result[i] * U[i][j];
-                    }
-
-                }
-                return result;
+                    throw new CannotSolveSLAEExcpetion("Система неразрешима.");
             }
-            throw new LUFailException();
+            for (int i = 0; i < Size; i++)
+            {
+                int line_length = Size - i;
+                try
+                {
+                    result[i] /= this[i, i];
+                }
+                catch (DivideByZeroException)
+                {
+                    throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
+                }
+
+                for (int j = i + 1; j < line_length; j++)
+                {
+                    result[j] -= result[i] * this[i, j];
+                }
+
+            }
+            return result;
         }
 
         protected IVector MultLT(IVector x, bool UseDiagonal = true)
         {
-            if (!LU_was_made)
-                MakeLU();
-            if (LU_was_made)
-                return CommoLUMult(x, L, UseDiagonal, true);
-            throw new LUFailException();
+            if (this.Size != x.Size)
+                throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
+
+            IVector result = new SimpleVector(Size);
+            if (UseDiagonal)
+            {
+                if (extraDiagVal == 0)
+                {
+                    for (int i = 0; i < Size; i++)
+                    {
+                        for (int j = 0; j < Size; j++)
+                        {
+                            if (i >= j)
+                            {
+                                result[j] += d_matrix[i, j] * x[i];
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < Size; i++)
+                    {
+                        for (int j = 0; j < Size; j++)
+                        {
+                            if (i > j)
+                            {
+                                result[j] += d_matrix[i, j] * x[i];
+                                continue;
+                            }
+                            if (i == j)
+                            {
+                                result[j] += extraDiagVal * x[i];
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < Size; i++)
+                {
+                    for (int j = 0; j < Size; j++)
+                    {
+                        if (i > j)
+                            result[j] += d_matrix[i, j] * x[i];
+                    }
+                }
+            }
+            return result;
         }
 
         protected IVector MultUT(IVector x, bool UseDiagonal = true)
         {
-            if (!LU_was_made)
-                MakeLU();
-            if (LU_was_made)
-                return CommoLUMult(x, U, UseDiagonal, true);
-            throw new LUFailException();
+            if (this.Size != x.Size)
+                throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
+
+            IVector result = new SimpleVector(Size);
+            if (UseDiagonal)
+            {
+                for (int i = 0; i < Size; i++)
+                {
+                    for (int j = 0; j < Size; j++)
+                    {
+                        if (i <= j)
+                            result[j] += d_matrix[i, j] * x[i];
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < Size; i++)
+                {
+                    for (int j = 0; j < Size; j++)
+                    {
+                        if (i < j)
+                            result[j] += d_matrix[i, j] * x[i];
+                    }
+                }
+            }
+            return result;
         }
 
-        //решение СЛАУ диагональ
-        public IVector SolveD(IVector x)
+        /// <summary>
+        /// Усножение вектора на диагональ матрицы (диагональную матрицу)
+        /// </summary>
+        /// <param name="a">Умножаемый вектор</param>
+        public IVector SolveD(IVector a)
         {
-            throw new NotImplementedException();
+            if (this.Size != a.Size)
+                throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
+            IVector result = new SimpleVector(Size);
+            for (int i = 0; i < Size; i++)
+                result[i] = a[i] / this[i, i];
+
+            return result;
         }
 
         public object Clone()
         {
             DenseMatrix copy = new DenseMatrix(d_matrix);
             return copy;
+        }
+
+        public static void localtest()
+        {
+            double[,] val = new double[4, 4] { {1, 4, 4, 4 }, { 1, 1, 3, 3 }, { 1, 1, 1, 2 }, { 1, 1, 1, 1 } };
+
+            IMatrix mar = new DenseMatrix(val);
+            IPreconditioner pre = new LUPreconditioner(mar);
+
+            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+
+            IVector y = mar.Mult(x, true);
+            //should be { 37 24 14 10 }
+
+            y = pre.MultL(x);
+            //shold be { 1 3 6 10}
+
+            y = pre.MultU(x);
+            //shold be { 37 -13 -10 -4 }
+
+
+            IVector z = (IVector)y.Clone();
+            //should do not crash
+
+
+            z = pre.SolveL(x);
+            //should be { 1 1 1 1 }
+
+            z = pre.SolveU(x);
+            //should be { 13 0.5 0.5 -4}
+
+            IVector ut = mar.T.MultU(x);
+            //should be {1 6 13 20}
+
+            ut = mar.T.MultU(x, false);
+            //should be {0 4 10 16}
+
+            IVector lt = mar.T.MultL(x);
+            //should be {10 9 7 4}
         }
 
         public void FillByFiles(Dictionary<string, string> paths)
