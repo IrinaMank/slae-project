@@ -26,9 +26,9 @@ namespace slae_project.Logger
                 System.IO.Directory.CreateDirectory(dirName);
             fileStream = new System.IO.StreamWriter(filename);
         }
-        public void WriteIteration(int number, double residual, double percent)
+        public void WriteIteration(int number, double residual)
         {
-            String msg = String.Format("Iteration: {0} \t residual: {1}\t percent: {2}", number, residual,percent);
+            String msg = String.Format("Iteration: {0} \t residual: {1}", number, residual);
             fileStream.WriteLine(msg);
             fileStream.Flush();
         }

@@ -31,10 +31,10 @@ namespace slae_project.Solver
             double alpha = 0.0, beta = 0.0;
 
             IVector r = b.Add(AA.Mult(Initial), 1, -1); //r_0 = f - Ax_0
-            r = A.SolveL(r); // r_0 = L^-1 * (f - Ax_0)
+            r = A.SolveU(r); // r_0 = L^-1 * (f - Ax_0)
 
-            IVector Ar, z = A.SolveU(r); // z_0 = U^-1 * r_0
-            IVector p = A.SolveL(AA.Mult(z)); // p_0 = L^-1 * Az_0
+            IVector Ar, z = A.SolveL(r); // z_0 = U^-1 * r_0
+            IVector p = A.SolveU(AA.Mult(z)); // p_0 = L^-1 * Az_0
 
             double p_r = 0.0, p_p = 0.0;
 
@@ -52,22 +52,18 @@ namespace slae_project.Solver
 
                 r.Add(p, 1, -alpha, true); // r_k = r_k-1 - alfa_k*p_k-1
 
-                Ar = A.SolveL(AA.Mult(A.SolveU(r))); //Ar_k = L^-1 * A * U^-1 * r_k
-                //Ar = A.SolveU(r);
-                //Ar = AA.Mult(Ar);
-                //Ar = A.SolveL(Ar);
+                // Ar = A.QSolve(AA.Mult(A.SSolve(r))); //Ar_k = L^-1 * A * U^-1 * r_k
+                Ar = A.SolveL(r);
+                Ar = AA.Mult(Ar);
+                Ar = A.SolveU(Ar);
 
                 beta = -(p.ScalarMult(Ar) / p_p);
 
-                z = A.SolveU(r).Add(z, 1, beta); //z_k = U^-1 * r_k + beta_k*z_k-1
+                z = A.SolveL(r).Add(z, 1, beta); //z_k = U^-1 * r_k + beta_k*z_k-1
                 p = Ar.Add(p, 1, beta); // p_k = L^-1 * A * U^-1 * r_k + beta_k*p_k-1
-
                 if (scalRR == 0) throw new Exception("Division by 0");
                 scalRR = r.ScalarMult(r);
-
                 normR = Math.Sqrt(scalRR) / b.Norm;
-
-                Logger.WriteIteration(iter, normR, 100 * Precision / normR);
             }
             return x;
         }

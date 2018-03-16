@@ -35,22 +35,23 @@ namespace slae_project
             }
 
             IMatrix mar = new CoordinateMatrix(coord, valMatrix);
-            //NoPreconditioner preco = new NoPreconditioner();
-            LUPreconditioner preco = new LUPreconditioner(mar);
-            //DiagonalPreconditioner preco = new DiagonalPreconditioner(mar);	
+            //NoPreconditioner mart = new NoPreconditioner(mar);
+           // LUPreconditioner mart = new LUPreconditioner(mar);
+                  DiagonalPreconditioner preco = new DiagonalPreconditioner(mar);	
 
             IVector b = new SimpleVector(valB);
             IVector x0 = new SimpleVector(10);
             IVector rigthX = new SimpleVector(valX);
 
-            LOSSolver s = new LOSSolver();
-            FileLogger logger = new FileLogger();
-            IVector x = s.Solve(preco,mar, b, x0, 1e-10, 10000, logger);
+            MSGSolver s = new MSGSolver();
+            ConsoleLogger logger = new ConsoleLogger();
+            IVector x = s.Solve(preco,mar, b, x0, 1e-10, 1000, logger);
 
            // logger.Dispose();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Form1());
         }
     }
 }

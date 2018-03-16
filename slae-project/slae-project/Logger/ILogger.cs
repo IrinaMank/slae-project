@@ -8,6 +8,6 @@ namespace slae_project.Logger
 {
     public interface ILogger
     {
-        void WriteIteration(int number, double residual, double percent);
+        void WriteIteration(int number, double residual);
     }
 }

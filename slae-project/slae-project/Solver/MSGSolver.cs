@@ -65,7 +65,7 @@ namespace slae_project.Solver
                 z = r.Add(z, 1, beta);
                 normR = Math.Sqrt(scalRR) / b.Norm;
 
-                Logger.WriteIteration(iter, normR, 100*Precision/normR);
+                Logger.WriteIteration(iter, normR);
             };
             return Preconditioner.SolveL(x);
         }
