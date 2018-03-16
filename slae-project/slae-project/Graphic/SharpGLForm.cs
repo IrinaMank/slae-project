@@ -830,5 +830,22 @@ namespace slae_project
 
             AutoSizeCell_Reaction_Wrapped();
         }
+
+        private void button1_Teleporter_Click(object sender, EventArgs e)
+        {
+            if (!TeleporterForm_is_opened())
+            {
+                TeleporterForm = new Teleporter(this);
+            }
+
+        }
+        Teleporter TeleporterForm = null;
+        public bool TeleporterForm_is_opened()
+        {
+            if (TeleporterForm != null)
+                if (!TeleporterForm.IsDisposed)
+                    return true;
+            return false;
+        }
     }
 }

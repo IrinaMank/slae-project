@@ -275,6 +275,16 @@ namespace slae_project
                      * if (TargetNumber)
                         Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + (((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize)).ToString(),0,0,0);*/
 
+                    for (int i = 0; i < obj.yCellCount; i++)
+                    {
+                        Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, Count_by_Y.ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                        Grid.Y_move();
+                        Count_by_Y++;
+                    }
+                    Grid.X_Y_counter.x = X_new;
+                    Grid.X_Y_counter.y = Y_new;
+
+                    Count_by_Y = 1;
                     //Для каждого вектора текущей матрицы
                     foreach (var vect in obj.Matrix)
                     {
@@ -282,7 +292,7 @@ namespace slae_project
                         X_old = Grid.X_Y_counter.x;
                         Y_old = Grid.X_Y_counter.y;
 
-                       Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, Count_by_Y.ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                        //Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, Count_by_Y.ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
 
                         Count_by_Y++; Grid.X_move();
 
