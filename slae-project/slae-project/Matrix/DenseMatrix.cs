@@ -72,6 +72,8 @@ namespace slae_project.Matrix
             }
         }
 
+        public List<string> requiredFileNames => throw new NotImplementedException();
+
         // Для выпендрежников, которые решили обойти матрицу поэлементно
         public IEnumerator<(double value, int row, int col)> GetEnumerator()
         {
@@ -129,6 +131,10 @@ namespace slae_project.Matrix
 
             foreach (var val in c_matrix)
                 this.d_matrix[val.row, val.col] = val.value;
+        }
+
+        public DenseMatrix()
+        {
         }
 
         public IVector Mult(IVector x, bool UseDiagonal = true)
@@ -494,6 +500,11 @@ namespace slae_project.Matrix
         {
             DenseMatrix copy = new DenseMatrix(d_matrix);
             return copy;
+        }
+
+        public void FillByFiles(Dictionary<string, string> paths)
+        {
+            throw new NotImplementedException();
         }
     }
 }

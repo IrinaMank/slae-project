@@ -114,7 +114,9 @@ namespace slae_project.Matrix
             } 
              
          }
-        
+
+        public List<string> requiredFileNames => throw new NotImplementedException();
+
         public IEnumerator<(double value, int row, int col)> GetEnumerator()
         {
             IEnumerable<(double value, int row, int col)> F()
@@ -181,6 +183,10 @@ namespace slae_project.Matrix
             // не дописан, в ближайшем будущем будет написан
             // текущая проблема в формировании портрета
             // есть предполагаемое решение в виде списком для каждой строки
+        }
+
+        public SparseRowColumnMatrix()
+        {
         }
 
         //Какие еще могут быть виды инициализации, кроме заданных векторов?
@@ -578,6 +584,11 @@ namespace slae_project.Matrix
         public object Clone()
         {
             return new SparseRowColumnMatrix(this.ig, this.jg, this.di, this.al, this.au);
+        }
+
+        public void FillByFiles(Dictionary<string, string> paths)
+        {
+            throw new NotImplementedException();
         }
     }
 }
