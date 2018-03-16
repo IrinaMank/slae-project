@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using slae_project.Vector;
 using slae_project.Matrix.MatrixExceptions;
-
+using System.IO;
 
 namespace slae_project.Matrix
 {
@@ -39,7 +39,7 @@ namespace slae_project.Matrix
         int[] jg;
         double[] al;
         double[] au;
-
+        double DiagVirt = 0;
         //bool LU_was_made = false;
         //// портрет сохраняется
         //private double[] L;
@@ -291,7 +291,106 @@ namespace slae_project.Matrix
             
         }
 
-        
+        //public static List<string> GetFileName()
+        //{
+        //    //return 
+        //}
+
+        public static Dictionary<string,string> GetDescriptionFiles()
+        {
+            return new Dictionary<string, string>
+            {
+                { "ig", "Файл состоит из двух строк: количество элементов массива ig и элементов массива, разделенных пробелом" },
+                { "jg", "Файл состоит из двух строк: количество элементов массива jg и элементов массива, разделенных пробелом" }
+            };
+        }
+
+        public SparseRowColumnMatrix(Dictionary<string, string> paths)
+        {
+            string line;
+            string[] sub;
+            // n - размерность матрицы, m - количество ненулевых элементов
+            int n=0, m=0;
+            foreach (var el in paths)
+            {
+                switch (el.Key)
+                {
+                    case "ig.txt":
+
+                        var reader = new StreamReader(el.Value);
+
+                        // считываем размерность массива
+                        line = reader.ReadLine();
+                        sub = line.Split(' ', '\t');
+                        n = Convert.ToInt32(sub[0])-1;
+                        ig = new int[n+1];
+
+                        //считывание элементов массива
+                        line = reader.ReadLine();
+                        sub = line.Split(' ', '\t');
+                        if (sub.Length!=n)
+                        {
+                            throw new Exception("Ошибка при считывании файла ig. Некорректная структура файла. Проверьте количество элементов и их фактическое количество");
+                        }
+                        else
+                        {
+                            for (int i = 0; i < n+1; i++)
+                                ig[i] = Convert.ToInt32(sub[i]);
+                        }
+                        if (jg!=null || al!=null || au!=null)
+                            if (ig[n + 1] != m)
+                                throw new Exception("Ошибка при считывании файла ig. Массив не соответсвует другим массивам. Проверьте файлы al, au, jg");
+                           
+                        m = ig[n + 1];
+                        break;
+                    case "jg.txt":
+
+                        reader = new StreamReader(el.Value);
+
+                        // считываем размерность массива
+                        line = reader.ReadLine();
+                        sub = line.Split(' ', '\t');
+                        // проверяем корректность
+                        if (ig!=null || al!=null || au!=null)
+                            if(Convert.ToInt32(sub[0]) != m)
+                                throw new Exception("Ошибка при считывании файла jg. Несовпадение размерности массива в соответствии с остальными файлами");
+
+                        jg = new int[m];
+
+                        //считывание элементов массива
+                        line = reader.ReadLine();
+                        sub = line.Split(' ', '\t');
+                        if (sub.Length != m)
+                        {
+                            throw new Exception("Ошибка при считывании файла jg. Некорректная структура файла. Проверьте количество элементов и их фактическое количество");
+                        }
+                        else
+                        {
+                            for (int i = 0; i < m; i++)
+                                jg[i] = Convert.ToInt32(sub[i]);
+                        }
+
+                        break;
+                    case "di.txt":
+
+                        reader = new StreamReader(el.Value);
+                        // считываем размерность массива
+                        line = reader.ReadLine();
+                        sub = line.Split(' ', '\t');
+                        // проверяем корректность
+                        if (ig!=null || jg != null || al != null || au != null)
+                            if (Convert.ToInt32(sub[0]) != m)
+                                throw new Exception("Ошибка при считывании файла jg. Несовпадение размерности массива в соответствии с остальными файлами");
+
+                        jg = new int[m];
+                        break;
+                    case "al.txt":
+                        break;
+                    case "au.txt":
+                        break;
+                }
+            }
+        }
         public IVector Mult(IVector x, bool UseDiagonal)
         {
             //проверка на корректное умножение (размеры вектора и матрицы)
