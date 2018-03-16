@@ -47,11 +47,18 @@ namespace slae_project
             ConsoleLogger logger = new ConsoleLogger();
             IVector x = s.Solve(preco,mar, b, x0, 1e-10, 1000, logger);
 
+            
            // logger.Dispose();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            SharpGL_limbo.SharpGL_Open_hidden();
+            SharpGL_limbo.SharpGL_Open_Test();
+
             Application.Run(new Form1());
+
+            
         }
     }
 }

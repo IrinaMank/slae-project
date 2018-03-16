@@ -171,7 +171,7 @@ namespace slae_project
             if (Y_low < 0) Y_low = 0;
             if (Y_high < 0) Y_high = 0;
 
-            if (Grid.NetWorkValue.Count() < Y_high) Y_high = Grid.NetWorkValue.Count();
+            if (Grid.NetWorkOS_Y.Count() < Y_high) Y_high = Grid.NetWorkOS_Y.Count() - 1;
         }
         public List<Point> LeftTopCellOfEachMatrix = new List<Point>();
         private bool Belongs_xCellArea()
@@ -381,6 +381,7 @@ namespace slae_project
                 //Draw_Text(Grid.NetWorkValue[y][0].CellCursorP.X+20, Grid.NetWorkValue[y][0].CellCursorP.Y, y.ToString());
                 for (int x = OS_x_begin; x < OS_x_end; x++)
                 {
+                    if (y < Grid.NetWorkValue.Count())
                     if (x < Grid.NetWorkValue[y].Count())
                         if (!double.IsNaN(Grid.NetWorkValue[y][x]))
                         {
@@ -684,7 +685,7 @@ namespace slae_project
             cursorP.y -= yCellSize;
             X_Y_counter.y++;
 
-            while (X_Y_counter.y >= NetWorkOS_Y.Count()|| X_Y_counter.y >= NetWorkValue.Count())
+            while (X_Y_counter.y >= NetWorkOS_Y.Count())
             {
                 if (YourRequireNewMemory)
                 {

@@ -54,7 +54,7 @@ namespace slae_project
         /// <param name="e">The <see cref="RenderEventArgs"/> instance containing the event data.</param>
         private void openGLControl_OpenGLDraw(object sender, RenderEventArgs e)
         {
-            GD.RealDraw();
+           GD.RealDraw();
         }
         /// <summary>
         /// Записать текущие настройки в файл settings.txt
