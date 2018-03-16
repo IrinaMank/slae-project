@@ -28,8 +28,8 @@ namespace slae_project
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            List<string> arrays = factory.GetArrays();
-          //  List<string> arrays = new List<string> { "ia", "ig", "ggu", "ggl" };
+            //List<string> arrays = factory.GetArrays();
+            List<string> arrays = new List<string> { "ia", "ig", "ggu", "ggl" };
             int count_arr = arrays.Count();     
             int x_l = 36, y = 50, x_p = 100, x_b = 315;
             
