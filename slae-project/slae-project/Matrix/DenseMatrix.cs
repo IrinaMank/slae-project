@@ -32,8 +32,6 @@ namespace slae_project.Matrix
         // Матрица
         private double[,] d_matrix;
         double extraDiagVal = 0;
-
-        bool LU_was_made = false;
         // Значение, начиная с которого любое число считается равным нулю
         private double EQU_TO_ZERO { get; } = 1e-10;
         public double this[int i, int j]
@@ -54,7 +52,6 @@ namespace slae_project.Matrix
                 if (value != 0)
                 {
                     d_matrix[i, j] = value;
-                    LU_was_made = false;
                 }
             }
         }
@@ -144,9 +141,19 @@ namespace slae_project.Matrix
                 throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
 
             IVector result = new SimpleVector(Size);
-            for (int i = 0; i < Size; i++)
-                for (int j = 0; j < Size; j++)
-                    result[i] += d_matrix[i, j] * x[j];
+            if (UseDiagonal)
+            {
+                for (int i = 0; i < Size; i++)
+                    for (int j = 0; j < Size; j++)
+                        result[i] += d_matrix[i, j] * x[j];
+            }
+            else
+            {
+                for (int i = 0; i < Size; i++)
+                    for (int j = 0; j < Size; j++)
+                        if (i != j)
+                            result[i] += d_matrix[i, j] * x[j];
+            }
             return result;
         }
 
