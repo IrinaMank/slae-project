@@ -540,7 +540,7 @@
 
         #endregion
 
-        private SharpGL.OpenGLControl openGLControl;
+        public SharpGL.OpenGLControl openGLControl;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button button_exit;
         private System.Windows.Forms.Label label1;
@@ -554,8 +554,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TrackBar trackBar_QuantityAfterPoint;
         private System.Windows.Forms.Button button_reset;
-        private System.Windows.Forms.VScrollBar vScrollBar1;
-        private System.Windows.Forms.HScrollBar hScrollBar1;
+        public System.Windows.Forms.VScrollBar vScrollBar1;
+        public System.Windows.Forms.HScrollBar hScrollBar1;
         private System.Windows.Forms.Label label6_FAQ;
         private System.Windows.Forms.Label label7_FAQ_move_phrase;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;

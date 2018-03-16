@@ -173,7 +173,7 @@ namespace slae_project
 
             if (Grid.NetWorkValue.Count() < Y_high) Y_high = Grid.NetWorkValue.Count();
         }
-        List<Point> LeftTopCellOfEachMatrix = new List<Point>();
+        public List<Point> LeftTopCellOfEachMatrix = new List<Point>();
         private bool Belongs_xCellArea()
         {
             int TempX = mouse.ShiftedPosition.x / Grid.xCellSize;
@@ -245,13 +245,13 @@ namespace slae_project
                     Grid.X_move();
 
                     //Напиши как называется текущая матрица
-                    Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, "#" + Matrix_Counter.ToString() + " - " + obj.Name, Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                    Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, "#" + (Matrix_Counter).ToString() + " - " + obj.Name, Grid.X_Y_counter.x, Grid.X_Y_counter.y));
                     Matrix_Counter++;
                     //Draw_Text(Grid.cursorP.x, Grid.cursorP.y, "#" + Matrix_Counter.ToString() + " - " + obj.Name); 
                     Grid.Y_move(); Grid.X_nullificate();
 
                     Grid.X_move();
-                    int Count_by_Y = 1;
+                    int Count_by_Y = 0;
 
                     //Запомнить левый верхний уголо матрицы для определения текущей строке и столбца.
                     //Мысля. Достаточно будет найти число с игреком чуть меньшим текущего
@@ -284,7 +284,7 @@ namespace slae_project
                     Grid.X_Y_counter.x = X_new;
                     Grid.X_Y_counter.y = Y_new;
 
-                    Count_by_Y = 1;
+                    Count_by_Y = 0;
                     //Для каждого вектора текущей матрицы
                     foreach (var vect in obj.Matrix)
                     {
@@ -416,7 +416,7 @@ namespace slae_project
         {
             if (TargetNumber)
             {
-                Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + (Number_of_current_column = ((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize)).ToString(), 0, 0, 0);
+                Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + ((Number_of_current_column = ((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize))-1).ToString(), 0, 0, 0);
 
                 //Щас используется абсолютное значение y, нам надо узнать текущую матрицу и вычесть
                 //LeftTopCellOfEachMatrix
@@ -437,7 +437,7 @@ namespace slae_project
 
                     int y = ((y_pointed - CurrentMatrix.Y * Grid.yCellSize) / Grid.yCellSize);
                     //int y = (mouse.ShiftedPosition.y + openGLControl.Height - mouse.true_y) / Grid.yCellSize;
-                    Draw_Text(mouse.true_x + 20, mouse.true_y, "- " + (Number_of_current_row = y).ToString(), 0, 0, 0);
+                    Draw_Text(mouse.true_x + 20, mouse.true_y, "- " + ((Number_of_current_row = y)-1).ToString(), 0, 0, 0);
                 }
             }
         }
@@ -475,7 +475,7 @@ namespace slae_project
         void Draw_Horizontal_numbers_for_matrix(GraphicObject obj)
         {
             OpenGL gl = openGLControl.OpenGL;
-            int Count_by_X = 1;
+            int Count_by_X = 0;
 
             for (int i = 0; i < obj.xCellCount; i++)
             {

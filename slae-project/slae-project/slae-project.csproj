@@ -76,11 +76,11 @@
       <DependentUpon>SaveLoad.cs</DependentUpon>
     </Compile>
     <Compile Include="Graphic\SharpGL_limbo.cs" />
-    <Compile Include="Graphic\Teleporter.cs">
+    <Compile Include="Graphic\Teleportator.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Graphic\Teleporter.designer.cs">
-      <DependentUpon>Teleporter.cs</DependentUpon>
+    <Compile Include="Graphic\Teleportator.designer.cs">
+      <DependentUpon>Teleportator.cs</DependentUpon>
     </Compile>
     <Compile Include="Matrix\CoordinateMatrix.cs" />
     <Compile Include="Matrix\ILinearOperator.cs" />
@@ -109,8 +109,8 @@
     <EmbeddedResource Include="Graphic\SaveLoad.resx">
       <DependentUpon>SaveLoad.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Graphic\Teleporter.resx">
-      <DependentUpon>Teleporter.cs</DependentUpon>
+    <EmbeddedResource Include="Graphic\Teleportator.resx">
+      <DependentUpon>Teleportator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
