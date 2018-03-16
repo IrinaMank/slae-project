@@ -10,7 +10,10 @@ namespace slae_project.Matrix
 {
     public interface IMatrix : ILinearOperator, IEnumerable<(double value, int row, int col)>, ICloneable
     {
-        List<string> requiredFileNames { get; }
+        /// <summary>
+        /// Названия файлов, набором которых можно инициализировать матрицу и описание структуры этих файлов.
+        /// </summary>
+        Dictionary<string, string> requiredFileNames { get; }
         // Если в матрице нет i,j-го элемента, то метод должен возвращать 0
         /// <summary>
         /// Доступ к i,j-му элементу матрицы
