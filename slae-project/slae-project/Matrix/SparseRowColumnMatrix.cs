@@ -112,7 +112,6 @@ namespace slae_project.Matrix
                 IVector diag = new SimpleVector(this.di);
                 return diag;
             }
-
         }
 
 

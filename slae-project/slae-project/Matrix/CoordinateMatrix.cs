@@ -9,10 +9,30 @@ using System.Windows.Forms;
 using slae_project.Vector;
 using slae_project.Matrix.MatrixExceptions;
 using slae_project.Preconditioner;
+using System.IO;
+
 namespace slae_project.Matrix
 {
     public class CoordinateMatrix : IMatrix
     {
+        public Dictionary<string, string> requiredFileNames => new Dictionary<string, string>
+        {
+            {
+                "elements",
+                "Файл должен содержать в первой строке количество оставшихся строк в файле." +
+                " В каждой последующей строке содержится запись формата <i j value> " +
+                "где i - значение типа integer - номер строки элемента матрицы, "+
+                "j - значение типа integer - номер столбца элемента матрицы, "+
+                "value - значение типа double - значение (i,j)-го элемента матрицы."
+            },
+            {
+                "size",
+                "Файл должен содержать одно единственное значение типа integer - размерность матрицы."
+            },
+        };
+
+
+
         /// <summary>
         /// Класс для удобного и быстрого доступа к элементам транспонированной матрицы
         /// без создания таковой
@@ -43,11 +63,12 @@ namespace slae_project.Matrix
         }
         // Элементы матрицы
         Dictionary<(int i, int j), double> elements = new Dictionary<(int i, int j), double>();
+
+        //Переменная, необходимая для реализации возможности наличия в матрицы двух диагоналей ( например в случае LU - разложенной матрицы)
+        // Если extraDiagVal = 0, то считается, что в матрице одна диагональ
+        // Если extraDiagVal != 0, то считается, что нижний треугольник матрицы содержит диагональ, заполненную значениями extraDiagVal
         double extraDiagVal = 0;
-        //Идентефикатор выполненности LU - разложения
-        // = false после любого изменения матрицы
-        // = true после выполнения LU - разложения
-        bool LU_was_made = false;
+
         // Значение, начиная с которого любое число считается равным нулю
         private double EQU_TO_ZERO { get; } = 1e-10;
         public double this[int i, int j]
@@ -55,35 +76,38 @@ namespace slae_project.Matrix
 
             get
             {
-                try
+                if (i < this.Size && j < this.Size && i >= 0 && j >= 0)
                 {
                     return elements[(i, j)];
                 }
-                catch (KeyNotFoundException ex)
+                else
                 {
-                    return 0;
+                    throw new IndexOutOfRangeException();
                 }
             }
             set
             {
-                if (value != 0)
+                if (i < this.Size && j < this.Size && i >= 0 && j >= 0)
                 {
-                    elements[(i, j)] = value;
-                    // Это нормально, с учетом того, что матрицы не часто меняют
-                    LU_was_made = false;
+                    if (value != 0)
+                    {
+                        elements[(i, j)] = value;
+                    }
+                }
+                else
+                {
+                    throw new IndexOutOfRangeException();
                 }
             }
         }
 
         // Предполагаются только квадратные матрицы
-        public int Size { get; }
+        public int Size { get; private set; }
         public ILinearOperator Transpose => new TransposeIllusion { Matrix = this };
         public ILinearOperator T => new TransposeIllusion { Matrix = this };
 
         //TODO: Метод и правда должен что-то возвращать
         public IVector Diagonal => throw new NotImplementedException();
-
-        public List<string> requiredFileNames => throw new NotImplementedException();
 
         // Для выпендрежников, которые решили обойти матрицу поэлементно
         public IEnumerator<(double value, int row, int col)> GetEnumerator()
@@ -273,7 +297,7 @@ namespace slae_project.Matrix
                     result[i] -= result[j] * this[i, j];
                 try
                 {
-                    if(extraDiagVal == 0)
+                    if (extraDiagVal == 0)
                         result[i] /= this[i, i];
                     else
                         result[i] /= extraDiagVal;
@@ -610,7 +634,83 @@ namespace slae_project.Matrix
 
         public void FillByFiles(Dictionary<string, string> paths)
         {
-            throw new NotImplementedException();
+            //Считывание размера матрицы
+            StreamReader reader;
+            try
+            {
+                reader = new StreamReader(paths["size"]);
+            }
+            catch (System.Collections.Generic.KeyNotFoundException e)
+            {
+                throw new CannotFillMatrixException(string.Format("Отсутствует информация о расположении файла 'size'."));
+            }
+            catch
+            {
+                throw new CannotFillMatrixException(string.Format("Отсутствует файл 'size' по указанному пути '{0}'", paths["size"]));
+            }
+
+            string line;
+            string[] subline;
+            line = reader.ReadLine();
+            subline = line.Split(' ', '\t', ',');
+            try
+            {
+                this.Size = Convert.ToInt32(subline[0]);
+            }
+            catch
+            {
+                throw new CannotFillMatrixException(string.Format("Файл 'size' содержит не целочисленное значение."));
+            }
+
+            //Считывание элементов массива
+            try
+            {
+                reader = new StreamReader(paths["elements"]);
+            }
+            catch (System.Collections.Generic.KeyNotFoundException e)
+            {
+                throw new CannotFillMatrixException(string.Format("Отсутствует информация о расположении файла 'elements'."));
+            }
+            catch
+            {
+                throw new CannotFillMatrixException(string.Format("Отсутствует файл 'elements' по указанному пути '{0}'", paths["size"]));
+            }
+
+            line = reader.ReadLine();
+            subline = line.Split(' ', '\t', ',');
+            int n;
+            try
+            {
+                n = Convert.ToInt32(subline[0]);
+            }
+            catch
+            {
+                throw new CannotFillMatrixException(string.Format("Файл 'elements' не соответствует требуемому формату. Первая строка не содержит количество строк в файле."));
+            }
+
+            int i, j;
+            double val;
+            int k = 0;
+            try
+            {
+                for ( k = 0; k < n; k++)
+                {
+                    line = reader.ReadLine();
+                    subline = line.Split(' ', '\t', ',');
+                    i = Convert.ToInt32(subline[0]);
+                    j = Convert.ToInt32(subline[1]);
+                    val = Convert.ToDouble(subline[2]);
+                    this[i, j] = val;
+                }
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                throw new CannotFillMatrixException(string.Format("Индекс, указанный в строке {0} не соответствует указанному размеру матрицы", k+2));
+            }
+            catch
+            {
+                throw new CannotFillMatrixException(string.Format("Строка #{0} в файле 'elements' не соответствует формату", k+2));
+            }
         }
     }
 }
