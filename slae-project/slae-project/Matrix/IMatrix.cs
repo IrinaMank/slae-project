@@ -10,6 +10,7 @@ namespace slae_project.Matrix
 {
     public interface IMatrix : ILinearOperator, IEnumerable<(double value, int row, int col)>, ICloneable
     {
+
         /// <summary>
         /// Названия файлов, набором которых можно инициализировать матрицу и описание структуры этих файлов.
         /// </summary>
