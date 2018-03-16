@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using slae_project.Matrix;
 
 namespace slae_project
 {
@@ -28,8 +29,9 @@ namespace slae_project
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            List<string> arrays = factory.GetArrays();
-          //  List<string> arrays = new List<string> { "ia", "ig", "ggu", "ggl" };
+           //List <string> arrays = Factory.GetArrays(Form1.str_format_matrix);
+            List<string> arrays = new List<string>{"ia", "ja", "ggl","ggu"};
+
             int count_arr = arrays.Count();     
             int x_l = 36, y = 50, x_p = 100, x_b = 315;
             
@@ -37,7 +39,7 @@ namespace slae_project
             {
 
             Label name = new Label();
-            name.Text = arrays[i];
+            name.Text = arrays[i];//узнать как работает
             name.Size = new Size(25, 15);
             name.Location = new System.Drawing.Point(x_l, y);
             name_arr.Add(y, name);
@@ -103,6 +105,7 @@ namespace slae_project
             string filename = openFileDialog1.FileName;
             value.Text = filename;
             filenames_format.Add(val_label.Text.ToString(), filename);
+            
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,16 +8,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using slae_project.Vector;
 namespace slae_project
 {
     public partial class Form1 : Form
     {
-        public string str_format_matrix; //формат матрицы
-        public string str_solver; //тип решателя
-        public string str_precond; //тип предобусловлевания
+        public static string str_format_matrix; //формат матрицы
+        public static string str_solver; //тип решателя
+        public static string str_precond; //тип предобусловлевания
         public static bool property_matr = false; //симметричность матрицы: по умолчанию несимметричная
         public static int Size_Matrix=0;
+        public static double s_accur_number;//точность решения
+        public static IVector F;//правая часть
+
 
 
         public Form1()
@@ -25,21 +29,24 @@ namespace slae_project
             InitializeComponent();
             openFileDialog1.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";
             maskedTextBox1_size.Mask = "00000";
-            foreach(string i in factory.GetFormat)
+            maskedTextBox1_accuracy.Mask = "00e-00";
+
+            foreach (string i in Factory.MatrixTypes.Keys)
             {
                 format_matrix.Items.Add(i);
             }
+
             format_matrix.SelectedIndex = 0;
             format_matrix.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 
-            foreach (string i in factory.GetSolver)
+            foreach (string i in Factory.SolverTypes.Keys)
             {
                 solver.Items.Add(i);
             }
             solver.SelectedIndex = 0;
             solver.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-
-            foreach (string i in factory.GetPrecond)
+            
+            foreach (string i in Factory.PrecondTypes)
             {
                 precond.Items.Add(i);
             }
@@ -63,6 +70,8 @@ namespace slae_project
         private void start_Click(object sender, EventArgs e)
         {
             string s = maskedTextBox1_size.Text;
+            string s_accur = maskedTextBox1_accuracy.Text;
+            s_accur_number = Convert.ToInt32(s_accur);
             int number = Convert.ToInt32(s);
             if (s[0] == '0')  MessageBox.Show("Ошибка в размерности матрицы"); 
             else

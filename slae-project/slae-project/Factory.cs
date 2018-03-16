@@ -1,81 +1,79 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using slae_project.Matrix;
+using slae_project.Solver;
+using slae_project.Vector;
+using slae_project.Preconditioner;
 
 namespace slae_project
 {
-    class factory
+    class Factory
     {
-        List<string> arr_format;
         Form1 main_form;
 
-        Dictionary<string, string> S = Form2.filenames_format;//словарь путей до массивов
-        static IMatrix CreateMatrix(string typename)//конструкторы пустых матриц для каждого формата - результат в arr_format
+        public static Dictionary<string, string> DictionaryOfFormats = Form2.filenames_format;//словарь путей до массивов
+        static public Dictionary<string, Func <Dictionary<string, string>, IMatrix>> MatrixTypes = new Dictionary<string, Func<Dictionary<string, string>, IMatrix>>();
+        public static IMatrix ObjectOfIMatrix; // ?????????
+        static public Dictionary<string, Func <IMatrix, double, string, IVector, IVector>> SolverTypes = new Dictionary<string, Func<IMatrix, double, string, IVector, IVector>>();
+        static public List <string> PrecondTypes = new List<string>();
+
+         public void RegisterPrecondClass(string Name)
+         {
+             PrecondTypes.Add(Name);
+         }
+        static public void RegisterMatrixClass(string Name, Func<Dictionary<string, string>, IMatrix> Creator1)
         {
-            
-            switch (typename)
-            {
-                case "Координатный": return new coordinateMatrix(Form1.Size_Matrix); // public CoordinateMatrix(int size) как вызвать?
-                case "Плотный": return new Dense_matrix(Form1.Size_Matrix);//
-                case "Строчный": return new SparseRowMatrix(Form1.Size_Matrix);
-                case "Строчно - столбцовый": return new SparseRowColumnMatrix(Form1.Size_Matrix);
-                default: return new coordinateMatrix(Form1.Size_Matrix);
-            }
+            MatrixTypes.Add(Name, Creator1);
+        }
+
+        public void RegisterSolverClass(string Name,  Func<IMatrix, double, string, IVector, IVector> Creator1)
+        {
+            SolverTypes.Add(Name, Creator1);
+        }
+
+        public Factory()
+        {
+
+            RegisterPrecondClass("Диагональное");
+            RegisterPrecondClass("Методом Зейделя");
+            RegisterPrecondClass("LU-разложение");
+
+            //RegisterMatrixClass("Координатный", (Dictionary<string, string> DictionaryOfFormats) => new CoordinateMatrix(DictionaryOfFormats));
+            //RegisterMatrixClass("Плотный", (Dictionary<string, string> DictionaryOfFormats) => new Dense_matrix(DictionaryOfFormats));
+            //RegisterMatrixClass("Строчный", (Dictionary<string, string> DictionaryOfFormats) => new SparseRowMatrix(DictionaryOfFormats));
+            //RegisterMatrixClass("Строчно - столбцовый", (Dictionary<string, string> DictionaryOfFormats) => new SparseRowColumnMatrix(DictionaryOfFormats));
+
+            //RegisterSolverClass("Метод сопряжённых градиентов", (IMatrix Object, double accur, string p, IVector r) => new MSGSolver(ObjectOfIMatrix, Form1.s_accur_number, Form1.str_precond, Form1.F ));
+            //RegisterSolverClass("Локально-оптимальная схема", (IMatrix Object, double accur, string p, IVector r) => new LOSSolver(ObjectOfIMatrix, Form1.s_accur_number, Form1.str_precond, Form1.F));
+            //RegisterSolverClass("Метод Якоби", (IMatrix Object, double accur, string p, IVector r) => new Jacoby(ObjectOfIMatrix, Form1.s_accur_number, Form1.str_precond, Form1.F));
+            //RegisterSolverClass("Метод Зейделя", (IMatrix Object, double accur, string p, IVector r) => new Zeid(ObjectOfIMatrix, Form1.s_accur_number, Form1.str_precond, Form1.F));
+            //RegisterSolverClass("Метод бисопряжённых градиентов", (IMatrix Object, double accur, string p, IVector r) => new BSGStabSolve(ObjectOfIMatrix, Form1.s_accur_number, Form1.str_precond, Form1.F);
+            //RegisterSolverClass("Метод обобщённых минимальных невязок", (IMatrix Object, double accur, string p, IVector r) => new SparseRowColumnMatrix(ObjectOfIMatrix, Form1.s_accur_number, Form1.str_precond, Form1.F));
 
         }
-        static List<string> GetArrays(string typename)//передача нам массивов от форматов матричек
+        static public void CreateMatrix(string typename)//конструкторы пустых матриц для каждого формата - результат в arr_format
         {
-            return Format_array();
-        }
-        static IMatrix FullMatrix(string typename)//заполнение матриц по форматам(передаются пути к файлам)
-        {
-            switch (typename)
-            {
-                case "Координатный": return CoordinateMatrix_full(S);
-                case "Плотный": return Dense_matrix_full(S);
-                case "Строчный": return SparseRowMatrix_full(S);
-                case "Строчно - столбцовый": return SparseRowColumnMatrix_full(S);// public SparseRowColumnMatrix(int[] ig, int[] jg, double[] di, double[] al, double[] au) Мы передаем пути, а не массивы
-            }
+            Func<Dictionary<string, string>, IMatrix> value;
+            MatrixTypes.TryGetValue(typename, out value);
+            ObjectOfIMatrix = value(DictionaryOfFormats);
 
         }
-        public static IEnumerable<string> GetFormat
+        static public IMatrix Solver_Matrix()
         {
-              get
-                {
-                yield return "Плотный";
-                yield return "Строчный";
-                yield return "Строчно - столбцовый";
-                yield return "Координатный";
-            }
-         
+            return ObjectOfIMatrix;
         }
-        public static IEnumerable<string> GetSolver
-        {
-            get
-            {
-                yield return "Метод сопряжённых градиентов";
-                yield return "Локально-оптимальная схема";
-                yield return "Метод Якоби";
-                yield return "Метод Зейделя";
-                yield return "Метод бисопряжённых градиентов";
-                yield return "Метод обобщённых минимальных невязок";
-            }
-        }
-        public static IEnumerable<string> GetPrecond
-        {
-            get
-            {
-                yield return "Диагональное";
-                yield return "Методом Зейделя";
-                yield return "LU-разложение";
-            }
 
-        }
-        // Мы передаем симметричность/ несимметричность
-        public static bool Get_format()
+       /* static public List<string> GetArrays(string typename)//передача нам массивов от форматов матричек
+        {
+            return Matrix.Format_array(typename);
+        }*/
+
+       // Мы передаем симметричность/ несимметричность
+       public static bool Get_format()
         {
             return Form1.property_matr;
         }
