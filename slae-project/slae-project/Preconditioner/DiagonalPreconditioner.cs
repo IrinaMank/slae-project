@@ -13,36 +13,12 @@ namespace slae_project.Preconditioner
         IMatrix matrix;
         public DiagonalPreconditioner(IMatrix matr)
         {
-            matrix = matr;
+            matrix = matr.Clone() as IMatrix;
         }
 
-        public IMatrix Matrix
-        {
-            get
-            {
-                return matrix;
-            }
-        }
-
-
-        public IVector QMult(IVector v)
-        {
-           return matrix.SolveD(v);
-        }
-
-        public IVector QSolve(IVector v)
-        {
-            return matrix.SolveD(v);
-        }
-
-        public IVector SMult(IVector v)
-        {
-            return matrix.SolveD(v);
-        }
-
-        public IVector SSolve(IVector v)
-        {
-            return matrix.SolveD(v);
-        }
+        IVector IPreconditioner.MultL(IVector v) => matrix.SolveD(v);
+        IVector IPreconditioner.MultU(IVector v) => matrix.SolveD(v);
+        IVector IPreconditioner.SolveL(IVector v) => matrix.SolveD(v);
+        IVector IPreconditioner.SolveU(IVector v) => matrix.SolveD(v);
     }
 }

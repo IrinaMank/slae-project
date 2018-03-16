@@ -30,8 +30,8 @@ namespace slae_project.Solver
                 return x;
 
             IVector r0 = b.Add(A.Mult(Initial), 1, -1); //r_0 = f - Ax_0
-            r0 = Preconditioner.QMult(r0);//r_0 = L(-1)(f - Ax_0)
-            IVector z = Preconditioner.SMult(r0);//z_0 = U(-1)r_0
+            r0 = Preconditioner.SolveL(r0);//r_0 = L(-1)(f - Ax_0)
+            IVector z = Preconditioner.SolveU(r0);//z_0 = U(-1)r_0
 
             IVector r = (IVector)r0.Clone(); // r = r_0
 
@@ -48,17 +48,17 @@ namespace slae_project.Solver
 
             for (int iter = 0; iter < Maxiter && normR > Precision; iter++)
             {
-                LAUz = Preconditioner.SSolve(Preconditioner.SMult(z));//U(-1)z(k - 1)
+                LAUz = Preconditioner.SolveU(z);//U(-1)z(k - 1)
                 LAUz = A.Mult(LAUz);//AU(-1)z(k-1)
-                LAUz = Preconditioner.QMult(LAUz);//L(-1)AU(-1)z(k-1)
+                LAUz = Preconditioner.SolveL(LAUz);//L(-1)AU(-1)z(k-1)
 
                 alpha = r_r / r0.ScalarMult(LAUz);//alpha = (r(k-1),r0)/(r0,L(-1)AU(-1)z(k-1))
 
                 p = r.Add(LAUz, 1, -alpha);//pk = r(k-1) - alpha * L(-1)AU(-1)z(k-1)
 
-                LAUp = Preconditioner.SMult(p);//U(-1)p(k)
+                LAUp = Preconditioner.SolveU(p);//U(-1)p(k)
                 LAUp = A.Mult(LAUp);//AU(-1)p(k)
-                LAUp = Preconditioner.QMult(LAUp);//L(-1)AU(-1)p(k)
+                LAUp = Preconditioner.SolveL(LAUp);//L(-1)AU(-1)p(k)
 
                 gamma = p.ScalarMult(LAUp) / LAUp.ScalarMult(LAUp);//gamma = (p(k),L(-1)AU(-1)p(k))/(L(-1)AU(-1)p(k),L(-1)AU(-1)p(k))
 
@@ -80,7 +80,7 @@ namespace slae_project.Solver
 
                 Logger.WriteIteration(iter, normR);
             }
-            x = Preconditioner.SMult(x);//x = U(-1)x
+            x = Preconditioner.SolveU(x);//x = U(-1)x
             return x;
         }
     }

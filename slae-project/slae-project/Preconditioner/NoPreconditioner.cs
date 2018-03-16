@@ -10,38 +10,9 @@ namespace slae_project.Preconditioner
 {
     public class NoPreconditioner : IPreconditioner
     {
-        IMatrix matrix;
-        public  NoPreconditioner(IMatrix matr)
-        {
-            matrix = matr;
-        }
-
-        public IMatrix Matrix
-        {
-            get
-            {
-                return matrix;
-            }
-        }
-
-        IVector IPreconditioner.QMult(IVector v)
-        {
-            return v.Clone() as IVector;
-        }
-
-        IVector IPreconditioner.QSolve(IVector v)
-        {
-            return v.Clone() as IVector;
-        }
-
-        IVector IPreconditioner.SMult(IVector v)
-        {
-            return v.Clone() as IVector;
-        }
-
-        IVector IPreconditioner.SSolve(IVector v)
-        {
-            return v.Clone() as IVector;
-        }
+        IVector IPreconditioner.MultL(IVector v) => v.Clone() as IVector;
+        IVector IPreconditioner.MultU(IVector v) => v.Clone() as IVector;
+        IVector IPreconditioner.SolveL(IVector v) => v.Clone() as IVector;
+        IVector IPreconditioner.SolveU(IVector v) => v.Clone() as IVector;
     }
 }

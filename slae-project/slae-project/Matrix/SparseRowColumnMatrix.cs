@@ -29,7 +29,7 @@ namespace slae_project.Matrix
             public IVector SolveU(IVector x, bool UseDiagonal) => Matrix.SolveUT(x, UseDiagonal);
             public IVector SolveD(IVector x) => Matrix.SolveD(x);
             public void MakeLU() => Matrix.MakeLU();
-            public void MakeLUSeidel() => Matrix.MakeLUSeidel();
+            public object Clone() => Matrix.Clone();
         }
 
 
@@ -152,6 +152,35 @@ namespace slae_project.Matrix
             this.al = al;
             this.au = au;
             this.Size = di.Length;
+        }
+
+        public SparseRowColumnMatrix(int n)
+        {
+            di = new double[n];
+            ig = new int[n + 1];
+
+            for(int i=0; i<n; i++)
+            {
+                di[i] = 0;
+                ig[i] = 0; //в строках нет элементов
+            }
+            //остальные массивы не создаются, т.к. они пустые
+        }
+
+        public SparseRowColumnMatrix(CoordinateMatrix c_matrix)
+        {
+            //
+            //int i, j;
+            //double value;
+            //foreach (var val in c_matrix)
+            //{
+            //    i = val.col;
+            //    j = val.row;
+            //    value = val.value;
+            //}
+            // не дописан, в ближайшем будущем будет написан
+            // текущая проблема в формировании портрета
+            // есть предполагаемое решение в виде списком для каждой строки
         }
 
         //Какие еще могут быть виды инициализации, кроме заданных векторов?
@@ -544,6 +573,11 @@ namespace slae_project.Matrix
             y2 = matr2.T.SolveU(x2);
             y2 = matr2.T.SolveL(y2);
             // 3/7 1/7 0
+        }
+
+        public object Clone()
+        {
+            return new SparseRowColumnMatrix(this.ig, this.jg, this.di, this.al, this.au);
         }
     }
 }
