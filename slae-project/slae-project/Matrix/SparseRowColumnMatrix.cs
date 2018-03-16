@@ -115,7 +115,7 @@ namespace slae_project.Matrix
         }
 
 
-        Dictionary<string, string> IMatrix.requiredFileNames => new Dictionary<string, string>
+        static Dictionary<string, string> requiredFileNames => new Dictionary<string, string>
         {
             { "ig", "Файл состоит из двух строк: количество элементов массива ig"+
                 " (integer) и элементов массива (integer), разделенных пробелом." },
@@ -639,7 +639,7 @@ namespace slae_project.Matrix
             return new SparseRowColumnMatrix(this.ig, this.jg, this.di, this.al, this.au);
         }
 
-        public void FillByFiles(Dictionary<string, string> paths)
+        public SparseRowColumnMatrix(Dictionary<string, string> paths)
         {
             string line;
             string[] sub;

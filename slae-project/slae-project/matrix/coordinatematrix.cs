@@ -15,7 +15,7 @@ namespace slae_project.Matrix
 {
     public class CoordinateMatrix : IMatrix
     {
-        public Dictionary<string, string> requiredFileNames => new Dictionary<string, string>
+        public static Dictionary<string, string> requiredFileNames => new Dictionary<string, string>
         {
             {
                 "elements",
@@ -573,8 +573,9 @@ namespace slae_project.Matrix
             {
                 coord[i] = (i / 4, i % 4);
             }
+            
+            IMatrix mar = new CoordinateMatrix(new Dictionary<string, string> { { "size", "size.txt" }, { "elements", "elements.txt" } });
 
-            IMatrix mar = new CoordinateMatrix(coord, val);
             IPreconditioner pre = new LUPreconditioner(mar);
 
             IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
@@ -632,7 +633,7 @@ namespace slae_project.Matrix
             return new CoordinateMatrix(this.elements, Size);
         }
 
-        public void FillByFiles(Dictionary<string, string> paths)
+        public CoordinateMatrix(Dictionary<string, string> paths)
         {
             //Считывание размера матрицы
             StreamReader reader;

@@ -9,10 +9,21 @@ using System.Windows.Forms;
 using slae_project.Vector;
 using slae_project.Matrix.MatrixExceptions;
 using slae_project.Preconditioner;
+using System.IO;
+
 namespace slae_project.Matrix
 {
     public class DenseMatrix : IMatrix
     {
+        //Описание необходимых для работы файлов
+        public static Dictionary<string, string> requiredFileNames => new Dictionary<string, string>
+        {
+            {
+                "dense",
+                "Файл должен содержать в первой строке размер матрицы, "+
+                "в последующих строках должны быть элементы строки разделенных пробелом."
+            },
+        };
         public class TransposeIllusion : ILinearOperator
         {
             public DenseMatrix Matrix { get; set; }
@@ -55,7 +66,7 @@ namespace slae_project.Matrix
                 }
             }
         }
-        public int Size { get; }
+        public int Size { get; private set; }
         public ILinearOperator Transpose => new TransposeIllusion { Matrix = this };
         public ILinearOperator T => new TransposeIllusion { Matrix = this };
         public IVector Diagonal
@@ -68,8 +79,6 @@ namespace slae_project.Matrix
                 return diag;
             }
         }
-        Dictionary<string, string> IMatrix.requiredFileNames => throw new NotImplementedException();
-
         // Для выпендрежников, которые решили обойти матрицу поэлементно
         public IEnumerator<(double value, int row, int col)> GetEnumerator()
         {
@@ -541,8 +550,7 @@ namespace slae_project.Matrix
 
         public object Clone()
         {
-            DenseMatrix copy = new DenseMatrix(d_matrix);
-            return copy;
+            return new DenseMatrix(d_matrix);
         }
 
         public static void localtest()
@@ -555,38 +563,78 @@ namespace slae_project.Matrix
             IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
 
             IVector y = mar.Mult(x, true);
-            //should be { 37 24 14 10 }
+            //should be { 37, 24, 14, 10 }
 
             y = pre.MultL(x);
-            //shold be { 1 3 6 10}
+            //shold be { 1, 3, 6, 10 }
 
             y = pre.MultU(x);
-            //shold be { 37 -13 -10 -4 }
-
+            //shold be { 37, -13, -10, -4 }
 
             IVector z = (IVector)y.Clone();
             //should do not crash
 
-
             z = pre.SolveL(x);
-            //should be { 1 1 1 1 }
+            //should be { 1, 1, 1, 1 }
 
             z = pre.SolveU(x);
-            //should be { 13 0.5 0.5 -4}
+            //should be { 13, 0.5, 0.5, -4 }
 
             IVector ut = mar.T.MultU(x);
-            //should be {1 6 13 20}
+            //should be { 1, 6, 13, 20 }
 
             ut = mar.T.MultU(x, false);
-            //should be {0 4 10 16}
+            //should be { 0, 4, 10, 16 }
 
             IVector lt = mar.T.MultL(x);
-            //should be {10 9 7 4}
+            //should be { 10, 9, 7, 4 }
         }
 
-        public void FillByFiles(Dictionary<string, string> paths)
+        public DenseMatrix(Dictionary<string, string> paths)
         {
-            throw new NotImplementedException();
+            StreamReader reader;
+            try
+            {
+                reader = new StreamReader(paths["dense"]);
+            }
+            catch (System.Collections.Generic.KeyNotFoundException e)
+            {
+                throw new CannotFillMatrixException(string.Format("Отсутствует информация о расположении файла 'dense'."));
+            }
+
+            string line;
+            string[] subline;
+            line = reader.ReadLine();
+            subline = line.Split(' ', '\t', ',');
+            int n;
+            try
+            {
+                n = Convert.ToInt32(subline[0]);
+            }
+            catch
+            {
+                throw new CannotFillMatrixException(string.Format("Файл 'dense' не соответствует требуемому формату. Первая строка не содержит размер матрицы."));
+            }
+
+            double val;
+            int i = 0;
+            try
+            {
+                for (i = 0; i < n; i++)
+                {
+                    line = reader.ReadLine();
+                    subline = line.Split(' ', '\t', ',');
+                    for (int j = 0; j < n; j++)
+                    {
+                        val = Convert.ToDouble(subline[j]);
+                        this[i, j] = val;
+                    }
+                }
+            }
+            catch
+            {
+                throw new CannotFillMatrixException(string.Format("Количество элементов в строке меньше чем размер матрицы.", i));
+            }
         }
     }
 }
