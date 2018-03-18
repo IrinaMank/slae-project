@@ -417,7 +417,11 @@ namespace slae_project
         {
             if (TargetNumber)
             {
-                Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + ((Number_of_current_column = ((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize))-1).ToString(), 0, 0, 0);
+                int Color = 0;
+                if (!BoolTextIsEnabledOtherwiseQuads)
+                { Color = 255; }
+
+                Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + ((Number_of_current_column = ((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize)) - 1).ToString(), Color, Color, Color);
 
                 //Щас используется абсолютное значение y, нам надо узнать текущую матрицу и вычесть
                 //LeftTopCellOfEachMatrix
@@ -426,7 +430,7 @@ namespace slae_project
                 {
                     Point CurrentMatrix = LeftTopCellOfEachMatrix[0];
                     int y_pointed = mouse.ShiftedPosition.y + openGLControl.Height - mouse.true_y - Grid.yCellSize / 4;
-                    for(int i = 0; i < LeftTopCellOfEachMatrix.Count(); i++)
+                    for (int i = 0; i < LeftTopCellOfEachMatrix.Count(); i++)
                     {
                         if (LeftTopCellOfEachMatrix[i].Y * Grid.yCellSize < y_pointed)
                         {
@@ -438,7 +442,10 @@ namespace slae_project
 
                     int y = ((y_pointed - CurrentMatrix.Y * Grid.yCellSize) / Grid.yCellSize);
                     //int y = (mouse.ShiftedPosition.y + openGLControl.Height - mouse.true_y) / Grid.yCellSize;
-                    Draw_Text(mouse.true_x + 20, mouse.true_y, "- " + ((Number_of_current_row = y)-1).ToString(), 0, 0, 0);
+                    Draw_Text(mouse.true_x + 20, mouse.true_y, "- " + ((Number_of_current_row = y) - 1).ToString(), Color, Color, Color);
+
+                    Draw_Text(mouse.true_x + 20, mouse.true_y - 40, ": " + List_Of_Objects[Number_of_current_matrix][Number_of_current_column, Number_of_current_row].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()), Color, Color, Color);
+
                 }
             }
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.IO;//files
 namespace slae_project
 {
     //Класс взаимодействия с внешним миром.
@@ -84,9 +84,9 @@ namespace slae_project
         /// </summary>
         /// <param name="path">Путь к файлу</param>
         /// <param name="numObject">Номер матрицы в массиве объектов</param>
-        static public void ReadMatrix(string path, int numObject)
+        static public void ReadMatrix(string path, int numObject, bool BoolMessage = true)
         {
-            SharpForm.ReadMatrix(path,numObject);
+            SharpForm.ReadMatrix(path,numObject, BoolMessage);
 
         }
 
@@ -177,7 +177,8 @@ namespace slae_project
             List_Of_Objects.Add(new GraphicData.GraphicObject("listed_vectorik", listed_vectorik));
             List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
             List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
-            List_Of_Objects.Add(new GraphicData.GraphicObject("bigdouble", bigdouble));
+            SharpGL_limbo.ReadMatrix(ProjectPath + "\\Graphic\\GraphicData_Magneto.txt", List_Of_Objects.Count(),false);
+            //List_Of_Objects.Add(new GraphicData.GraphicObject("bigdouble", bigdouble));
             List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", 0,5,5));
             List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix", randomMatrix));
             //this.List_Of_Objects.RemoveAt(1); Удалить какойто конкретный
@@ -187,5 +188,6 @@ namespace slae_project
             //ВАЖНО! После добавлений или удалений вызывать вот эту функцию.
             //SharpGL_limbo.Refresh_Window();
         }
+        public string ProjectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
     }
 }

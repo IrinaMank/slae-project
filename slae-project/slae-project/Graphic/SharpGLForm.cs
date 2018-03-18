@@ -706,7 +706,7 @@ namespace slae_project
         /// </summary>
         /// <param name="path">Путь к файлу</param>
         /// <param name="numObject">Номер матрицы в массиве объектов</param>
-        public void ReadMatrix(string path, int numObject)
+        public void ReadMatrix(string path, int numObject, bool BoolMessage = true)
         {
             try
             {
@@ -733,13 +733,13 @@ namespace slae_project
                         GD.List_Of_Objects[numObject] = new GraphicData.GraphicObject(name, object_to_add);
                     }
 
-                    MessageBox.Show(path + " загружен.");
+                    if (BoolMessage) MessageBox.Show(path + " загружен.");
                     Refresh_Window();
                 }
             }
             catch (Exception IdontNeedErrors)
             {
-                MessageBox.Show(IdontNeedErrors.Message, "Файл не обнаружен!");
+                if (BoolMessage) MessageBox.Show(IdontNeedErrors.Message, "Файл не обнаружен!");
             }
 
         }
