@@ -444,7 +444,7 @@ namespace slae_project
                     //int y = (mouse.ShiftedPosition.y + openGLControl.Height - mouse.true_y) / Grid.yCellSize;
                     Draw_Text(mouse.true_x + 20, mouse.true_y, "- " + ((Number_of_current_row = y) - 1).ToString(), Color, Color, Color);
 
-                    Draw_Text(mouse.true_x + 20, mouse.true_y - 40, ": " + List_Of_Objects[Number_of_current_matrix][Number_of_current_column, Number_of_current_row].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()), Color, Color, Color);
+                    if (!BoolTextIsEnabledOtherwiseQuads) Draw_Text(mouse.true_x + 20, mouse.true_y - 40, ": " + List_Of_Objects[Number_of_current_matrix][Number_of_current_column, Number_of_current_row].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()), Color, Color, Color);
 
                 }
             }
