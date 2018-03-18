@@ -49,11 +49,6 @@ namespace slae_project
             property_matrix.Items.Add("Симметричная");
             property_matrix.Items.Add("Несимметричная");
             property_matrix.SelectionMode = SelectionMode.One;
-
-            // хочется в кнопочке:
-            //SharpGL_limbo.SharpGL_Open();
-            //Тестируемся:
-            //SharpGL_limbo.SharpGL_Open();
         }
         // выбор только одного элемента в checkBox
         private void property_matrix_ItemCheck(object sender, ItemCheckEventArgs e)

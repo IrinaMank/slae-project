@@ -19,6 +19,11 @@ namespace slae_project
         [STAThread]
         static void Main()
         {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            //SharpGL_limbo.SharpGL_Open_hidden();
+            //SharpGL_limbo.SharpGL_Open_Test();
+
             //CoordinateMatrix.localtest();
             //(int, int)[] coord = new(int, int)[100];
             ////   double[] valMatrix = new double[25] { 1, 5, 1, 2, 1, 8, 2, 1, 3, 2, 2, 9, 3, 7, 3, 1, 3, 10, 4, 6, 3, 1, 2, 11, 5 };	
@@ -47,10 +52,8 @@ namespace slae_project
             //FileLogger logger = new FileLogger();
             //IVector x = s.Solve(preco,mar, b, x0, 1e-10, 10000, logger);
 
-           // logger.Dispose();
+            // logger.Dispose();
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
         }
     }
