@@ -20,7 +20,7 @@ namespace slae_project
         static public Dictionary<string, (Func<Dictionary<string, string>, IMatrix> ,Dictionary<string, string>)> MatrixTypes = new Dictionary<string, (Func<Dictionary<string, string>, IMatrix>, Dictionary<string, string>)>();
         public static IMatrix ObjectOfIMatrix;
         public static IVector Result;
-        public static List<string> name_arr;
+        public static List<string> name_arr = new List<string>();
         public static IPreconditioner Prec = new NoPreconditioner();
         static public Dictionary<string, Func<IPreconditioner, IMatrix, IVector, IVector, double, int, FileLogger, IVector>> SolverTypes = new Dictionary<string, Func<IPreconditioner, IMatrix, IVector, IVector, double, int, FileLogger, IVector>>();
         static public List<string> PrecondTypes = new List<string>();
@@ -72,9 +72,13 @@ namespace slae_project
 
             foreach(string i in reer.Keys)
                      name_arr.Add(i);
+        }
+        static public void Create_Full_Matrix(string typename)//получаем заполненную матрицу для передачи Solver
+        {
+            (Func<Dictionary<string, string>, IMatrix>, Dictionary<string, string>) value;
+            MatrixTypes.TryGetValue(typename, out value);
 
             ObjectOfIMatrix = value.Item1(DictionaryOfFormats);
-
         }
         static public void CreateSolver(string typename)//получаем заполненную матрицу для передачи Solver
         {

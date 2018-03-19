@@ -193,7 +193,7 @@ namespace slae_project
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void openGLControl_OpenGLInitialized(object sender, EventArgs e)
         {
-            //  TODO: Initialise OpenGL here.
+            //  ем TODO: Initialise OpenGL here.
 
             //  Get the OpenGL object.
             OpenGL gl = openGLControl.OpenGL;

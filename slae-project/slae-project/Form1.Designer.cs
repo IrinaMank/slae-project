@@ -133,9 +133,11 @@
             this.property_matrix.Size = new System.Drawing.Size(117, 49);
             this.property_matrix.TabIndex = 7;
             this.property_matrix.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.property_matrix_ItemCheck);
+            this.property_matrix.Validated += new System.EventHandler(this.property_matrix_Validated);
             // 
             // start
             // 
+            this.start.Enabled = false;
             this.start.Location = new System.Drawing.Point(315, 333);
             this.start.Margin = new System.Windows.Forms.Padding(2);
             this.start.Name = "start";
@@ -204,6 +206,7 @@
             this.maskedTextBox1_size.Name = "maskedTextBox1_size";
             this.maskedTextBox1_size.Size = new System.Drawing.Size(100, 20);
             this.maskedTextBox1_size.TabIndex = 11;
+            this.maskedTextBox1_size.TextAlignChanged += new System.EventHandler(this.maskedTextBox1_size_TextAlignChanged);
             // 
             // label5
             // 
@@ -220,6 +223,7 @@
             this.maskedTextBox1_accuracy.Name = "maskedTextBox1_accuracy";
             this.maskedTextBox1_accuracy.Size = new System.Drawing.Size(100, 20);
             this.maskedTextBox1_accuracy.TabIndex = 13;
+            this.maskedTextBox1_accuracy.TextChanged += new System.EventHandler(this.maskedTextBox1_accuracy_TextChanged);
             // 
             // Form1
             // 

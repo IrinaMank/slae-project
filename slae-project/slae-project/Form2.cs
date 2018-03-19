@@ -17,12 +17,12 @@ namespace slae_project
    
     public partial class Form2 : Form
     {
-        
+        int Y = 0;
         Dictionary<int, Label> name_arr = new Dictionary<int, Label>();//имена массивов
         Dictionary<int, TextBox> puths = new Dictionary<int, TextBox>();//пути до массивов
         public static Dictionary<string, string> filenames_format = new Dictionary<string, string>(); // словарь: ключ - название массива, значение - путь к файлу
-        public static IVector F;//правая часть
-        public static IVector X0;//Начально приближение 
+        public static IVector F= new SimpleVector();//правая часть
+        public static IVector X0 = new SimpleVector();//Начально приближение 
         public Form2()
         {
             InitializeComponent();
@@ -31,13 +31,37 @@ namespace slae_project
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            List<string> arrays = Factory.name_arr;
-           // List<string> arrays = new List<string>{"ia", "ja", "ggl","ggu"};
+            Factory.CreateMatrix(Form1.str_format_matrix);
 
+            List<string> arrays = Factory.name_arr;
+           // List<string> arrays = new List<string> {"ia","gy","gyy"};
             int count_arr = arrays.Count();     
             int x_l = 36, y = 50, x_p = 100, x_b = 315;
 
-          
+            //файл размера
+            Label name_size = new Label();
+            name_size.Text = "size";
+            name_size.Size = new Size(25, 15);
+            name_size.Location = new System.Drawing.Point(x_l, y);
+            name_arr.Add(y, name_size);
+            this.Controls.Add(name_size);
+
+            TextBox puth_size = new TextBox();
+            puth_size.Size = new Size(185, 20);
+            puth_size.Name = "size";
+            puth_size.Location = new Point(x_p, y);
+            puths.Add(y, puth_size);
+            this.Controls.Add(puth_size);
+
+            Button button_size = new Button();
+            button_size.Text = "Обзор";
+            button_size.Size = new Size(75, 23);
+            button_size.Location = new Point(x_b, y);
+            button_size.Click += new System.EventHandler(button_Click);
+            this.Controls.Add(button_size);
+
+            y += 50;
+            //все массивы
             for (int i = 0; i < count_arr; i++)
             {
 
@@ -67,18 +91,18 @@ namespace slae_project
             }
             ////правая часть
             Label name_b = new Label();
-            name_b.Text = "b";
+            name_b.Text = " b" ;
             name_b.Size = new Size(25, 15);
             name_b.Location = new System.Drawing.Point(x_l, y);
+            name_arr.Add(y, name_b);
+            this.Controls.Add(name_b);
 
             TextBox puth_b = new TextBox();
             puth_b.Size = new Size(185, 20);
-            puth_b.Name = "b";
+            puth_b.Name = " b ";
             puth_b.Location = new Point(x_p, y);
-            FileStream file = new FileStream(puth_b.Text.ToString(), FileMode.Open, FileAccess.Read);
-            StreamReader reader = new StreamReader(file);
-            reader.ReadToEnd();
-            F = (IVector)reader;
+            puths.Add(y, puth_b);
+            this.Controls.Add(puth_b);
 
             Button button_b = new Button();
             button_b.Text = "Обзор";
@@ -90,18 +114,19 @@ namespace slae_project
             y += 50;
             ///начальное приближение
             Label name_x0 = new Label();
-            name_x0.Text = "b";
+            name_x0.Text = "X0";
             name_x0.Size = new Size(25, 15);
             name_x0.Location = new System.Drawing.Point(x_l, y);
+            name_arr.Add(y, name_x0);
+            this.Controls.Add(name_x0);
 
             TextBox puth_x0 = new TextBox();
             puth_x0.Size = new Size(185, 20);
             puth_x0.Name = "x0";
             puth_x0.Location = new Point(x_p, y);
-            FileStream file_1 = new FileStream(puth_x0.Text.ToString(), FileMode.Open, FileAccess.Read);
-            StreamReader reader_1 = new StreamReader(file);
-            reader.ReadToEnd();
-            X0 = (IVector)reader;
+            puths.Add(y, puth_x0);
+            this.Controls.Add(puth_x0);
+
 
             Button button_x0 = new Button();
             button_x0.Text = "Обзор";
@@ -110,6 +135,7 @@ namespace slae_project
             button_x0.Click += new System.EventHandler(button_Click);
             this.Controls.Add(button_x0);
 
+            y += 50;
             //кнопка загрузки
             Button button_load = new Button();
             button_load.Text = "ОК";
@@ -118,7 +144,7 @@ namespace slae_project
             button_load.Click += new System.EventHandler(this.button_load_Click);
             this.Controls.Add(button_load);
 
-           
+            Y = y;
         }
         private void button_load_Click(object sender, EventArgs e)
         {
@@ -150,17 +176,27 @@ namespace slae_project
 
             Label val_label = new Label();
             name_arr.TryGetValue(coord.Y, out val_label);
-
             
-
             if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
                 return;
             //получаем выбранный файл
             string filename = openFileDialog1.FileName;
             value.Text = filename;
             filenames_format.Add(val_label.Text.ToString(), filename);
-
-            //CreateMatrix();
+            if (Y - 100 == coord.Y)
+            {
+                FileStream file = new FileStream(filename, FileMode.Open, FileAccess.Read);
+                StreamReader reader = new StreamReader(file);
+                reader.ReadToEnd();
+                F = (IVector)reader;
+            }
+            else if (Y - 50 == coord.Y)
+            {
+                FileStream file_1 = new FileStream(filename, FileMode.Open, FileAccess.Read);
+                StreamReader reader_1 = new StreamReader(file_1);
+                reader_1.ReadToEnd();
+                X0 = (IVector)reader_1;
+            }
         }
     }
 }
