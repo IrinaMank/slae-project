@@ -20,8 +20,8 @@ namespace slae_project
         public static IMatrix ObjectOfIMatrix; // ?????????
         static public Dictionary<string, Func <IMatrix, double, string, IVector, IVector>> SolverTypes = new Dictionary<string, Func<IMatrix, double, string, IVector, IVector>>();
         static public List <string> PrecondTypes = new List<string>();
-
-         public void RegisterPrecondClass(string Name)
+        
+        public void RegisterPrecondClass(string Name)
          {
              PrecondTypes.Add(Name);
          }
@@ -37,21 +37,20 @@ namespace slae_project
 
         public Factory()
         {
-
             RegisterPrecondClass("Диагональное");
             RegisterPrecondClass("Методом Зейделя");
             RegisterPrecondClass("LU-разложение");
 
-            //RegisterMatrixClass("Координатный", (Dictionary<string, string> DictionaryOfFormats) => new CoordinateMatrix(DictionaryOfFormats));
-            //RegisterMatrixClass("Плотный", (Dictionary<string, string> DictionaryOfFormats) => new Dense_matrix(DictionaryOfFormats));
-            //RegisterMatrixClass("Строчный", (Dictionary<string, string> DictionaryOfFormats) => new SparseRowMatrix(DictionaryOfFormats));
-            //RegisterMatrixClass("Строчно - столбцовый", (Dictionary<string, string> DictionaryOfFormats) => new SparseRowColumnMatrix(DictionaryOfFormats));
+            RegisterMatrixClass("Координатный", (Dictionary<string, string> DictionaryOfFormats) => new CoordinateMatrix.requiredFileNames(DictionaryOfFormats));
+            RegisterMatrixClass("Плотный", (Dictionary<string, string> DictionaryOfFormats) => new DenseMatrix.requiredFileNames(DictionaryOfFormats));
+           // RegisterMatrixClass("Строчный", (Dictionary<string, string> DictionaryOfFormats) => new SparseRowMatrix(DictionaryOfFormats));
+            RegisterMatrixClass("Строчно - столбцовый", (Dictionary<string, string> DictionaryOfFormats) => new SparseRowColumnMatrix.requiredFileNames(DictionaryOfFormats));
 
-            //RegisterSolverClass("Метод сопряжённых градиентов", (IMatrix Object, double accur, string p, IVector r) => new MSGSolver(ObjectOfIMatrix, Form1.s_accur_number, Form1.str_precond, Form1.F ));
-            //RegisterSolverClass("Локально-оптимальная схема", (IMatrix Object, double accur, string p, IVector r) => new LOSSolver(ObjectOfIMatrix, Form1.s_accur_number, Form1.str_precond, Form1.F));
-            //RegisterSolverClass("Метод Якоби", (IMatrix Object, double accur, string p, IVector r) => new Jacoby(ObjectOfIMatrix, Form1.s_accur_number, Form1.str_precond, Form1.F));
-            //RegisterSolverClass("Метод Зейделя", (IMatrix Object, double accur, string p, IVector r) => new Zeid(ObjectOfIMatrix, Form1.s_accur_number, Form1.str_precond, Form1.F));
-            //RegisterSolverClass("Метод бисопряжённых градиентов", (IMatrix Object, double accur, string p, IVector r) => new BSGStabSolve(ObjectOfIMatrix, Form1.s_accur_number, Form1.str_precond, Form1.F);
+            RegisterSolverClass("Метод сопряжённых градиентов", (IMatrix Object, double accur, string p, IVector r) => new MSGSolver..Solver(Form1.str_precond, ObjectOfIMatrix, Form2.F, Form1.s_accur_number, Form1.max_iter));
+            RegisterSolverClass("Локально-оптимальная схема", (IMatrix Object, double accur, string p, IVector r) => new LOSSolver.Solver(Form1.str_precond, ObjectOfIMatrix, Form2.F, Form1.s_accur_number, Form1.max_iter));
+            //RegisterSolverClass("Метод Якоби", (IMatrix Object, double accur, string p, IVector r) => new Jacoby.Solver(Form1.str_precond, ObjectOfIMatrix, Form2.F, Form1.s_accur_number, Form1.max_iter));
+            //RegisterSolverClass("Метод Зейделя", (IMatrix Object, double accur, string p, IVector r) => new Zeid.Solver(Form1.str_precond, ObjectOfIMatrix, Form2.F, Form1.s_accur_number, Form1.max_iter));
+            RegisterSolverClass("Метод бисопряжённых градиентов", (IMatrix Object, double accur, string p, IVector r) => new BSGStabSolve.Solver(Form1.str_precond, ObjectOfIMatrix, Form2.F, Form1.s_accur_number, Form1.max_iter));
             //RegisterSolverClass("Метод обобщённых минимальных невязок", (IMatrix Object, double accur, string p, IVector r) => new SparseRowColumnMatrix(ObjectOfIMatrix, Form1.s_accur_number, Form1.str_precond, Form1.F));
 
         }

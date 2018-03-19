@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using slae_project.Matrix;
+using slae_project.Vector;
+using System.IO;
 
 namespace slae_project
 {
@@ -19,7 +21,7 @@ namespace slae_project
         Dictionary<int, Label> name_arr = new Dictionary<int, Label>();
         Dictionary<int, TextBox> puths = new Dictionary<int, TextBox>();
         public static Dictionary<string, string> filenames_format = new Dictionary<string, string>(); // словарь: ключ - название массива, значение - путь к файлу
-        
+        public static IVector F;//правая часть
 
         public Form2()
         {
@@ -34,12 +36,13 @@ namespace slae_project
 
             int count_arr = arrays.Count();     
             int x_l = 36, y = 50, x_p = 100, x_b = 315;
-            
+
+          
             for (int i = 0; i < count_arr; i++)
             {
 
             Label name = new Label();
-            name.Text = arrays[i];//узнать как работает
+            name.Text = arrays[i];
             name.Size = new Size(25, 15);
             name.Location = new System.Drawing.Point(x_l, y);
             name_arr.Add(y, name);
@@ -62,6 +65,28 @@ namespace slae_project
 
                 y += 50;
             }
+            Label name_b = new Label();
+            name_b.Text = "b";
+            name_b.Size = new Size(25, 15);
+            name_b.Location = new System.Drawing.Point(x_l, y);
+
+            TextBox puth_b = new TextBox();
+            puth_b.Size = new Size(185, 20);
+            puth_b.Name = "b";
+            puth_b.Location = new Point(x_p, y);
+            FileStream file = new FileStream(puth_b.Text.ToString(), FileMode.Open, FileAccess.Read);
+            StreamReader reader = new StreamReader(file);
+            reader.ReadToEnd();
+            F = (IVector)reader;
+
+            Button button_b = new Button();
+            button_b.Text = "Обзор";
+            button_b.Size = new Size(75, 23);
+            button_b.Location = new Point(x_b, y);
+            button_b.Click += new System.EventHandler(button_Click);
+            this.Controls.Add(button_b);
+
+            y += 50;
             Button button_load = new Button();
             button_load.Text = "ОК";
             button_load.Size = new Size(183, 23);

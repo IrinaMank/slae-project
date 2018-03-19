@@ -19,9 +19,7 @@ namespace slae_project
         public static bool property_matr = false; //симметричность матрицы: по умолчанию несимметричная
         public static int Size_Matrix=0;
         public static double s_accur_number;//точность решения
-        public static IVector F;//правая часть
-
-
+        public static int max_iter = 10000;
 
         public Form1()
         {
