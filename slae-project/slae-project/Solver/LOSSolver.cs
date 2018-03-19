@@ -28,27 +28,49 @@ namespace slae_project.Solver
             if (b.Norm == 0)
                 return x;
 
-            double alpha, beta = 1.0;
+            double alpha = 0.0, beta = 0.0;
 
-            IVector r = b.Add(A.Matrix.Mult(Initial), 1, -1); //r_0 = f - Ax_0
-            IVector Ar, z = r; // z_0 = r_0
-            IVector p = A.Matrix.Mult(z); // p_0 = Az_0
+            IVector r = b.Add(AA.Mult(Initial), 1, -1); //r_0 = f - Ax_0
+            r = A.SolveL(r); // r_0 = L^-1 * (f - Ax_0)
+
+            IVector Ar, z = A.SolveU(r); // z_0 = U^-1 * r_0
+            IVector p = A.SolveL(AA.Mult(z)); // p_0 = L^-1 * Az_0
+
             double p_r = 0.0, p_p = 0.0;
 
-            //for (int iter = 0; iter < Maxiter && r.ScalarMult(r) > Precision && beta > 0; iter++)
-            for (int iter = 0; iter < Maxiter ; iter++)
+            double scalRR = r.ScalarMult(r);
+            double normR = Math.Sqrt(scalRR) / b.Norm;
+
+            for (int iter = 0; iter < Maxiter && normR > Precision; iter++)
+            //for (int iter = 0; iter < Maxiter && ; iter++)
             {
                 p_r = p.ScalarMult(r); //(p_k-1,r_k-1)
                 p_p = p.ScalarMult(p); //(p_k-1,p_k-1)
                 alpha = p_r / p_p;
-                x.Add(z, 1, alpha, true); // x_k = x_k-1 = alfa_k*z_k-1
+
+                x.Add(z, 1, alpha, true); // x_k = x_k-1 + alfa_k*z_k-1
+
                 r.Add(p, 1, -alpha, true); // r_k = r_k-1 - alfa_k*p_k-1
-                Ar = A.Matrix.Mult(r); // Ar_k
+
+                Ar = A.SolveL(AA.Mult(A.SolveU(r))); //Ar_k = L^-1 * A * U^-1 * r_k
+                //Ar = A.SolveU(r);
+                //Ar = AA.Mult(Ar);
+                //Ar = A.SolveL(Ar);
+
                 beta = -(p.ScalarMult(Ar) / p_p);
-                z = r.Add(z, 1, beta); //z_k = r_k + beta_k*z_k-1
-                p = Ar.Add(p, 1, beta); // p_k = Ar_k + beta_k*p_k-1
+
+                z = A.SolveU(r).Add(z, 1, beta); //z_k = U^-1 * r_k + beta_k*z_k-1
+                p = Ar.Add(p, 1, beta); // p_k = L^-1 * A * U^-1 * r_k + beta_k*p_k-1
+
+                if (scalRR == 0) throw new Exception("Division by 0");
+                scalRR = r.ScalarMult(r);
+
+                normR = Math.Sqrt(scalRR) / b.Norm;
+
+                Logger.WriteIteration(iter, normR, 100 * Precision / normR);
             }
             return x;
         }
+
     }
 }

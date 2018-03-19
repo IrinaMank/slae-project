@@ -7,7 +7,7 @@ using slae_project.Vector;
 
 namespace slae_project.Matrix
 {
-    public interface ILinearOperator
+    public interface ILinearOperator : ICloneable
     {
         /// <summary>
         /// Опреация умножения матрицы на вектор: Ax = y
@@ -83,6 +83,6 @@ namespace slae_project.Matrix
         int Size { get; }
 
         void MakeLU();
-        void MakeLUSeidel();
+        //void MakeLUSeidel();
     }
 }
