@@ -115,7 +115,7 @@ namespace slae_project.Matrix
         }
 
 
-        static Dictionary<string, string> requiredFileNames => new Dictionary<string, string>
+       public static Dictionary<string, string> requiredFileNames => new Dictionary<string, string>
         {
             { "ig", "Файл состоит из двух строк: количество элементов массива ig"+
                 " (integer) и элементов массива (integer), разделенных пробелом." },

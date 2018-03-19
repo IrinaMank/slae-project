@@ -31,8 +31,8 @@ namespace slae_project
 
         private void Form2_Load(object sender, EventArgs e)
         {
-           //List <string> arrays = Factory.GetArrays(Form1.str_format_matrix);
-            List<string> arrays = new List<string>{"ia", "ja", "ggl","ggu"};
+            List<string> arrays = Factory.name_arr;
+           // List<string> arrays = new List<string>{"ia", "ja", "ggl","ggu"};
 
             int count_arr = arrays.Count();     
             int x_l = 36, y = 50, x_p = 100, x_b = 315;
