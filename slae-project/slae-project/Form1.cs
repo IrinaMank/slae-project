@@ -34,22 +34,22 @@ namespace slae_project
                 format_matrix.Items.Add(i);
             }
 
-            format_matrix.SelectedIndex = 0;
-            format_matrix.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //format_matrix.SelectedIndex = 0;
+            //format_matrix.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 
             foreach (string i in Factory.SolverTypes.Keys)
             {
                 solver.Items.Add(i);
             }
-            solver.SelectedIndex = 0;
-            solver.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //solver.SelectedIndex = 0;
+            //solver.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             
             foreach (string i in Factory.PrecondTypes)
             {
                 precond.Items.Add(i);
             }
-            precond.SelectedIndex = 0;
-            precond.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            //precond.SelectedIndex = 0;
+           // precond.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 
             property_matrix.Items.Add("Симметричная");
             property_matrix.Items.Add("Несимметричная");
