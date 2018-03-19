@@ -44,16 +44,16 @@ namespace slae_project
             RegisterPrecondClass("Методом Зейделя");
             RegisterPrecondClass("LU-разложение");
 
-            RegisterMatrixClass("Координатный", (Dictionary<string, string> DictionaryOfFormats) => new CoordinateMatrix.requiredFileNames(DictionaryOfFormats));
-            RegisterMatrixClass("Плотный", (Dictionary<string, string> DictionaryOfFormats) => new DenseMatrix.requiredFileNames(DictionaryOfFormats));
+            //RegisterMatrixClass("Координатный", (Dictionary<string, string> DictionaryOfFormats) => new CoordinateMatrix.requiredFileNames(DictionaryOfFormats));
+            //RegisterMatrixClass("Плотный", (Dictionary<string, string> DictionaryOfFormats) => new DenseMatrix.requiredFileNames(DictionaryOfFormats));
            // RegisterMatrixClass("Строчный", (Dictionary<string, string> DictionaryOfFormats) => new SparseRowMatrix(DictionaryOfFormats));
-            RegisterMatrixClass("Строчно - столбцовый", (Dictionary<string, string> DictionaryOfFormats) => new SparseRowColumnMatrix.requiredFileNames(DictionaryOfFormats));
+            //RegisterMatrixClass("Строчно - столбцовый", (Dictionary<string, string> DictionaryOfFormats) => new SparseRowColumnMatrix.requiredFileNames(DictionaryOfFormats));
 
-            RegisterSolverClass("Метод сопряжённых градиентов", (string a, IMatrix b, IVector c, IVector d, double e, int f, FileLogger g) => new MSGSolver.Solver(Form1.str_precond, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.s_accur_number, Form1.max_iter, Log));
-            RegisterSolverClass("Локально-оптимальная схема", (string a, IMatrix b, IVector c, IVector d, double e, int f, FileLogger g) => new LOSSolver.Solver(Form1.str_precond, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.s_accur_number, Form1.max_iter, Log));
+            //RegisterSolverClass("Метод сопряжённых градиентов", (string a, IMatrix b, IVector c, IVector d, double e, int f, FileLogger g) => new MSGSolver.Solver(Form1.str_precond, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.s_accur_number, Form1.max_iter, Log));
+            //RegisterSolverClass("Локально-оптимальная схема", (string a, IMatrix b, IVector c, IVector d, double e, int f, FileLogger g) => new LOSSolver.Solver(Form1.str_precond, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.s_accur_number, Form1.max_iter, Log));
             //RegisterSolverClass("Метод Якоби", (string a, IMatrix b, IVector c, IVector d, double e, int f, FileLogger g) => new Jacoby.Solver(Form1.str_precond, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.s_accur_number, Form1.max_iter, Log));
             //RegisterSolverClass("Метод Зейделя", (string a, IMatrix b, IVector c, IVector d, double e, int f, FileLogger g) => new Zeid.Solver(Form1.str_precond, ObjectOfIMatrix, Form2.F,  Form2.X0,Form1.s_accur_number, Form1.max_iter, Log));
-            RegisterSolverClass("Метод бисопряжённых градиентов", (string a, IMatrix b, IVector c, IVector d, double e, int f, FileLogger g) => new BSGStabSolve.Solver(Form1.str_precond, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.s_accur_number, Form1.max_iter, Log));
+            //RegisterSolverClass("Метод бисопряжённых градиентов", (string a, IMatrix b, IVector c, IVector d, double e, int f, FileLogger g) => new BSGStabSolve.Solver(Form1.str_precond, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.s_accur_number, Form1.max_iter, Log));
             //RegisterSolverClass("Метод обобщённых минимальных невязок", (string a, IMatrix b, IVector c, IVector d, double e, int f, FileLogger g) => new SparseRowColumnMatrix.Solver(Form1.str_precond, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.s_accur_number, Form1.max_iter, Log));
 
         }
