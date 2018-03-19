@@ -97,7 +97,8 @@ namespace slae_project
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            Factory.CreateMatrix(str_format_matrix);
+            Factory.CreateSolver(str_solver);
         }
     }
 }

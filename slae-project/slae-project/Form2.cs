@@ -18,15 +18,15 @@ namespace slae_project
     public partial class Form2 : Form
     {
         
-        Dictionary<int, Label> name_arr = new Dictionary<int, Label>();
-        Dictionary<int, TextBox> puths = new Dictionary<int, TextBox>();
+        Dictionary<int, Label> name_arr = new Dictionary<int, Label>();//имена массивов
+        Dictionary<int, TextBox> puths = new Dictionary<int, TextBox>();//пути до массивов
         public static Dictionary<string, string> filenames_format = new Dictionary<string, string>(); // словарь: ключ - название массива, значение - путь к файлу
         public static IVector F;//правая часть
-
+        public static IVector X0;//Начально приближение 
         public Form2()
         {
             InitializeComponent();
-            this.Size = new Size(500, 375);
+            this.Size = new Size(500, 500);
     }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -65,6 +65,7 @@ namespace slae_project
 
                 y += 50;
             }
+            ////правая часть
             Label name_b = new Label();
             name_b.Text = "b";
             name_b.Size = new Size(25, 15);
@@ -87,6 +88,29 @@ namespace slae_project
             this.Controls.Add(button_b);
 
             y += 50;
+            ///начальное приближение
+            Label name_x0 = new Label();
+            name_x0.Text = "b";
+            name_x0.Size = new Size(25, 15);
+            name_x0.Location = new System.Drawing.Point(x_l, y);
+
+            TextBox puth_x0 = new TextBox();
+            puth_x0.Size = new Size(185, 20);
+            puth_x0.Name = "x0";
+            puth_x0.Location = new Point(x_p, y);
+            FileStream file_1 = new FileStream(puth_x0.Text.ToString(), FileMode.Open, FileAccess.Read);
+            StreamReader reader_1 = new StreamReader(file);
+            reader.ReadToEnd();
+            X0 = (IVector)reader;
+
+            Button button_x0 = new Button();
+            button_x0.Text = "Обзор";
+            button_x0.Size = new Size(75, 23);
+            button_x0.Location = new Point(x_b, y);
+            button_x0.Click += new System.EventHandler(button_Click);
+            this.Controls.Add(button_x0);
+
+            //кнопка загрузки
             Button button_load = new Button();
             button_load.Text = "ОК";
             button_load.Size = new Size(183, 23);
@@ -107,7 +131,12 @@ namespace slae_project
                     MessageBox.Show("Заполнены не все поля!");
                 break;
             }
-            if(i== puths.Count())  this.Close();
+            if (i == puths.Count())
+            {
+
+                this.Close();
+
+            }
 
 
         }
@@ -130,7 +159,8 @@ namespace slae_project
             string filename = openFileDialog1.FileName;
             value.Text = filename;
             filenames_format.Add(val_label.Text.ToString(), filename);
-            
+
+            //CreateMatrix();
         }
     }
 }
