@@ -467,7 +467,7 @@ namespace slae_project
                 in_x -= mouse.ShiftedPosition.x;
                 in_y += +mouse.ShiftedPosition.y;
             }
-            gl.DrawText(in_x, in_y, 0, 0, 0, "Arial", FontSize, phrase);
+            Ultimate_DrawText(in_x, in_y, 0, 0, 0, "null", FontSize, phrase);
         }
         void Draw_Text(int in_x, int in_y, string phrase, Single r, Single g, Single b)
         {
@@ -478,7 +478,11 @@ namespace slae_project
                 in_x -= mouse.ShiftedPosition.x;
                 in_y += +mouse.ShiftedPosition.y;
             }
-            gl.DrawText(in_x, in_y, r, g, b, "Arial", 14, phrase);
+            Ultimate_DrawText(in_x, in_y, r, g, b, "null", 14, phrase);
+        }
+        void Ultimate_DrawText(int x, int y, Single r, Single g, Single b, string Font, float fontsize, string phrase)
+        {
+            openGLControl.OpenGL.DrawText(x, y, r, g, b, "Arial", fontsize, phrase);
         }
         void Draw_Horizontal_numbers_for_matrix(GraphicObject obj)
         {
@@ -841,7 +845,7 @@ namespace slae_project
                 BorderEnd.y = 50;
             }
         }
-        public PointInt BorderBegin = new PointInt(15, 10);//самый верхний левый угол для ShiftedPosition
+        public PointInt BorderBegin = new PointInt(0, 0);//самый верхний левый угол для ShiftedPosition
         public PointInt BorderEnd = new PointInt(15, 10);//самый нижний правый угол для ShiftedPosition
 
     }

@@ -51,6 +51,9 @@ namespace slae_project
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            SharpGL_limbo.SharpGL_Open_Test();
+
             Application.Run(new Form1());
         }
     }
