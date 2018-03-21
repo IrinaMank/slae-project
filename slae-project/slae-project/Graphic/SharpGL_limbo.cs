@@ -145,9 +145,9 @@ namespace slae_project
             FileLogger logger = new FileLogger();
             IVector x = s.Solve(preco, mar, b, x0, 1e-10, 10000, logger);
 
-            List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", mar, null));
-            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", null, x));
-            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", null, b));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", mar));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", x));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", b));
 
             Refresh_Window();
     }

@@ -64,27 +64,27 @@ namespace slae_project
             public IMatrix ReferencedMatrix = null;
             public IVector ReferencedVector = null;
             public int xCellCount = 0, yCellCount = 0;
-            public GraphicObject(string _Name, IMatrix _ReferencedMatrix, IVector _ReferencedVector)
+            public GraphicObject(string _Name, IMatrix _ReferencedMatrix)
             {
                 //for Imatrix.
                 this.Name = _Name;
 
                 ReferencedMatrix = _ReferencedMatrix;
+                ReferencedVector = null;
+
+                xCellCount = ReferencedMatrix.Size;
+                yCellCount = ReferencedMatrix.Size;
+            }
+            public GraphicObject(string _Name, IVector _ReferencedVector)
+            {
+                //for Imatrix.
+                this.Name = _Name;
+
+                ReferencedMatrix = null;
                 ReferencedVector = _ReferencedVector;
 
-                //this.Name = _Name; Matrix.Add(new List<double>()); Matrix[0].Add(double.NaN);
-                if (ReferencedMatrix!=null)
-                {
-                    xCellCount = ReferencedMatrix.Size;
-                    yCellCount = ReferencedMatrix.Size;
-                }
-                else
-                {
-                    xCellCount = ReferencedVector.Size;
-                    yCellCount = 1;
-                }
-
-
+                xCellCount = ReferencedVector.Size;
+                yCellCount = 1;
             }
             public GraphicObject(string _Name, List<List<double>> _Matrix)
             {
