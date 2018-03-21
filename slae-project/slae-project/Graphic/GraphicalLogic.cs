@@ -467,7 +467,7 @@ namespace slae_project
                 in_x -= mouse.ShiftedPosition.x;
                 in_y += +mouse.ShiftedPosition.y;
             }
-            Ultimate_DrawText(in_x, in_y, 0, 0, 0, "null", FontSize, phrase);
+            gl.DrawText(in_x, in_y, 0, 0, 0, "Arial", FontSize, phrase);
         }
         void Draw_Text(int in_x, int in_y, string phrase, Single r, Single g, Single b)
         {
@@ -478,7 +478,7 @@ namespace slae_project
                 in_x -= mouse.ShiftedPosition.x;
                 in_y += +mouse.ShiftedPosition.y;
             }
-            Ultimate_DrawText(in_x, in_y, r, g, b, "null", 14, phrase);
+            gl.DrawText(in_x, in_y, r, g, b, "Arial", 14, phrase);
         }
         void Ultimate_DrawText(int x, int y, Single r, Single g, Single b, string Font, float fontsize, string phrase)
         {

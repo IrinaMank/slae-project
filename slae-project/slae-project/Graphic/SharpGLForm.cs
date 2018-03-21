@@ -657,6 +657,8 @@ namespace slae_project
         private List<double> stringToMatrixRow(string strRow)
         {
             List<double> row = new List<double>();
+            strRow = strRow.Replace('.', System.Globalization.NumberFormatInfo.CurrentInfo.NumberDecimalSeparator[0]);
+            strRow = strRow.Replace(',', System.Globalization.NumberFormatInfo.CurrentInfo.NumberDecimalSeparator[0]);
             string[] numbers = strRow.Split(new char[] { ';', ' ' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string element in numbers)
             {
