@@ -7,13 +7,13 @@ using slae_project.Vector;
 
 namespace slae_project.Matrix
 {
-    public interface ILinearOperator
+    public interface ILinearOperator : ICloneable
     {
         /// <summary>
         /// Опреация умножения матрицы на вектор: Ax = y
         /// </summary>
         /// <returns>Результатом является вектор (y)</returns>
-        IVector Mult(IVector x);
+        IVector Mult(IVector x, bool UseDiagonal = true);
 
         /// <summary>
         /// Решение СЛАУ относительно матрицы L LU-разложения матрицы: Lx = y
@@ -51,6 +51,13 @@ namespace slae_project.Matrix
         /// <returns>Результатом является вектор (y)</returns>
         IVector MultU(IVector x, bool UseDiagonal = true);
 
+        /// <summary>
+        /// Решение СЛАУ относительно вектора х и диагональной матрицы(состоящей из диагональных элементов матрицы): Dy = x
+        /// </summary>
+        /// <param name="x">Вектор, относительно которого решается система</param>
+        /// <returns>Результатом является вектор (y)</returns>
+        IVector SolveD(IVector x);
+
         // Примечание: методы Transpose и T должны делать одну и ту же работу
         // Такое дублирование необходимо для того, чтобы дать пользователю возможность 
         // Писать A.Transpose для ясности кода
@@ -74,5 +81,8 @@ namespace slae_project.Matrix
         /// Длина стороны квадратной матрицы
         /// </summary>
         int Size { get; }
+
+        void MakeLU();
+        //void MakeLUSeidel();
     }
 }
