@@ -117,6 +117,13 @@ namespace slae_project.Matrix
             this.Size = di.Length;
         }
 
+        public SparseRowColumnMatrix(double[] ig1, double[] jg1, double[] di, double[] al, double[] au)
+        {
+            this.di = di;
+            this.al = al;
+            this.au = au;
+        }
+
         //Какие еще могут быть виды инициализации, кроме заданных векторов?
         public IVector Mult(IVector x)
         {
