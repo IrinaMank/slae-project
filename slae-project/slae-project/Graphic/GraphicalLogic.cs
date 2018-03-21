@@ -10,7 +10,12 @@ using SharpGL;
 using System.IO;
 using System.Diagnostics;
 using Microsoft.VisualBasic.Devices;
-using slae_project.Matrix;
+using slae_project.Matrix;//files
+using slae_project.Vector;
+using slae_project.Properties;//files
+using slae_project.Preconditioner;
+using slae_project.Solver;
+using slae_project.Logger;
 namespace slae_project
 {
     /// <summary>
@@ -46,7 +51,6 @@ namespace slae_project
 
         
 
-        
         /// <summary>
         /// Вот пример одного выводимого объекта
         /// У него есть имя. И у него есть матрица.
@@ -57,16 +61,30 @@ namespace slae_project
             public string Name;
 
             public List<List<double>> Matrix = new List<List<double>>();
-
+            public IMatrix ReferencedMatrix = null;
+            public IVector ReferencedVector = null;
             public int xCellCount = 0, yCellCount = 0;
-            public GraphicObject(string _Name, double _Value, int _xCellCount, int _yCellCount)
+            public GraphicObject(string _Name, IMatrix _ReferencedMatrix, IVector _ReferencedVector)
             {
                 //for Imatrix.
                 this.Name = _Name;
-                //this.Name = _Name; Matrix.Add(new List<double>()); Matrix[0].Add(double.NaN);
 
-                xCellCount = _xCellCount;
-                yCellCount = _yCellCount;
+                ReferencedMatrix = _ReferencedMatrix;
+                ReferencedVector = _ReferencedVector;
+
+                //this.Name = _Name; Matrix.Add(new List<double>()); Matrix[0].Add(double.NaN);
+                if (ReferencedMatrix!=null)
+                {
+                    xCellCount = ReferencedMatrix.Size;
+                    yCellCount = ReferencedMatrix.Size;
+                }
+                else
+                {
+                    xCellCount = ReferencedVector.Size;
+                    yCellCount = 1;
+                }
+
+
             }
             public GraphicObject(string _Name, List<List<double>> _Matrix)
             {
@@ -388,17 +406,54 @@ namespace slae_project
                             if (BoolTextIsEnabledOtherwiseQuads) Draw_Text(cursor_X(x), cursor_Y(y), Grid.NetWorkValue[y][x].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
                             else draw_white_square(cursor_X(x), cursor_Y(y), Grid.NetWorkValue[y][x]);
                         }
-
-
-
                 }
             }
+
+            //Вставить сюда.
+            for (int i = 0; i < List_Of_Objects.Count(); i++)
+            {
+                var GraphicalObject = List_Of_Objects[i];
+
+                if (GraphicalObject.ReferencedMatrix != null)
+                {
+                    foreach (var item in GraphicalObject.ReferencedMatrix)
+                    {
+                        int x = LeftTopCellOfEachMatrix[i].X + item.col;
+                        int y = LeftTopCellOfEachMatrix[i].Y + item.row + 1;
+                        if (x > OS_x_begin && x < OS_x_end && y > OS_y_begin && y < OS_y_end)
+                        {
+                            if (BoolTextIsEnabledOtherwiseQuads) Draw_Text(cursor_X(x), cursor_Y(y), item.value.ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
+                            else draw_white_square(cursor_X(x), cursor_Y(y), item.value);
+                        }
+                    }
+                            
+                }
+                else if (GraphicalObject.ReferencedVector != null)
+                {
+                    foreach (var item in GraphicalObject.ReferencedVector)
+                    {
+                        int x = LeftTopCellOfEachMatrix[i].X + item.index;
+                        int y = LeftTopCellOfEachMatrix[i].Y + 1;
+                        if (x > OS_x_begin && x < OS_x_end && y > OS_y_begin && y < OS_y_end)
+                        {
+                            if (BoolTextIsEnabledOtherwiseQuads) Draw_Text(cursor_X(x), cursor_Y(y), item.value.ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
+                            else draw_white_square(cursor_X(x), cursor_Y(y), item.value);
+                        }
+                    }
+                }
+            }
+            //LeftTopCellOfEachMatrix[]
+            //OS_y_end
+
+
+
 
             //It's real draw now
             //Grid.DeadPoint.y = Grid.NetWorkValue.Count()* Grid.yCellSize;
             LaserCrossroad();
             NumberCrossroad();
         }
+        Stack<int> MatrixToView = new Stack<int>();
         public bool BoolTextIsEnabledOtherwiseQuads = true;
         public bool BoolLinesAreEnabled = true;
         private int cursor_X(int value)

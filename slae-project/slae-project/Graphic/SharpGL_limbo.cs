@@ -4,6 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;//files
+using slae_project.Matrix;//files
+using slae_project.Vector;
+using slae_project.Properties;//files
+using slae_project.Preconditioner;
+using slae_project.Solver;
+using slae_project.Logger;
 namespace slae_project
 {
     //Класс взаимодействия с внешним миром.
@@ -110,7 +116,42 @@ namespace slae_project
             SharpGL_Open();
             UR.UserGuide_access(ref List_Of_Objects);
             Refresh_Window();
-        }
+
+            //CoordinateMatrix.localtest();
+            (int, int)[] coord = new(int, int)[100];
+            //   double[] valMatrix = new double[25] { 1, 5, 1, 2, 1, 8, 2, 1, 3, 2, 2, 9, 3, 7, 3, 1, 3, 10, 4, 6, 3, 1, 2, 11, 5 };	
+            // double[] valB = new double[] { 27, 37, 72, 83, 80 };	
+            double[] valX = new double[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+            double[] valMatrix = new double[100] { 7, 2, 0, 0, 0, 1, 3, 0, 0, 0, 1, 8, 4, 0, 0, 0, 1, 2, 0, 0, 0, 3, 14, 3, 0, 0, 0, 4, 4, 0, 0, 0, 2, 9, 1, 0, 0, 0, 2, 4, 0, 0, 0, 4, 6, 1, 0, 0, 0, 1, 2, 0, 0, 0, 1, 5, 2, 0, 0, 0, 2, 3, 0, 0, 0, 3, 11, 3, 0, 0, 0, 4, 1, 0, 0, 0, 3, 12, 4, 0, 0, 0, 1, 4, 0, 0, 0, 2, 8, 1, 0, 0, 0, 2, 1, 0, 0, 0, 1, 4 };
+            double[] valB = new double[] { 38.0000, 52.0000, 128.0000, 105.0000, 62.0000, 51.0000, 127.0000, 164.0000, 117.0000, 62.0000 };
+
+
+            for (int i = 0; i < 100; i++)
+            {
+                coord[i] = (i / 10, i % 10);
+            }
+
+            IMatrix mar = new CoordinateMatrix(coord, valMatrix);
+            //NoPreconditioner preco = new NoPreconditioner();
+            LUPreconditioner preco = new LUPreconditioner(mar);
+            //DiagonalPreconditioner preco = new DiagonalPreconditioner(mar);	
+
+            IVector b = new SimpleVector(valB);
+            IVector x0 = new SimpleVector(10);
+            IVector rigthX = new SimpleVector(valX);
+
+            LOSSolver s = new LOSSolver();
+            FileLogger logger = new FileLogger();
+            IVector x = s.Solve(preco, mar, b, x0, 1e-10, 10000, logger);
+
+            List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", mar, null));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", null, x));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", null, b));
+
+            Refresh_Window();
+    }
+
         //закрывает окно графики если оно существует. Совсем закрыть
         //По умолчанию открыто скрытым.
         static public void SharpGL_Close()
@@ -179,7 +220,7 @@ namespace slae_project
             List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
             SharpGL_limbo.ReadMatrix(ProjectPath + "\\Graphic\\GraphicData_Magneto.txt", List_Of_Objects.Count(),false);
             //List_Of_Objects.Add(new GraphicData.GraphicObject("bigdouble", bigdouble));
-            List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", 0,5,5));
+            //List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", 5,5));
             List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix", randomMatrix));
             //this.List_Of_Objects.RemoveAt(1); Удалить какойто конкретный
             //this.List_Of_Objects.Clear(); //Удалить все.
