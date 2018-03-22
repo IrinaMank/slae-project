@@ -1,4 +1,6 @@
-﻿using slae_project.Matrix;
+﻿using slae_project.Logger;
+using slae_project.Matrix;
+using slae_project.Preconditioner;
 using slae_project.Vector;
 using System;
 using System.Collections.Generic;
@@ -19,34 +21,53 @@ namespace slae_project.Solver
         /// <param name="Precision">Точность</param>
         /// <param name="Maxiter">Максимальное число итераций</param>
         /// <returns>Вектор x - решение СЛАУ Ax=b с заданной точностью</returns>
-        public IVector Solve(IMatrix A, IVector b, IVector Initial, double Precision, int Maxiter)
+        public IVector Solve(IPreconditioner Preconditioner, IMatrix A, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
         {
-            IVector x = new SimpleVector(b.Size);
+            IVector x = Initial.Clone() as IVector;
 
             if (b.Norm == 0)
                 return x;
 
-            double alpha, beta = 1.0;
+            double scalAzZ, scalRR, alpha, beta = 1.0;
 
             IVector r = b.Add(A.Mult(Initial), 1, -1);
-            double r_r = r.ScalarMult(r);
-            IVector Az, z = r;
+            r = Preconditioner.SolveU(Preconditioner.MultU(r));
+            IVector Az, Atz, z = A.Transpose.Mult(r);
+            z = Preconditioner.MultL(z);
 
-            for (int iter = 0; iter < Maxiter && r.Norm / b.Norm > Precision && beta > 0; iter++)
+            r = z.Clone() as IVector;
+            scalRR = r.ScalarMult(r);
+            double normR = Math.Sqrt(scalRR) / b.Norm;
+
+            for (int iter = 0; iter < Maxiter && normR > Precision && beta > 0; iter++)
             {
-                Az = A.Mult(z);
-                r_r = r.ScalarMult(r);
-                alpha = r_r / (Az.ScalarMult(z));
+                Az = Preconditioner.SolveL(z);
+
+                Atz = A.Mult(Az);
+                Atz = Preconditioner.SolveU(Preconditioner.MultU(Atz));
+                Az = A.Transpose.Mult(Atz);
+                Az = Preconditioner.MultL(Az);
+
+                scalAzZ = Az.ScalarMult(z);
+
+                if (scalAzZ == 0) throw new Exception("Division by 0");
+
+                alpha = scalRR / scalAzZ;
+
                 x.Add(z, 1, alpha, true);
                 r.Add(Az, 1, -alpha, true);
 
-                beta = r_r;
-                r_r = r.ScalarMult(r);
-                beta = r_r / beta;
+                beta = scalRR;
+                if (scalRR == 0) throw new Exception("Division by 0");
+                scalRR = r.ScalarMult(r);
+                beta = scalRR / beta;
 
                 z = r.Add(z, 1, beta);
-            }
-            return x;
+                normR = Math.Sqrt(scalRR) / b.Norm;
+
+                Logger.WriteIteration(iter, normR, 100*Precision/normR);
+            };
+            return Preconditioner.SolveL(x);
         }
     }
 }
