@@ -69,8 +69,8 @@ namespace slae_project
             MatrixTypes.TryGetValue(typename, out value);
             Dictionary<string, string> reer;
             reer = value.Item2;
-
-            foreach(string i in reer.Keys)
+            name_arr.Clear();
+            foreach (string i in reer.Keys)
                      name_arr.Add(i);
         }
         static public void Create_Full_Matrix(string typename)//получаем заполненную матрицу для передачи Solver

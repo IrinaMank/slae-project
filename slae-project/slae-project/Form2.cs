@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using slae_project.Matrix;
 using slae_project.Vector;
 using System.IO;
-
 namespace slae_project
 {
 
@@ -18,8 +17,8 @@ namespace slae_project
     public partial class Form2 : Form
     {
         int Y = 0;
-        Dictionary<int, Label> name_arr = new Dictionary<int, Label>();//имена массивов
-        Dictionary<int, TextBox> puths = new Dictionary<int, TextBox>();//пути до массивов
+        public static Dictionary<int, Label> name_arr = new Dictionary<int, Label>();//имена массивов
+        public static Dictionary<int, TextBox> puths = new Dictionary<int, TextBox>();//пути до массивов
         public static Dictionary<string, string> filenames_format = new Dictionary<string, string>(); // словарь: ключ - название массива, значение - путь к файлу
         public static IVector F= new SimpleVector();//правая часть
         public static IVector X0 = new SimpleVector();//Начально приближение 
@@ -34,33 +33,9 @@ namespace slae_project
             Factory.CreateMatrix(Form1.str_format_matrix);
 
             List<string> arrays = Factory.name_arr;
-           // List<string> arrays = new List<string> {"ia","gy","gyy"};
             int count_arr = arrays.Count();     
             int x_l = 36, y = 50, x_p = 100, x_b = 315;
-
-            //файл размера
-            Label name_size = new Label();
-            name_size.Text = "size";
-            name_size.Size = new Size(25, 15);
-            name_size.Location = new System.Drawing.Point(x_l, y);
-            name_arr.Add(y, name_size);
-            this.Controls.Add(name_size);
-
-            TextBox puth_size = new TextBox();
-            puth_size.Size = new Size(185, 20);
-            puth_size.Name = "size";
-            puth_size.Location = new Point(x_p, y);
-            puths.Add(y, puth_size);
-            this.Controls.Add(puth_size);
-
-            Button button_size = new Button();
-            button_size.Text = "Обзор";
-            button_size.Size = new Size(75, 23);
-            button_size.Location = new Point(x_b, y);
-            button_size.Click += new System.EventHandler(button_Click);
-            this.Controls.Add(button_size);
-
-            y += 50;
+            puths.Clear(); name_arr.Clear();
             //все массивы
             for (int i = 0; i < count_arr; i++)
             {
@@ -154,14 +129,14 @@ namespace slae_project
             for (i = 0; i < puths.Count(); i++, y += 50)
             { puths.TryGetValue(y, out value);
                 if (value.Text.ToString() == "")
+                {
                     MessageBox.Show("Заполнены не все поля!");
-                break;
+                    break;
+                }
             }
             if (i == puths.Count())
             {
-
                 this.Close();
-
             }
 
 
@@ -179,23 +154,49 @@ namespace slae_project
             
             if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
                 return;
+      
             //получаем выбранный файл
             string filename = openFileDialog1.FileName;
             value.Text = filename;
             filenames_format.Add(val_label.Text.ToString(), filename);
             if (Y - 100 == coord.Y)
             {
+                ///вот тут рамс, в F не читает((
                 FileStream file = new FileStream(filename, FileMode.Open, FileAccess.Read);
                 StreamReader reader = new StreamReader(file);
-                reader.ReadToEnd();
-                F = (IVector)reader;
+                
+                string k;
+                List<int> z = new List<int>(); int y;
+                int i = 0;
+                k = reader.ReadToEnd();
+
+                F = new SimpleVector(k.Count());
+                while (i<k.Count())
+                {
+                    Console.WriteLine(k[i]);
+                   if (k[i].CompareTo(' ') != 0)
+                    F[i] = Convert.ToInt32(k[i]) -48;
+                    i++;
+
+                }
             }
             else if (Y - 50 == coord.Y)
             {
-                FileStream file_1 = new FileStream(filename, FileMode.Open, FileAccess.Read);
-                StreamReader reader_1 = new StreamReader(file_1);
-                reader_1.ReadToEnd();
-                X0 = (IVector)reader_1;
+                FileStream file = new FileStream(filename, FileMode.Open, FileAccess.Read);
+                StreamReader reader = new StreamReader(file);
+                string k;
+                List<int> z = new List<int>(); int y;
+                int i = 0;
+                k = reader.ReadToEnd();
+                X0 = new SimpleVector(k.Count());
+                while (i < k.Count())
+                {
+                    Console.WriteLine(k[i]);
+                    if (k[i].CompareTo(' ') != 0)
+                        X0[i] = Convert.ToInt32(k[i]) - 48;
+                    i++;
+
+                }
             }
         }
     }
