@@ -12,10 +12,10 @@ using System.IO;
 
 namespace slae_project.Matrix
 {
-    class SparseRowColumnMatrix : IMatrix
+    public class SparseRowColumnMatrix : IMatrix
     {
         //что делать с транспонированием?
-        class TransposeIllusion : ILinearOperator
+        public class TransposeIllusion : ILinearOperator
         {
             public SparseRowColumnMatrix Matrix { get; set; }
             public ILinearOperator Transpose => Matrix;
