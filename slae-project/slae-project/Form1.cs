@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Data;
@@ -7,15 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
 using System.Threading;
-using slae_project.Logger;
 
 namespace slae_project
 {
     public partial class Form1 : Form
     {
-        //FileLogger fileLogger = new FileLogger();
+        
         Dictionary<int, Label> name_arr = new Dictionary<int, Label>();
         public static string str_format_matrix; //формат матрицы
         public static string str_solver; //тип решателя
@@ -31,7 +29,7 @@ namespace slae_project
         public int ourIter = 0;
 
 
-        public Button next, exit, back, justDoIt, icon, loadFiles;
+        public Button next, exit, back, justDoIt, icon, loadFiles, graphic;
         public GroupBox gr;
         public PictureBox picture;
         public RadioButton fileRead, myRead;
@@ -86,13 +84,6 @@ namespace slae_project
             this.Controls.Add(myRead);
             myRead.BringToFront();
             myRead.BackColor = Color.Transparent;
-
-            //picture = new PictureBox();
-            //picture.Size = new Size(100, 56);
-            //picture.Image = Properties.Resources.matrix;
-            //picture.Location = new Point(300, 110);
-            //this.Controls.Add(picture);
-            //picture.BringToFront();
 
             next = new Button();
             next.Text = "Далее";
@@ -149,10 +140,7 @@ namespace slae_project
             solver.Location = new System.Drawing.Point(200, 100);
             solver.Items.Add("Метод сопряжённых градиентов");
             solver.Items.Add("Локально-оптимальная схема");
-            //solver.Items.Add("Метод Якоби");
-           // solver.Items.Add("Метод Зейделя");
             solver.Items.Add("Метод бисопряжённых градиентов");
-           // solver.Items.Add("Метод обобщённых минимальных невязок");
             solver.SelectedIndex = 0;
             solver.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Controls.Add(solver);
@@ -330,8 +318,22 @@ namespace slae_project
             bar.Visible = false;
             bar.Maximum = 100;
 
+            graphic = new Button();
+            graphic.Text = "Посмотреть результат граффически";
+            graphic.Size = new Size(300, 30);
+            graphic.Location = new Point(150, 200);
+            graphic.Click += new System.EventHandler(graphicClick);
+            this.Controls.Add(graphic);
+            graphic.BackColor = Color.White;
+            graphic.BringToFront();
+            graphic.Visible = false;
+
         }
         
+        private void graphicClick(object sender, EventArgs e)
+        {
+            SharpGL_limbo.SharpGL_Open();
+        }
 
         private void exitClick(object sender, EventArgs e)
         {
@@ -384,44 +386,14 @@ namespace slae_project
             Factory.Create_Full_Matrix(str_format_matrix,property_matr);
 
             Factory.CreateSolver(str_solver);
-            
-          //  thread.Start(str_solver);
-            //var reader = new FileStream("./log.txt", FileMode.Open, FileAccess.Read, FileShare.ReadWrite)
-            //StreamReader reader = new StreamReader("./log.txt");
-           // while (ourIter < maxiter || percent < 100)
-            //{
-                //string s = writer.ReadLine();
-
-                //string[] ss;
-                //while (s.Length != 0)
-                //{
-                //    ss = s.Split(' ');
-                //    s = writer.ReadLine();
-                //}
-
-                //ourIter = reader.Read();
-                //percent = reader.Read();
-                //if (percent != -1)
-                //    bar.Value = Convert.ToInt32(percent);
-                //if (ourIter != -1)
-                //    iterLife.Text = ourIter.ToString();
-
-                //ourIter = fileLogger.iter;
-                //percent = fileLogger.per;
-             //   bar.Value = Convert.ToInt32(percent);
-             //   iterLife.Text = ourIter.ToString();
-             //   Update();
-           // }
-            
-            //reader.Close();
-            //writer.Close();
+            graphic.Enabled = true;
+            back.Enabled = true;
         }
 
         private void nextClick(object sender, EventArgs e)
         {
             numbForm++;
             accurent = Convert.ToDouble("10e-" + acc.Value.ToString());
-           // accurent = Math.Pow(10, -Convert.ToDouble(acc.Value));
             if (!hand && numbForm == 3)
                 threadSolver();
             if (hand && numbForm == 4)
@@ -502,7 +474,7 @@ namespace slae_project
         {
             if (numbForm == 1) //
             {
-                //picture.Visible = true;
+                
                 gr.Visible = true;
                 fileRead.Visible = true;
                 myRead.Visible = true;
@@ -531,7 +503,7 @@ namespace slae_project
                 fileRead.Visible = false;
                 myRead.Visible = false;
                 back.Visible = true;
-                //picture.Visible = false;
+                graphic.Visible = false;
 
                 if (hand == false) 
                 {
@@ -547,6 +519,7 @@ namespace slae_project
                     acc.Visible = true;
                     maxiterl.Visible = true;
                     maxit.Visible = true;
+                    
                     if (!loadData) next.Enabled = false;
                 }
                 else
@@ -566,10 +539,10 @@ namespace slae_project
                 }  
             }
 
-            if (numbForm == 3) // третья страница, надо вставить в (*) чтение файлов и 
-                               // запись их в необходимые массивы по нажатию на "далее" (это button next)
+            if (numbForm == 3) 
+                               
             {
-                if (hand == false) // (*)
+                if (hand == false) 
                 {
                     format.Visible = false;
                     formMatrix.Visible = false;
@@ -585,8 +558,9 @@ namespace slae_project
                     maxit.Visible = false;
                     gr.Visible = false;
                     next.Visible = false;
-                    //bar.Visible = true;
-                    //iterLife.Visible = true;
+                    graphic.Visible = true;
+                    graphic.Enabled = false;
+                    back.Enabled = false;
                 }
                 else
                 {
@@ -600,55 +574,48 @@ namespace slae_project
                     solvMatrix.Visible = true;
                     precondMatrix.Visible = true;
                     maxit.Visible = false;
+                    graphic.Visible = false;
                 }
             }
 
             if (numbForm == 4) 
             {
+                next.Visible = false;
+                back.Enabled = false;
                 if (hand == false) 
                 {
 
                 }
                 else
                 {
+                    gr.Visible = false;
                     solver.Visible = false;
                     precond.Visible = false;
                     solvMatrix.Visible = false;
                     precondMatrix.Visible = false;
-                    
-                    
+                    graphic.Visible = true;
+                    graphic.Enabled = false;
                 }
             }
-
         }
 
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             infoForm form = new infoForm();
             form.Show();
         }
 
         private void aboutProgramToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             aboutProgramForm form = new aboutProgramForm();
             form.Show();
-    //        if (MessageBox.Show(
-    //    "Написать разработчикам?", "Visit", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk
-    //) == DialogResult.Yes)
-    //        {
-    //            System.Diagnostics.Process.Start("http://pm43@mail.ru");
-    //        }
-            //MessageBox.Show("BLABLABLA версия 0.1. от 25 марта 2018. Специальное издание для Windows \nНаписать разработчикам: " , "О программе", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
         }
         
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
-
         }
         
      }
