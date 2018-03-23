@@ -15,7 +15,7 @@ namespace slae_project
     class Factory
     {
         Form1 main_form;
-        ConsoleLogger Log = new ConsoleLogger();
+        FileLogger Log = new FileLogger();
         public static Dictionary<string, string> DictionaryOfFormats = Form2.filenames_format;//словарь путей до массивов
         static public Dictionary<string, (Func<Dictionary<string, string>, IMatrix>, Dictionary<string, string>)> MatrixTypes = new Dictionary<string, (Func<Dictionary<string, string>, IMatrix>, Dictionary<string, string>)>();
         public static IMatrix ObjectOfIMatrix;
@@ -88,8 +88,9 @@ namespace slae_project
             string typename = typenameOb as string;
             Func<IPreconditioner, IMatrix, IVector, IVector, double, int, ILogger, IVector> value;
             SolverTypes.TryGetValue(typename, out value);
-       
-            Result = value(Prec, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.accurent, Form1.maxiter, new FileLogger());
+
+            FileLogger f = null;
+            Result = value(Prec, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.accurent, Form1.maxiter,f);
         }
         // Мы передаем симметричность/ несимметричность
         public static bool Get_format()

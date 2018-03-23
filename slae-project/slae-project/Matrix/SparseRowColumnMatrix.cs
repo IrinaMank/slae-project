@@ -666,7 +666,7 @@ namespace slae_project.Matrix
                         //считывание элементов массива
                         line = reader.ReadLine();
                         sub = line.Split(' ', '\t');
-                        if (sub.Length != n)
+                        if (sub.Length != n+1)
                         {
                             throw new CannotFillMatrixException("Ошибка при считывании файла ig. Некорректная структура файла. Проверьте количество элементов и их фактическое количество");
                         }
@@ -679,7 +679,7 @@ namespace slae_project.Matrix
                             if (ig[n + 1] != m)
                                 throw new CannotFillMatrixException("Ошибка при считывании файла ig. Массив не соответсвует другим массивам. Проверьте файлы al, au, jg");
 
-                        m = ig[n + 1];
+                        m = ig[n];
                         count_files++;
                         break;
                     case "jg":
