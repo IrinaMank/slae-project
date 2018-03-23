@@ -173,9 +173,9 @@ namespace slae_project
             List<double> listed_vectorik = new List<double>() { 1, 2, 3, 4, 5 };
             List<List<double>> listed_matrix = new List<List<double>>() { new List<double> { 1, 2 }, new List<double> { 3, 4 }, new List<double> { 5, 6 } };
 
-            double[,] bigdouble = new double[1000, 1000];
-            for (int i = 0; i < 1000; i++)
-                for (int j = 0; j < 1000; j++) bigdouble[i, j] = i + j;
+            double[,] bigdouble = new double[100, 100];
+            for (int i = 0; i < 100; i++)
+                for (int j = 0; j < 100; j++) bigdouble[i, j] = i + j;
             //Добавление объектов на отображение.
             //Имя и Число/Вектор/Матрица в формате (double, double[], double[,], List<double>, List<List<double>>) на выбор.
             List_Of_Objects.Add(new GraphicData.GraphicObject("vector4ik", vector4ik));
@@ -183,10 +183,12 @@ namespace slae_project
             List_Of_Objects.Add(new GraphicData.GraphicObject("listed_vectorik", listed_vectorik));
             List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
             List_Of_Objects.Add(new GraphicData.GraphicObject("listed_matrix", listed_matrix));
-            SharpGL_limbo.ReadMatrix(ProjectPath + "\\Graphic\\GraphicData_Magneto.txt", List_Of_Objects.Count(),false);
-            //List_Of_Objects.Add(new GraphicData.GraphicObject("bigdouble", bigdouble));
+            //SharpGL_limbo.ReadMatrix(ProjectPath + "\\Graphic\\GraphicData_Magneto.txt", List_Of_Objects.Count(),false);
+            List_Of_Objects.Add(new GraphicData.GraphicObject("bigdouble", bigdouble));
             //List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", 5,5));
-            List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix", randomMatrix));
+
+            //List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix", randomMatrix));
+
             //this.List_Of_Objects.RemoveAt(1); Удалить какойто конкретный
             //this.List_Of_Objects.Clear(); //Удалить все.
             //this.List_Of_Objects.RemoveAt(List_Of_Objects.Count() - 1); //Удалить последний
@@ -194,6 +196,7 @@ namespace slae_project
             //ВАЖНО! После добавлений или удалений вызывать вот эту функцию.
             //SharpGL_limbo.Refresh_Window();
 
+            
             //CoordinateMatrix.localtest();
             (int, int)[] coord = new(int, int)[100];
             //   double[] valMatrix = new double[25] { 1, 5, 1, 2, 1, 8, 2, 1, 3, 2, 2, 9, 3, 7, 3, 1, 3, 10, 4, 6, 3, 1, 2, 11, 5 };	

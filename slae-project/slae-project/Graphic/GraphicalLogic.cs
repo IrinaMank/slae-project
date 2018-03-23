@@ -81,6 +81,7 @@ namespace slae_project
                 {
                     xCellCount = 0;
                     yCellCount = 0;
+                    this.Name = "";
                 }
             }
             public GraphicObject(string _Name, ref IVector _ReferencedVector)
@@ -100,6 +101,7 @@ namespace slae_project
                 {
                     xCellCount = 0;
                     yCellCount = 0;
+                    this.Name = "";
                 }
             }
             public GraphicObject(string _Name, List<List<double>> _Matrix)
@@ -226,7 +228,10 @@ namespace slae_project
         public void DrawingInitializer()
         {
             LeftTopCellOfEachMatrix.Clear();
+            foreach (var item in Grid.NetWorkOS_X) item.List_of_func.Clear();
             Grid.NetWorkOS_X.Clear();
+
+            Grid.NetWorkValue.Clear();
         }
         ComputerInfo Comp = new ComputerInfo();
         bool MemoryChecker()
@@ -240,7 +245,7 @@ namespace slae_project
             return false;
         }
         public bool TargetPlus = true;
-        public bool TargetNumber = true;
+        public bool TargetNumber = false;
         /// <summary>
         /// Главная рисовалка.
         /// </summary>
@@ -832,6 +837,7 @@ namespace slae_project
                 NetWorkValue.Add(new List<double>());
                 NetWorkValue[X_Y_counter.y].Add(double.NaN);
             }
+            foreach (var item in NetWorkOS_Y) item.List_of_func.Clear();
             NetWorkOS_Y.Clear();
             NetWorkOS_Y.Add(new NetWorkOSCell());
 
