@@ -20,8 +20,8 @@ namespace slae_project
         public static Dictionary<int, Label> name_arr = new Dictionary<int, Label>();//имена массивов
         public static Dictionary<int, TextBox> puths = new Dictionary<int, TextBox>();//пути до массивов
         public static Dictionary<string, string> filenames_format = new Dictionary<string, string>(); // словарь: ключ - название массива, значение - путь к файлу
-        public static IVector F= new SimpleVector();//правая часть
-        public static IVector X0 = new SimpleVector();//Начально приближение 
+        public static IVector F;//правая часть
+        public static IVector X0;//Начально приближение 
         public Form2()
         {
             InitializeComponent();
@@ -166,12 +166,12 @@ namespace slae_project
                 StreamReader reader = new StreamReader(file);
                 
                 string k;
-                List<int> z = new List<int>(); int y;
+                List<int> z = new List<int>(); 
                 int i = 0;
+                int size = int.Parse(reader.ReadLine());
                 k = reader.ReadToEnd();
-
-                F = new SimpleVector(k.Count());
-                while (i<k.Count())
+                F = new SimpleVector(size);
+                while (i < size)
                 {
                     Console.WriteLine(k[i]);
                    if (k[i].CompareTo(' ') != 0)
@@ -187,9 +187,10 @@ namespace slae_project
                 string k;
                 List<int> z = new List<int>(); int y;
                 int i = 0;
+                int size = int.Parse(reader.ReadLine());
                 k = reader.ReadToEnd();
-                X0 = new SimpleVector(k.Count());
-                while (i < k.Count())
+                X0 = new SimpleVector(size);
+                while (i < size)
                 {
                     Console.WriteLine(k[i]);
                     if (k[i].CompareTo(' ') != 0)

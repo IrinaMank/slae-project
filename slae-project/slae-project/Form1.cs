@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.IO;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -26,8 +26,8 @@ namespace slae_project
             InitializeComponent();
             Factory f = new Factory();
             openFileDialog1.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";
-            maskedTextBox1_size.Mask = "00000";
-            maskedTextBox1_accuracy.Mask = "00e-00";
+         
+            maskedTextBox1_accuracy.Mask = "1e-00";
             property_matrix.Text = "";
             foreach (string i in Factory.MatrixTypes.Keys)
             {
@@ -67,20 +67,16 @@ namespace slae_project
             if (list.CheckedIndices.Count == 0) property_matrix.Text = " ";
             else property_matrix.Text = "";
 
-            if (maskedTextBox1_size.Text != "" && maskedTextBox1_accuracy.Text != "" && property_matrix.Text != "") start.Enabled = true;
+            if (  maskedTextBox1_accuracy.Text != "" && property_matrix.Text != "") start.Enabled = true;
             else start.Enabled = false;
         }
 
         private void start_Click(object sender, EventArgs e)
         {
-            string s = maskedTextBox1_size.Text;
+            
             string s_accur = maskedTextBox1_accuracy.Text;
             s_accur_number = Convert.ToDouble(s_accur);
-           // s_accur_number = Convert.ToInt32(s_accur);
-            int number = Convert.ToInt32(s);
-            if (s[0] == '0')  MessageBox.Show("Ошибка в размерности матрицы"); 
-            else
-            {
+            
                 str_format_matrix = format_matrix.SelectedItem.ToString();
                 str_solver = solver.SelectedItem.ToString();
                 str_precond = precond.SelectedItem.ToString();
@@ -88,12 +84,11 @@ namespace slae_project
                 if (property_matrix.SelectedIndex == 1)
                     property_matr = true;
                 else property_matr = false;
-                Size_Matrix = number;
                 Form2 formats = new Form2();
                 formats.Show();
 
                 button1.Visible = true;
-            }
+            
 
         }
 
@@ -104,27 +99,37 @@ namespace slae_project
 
         private void button1_Click(object sender, EventArgs e)
         {
+
             Factory.Create_Full_Matrix(str_format_matrix);
             Factory.CreateSolver(str_solver);
+
+            FileStream file = new FileStream("result.txt", FileMode.OpenOrCreate, FileAccess.Write);
+            StreamWriter writer = new StreamWriter(file);
+            for (int i = 0; i < Factory.Result.Size; i++)
+            {
+                writer.WriteLine(Factory.Result[i]);
+            }
+            MessageBox.Show("Решение записано в файл с именем: result.txt");
+            writer.Close();
         }
 
 
         private void property_matrix_Validated(object sender, EventArgs e)
         {
-            if (maskedTextBox1_size.Text != "" && maskedTextBox1_accuracy.Text != "" && property_matrix.Text != "") start.Enabled = true;
+            if (maskedTextBox1_accuracy.Text != "" && property_matrix.Text != "") start.Enabled = true;
             else start.Enabled = false;
         }
 
         
         private void maskedTextBox1_size_TextAlignChanged(object sender, EventArgs e)
         {
-            if (maskedTextBox1_size.Text != "" && maskedTextBox1_accuracy.Text != "" && property_matrix.Text != "") start.Enabled = true;
+            if ( maskedTextBox1_accuracy.Text != "" && property_matrix.Text != "") start.Enabled = true;
             else start.Enabled = false;
         }
 
         private void maskedTextBox1_accuracy_TextChanged(object sender, EventArgs e)
         {
-            if (maskedTextBox1_size.Text != "" && maskedTextBox1_accuracy.Text != "" && property_matrix.Text != "") start.Enabled = true;
+            if (maskedTextBox1_accuracy.Text != "" && property_matrix.Text != "") start.Enabled = true;
             else start.Enabled = false;
         }
     }

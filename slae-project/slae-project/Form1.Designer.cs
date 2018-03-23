@@ -43,8 +43,6 @@
             this.информацияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.maskedTextBox1_size = new System.Windows.Forms.MaskedTextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.maskedTextBox1_accuracy = new System.Windows.Forms.MaskedTextBox();
             this.groupBox1.SuspendLayout();
@@ -115,7 +113,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.property_matrix);
-            this.groupBox1.Location = new System.Drawing.Point(99, 262);
+            this.groupBox1.Location = new System.Drawing.Point(99, 225);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
@@ -138,7 +136,7 @@
             // start
             // 
             this.start.Enabled = false;
-            this.start.Location = new System.Drawing.Point(315, 333);
+            this.start.Location = new System.Drawing.Point(301, 296);
             this.start.Margin = new System.Windows.Forms.Padding(2);
             this.start.Name = "start";
             this.start.Size = new System.Drawing.Size(123, 24);
@@ -182,7 +180,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(459, 333);
+            this.button1.Location = new System.Drawing.Point(449, 297);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(118, 23);
             this.button1.TabIndex = 9;
@@ -191,27 +189,10 @@
             this.button1.Visible = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(96, 185);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(94, 13);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Размер матрицы";
-            // 
-            // maskedTextBox1_size
-            // 
-            this.maskedTextBox1_size.Location = new System.Drawing.Point(301, 182);
-            this.maskedTextBox1_size.Name = "maskedTextBox1_size";
-            this.maskedTextBox1_size.Size = new System.Drawing.Size(100, 20);
-            this.maskedTextBox1_size.TabIndex = 11;
-            this.maskedTextBox1_size.TextAlignChanged += new System.EventHandler(this.maskedTextBox1_size_TextAlignChanged);
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(96, 226);
+            this.label5.Location = new System.Drawing.Point(96, 178);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(101, 13);
             this.label5.TabIndex = 12;
@@ -219,7 +200,7 @@
             // 
             // maskedTextBox1_accuracy
             // 
-            this.maskedTextBox1_accuracy.Location = new System.Drawing.Point(301, 218);
+            this.maskedTextBox1_accuracy.Location = new System.Drawing.Point(301, 175);
             this.maskedTextBox1_accuracy.Name = "maskedTextBox1_accuracy";
             this.maskedTextBox1_accuracy.Size = new System.Drawing.Size(100, 20);
             this.maskedTextBox1_accuracy.TabIndex = 13;
@@ -229,11 +210,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(630, 392);
+            this.ClientSize = new System.Drawing.Size(630, 371);
             this.Controls.Add(this.maskedTextBox1_accuracy);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.maskedTextBox1_size);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.start);
             this.Controls.Add(this.groupBox1);
@@ -273,8 +252,6 @@
         private System.Windows.Forms.ToolStripMenuItem информацияToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox1_size;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.MaskedTextBox maskedTextBox1_accuracy;
     }
