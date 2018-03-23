@@ -113,8 +113,9 @@ namespace slae_project.Matrix
 
         }
 
-        public DenseMatrix(int Size)
+        public DenseMatrix(int Size, bool isSymmetric = false)
         {
+            this.isSymmetric = isSymmetric;
             d_matrix = new double[Size, Size];
             this.Size = Size;
             for (int i = 0; i < Size; i++)
@@ -157,54 +158,18 @@ namespace slae_project.Matrix
             IVector result = new SimpleVector(Size);
             if (UseDiagonal)
             {
-                if (isSymmetric)
-                {
-                    for (int i = 0; i < Size; i++)
-                        for (int j = 0; j < Size; j++)
-                        {
-                            result[i] += d_matrix[i, j] * x[j];
-                            result[j] += d_matrix[i, j] * x[i];
-                        }
-                    for (int k = 0; k < result.Size; k++)
-                        result[k] -= x[k];
-                }
-                else
                     for (int i = 0; i < Size; i++)
                         for (int j = 0; j < Size; j++)
                             result[i] += d_matrix[i, j] * x[j];
             }
             else
             {
-                if (isSymmetric)
-                {
-                    for (int i = 0; i < Size; i++)
-                        for (int j = 0; j < Size; j++)
-                        {
-                            if (i != j)
-                            {
-                                result[i] += d_matrix[i, j] * x[j];
-                                result[j] += d_matrix[i, j] * x[i];
-                            }
-                        }
-                }
-                else
                     for (int i = 0; i < Size; i++)
                         for (int j = 0; j < Size; j++)
                             if (i != j)
                                 result[i] += d_matrix[i, j] * x[j];
             }
             return result;
-        }
-
-        private void CastToNotSymm()
-        {
-            if (isSymmetric)
-            {
-                isSymmetric = false;
-                for (int i = 0; i < Size; i++)
-                    for (int j = 0; j < i; j++)
-                        this[j, i] = this[i, j];
-            }
         }
 
         /// <summary>
@@ -365,21 +330,13 @@ namespace slae_project.Matrix
             IVector result = new SimpleVector(Size);
             if (UseDiagonal)
             {
-                if (isSymmetric)
+
+                for (int i = 0; i < Size; i++)
                 {
-                    for (int i = 0; i < Size; i++)
-                        for (int j = 0; j < Size; j++)
-                            result[j] += d_matrix[i, j] * x[i];
-                }
-                else
-                {
-                    for (int i = 0; i < Size; i++)
+                    for (int j = 0; j < Size; j++)
                     {
-                        for (int j = 0; j < Size; j++)
-                        {
-                            if (i <= j)
-                                result[i] += d_matrix[i, j] * x[j];
-                        }
+                        if (i <= j)
+                            result[i] += d_matrix[i, j] * x[j];
                     }
                 }
             }
@@ -402,9 +359,6 @@ namespace slae_project.Matrix
             {
                 throw new DifferentSizeException("Не удалось выполнить LU-разложение");
             }
-
-            if (isSymmetric)
-                return this.Mult(x, UseDiagonal);
 
             IVector result = new SimpleVector(Size);
             if (UseDiagonal)
@@ -436,9 +390,6 @@ namespace slae_project.Matrix
             IVector result = new SimpleVector(Size);
             for (int i = 0; i < Size; i++)
                 result[i] = x[i];
-
-            if (isSymmetric)
-                return this.SolveU(x, UseDiagonal);
 
             if (!UseDiagonal)
             {
@@ -476,9 +427,6 @@ namespace slae_project.Matrix
             for (int i = 0; i < Size; i++)
                 result[i] = x[i];
 
-            if (isSymmetric)
-                return this.SolveL(x, UseDiagonal);
-
             if (!UseDiagonal)
             {
                 if (Math.Abs(x[0]) < EQU_TO_ZERO)
@@ -513,9 +461,6 @@ namespace slae_project.Matrix
         {
             if (this.Size != x.Size)
                 throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
-
-            if (isSymmetric)
-                return this.MultU(x, UseDiagonal);
 
             IVector result = new SimpleVector(Size);
             if (UseDiagonal)
@@ -570,9 +515,6 @@ namespace slae_project.Matrix
         {
             if (this.Size != x.Size)
                 throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
-
-            if (isSymmetric)
-                return this.MultL(x, UseDiagonal);
 
             IVector result = new SimpleVector(Size);
             if (UseDiagonal)
@@ -683,7 +625,8 @@ namespace slae_project.Matrix
             {
                 throw new CannotFillMatrixException(string.Format("Файл 'dense' не соответствует требуемому формату. Первая строка не содержит размер матрицы."));
             }
-
+            this.Size = n;
+            d_matrix = new double[Size, Size];
             double val;
             int i = 0;
             try
@@ -692,11 +635,20 @@ namespace slae_project.Matrix
                 {
                     line = reader.ReadLine();
                     subline = line.Split(' ', '\t', ',');
-                    for (int j = 0; j < n; j++)
-                    {
-                        val = Convert.ToDouble(subline[j]);
-                        this[i, j] = val;
-                    }
+
+                    if (isSymmetric)
+                        for (int j = 0; j <= i; j++)
+                        {
+                            val = Convert.ToDouble(subline[j]);
+                            this[i, j] = val;
+                            this[j, i] = val;
+                        }
+                    else
+                        for (int j = 0; j < n; j++)
+                        {
+                            val = Convert.ToDouble(subline[j]);
+                            this[i, j] = val;
+                        }
                 }
             }
             catch
