@@ -455,7 +455,7 @@
             this.button_refresh.TabIndex = 2;
             this.button_refresh.Text = "Обновить и показать";
             this.button_refresh.UseVisualStyleBackColor = true;
-            this.button_refresh.Click += new System.EventHandler(this.button_test_Click);
+            this.button_refresh.Click += new System.EventHandler(this.button_Refresh_And_Show_Click);
             // 
             // vScrollBar1
             // 

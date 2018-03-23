@@ -43,9 +43,9 @@ namespace slae_project
             openGLControl.DoRender();
 
             //ReadSettings();
-
+            Wrapped_Refreash_And_Show_Clicker();
             //установить границы скруллбаров и сбросить мышки-местоположение в лево-нижний угол
-            Refresh_Window();
+            //Refresh_Window();
         }
         /// <summary>
         /// Handles the OpenGLDraw event of the openGLControl control.
@@ -344,11 +344,15 @@ namespace slae_project
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button_test_Click(object sender, EventArgs e)
+        private void button_Refresh_And_Show_Click(object sender, EventArgs e)
+        {
+            Wrapped_Refreash_And_Show_Clicker();
+        }
+        public void Wrapped_Refreash_And_Show_Clicker()
         {
             GD.List_Of_Objects.Clear();
-            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", ref Factory.ObjectOfIMatrix));
-            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", ref Factory.Result));
+            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Матрица А", ref Factory.ObjectOfIMatrix));
+            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Результат х", ref Factory.Result));
             Refresh_Window();
         }
         //Asynchronized AsyncTest = new Asynchronized();
