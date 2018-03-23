@@ -141,10 +141,10 @@ namespace slae_project
             IVector x0 = new SimpleVector(10);
             IVector rigthX = new SimpleVector(valX);
 
-            List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", mar));
-            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", b));
-            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", x0));
-            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", rigthX));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", ref mar));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", ref b));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", ref x0));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", ref rigthX));
 
             Refresh_Window();
     }

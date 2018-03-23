@@ -64,7 +64,7 @@ namespace slae_project
             public IMatrix ReferencedMatrix = null;
             public IVector ReferencedVector = null;
             public int xCellCount = 0, yCellCount = 0;
-            public GraphicObject(string _Name, IMatrix _ReferencedMatrix)
+            public GraphicObject(string _Name, ref IMatrix _ReferencedMatrix)
             {
                 //for Imatrix.
                 this.Name = _Name;
@@ -75,7 +75,7 @@ namespace slae_project
                 xCellCount = ReferencedMatrix.Size;
                 yCellCount = ReferencedMatrix.Size;
             }
-            public GraphicObject(string _Name, IVector _ReferencedVector)
+            public GraphicObject(string _Name, ref IVector _ReferencedVector)
             {
                 //for Imatrix.
                 this.Name = _Name;
