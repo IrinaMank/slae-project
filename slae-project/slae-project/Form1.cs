@@ -27,7 +27,10 @@ namespace slae_project
         public static int maxiter = 1000;
         public double percent = 0;
         public int ourIter = 0;
-
+        String[] precondTypesList;
+        String[] matrixTypesList;
+        String[] solverTypesList;
+        Factory f;
 
         public Button next, exit, back, justDoIt, icon, loadFiles, graphic;
         public GroupBox gr;
@@ -47,13 +50,17 @@ namespace slae_project
             hand = false;
 
             InitializeComponent();
-            Factory f = new Factory();
             this.Size = new Size(500, 375);
         }
         
         private void Form1_Load(object sender, EventArgs e)
         {
             Location = new Point((Screen.PrimaryScreen.WorkingArea.Width - this.Width) / 2, (Screen.PrimaryScreen.WorkingArea.Height - this.Height) / 2);
+            Factory f = new Factory();
+            //получаем из Фабрики самую свежую и точную инфу!
+            precondTypesList = Factory.PrecondTypes.Keys.ToArray();
+            matrixTypesList = Factory.MatrixTypes.Keys.ToArray();
+            solverTypesList = Factory.SolverTypes.Keys.ToArray();
             /////////////////////////////////1 окно//////////////////////////////////////////
 
             List<string> arrays = new List<string> { "Ввод данных", "ввести данные из файла", "ввести вручную" };
@@ -115,10 +122,15 @@ namespace slae_project
             format = new ComboBox();
             format.Size = new Size(210, 30);
             format.Location = new System.Drawing.Point(200, 70);
-            format.Items.Add("Плотный");
-            format.Items.Add("Строчный");
-            format.Items.Add("Строчно - столбцовый");
-            format.Items.Add("Координатный");
+            //чтобы все было через Фабрику, как у людей
+            for (int i = 0; i < matrixTypesList.Length; i++)
+            {
+                format.Items.Add(matrixTypesList[i]);
+            }
+            //format.Items.Add("Плотный");
+            //format.Items.Add("Строчный");
+            //format.Items.Add("Строчно - столбцовый");
+            //format.Items.Add("Координатный");
             format.SelectedIndex = 0;
             format.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Controls.Add(format);
@@ -138,9 +150,16 @@ namespace slae_project
             solver = new ComboBox();
             solver.Size = new Size(210, 30);
             solver.Location = new System.Drawing.Point(200, 100);
-            solver.Items.Add("Метод сопряжённых градиентов");
-            solver.Items.Add("Локально-оптимальная схема");
-            solver.Items.Add("Метод бисопряжённых градиентов");
+            for (int i = 0; i < solverTypesList.Length; i++)
+            {
+                solver.Items.Add(solverTypesList[i]);
+            }
+            // solver.Items.Add("Метод сопряжённых градиентов");
+            // solver.Items.Add("Локально-оптимальная схема");
+            // //solver.Items.Add("Метод Якоби");
+            //// solver.Items.Add("Метод Зейделя");
+            // solver.Items.Add("Метод бисопряжённых градиентов");
+            // solver.Items.Add("Метод обобщённых минимальных невязок");
             solver.SelectedIndex = 0;
             solver.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Controls.Add(solver);
@@ -161,9 +180,13 @@ namespace slae_project
             precond = new ComboBox();
             precond.Size = new Size(210, 30);
             precond.Location = new System.Drawing.Point(200, 130);
-            precond.Items.Add("Диагональное");
-            precond.Items.Add("Методом Зейделя");
-            precond.Items.Add("LU-разложение");
+            for (int i = 0; i < precondTypesList.Length; i++)
+            {
+                precond.Items.Add(precondTypesList[i]);
+            }
+            //precond.Items.Add("Диагональное");
+            //precond.Items.Add("Методом Зейделя");
+            //precond.Items.Add("LU-разложение");
             precond.SelectedIndex = 0;
             precond.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Controls.Add(precond);
@@ -384,7 +407,7 @@ namespace slae_project
         {
             Factory.CreateMatrix(str_format_matrix);
             Factory.Create_Full_Matrix(str_format_matrix,property_matr);
-
+            Factory.CreatePrecond(str_precond);
             Factory.CreateSolver(str_solver);
             graphic.Enabled = true;
             back.Enabled = true;
