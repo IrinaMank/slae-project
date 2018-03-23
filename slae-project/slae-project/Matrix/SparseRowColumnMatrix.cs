@@ -12,10 +12,10 @@ using System.IO;
 
 namespace slae_project.Matrix
 {
-    public class SparseRowColumnMatrix : IMatrix
+    class SparseRowColumnMatrix : IMatrix
     {
         //что делать с транспонированием?
-        public class TransposeIllusion : ILinearOperator
+        class TransposeIllusion : ILinearOperator
         {
             public SparseRowColumnMatrix Matrix { get; set; }
             public ILinearOperator Transpose => Matrix;
@@ -653,13 +653,13 @@ namespace slae_project.Matrix
             {
                 switch (el.Key)
                 {
-                    case "ig.txt":
+                    case "ig":
 
                         var reader = new StreamReader(el.Value);
 
                         // считываем размерность массива
                         line = reader.ReadLine();
-                        sub = line.Split(' ', '\t');
+                        sub = line.Split(' ', '\t', '\n');
                         n = Convert.ToInt32(sub[0]) - 1;
                         ig = new int[n + 1];
 
@@ -682,7 +682,7 @@ namespace slae_project.Matrix
                         m = ig[n + 1];
                         count_files++;
                         break;
-                    case "jg.txt":
+                    case "jg":
 
                         reader = new StreamReader(el.Value);
 
@@ -710,7 +710,7 @@ namespace slae_project.Matrix
                         }
                         count_files++;
                         break;
-                    case "di.txt":
+                    case "di":
 
                         reader = new StreamReader(el.Value);
                         // считываем размерность массива
@@ -736,7 +736,7 @@ namespace slae_project.Matrix
                         }
                         count_files++;
                         break;
-                    case "al.txt":
+                    case "al":
 
                         reader = new StreamReader(el.Value);
                         // считываем размерность массива
@@ -764,7 +764,7 @@ namespace slae_project.Matrix
                         }
                         count_files++;
                         break;
-                    case "au.txt":
+                    case "au":
 
                         reader = new StreamReader(el.Value);
                         // считываем размерность массива

@@ -683,7 +683,7 @@ namespace slae_project.Matrix
             {
                 throw new CannotFillMatrixException(string.Format("Файл 'dense' не соответствует требуемому формату. Первая строка не содержит размер матрицы."));
             }
-
+            d_matrix = new double[n, n];
             double val;
             int i = 0;
             try
@@ -695,7 +695,7 @@ namespace slae_project.Matrix
                     for (int j = 0; j < n; j++)
                     {
                         val = Convert.ToDouble(subline[j]);
-                        this[i, j] = val;
+                        this.d_matrix[i, j] = val;
                     }
                 }
             }

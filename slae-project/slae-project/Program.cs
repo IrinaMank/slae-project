@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using slae_project.Matrix;
-using slae_project.Vector;
-using slae_project.Solver;
-using slae_project.Preconditioner;
-using slae_project.Logger;
 
 namespace slae_project
 {
@@ -51,6 +46,13 @@ namespace slae_project
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            loadWindow window = new loadWindow();
+            DateTime end = DateTime.Now + TimeSpan.FromSeconds(3);
+            window.Show();
+            while (end > DateTime.Now)
+                Application.DoEvents();
+            window.Close();
+            window.Dispose();
             Application.Run(new Form1());
         }
     }

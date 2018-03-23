@@ -1,6 +1,6 @@
 ﻿namespace slae_project
 {
-    partial class Form2
+    partial class aboutProgramForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,29 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.aboutProgramTextBox = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
-            // openFileDialog1
+            // aboutProgramTextBox
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.aboutProgramTextBox.AcceptsTab = true;
+            this.aboutProgramTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.15F, System.Drawing.FontStyle.Strikeout, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.aboutProgramTextBox.Location = new System.Drawing.Point(0, 1);
+            this.aboutProgramTextBox.Name = "aboutProgramTextBox";
+            this.aboutProgramTextBox.ReadOnly = true;
+            this.aboutProgramTextBox.Size = new System.Drawing.Size(648, 332);
+            this.aboutProgramTextBox.TabIndex = 0;
+            this.aboutProgramTextBox.Text = "Здесь будет информация о разработчиках и программе.\n";
             // 
-            // Form2
+            // aboutProgramForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::slae_project.Properties.Resources.kuchka;
-            this.ClientSize = new System.Drawing.Size(379, 321);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Name = "Form2";
-            this.Text = "Form2";
-            this.Load += new System.EventHandler(this.Form2_Load);
+            this.ClientSize = new System.Drawing.Size(647, 332);
+            this.Controls.Add(this.aboutProgramTextBox);
+            this.Name = "aboutProgramForm";
+            this.Text = "О программе";
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.RichTextBox aboutProgramTextBox;
     }
 }
