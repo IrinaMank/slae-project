@@ -90,7 +90,7 @@ namespace slae_project
             SolverTypes.TryGetValue(typename, out value);
 
             FileLogger f = null;
-            Result = value(Prec, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.accurent, Form1.maxiter, f);
+            Result = value(Prec, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.accurent, Form1.maxiter,f);
         }
         // Мы передаем симметричность/ несимметричность
         public static bool Get_format()
