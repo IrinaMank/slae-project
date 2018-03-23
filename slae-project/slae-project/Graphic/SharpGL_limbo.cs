@@ -141,13 +141,10 @@ namespace slae_project
             IVector x0 = new SimpleVector(10);
             IVector rigthX = new SimpleVector(valX);
 
-            LOSSolver s = new LOSSolver();
-            FileLogger logger = new FileLogger();
-            IVector x = s.Solve(preco, mar, b, x0, 1e-10, 10000, logger);
-
             List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", mar));
-            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", x));
             List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", b));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", x0));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", rigthX));
 
             Refresh_Window();
     }
