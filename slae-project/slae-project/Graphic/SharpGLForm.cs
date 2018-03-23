@@ -43,9 +43,9 @@ namespace slae_project
             openGLControl.DoRender();
 
             //ReadSettings();
-
+            Wrapped_Refreash_And_Show_Clicker();
             //установить границы скруллбаров и сбросить мышки-местоположение в лево-нижний угол
-            Refresh_Window();
+            //Refresh_Window();
         }
         /// <summary>
         /// Handles the OpenGLDraw event of the openGLControl control.
@@ -344,16 +344,16 @@ namespace slae_project
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button_test_Click(object sender, EventArgs e)
+        private void button_Refresh_And_Show_Click(object sender, EventArgs e)
+        {
+            Wrapped_Refreash_And_Show_Clicker();
+        }
+        public void Wrapped_Refreash_And_Show_Clicker()
         {
             GD.List_Of_Objects.Clear();
+            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Матрица А", ref Factory.ObjectOfIMatrix));
+            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Результат х", ref Factory.Result));
             Refresh_Window();
-            
-            
-            
-
-            //AsyncTest.Start();
-
         }
         //Asynchronized AsyncTest = new Asynchronized();
 
@@ -657,6 +657,8 @@ namespace slae_project
         private List<double> stringToMatrixRow(string strRow)
         {
             List<double> row = new List<double>();
+            strRow = strRow.Replace('.', System.Globalization.NumberFormatInfo.CurrentInfo.NumberDecimalSeparator[0]);
+            strRow = strRow.Replace(',', System.Globalization.NumberFormatInfo.CurrentInfo.NumberDecimalSeparator[0]);
             string[] numbers = strRow.Split(new char[] { ';', ' ' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string element in numbers)
             {
@@ -847,6 +849,20 @@ namespace slae_project
                 if (!TeleporterForm.IsDisposed)
                     return true;
             return false;
+        }
+        private class UR_access : UserGuide
+        {
+            public void UserGuide_access(ref List<GraphicData.GraphicObject> List_Of_Objects)
+            {
+                User_Guide_To_Graphic(ref List_Of_Objects);
+            }
+        }
+        static UR_access UR = new UR_access();
+        private void button1_Test_Click(object sender, EventArgs e)
+        {
+            GD.List_Of_Objects.Clear();
+            UR.UserGuide_access(ref GD.List_Of_Objects);
+            Refresh_Window();
         }
     }
 }
