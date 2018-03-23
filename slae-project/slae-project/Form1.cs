@@ -524,7 +524,7 @@ namespace slae_project
                 fileRead.Visible = false;
                 myRead.Visible = false;
                 back.Visible = true;
-                picture.Visible = false;
+                //picture.Visible = false;
 
                 if (hand == false) 
                 {
