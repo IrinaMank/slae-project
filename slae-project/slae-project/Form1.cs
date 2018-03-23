@@ -87,12 +87,12 @@ namespace slae_project
             myRead.BringToFront();
             myRead.BackColor = Color.Transparent;
 
-            picture = new PictureBox();
-            picture.Size = new Size(100, 56);
-            picture.Image = Properties.Resources.matrix;
-            picture.Location = new Point(300, 110);
-            this.Controls.Add(picture);
-            picture.BringToFront();
+            //picture = new PictureBox();
+            //picture.Size = new Size(100, 56);
+            //picture.Image = Properties.Resources.matrix;
+            //picture.Location = new Point(300, 110);
+            //this.Controls.Add(picture);
+            //picture.BringToFront();
 
             next = new Button();
             next.Text = "Далее";
