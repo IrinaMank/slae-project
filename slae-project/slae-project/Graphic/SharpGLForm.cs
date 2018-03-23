@@ -43,9 +43,9 @@ namespace slae_project
             openGLControl.DoRender();
 
             //ReadSettings();
-
+            Wrapped_Refreash_And_Show_Clicker();
             //установить границы скруллбаров и сбросить мышки-местоположение в лево-нижний угол
-            Refresh_Window();
+            //Refresh_Window();
         }
         /// <summary>
         /// Handles the OpenGLDraw event of the openGLControl control.
@@ -344,16 +344,17 @@ namespace slae_project
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button_test_Click(object sender, EventArgs e)
+        private void button_Refresh_And_Show_Click(object sender, EventArgs e)
+        {
+            GD = new GraphicData(openGLControl, this);
+            Wrapped_Refreash_And_Show_Clicker();
+        }
+        public void Wrapped_Refreash_And_Show_Clicker()
         {
             GD.List_Of_Objects.Clear();
+            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Матрица А", ref Factory.ObjectOfIMatrix));
+            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Результат х", ref Factory.Result));
             Refresh_Window();
-            
-            
-            
-
-            //AsyncTest.Start();
-
         }
         //Asynchronized AsyncTest = new Asynchronized();
 
@@ -379,9 +380,7 @@ namespace slae_project
             GD.font_format = 0;
 
             radioButton1_Number_disabled.Checked = false;
-            GD.TargetNumber = true;
-
-            GD.TargetNumber = true;
+            GD.TargetNumber = false;
             GD.TargetPlus = true;
             radioButton1_Number_enabled.Checked = true;
             radioButton1_Number_disabled.Checked = false;
@@ -436,8 +435,8 @@ namespace slae_project
                     //    h_old = ((double)hScrollBar1.Value / GD.Grid.xCellSize_old);
 
                     GD.mouse.BorderEndRecalculate();
-                    hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.x);
-                    vScrollBar1.Minimum = GD.mouse.BorderBegin.y; vScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.y);
+                    hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Value = 0; hScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.x);
+                    vScrollBar1.Minimum = GD.mouse.BorderBegin.y; vScrollBar1.Value = 0; vScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.y);
 
                     //(((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize))
 
@@ -460,14 +459,20 @@ namespace slae_project
                 {
 
                     GD.mouse.BorderEndRecalculate();
-                    hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.x);
-                    vScrollBar1.Minimum = GD.mouse.BorderBegin.y; vScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.y);
+                    hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Value = 0; hScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.x);
+                    vScrollBar1.Minimum = GD.mouse.BorderBegin.y; vScrollBar1.Value = 0; vScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.y);
 
                     if (GD.mouse.BorderEnd.y >= GD.mouse.BorderBegin.y)
                         vScrollBar1.Value = Math.Abs(GD.mouse.BorderEnd.y);
 
                     if (GD.mouse.BorderBegin.x <= GD.mouse.BorderEnd.x)
                         hScrollBar1.Value = Math.Abs(GD.mouse.BorderBegin.x);
+
+                    if (GD.mouse.BorderEnd.y <= openGLControl.Height)
+                        vScrollBar1.Value = Math.Abs(5);
+
+                    if (GD.mouse.BorderEnd.x <= openGLControl.Width)
+                        hScrollBar1.Value = Math.Abs(5);
 
                 }
             }
@@ -657,6 +662,8 @@ namespace slae_project
         private List<double> stringToMatrixRow(string strRow)
         {
             List<double> row = new List<double>();
+            strRow = strRow.Replace('.', System.Globalization.NumberFormatInfo.CurrentInfo.NumberDecimalSeparator[0]);
+            strRow = strRow.Replace(',', System.Globalization.NumberFormatInfo.CurrentInfo.NumberDecimalSeparator[0]);
             string[] numbers = strRow.Split(new char[] { ';', ' ' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string element in numbers)
             {
@@ -847,6 +854,20 @@ namespace slae_project
                 if (!TeleporterForm.IsDisposed)
                     return true;
             return false;
+        }
+        private class UR_access : UserGuide
+        {
+            public void UserGuide_access(ref List<GraphicData.GraphicObject> List_Of_Objects)
+            {
+                User_Guide_To_Graphic(ref List_Of_Objects);
+            }
+        }
+        static UR_access UR = new UR_access();
+        private void button1_Test_Click(object sender, EventArgs e)
+        {
+            GD = new GraphicData(openGLControl, this);
+            UR.UserGuide_access(ref GD.List_Of_Objects);
+            Refresh_Window();
         }
     }
 }

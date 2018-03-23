@@ -649,6 +649,7 @@ namespace slae_project.Matrix
                             val = Convert.ToDouble(subline[j]);
                             this[i, j] = val;
                         }
+
                 }
             }
             catch

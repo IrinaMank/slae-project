@@ -594,12 +594,12 @@ namespace slae_project.Matrix
             {
                 coord[i] = (i / 4, i % 4);
             }
-            
-            IMatrix mar = new CoordinateMatrix(coord, val);
+
+            IMatrix mar = new CoordinateMatrix(new Dictionary<string, string> { {"size","size.txt"},{"elements","elements.txt"}});
 
             IPreconditioner pre = new LUPreconditioner(mar);
 
-            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+            IVector x = new SimpleVector(new double[5] { 1, 2, 3, 4, 5 });
 
             IVector y = mar.Mult(x, true);
             //should be { 37 24 14 10 }

@@ -59,6 +59,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="aboutProgramForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="aboutProgramForm.Designer.cs">
+      <DependentUpon>aboutProgramForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Factory.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -89,15 +95,34 @@
     <Compile Include="Graphic\Teleportator.designer.cs">
       <DependentUpon>Teleportator.cs</DependentUpon>
     </Compile>
+    <Compile Include="infoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="infoForm.Designer.cs">
+      <DependentUpon>infoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="loadWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="loadWindow.Designer.cs">
+      <DependentUpon>loadWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Logger\ConsoleLogger.cs" />
     <Compile Include="Logger\FileLogger.cs" />
     <Compile Include="Logger\ILogger.cs" />
+    <Compile Include="matrixForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="matrixForm.Designer.cs">
+      <DependentUpon>matrixForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Matrix\CoordinateMatrix.cs" />
     <Compile Include="Matrix\DenseMatrix.cs" />
     <Compile Include="Matrix\ILinearOperator.cs" />
     <Compile Include="Matrix\IMatrix.cs" />
     <Compile Include="Matrix\MatrixExceptions\CannotFillMatrixException.cs" />
     <Compile Include="Matrix\SparseRowColumnMatrix.cs" />
+    <Compile Include="Matrix\SparseRowMatrix.cs" />
     <Compile Include="Preconditioner\DiagonalPreconditioner.cs" />
     <Compile Include="Preconditioner\IPreconditioner.cs" />
     <Compile Include="Preconditioner\LUPreconditioner.cs" />
@@ -121,6 +146,9 @@
     <Compile Include="Graphic\SharpGLForm.designer.cs">
       <DependentUpon>SharpGLForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="aboutProgramForm.resx">
+      <DependentUpon>aboutProgramForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -132,6 +160,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Graphic\Teleportator.resx">
       <DependentUpon>Teleportator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="infoForm.resx">
+      <DependentUpon>infoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="loadWindow.resx">
+      <DependentUpon>loadWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="matrixForm.resx">
+      <DependentUpon>matrixForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -158,6 +195,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="obj\kuchka.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="obj\loadform0.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="obj\matrix.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="obj\parm.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="obj\questionImage.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

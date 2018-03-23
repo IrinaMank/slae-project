@@ -67,6 +67,7 @@ namespace slae_project.Solver
 
                 Logger.WriteIteration(iter, normR, 100*Precision/normR);
             };
+            Logger.WriteSolution(Preconditioner.SolveL(x));
             return Preconditioner.SolveL(x);
         }
     }
