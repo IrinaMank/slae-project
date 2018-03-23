@@ -40,6 +40,7 @@ namespace slae_project.Matrix
         double[] al;
         double[] au;
         double extraDiagVal = 0;
+        bool isSymmetric = false;
         //bool LU_was_made = false;
         //// портрет сохраняется
         //private double[] L;
@@ -163,6 +164,7 @@ namespace slae_project.Matrix
         /// <param name="au">Элементы верхней диагонали</param>
         public SparseRowColumnMatrix(int[] ig, int[] jg, double[] di, double[] al, double[] au, bool isSymmetric = false)
         {
+            this.isSymmetric = isSymmetric;
             this.di = di;
             this.ig = ig;
             this.jg = jg;
@@ -642,8 +644,9 @@ namespace slae_project.Matrix
             return new SparseRowColumnMatrix(this.ig, this.jg, this.di, this.al, this.au);
         }
 
-        public SparseRowColumnMatrix(Dictionary<string, string> paths)
+        public SparseRowColumnMatrix(Dictionary<string, string> paths, bool isSymmetric)
         {
+            this.isSymmetric = isSymmetric;
             string line;
             string[] sub;
             // n - размерность матрицы, m - количество ненулевых элементов
@@ -797,6 +800,8 @@ namespace slae_project.Matrix
             Size = n;
             if (count_files != 5)
                 throw new CannotFillMatrixException("Считаны не все необходимые файлы. Проверьте наличие файлов и их содержимое");
+            if (this.isSymmetric)
+                this.au = this.al;
         }
     }
 }

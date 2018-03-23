@@ -40,7 +40,7 @@ namespace UnitTestProject
             //Logger logger = new Logger();
             IVector x = s.Solve(preconditioner, mar, b, x0, 1e-8, 10000, logger);
 
-            Assert.IsTrue(x.CompareWith(rigthX, 1e-5));
+            Assert.IsTrue(x.CompareWith(rigthX, 1e-4));
             //logger.Dispose();
         }
 

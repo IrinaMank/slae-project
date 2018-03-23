@@ -381,7 +381,7 @@ namespace slae_project
         private void threadSolver()
         {
             Factory.CreateMatrix(str_format_matrix);
-            Factory.Create_Full_Matrix(str_format_matrix);
+            Factory.Create_Full_Matrix(str_format_matrix,property_matr);
 
             Factory.CreateSolver(str_solver);
             
@@ -420,7 +420,8 @@ namespace slae_project
         private void nextClick(object sender, EventArgs e)
         {
             numbForm++;
-            accurent = Math.Pow(10, -Convert.ToDouble(acc.Value));
+            accurent = Convert.ToDouble("10e-" + acc.Value.ToString());
+           // accurent = Math.Pow(10, -Convert.ToDouble(acc.Value));
             if (!hand && numbForm == 3)
                 threadSolver();
             if (hand && numbForm == 4)

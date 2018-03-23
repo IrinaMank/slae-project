@@ -148,6 +148,7 @@ namespace slae_project
                         matrixDataGrid[i, j].Value = Val;
 
                         matrixDataGrid[j, i].Value = matrixDataGrid[i, j].Value;
+                        matrixDataGrid.UpdateCellValue(j, i);
                     }
                     Val = Convert.ToString(vectorDataGrid[0, i].Value);
                     textToOnlyNumbers(ref Val);

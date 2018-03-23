@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace slae_project
         Form1 main_form;
         FileLogger Log = new FileLogger();
         public static Dictionary<string, string> DictionaryOfFormats = Form2.filenames_format;//словарь путей до массивов
-        static public Dictionary<string, (Func<Dictionary<string, string>, IMatrix>, Dictionary<string, string>)> MatrixTypes = new Dictionary<string, (Func<Dictionary<string, string>, IMatrix>, Dictionary<string, string>)>();
+        static public Dictionary<string, (Func<Dictionary<string, string>,bool, IMatrix>, Dictionary<string, string>)> MatrixTypes = new Dictionary<string, (Func<Dictionary<string, string>,bool, IMatrix>, Dictionary<string, string>)>();
         public static IMatrix ObjectOfIMatrix;
         public static IVector Result;
         public static List<string> name_arr = new List<string>();
@@ -29,7 +30,7 @@ namespace slae_project
         {
             PrecondTypes.Add(Name);
         }
-        static public void RegisterMatrixClass(string Name, Func<Dictionary<string, string>, IMatrix> Creator1, Dictionary<string, string> Creator2)
+        static public void RegisterMatrixClass(string Name, Func<Dictionary<string, string>,bool, IMatrix> Creator1, Dictionary<string, string> Creator2)
         {
             MatrixTypes.Add(Name, (Creator1, Creator2));
         }
@@ -45,10 +46,10 @@ namespace slae_project
             RegisterPrecondClass("Методом Зейделя");
             RegisterPrecondClass("LU-разложение");
 
-            RegisterMatrixClass("Координатный", (Dictionary<string, string> DictionaryOfFormats) => new CoordinateMatrix(DictionaryOfFormats), CoordinateMatrix.requiredFileNames);
-            RegisterMatrixClass("Плотный", (Dictionary<string, string> DictionaryOfFormats) => new DenseMatrix(DictionaryOfFormats), DenseMatrix.requiredFileNames);
+            RegisterMatrixClass("Координатный", (Dictionary<string, string> DictionaryOfFormats, bool isSymmetric) => new CoordinateMatrix(DictionaryOfFormats,  isSymmetric), CoordinateMatrix.requiredFileNames);
+            RegisterMatrixClass("Плотный", (Dictionary<string, string> DictionaryOfFormats, bool isSymmetric) => new DenseMatrix(DictionaryOfFormats, isSymmetric), DenseMatrix.requiredFileNames);
             //RegisterMatrixClass("Строчный", (Dictionary<string, string> DictionaryOfFormats) => new SparseRowMatrix(DictionaryOfFormats),SparseRowMatrix.requiredFileNames);
-            RegisterMatrixClass("Строчно - столбцовый", (Dictionary<string, string> DictionaryOfFormats) => new SparseRowColumnMatrix(DictionaryOfFormats), SparseRowColumnMatrix.requiredFileNames);
+            RegisterMatrixClass("Строчно - столбцовый", (Dictionary<string, string> DictionaryOfFormats, bool isSymmetric) => new SparseRowColumnMatrix(DictionaryOfFormats,  isSymmetric), SparseRowColumnMatrix.requiredFileNames);
 
             ISolver Msg = new MSGSolver();
             ISolver Los = new LOSSolver();
@@ -67,7 +68,7 @@ namespace slae_project
 
         static public void CreateMatrix(string typename)//получаем заполненную матрицу для передачи Solver
         {
-            (Func<Dictionary<string, string>, IMatrix>, Dictionary<string, string>) value;
+            (Func<Dictionary<string, string>,bool, IMatrix>, Dictionary<string, string>) value;
             MatrixTypes.TryGetValue(typename, out value);
             Dictionary<string, string> reer;
             reer = value.Item2;
@@ -75,12 +76,12 @@ namespace slae_project
             foreach (string i in reer.Keys)
                 name_arr.Add(i);
         }
-        static public void Create_Full_Matrix(string typename)//получаем заполненную матрицу для передачи Solver
+        static public void Create_Full_Matrix(string typename, bool isSymmetric = false)//получаем заполненную матрицу для передачи Solver
         {
-            (Func<Dictionary<string, string>, IMatrix>, Dictionary<string, string>) value;
+            (Func<Dictionary<string, string>,bool, IMatrix>, Dictionary<string, string>) value;
             MatrixTypes.TryGetValue(typename, out value);
 
-            ObjectOfIMatrix = value.Item1(DictionaryOfFormats);
+            ObjectOfIMatrix = value.Item1(DictionaryOfFormats, isSymmetric);
         }
         static public void CreateSolver(object typenameOb)//получаем заполненную матрицу для передачи Solver
         {

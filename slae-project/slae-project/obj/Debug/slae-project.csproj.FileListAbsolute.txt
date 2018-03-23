@@ -134,3 +134,28 @@ C:\Users\Халк\Documents\1\slae-project\slae-project\slae-project\obj\Debug\s
 C:\Users\Халк\Documents\1\slae-project\slae-project\slae-project\obj\Debug\slae-project.csproj.CoreCompileInputs.cache
 C:\Users\Халк\Documents\1\slae-project\slae-project\slae-project\obj\Debug\slae-project.exe
 C:\Users\Халк\Documents\1\slae-project\slae-project\slae-project\obj\Debug\slae-project.pdb
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\bin\Debug\slae-project.exe.config
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\bin\Debug\slae-project.exe
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\bin\Debug\slae-project.pdb
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\bin\Debug\SharpGL.dll
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\bin\Debug\SharpGL.SceneGraph.dll
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\bin\Debug\SharpGL.WinForms.dll
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\bin\Debug\SharpGL.xml
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\bin\Debug\SharpGL.SceneGraph.xml
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\bin\Debug\SharpGL.WinForms.xml
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\obj\Debug\slae-project.csprojResolveAssemblyReference.cache
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\obj\Debug\slae_project.aboutProgramForm.resources
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\obj\Debug\slae_project.Form1.resources
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\obj\Debug\slae_project.Form2.resources
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\obj\Debug\slae_project.SaveLoad.resources
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\obj\Debug\slae_project.Teleporter.resources
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\obj\Debug\slae_project.infoForm.resources
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\obj\Debug\slae_project.loadWindow.resources
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\obj\Debug\slae_project.matrixForm.resources
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\obj\Debug\slae_project.Properties.Resources.resources
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\obj\Debug\slae_project.SharpGLForm.resources
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\obj\Debug\slae-project.csproj.GenerateResource.cache
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\obj\Debug\slae-project.csproj.CoreCompileInputs.cache
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\obj\Debug\slae-project.csproj.CopyComplete
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\obj\Debug\slae-project.exe
+C:\Users\Анастасия Нотова\Desktop\8 семестр\slae\slae-project\slae-project\slae-project\obj\Debug\slae-project.pdb
