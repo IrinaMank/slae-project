@@ -122,6 +122,7 @@
     <Compile Include="Matrix\IMatrix.cs" />
     <Compile Include="Matrix\MatrixExceptions\CannotFillMatrixException.cs" />
     <Compile Include="Matrix\SparseRowColumnMatrix.cs" />
+    <Compile Include="Matrix\SparseRowMatrix.cs" />
     <Compile Include="Preconditioner\DiagonalPreconditioner.cs" />
     <Compile Include="Preconditioner\IPreconditioner.cs" />
     <Compile Include="Preconditioner\LUPreconditioner.cs" />

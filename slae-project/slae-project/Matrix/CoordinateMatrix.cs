@@ -51,26 +51,18 @@ namespace slae_project.Matrix
             public IVector SolveU(IVector x, bool UseDiagonal) => Matrix.SolveUT(x, UseDiagonal);
             public IVector SolveD(IVector x) => Matrix.SolveD(x);
             public object Clone() => Matrix.Clone();
-            public void MakeLU()
-            {
-                throw new NotImplementedException();
-            }
-
-            public void MakeLUSeidel()
-            {
-                throw new NotImplementedException();
-            }
+            public void MakeLU() => Matrix.MakeLU();
         }
         // Элементы матрицы
-        Dictionary<(int i, int j), double> elements = new Dictionary<(int i, int j), double>();
+        protected Dictionary<(int i, int j), double> elements = new Dictionary<(int i, int j), double>();
 
         //Переменная, необходимая для реализации возможности наличия в матрицы двух диагоналей ( например в случае LU - разложенной матрицы)
         // Если extraDiagVal = 0, то считается, что в матрице одна диагональ
         // Если extraDiagVal != 0, то считается, что нижний треугольник матрицы содержит диагональ, заполненную значениями extraDiagVal
         double extraDiagVal = 0;
-
+        bool isSymmetric = false;
         // Значение, начиная с которого любое число считается равным нулю
-        private double EQU_TO_ZERO { get; } = 1e-10;
+        protected double EQU_TO_ZERO { get; } = 1e-10;
         public double this[int i, int j]
         {
 
@@ -78,7 +70,16 @@ namespace slae_project.Matrix
             {
                 if (i < this.Size && j < this.Size && i >= 0 && j >= 0)
                 {
-                    return elements[(i, j)];
+                    (int, int) ij;
+                    if (i < j && isSymmetric)
+                        ij = (j, i);
+                    else
+                        ij = (i, j);
+
+                    if (elements.ContainsKey(ij))
+                        return elements[ij];
+                    else
+                        return 0;
                 }
                 else
                 {
@@ -91,7 +92,14 @@ namespace slae_project.Matrix
                 {
                     if (value != 0)
                     {
-                        elements[(i, j)] = value;
+                        (int, int) ij;
+
+                        if (i < j && isSymmetric)
+                            ij = (j, i);
+                        else
+                            ij = (i, j);
+
+                        elements[ij] = value;
                     }
                 }
                 else
@@ -128,11 +136,11 @@ namespace slae_project.Matrix
         /// </summary>
         /// <param name="coord">Массив координат размерности (N,2)</param>
         /// <param name="val">Массив значений</param>
-        public CoordinateMatrix(int[][] coord, double[] val)
+        public CoordinateMatrix(int[][] coord, double[] val, bool isSymmetric = false)
         {
             if (coord.Length != val.Length)
                 throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
-
+            this.isSymmetric = isSymmetric;
             int maxij = 0;
             for (int i = 0; i < val.Length; i++)
             {
@@ -149,10 +157,11 @@ namespace slae_project.Matrix
         /// </summary>
         /// <param name="coord">Массив координат размерности (N,2)</param>
         /// <param name="val">Массив значений</param>
-        public CoordinateMatrix((int x, int y)[] coord, double[] val)
+        public CoordinateMatrix((int x, int y)[] coord, double[] val, bool isSymmetric = false)
         {
             if (coord.Length != val.Length)
                 throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
+            this.isSymmetric = isSymmetric;
             int maxij = 0;
             for (int i = 0; i < val.Length; i++)
             {
@@ -168,14 +177,16 @@ namespace slae_project.Matrix
         {
             this.Size = size;
         }
-        public CoordinateMatrix(Dictionary<(int i, int j), double> elemets, int size)
+        public CoordinateMatrix(Dictionary<(int i, int j), double> elemets, int size, bool isSymmetric = false)
         {
+            this.isSymmetric = isSymmetric;
             this.elements = elemets.ToDictionary(entry => entry.Key, entry => entry.Value);
             this.Size = size;
         }
 
-        public CoordinateMatrix()
+        public CoordinateMatrix(bool isSymmetric = false)
         {
+            this.isSymmetric = isSymmetric;
             this.Size = 0;
         }
 
@@ -187,20 +198,54 @@ namespace slae_project.Matrix
             IVector result = new SimpleVector(Size);
             if (UseDiagonal)
             {
-                foreach (var el in elements)
+                if (isSymmetric)
                 {
-                    result[el.Key.i] += el.Value * x[el.Key.j];
+                    foreach (var el in elements)
+                    {
+                        result[el.Key.i] += el.Value * x[el.Key.j];
+                        result[el.Key.j] += el.Value * x[el.Key.i];
+                    }
+                    for (int i = 0; i < result.Size; i++)
+                        result[i] -= x[i];
                 }
+                else
+                    foreach (var el in elements)
+                    {
+                        result[el.Key.i] += el.Value * x[el.Key.j];
+                    }
             }
             else
             {
-                foreach (var el in elements)
-                {
-                    if (el.Key.i != el.Key.j)
-                        result[el.Key.i] += el.Value * x[el.Key.j];
-                }
+                if (isSymmetric)
+                    foreach (var el in elements)
+                    {
+                        if (el.Key.i != el.Key.j)
+                        {
+                            result[el.Key.i] += el.Value * x[el.Key.j];
+                            result[el.Key.j] += el.Value * x[el.Key.i];
+                        }
+                    }
+                else
+                    foreach (var el in elements)
+                    {
+                        if (el.Key.i != el.Key.j)
+                            result[el.Key.i] += el.Value * x[el.Key.j];
+                    }
+
             }
             return result;
+        }
+        private void CastToNotSymm()
+        {
+            if (isSymmetric)
+            {
+                isSymmetric = false;
+                for (int i = 0; i < Size; i++)
+                    for (int j = 0; j < i; j++)
+                        this[j, i] = this[i, j];
+            }
+
+
         }
         //TODO: Написать эффективный алгоритм
         //С учетом того, что портрет не сохраняется
@@ -208,7 +253,7 @@ namespace slae_project.Matrix
         {
             try
             {
-
+                CastToNotSymm();
                 for (int k = 0; k < Size; k++)
                 {
                     for (int j = k; j < Size; j++)
@@ -233,51 +278,6 @@ namespace slae_project.Matrix
                 throw new LUFailException("Произошло деление на ноль.");
             }
         }
-        //public void MakeLUold()
-        //{ //Выделение памяти
-        //    L = new List<double[]> { };
-        //    U = new List<double[]> { };
-        //    for (int i = 1; i <= Size; i++)
-        //    {
-        //        L.Add(new double[i]);
-        //        U.Add(new double[Size - i + 1]);
-        //    }
-        //    // Разложение
-        //    try
-        //    {
-
-        //        for (int i = 0; i < Size; i++)
-        //        {
-        //            L[i][0] = this[i, 0];
-        //            U[0][i] = this[0, i] / L[0][0];
-        //        }
-
-        //        double sum;
-        //        for (int i = 1; i < Size; i++)
-        //        {
-        //            for (int j = i; j < Size; j++)
-        //            {
-        //                sum = 0;
-        //                for (int k = 0; k < i; k++)
-        //                    sum += L[i][k] * U[k][j - k];
-
-        //                U[i][j - i] = this[i, j] - sum;
-        //                sum = 0;
-        //                for (int k = 0; k < i; k++)
-        //                    sum += L[j][k] * U[k][i - k];
-
-        //                L[j][i] = (this[j, i] - sum) / U[i][0];
-        //            }
-
-        //        }
-        //        LU_was_made = true;
-        //    }
-        //    catch (DivideByZeroException)
-        //    {
-        //        LU_was_made = false;
-        //        throw new LUFailException();
-        //    }
-        //}
         public IVector SolveL(IVector x, bool UseDiagonal = true)
         {
             IVector result = new SimpleVector(Size);
@@ -308,7 +308,6 @@ namespace slae_project.Matrix
                 }
             }
             return result;
-
         }
         //Метод еще не готов
         public IVector SolveU(IVector x, bool UseDiagonal = true)
@@ -391,9 +390,17 @@ namespace slae_project.Matrix
             IVector result = new SimpleVector(Size);
             if (UseDiagonal)
             {
-                foreach (var el in elements)
-                    if (el.Key.i <= el.Key.j)
-                        result[el.Key.i] += el.Value * x[el.Key.j];
+                if(isSymmetric)
+                {
+                    foreach (var el in elements)
+                            result[el.Key.j] += el.Value * x[el.Key.i];
+                }
+                else
+                {
+                    foreach (var el in elements)
+                        if (el.Key.i <= el.Key.j)
+                            result[el.Key.i] += el.Value * x[el.Key.j];
+                }
             }
             else
             {
@@ -409,6 +416,9 @@ namespace slae_project.Matrix
             {
                 throw new DifferentSizeException("Не удалось выполнить LU-разложение");
             }
+            if (isSymmetric)
+                return this.Mult(x, UseDiagonal);
+
             IVector result = new SimpleVector(Size);
             if (UseDiagonal)
             {
@@ -435,6 +445,9 @@ namespace slae_project.Matrix
             IVector result = new SimpleVector(Size);
             for (int i = 0; i < Size; i++)
                 result[i] = x[i];
+
+            if (isSymmetric)
+                return this.SolveU(x, UseDiagonal);
 
             if (!UseDiagonal)
             {
@@ -472,6 +485,9 @@ namespace slae_project.Matrix
             for (int i = 0; i < Size; i++)
                 result[i] = x[i];
 
+            if (isSymmetric)
+                return this.SolveL(x, UseDiagonal);
+
             if (!UseDiagonal)
             {
                 if (Math.Abs(x[0]) < EQU_TO_ZERO)
@@ -505,6 +521,9 @@ namespace slae_project.Matrix
         {
             if (this.Size != x.Size)
                 throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
+
+            if (isSymmetric)
+                return this.MultU(x, UseDiagonal);
 
             IVector result = new SimpleVector(Size);
             if (UseDiagonal)
@@ -548,6 +567,8 @@ namespace slae_project.Matrix
             if (this.Size != x.Size)
                 throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
 
+            if (isSymmetric)
+                return this.MultL(x, UseDiagonal);
             IVector result = new SimpleVector(Size);
             if (UseDiagonal)
             {
@@ -573,12 +594,12 @@ namespace slae_project.Matrix
             {
                 coord[i] = (i / 4, i % 4);
             }
-            
-            IMatrix mar = new CoordinateMatrix(new Dictionary<string, string> { { "size", "size.txt" }, { "elements", "elements.txt" } });
+
+            IMatrix mar = new CoordinateMatrix(new Dictionary<string, string> { {"size","size.txt"},{"elements","elements.txt"}});
 
             IPreconditioner pre = new LUPreconditioner(mar);
 
-            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+            IVector x = new SimpleVector(new double[5] { 1, 2, 3, 4, 5 });
 
             IVector y = mar.Mult(x, true);
             //should be { 37 24 14 10 }
@@ -597,8 +618,48 @@ namespace slae_project.Matrix
             z = pre.SolveL(x);
             //should be { 1 1 1 1 }
 
-            z = pre.SolveU(x);
+            y = pre.SolveU(z);
             //should be { 13 0.5 0.5 -4}
+
+            IVector ut = mar.T.MultU(x);
+            //should be {1 6 13 20}
+
+            ut = mar.T.MultU(x, false);
+            //should be {0 4 10 16}
+
+            IVector lt = mar.T.MultL(x);
+            //should be {10 9 7 4}
+        }
+        public static void localtestsymm()
+        {
+            (int, int)[] coord = new(int, int)[16];
+            double[] val = new double[16] { 1, 4, 4, 4, 1, 1, 3, 3, 1, 1, 1, 2, 1, 1, 1, 1 };
+
+            for (int i = 0; i < 16; i++)
+            {
+                coord[i] = (i / 4, i % 4);
+            }
+
+            IMatrix mar = new CoordinateMatrix(new Dictionary<string, string> { { "size", "size.txt" }, { "elements", "elements.txt" } }, true);
+
+            IPreconditioner pre = new LUPreconditioner(mar);
+
+            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+
+            IVector y = mar.Mult(x, true);
+            //should be { 10 10 10 10 }
+
+            y = mar.MultL(x, true);
+            //should be { 1 12 39 85 }
+
+
+            IVector z = (IVector)y.Clone();
+            //should do not crash
+
+
+            z = pre.SolveL(x);
+            y = pre.SolveU(z);
+            //should be { 5 0 0 -1}
 
             IVector ut = mar.T.MultU(x);
             //should be {1 6 13 20}
@@ -630,11 +691,12 @@ namespace slae_project.Matrix
 
         public object Clone()
         {
-            return new CoordinateMatrix(this.elements, Size);
+            return new CoordinateMatrix(this.elements, Size, isSymmetric);
         }
 
-        public CoordinateMatrix(Dictionary<string, string> paths)
+        public CoordinateMatrix(Dictionary<string, string> paths, bool isSymmetric = false)
         {
+            this.isSymmetric = isSymmetric;
             //Считывание размера матрицы
             StreamReader reader;
             try

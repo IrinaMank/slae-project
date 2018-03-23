@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.IO;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -427,6 +427,7 @@ namespace slae_project
 
         private void loadFilesClick(object sender, EventArgs e)
         {
+
             if (!hand && numbForm == 2)
             {
                 str_format_matrix = format.SelectedItem.ToString();
@@ -605,17 +606,20 @@ namespace slae_project
 
                 }
             }
+
         }
 
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             infoForm form = new infoForm();
             form.Show();
         }
 
         private void aboutProgramToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             aboutProgramForm form = new aboutProgramForm();
             form.Show();
     //        if (MessageBox.Show(
@@ -631,6 +635,7 @@ namespace slae_project
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+
         }
         
      }

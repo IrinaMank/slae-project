@@ -20,6 +20,7 @@ namespace slae_project
         public static Dictionary<int, Label> name_arr = new Dictionary<int, Label>();//имена массивов
         public static Dictionary<int, TextBox> puths = new Dictionary<int, TextBox>();//пути до массивов
         public static Dictionary<string, string> filenames_format = new Dictionary<string, string>(); // словарь: ключ - название массива, значение - путь к файлу
+
         public static IVector F = new SimpleVector();//правая часть
         public static IVector X0 = new SimpleVector();//Начально приближение 
         public Form2()
@@ -189,18 +190,17 @@ namespace slae_project
             {
                 FileStream file = new FileStream(filename, FileMode.Open, FileAccess.Read);
                 StreamReader reader = new StreamReader(file);
-                string k;
                 List<int> z = new List<int>(); int y;
                 int i = 0;
+
                 k = reader.ReadToEnd();
                 int size = Convert.ToInt32(k[i]) - 48;
                 i = 1;
+
                 X0 = new SimpleVector(size);
                 while (i < size)
                 {
-                    Console.WriteLine(k[i]);
-                    if (k[i].CompareTo(' ') != 0)
-                        X0[i] = Convert.ToInt32(k[i]) - 48;
+                    X0[i] = Convert.ToDouble(k[i]);
                     i++;
 
                 }

@@ -42,7 +42,11 @@ namespace slae_project.Matrix
         }
         // Матрица
         private double[,] d_matrix;
+        //Переменная, необходимая для реализации возможности наличия в матрицы двух диагоналей ( например в случае LU - разложенной матрицы)
+        // Если extraDiagVal = 0, то считается, что в матрице одна диагональ
+        // Если extraDiagVal != 0, то считается, что нижний треугольник матрицы содержит диагональ, заполненную значениями extraDiagVal
         double extraDiagVal = 0;
+        bool isSymmetric = false;
         // Значение, начиная с которого любое число считается равным нулю
         private double EQU_TO_ZERO { get; } = 1e-10;
         public double this[int i, int j]
@@ -94,8 +98,9 @@ namespace slae_project.Matrix
         /// Инициализация матрицы массивом значений
         /// </summary>
         /// <param name="val">Двумерный массив значений</param>
-        public DenseMatrix(double[,] val)
+        public DenseMatrix(double[,] val, bool isSymmetric = false)
         {
+            this.isSymmetric = isSymmetric;
             this.Size = val.GetLength(0);
             d_matrix = new double[Size, Size];
             for (int i = 0; i < val.GetLength(0); i++)
@@ -138,8 +143,9 @@ namespace slae_project.Matrix
                 this.d_matrix[val.row, val.col] = val.value;
         }
 
-        public DenseMatrix()
+        public DenseMatrix(bool isSymmetric = false)
         {
+            this.isSymmetric = isSymmetric;
             this.Size = 0;
         }
 
@@ -151,18 +157,54 @@ namespace slae_project.Matrix
             IVector result = new SimpleVector(Size);
             if (UseDiagonal)
             {
-                for (int i = 0; i < Size; i++)
-                    for (int j = 0; j < Size; j++)
-                        result[i] += d_matrix[i, j] * x[j];
+                if (isSymmetric)
+                {
+                    for (int i = 0; i < Size; i++)
+                        for (int j = 0; j < Size; j++)
+                        {
+                            result[i] += d_matrix[i, j] * x[j];
+                            result[j] += d_matrix[i, j] * x[i];
+                        }
+                    for (int k = 0; k < result.Size; k++)
+                        result[k] -= x[k];
+                }
+                else
+                    for (int i = 0; i < Size; i++)
+                        for (int j = 0; j < Size; j++)
+                            result[i] += d_matrix[i, j] * x[j];
             }
             else
             {
-                for (int i = 0; i < Size; i++)
-                    for (int j = 0; j < Size; j++)
-                        if (i != j)
-                            result[i] += d_matrix[i, j] * x[j];
+                if (isSymmetric)
+                {
+                    for (int i = 0; i < Size; i++)
+                        for (int j = 0; j < Size; j++)
+                        {
+                            if (i != j)
+                            {
+                                result[i] += d_matrix[i, j] * x[j];
+                                result[j] += d_matrix[i, j] * x[i];
+                            }
+                        }
+                }
+                else
+                    for (int i = 0; i < Size; i++)
+                        for (int j = 0; j < Size; j++)
+                            if (i != j)
+                                result[i] += d_matrix[i, j] * x[j];
             }
             return result;
+        }
+
+        private void CastToNotSymm()
+        {
+            if (isSymmetric)
+            {
+                isSymmetric = false;
+                for (int i = 0; i < Size; i++)
+                    for (int j = 0; j < i; j++)
+                        this[j, i] = this[i, j];
+            }
         }
 
         /// <summary>
@@ -323,12 +365,21 @@ namespace slae_project.Matrix
             IVector result = new SimpleVector(Size);
             if (UseDiagonal)
             {
-                for (int i = 0; i < Size; i++)
+                if (isSymmetric)
                 {
-                    for (int j = 0; j < Size; j++)
+                    for (int i = 0; i < Size; i++)
+                        for (int j = 0; j < Size; j++)
+                            result[j] += d_matrix[i, j] * x[i];
+                }
+                else
+                {
+                    for (int i = 0; i < Size; i++)
                     {
-                        if (i <= j)
-                            result[i] += d_matrix[i, j] * x[j];
+                        for (int j = 0; j < Size; j++)
+                        {
+                            if (i <= j)
+                                result[i] += d_matrix[i, j] * x[j];
+                        }
                     }
                 }
             }
@@ -351,6 +402,10 @@ namespace slae_project.Matrix
             {
                 throw new DifferentSizeException("Не удалось выполнить LU-разложение");
             }
+
+            if (isSymmetric)
+                return this.Mult(x, UseDiagonal);
+
             IVector result = new SimpleVector(Size);
             if (UseDiagonal)
             {
@@ -381,6 +436,9 @@ namespace slae_project.Matrix
             IVector result = new SimpleVector(Size);
             for (int i = 0; i < Size; i++)
                 result[i] = x[i];
+
+            if (isSymmetric)
+                return this.SolveU(x, UseDiagonal);
 
             if (!UseDiagonal)
             {
@@ -418,6 +476,9 @@ namespace slae_project.Matrix
             for (int i = 0; i < Size; i++)
                 result[i] = x[i];
 
+            if (isSymmetric)
+                return this.SolveL(x, UseDiagonal);
+
             if (!UseDiagonal)
             {
                 if (Math.Abs(x[0]) < EQU_TO_ZERO)
@@ -452,6 +513,9 @@ namespace slae_project.Matrix
         {
             if (this.Size != x.Size)
                 throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
+
+            if (isSymmetric)
+                return this.MultU(x, UseDiagonal);
 
             IVector result = new SimpleVector(Size);
             if (UseDiagonal)
@@ -507,6 +571,9 @@ namespace slae_project.Matrix
             if (this.Size != x.Size)
                 throw new DifferentSizeException("Размерность матрицы не совпадает с размерностью вектора.");
 
+            if (isSymmetric)
+                return this.MultL(x, UseDiagonal);
+
             IVector result = new SimpleVector(Size);
             if (UseDiagonal)
             {
@@ -550,7 +617,7 @@ namespace slae_project.Matrix
 
         public object Clone()
         {
-            return new DenseMatrix(d_matrix);
+            return new DenseMatrix(d_matrix, isSymmetric);
         }
 
         public static void localtest()
@@ -590,8 +657,9 @@ namespace slae_project.Matrix
             //should be { 10, 9, 7, 4 }
         }
 
-        public DenseMatrix(Dictionary<string, string> paths)
+        public DenseMatrix(Dictionary<string, string> paths, bool isSymmetric = false)
         {
+            this.isSymmetric = isSymmetric;
             StreamReader reader;
             try
             {
