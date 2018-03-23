@@ -165,17 +165,14 @@ namespace slae_project
                 FileStream file = new FileStream(filename, FileMode.Open, FileAccess.Read);
                 StreamReader reader = new StreamReader(file);
                 
-                string k;
                 List<int> z = new List<int>(); 
                 int i = 0;
                 int size = int.Parse(reader.ReadLine());
-                k = reader.ReadToEnd();
+                var k = reader.ReadLine().Split();
                 F = new SimpleVector(size);
                 while (i < size)
                 {
-                    Console.WriteLine(k[i]);
-                   if (k[i].CompareTo(' ') != 0)
-                    F[i] = Convert.ToInt32(k[i]) -48;
+                    F[i] = Convert.ToDouble(k[i]);
                     i++;
 
                 }
@@ -184,17 +181,15 @@ namespace slae_project
             {
                 FileStream file = new FileStream(filename, FileMode.Open, FileAccess.Read);
                 StreamReader reader = new StreamReader(file);
-                string k;
                 List<int> z = new List<int>(); int y;
                 int i = 0;
                 int size = int.Parse(reader.ReadLine());
-                k = reader.ReadToEnd();
+                string koko = reader.ReadLine();
+                var k = koko.Split();
                 X0 = new SimpleVector(size);
                 while (i < size)
                 {
-                    Console.WriteLine(k[i]);
-                    if (k[i].CompareTo(' ') != 0)
-                        X0[i] = Convert.ToInt32(k[i]) - 48;
+                    X0[i] = Convert.ToDouble(k[i]);
                     i++;
 
                 }
