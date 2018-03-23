@@ -538,7 +538,7 @@ namespace slae_project
                 in_x -= mouse.ShiftedPosition.x;
                 in_y += +mouse.ShiftedPosition.y;
             }
-            gl.DrawText(in_x, in_y, 0, 0, 0, "Arial", FontSize, phrase);
+            gl.DrawText(in_x, in_y, 0, 0, 0, "Calibri", FontSize, phrase);
         }
         void Draw_Text(int in_x, int in_y, string phrase, Single r, Single g, Single b)
         {
@@ -553,7 +553,7 @@ namespace slae_project
         }
         void Ultimate_DrawText(int x, int y, Single r, Single g, Single b, string Font, float fontsize, string phrase)
         {
-            openGLControl.OpenGL.DrawText(x, y, r, g, b, "Arial", fontsize, phrase);
+            openGLControl.OpenGL.DrawText(x, y, r, g, b, "TimesNewRoman", fontsize, phrase);
         }
         void Draw_Horizontal_numbers_for_matrix(GraphicObject obj)
         {
