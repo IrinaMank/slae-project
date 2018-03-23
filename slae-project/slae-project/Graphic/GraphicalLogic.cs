@@ -72,8 +72,16 @@ namespace slae_project
                 ReferencedMatrix = _ReferencedMatrix;
                 ReferencedVector = null;
 
-                xCellCount = ReferencedMatrix.Size;
-                yCellCount = ReferencedMatrix.Size;
+                if (ReferencedMatrix != null)
+                {
+                    xCellCount = ReferencedMatrix.Size;
+                    yCellCount = ReferencedMatrix.Size;
+                }
+                else
+                {
+                    xCellCount = 0;
+                    yCellCount = 0;
+                }
             }
             public GraphicObject(string _Name, ref IVector _ReferencedVector)
             {
@@ -83,8 +91,16 @@ namespace slae_project
                 ReferencedMatrix = null;
                 ReferencedVector = _ReferencedVector;
 
-                xCellCount = ReferencedVector.Size;
-                yCellCount = 1;
+                if (ReferencedVector != null)
+                {
+                    xCellCount = ReferencedVector.Size;
+                    yCellCount = 1;
+                }
+                else
+                {
+                    xCellCount = 0;
+                    yCellCount = 0;
+                }
             }
             public GraphicObject(string _Name, List<List<double>> _Matrix)
             {

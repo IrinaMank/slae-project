@@ -37,14 +37,7 @@ namespace slae_project
             if (SharpGL_is_opened()) SharpForm.Refresh_Window();
         }
 
-        private class UR_access : UserGuide
-        {
-            public void UserGuide_access(ref List<GraphicData.GraphicObject> List_Of_Objects)
-            {
-                User_Guide_To_Graphic(ref List_Of_Objects);
-            }
-        }
-        static UR_access UR = new UR_access();
+        
         //Конструктор. Параметр самовызова для ленивости.
         /*public static SharpGL_limbo(bool SelfInit = false)
         {
@@ -110,43 +103,18 @@ namespace slae_project
             List_Of_Objects = SharpForm.GD.List_Of_Objects;
             SharpForm.Show();
         }
+        static public void SharpGL_add_Factory_things()
+        {
+            
+        }
         //Запуск в тестовом режиме.
         static public void SharpGL_Open_Test()
         {
-            SharpGL_Open();
-            UR.UserGuide_access(ref List_Of_Objects);
-            Refresh_Window();
+            //SharpGL_Open();
+            //UR.UserGuide_access(ref List_Of_Objects);
+            //Refresh_Window();
 
-            //CoordinateMatrix.localtest();
-            (int, int)[] coord = new(int, int)[100];
-            //   double[] valMatrix = new double[25] { 1, 5, 1, 2, 1, 8, 2, 1, 3, 2, 2, 9, 3, 7, 3, 1, 3, 10, 4, 6, 3, 1, 2, 11, 5 };	
-            // double[] valB = new double[] { 27, 37, 72, 83, 80 };	
-            double[] valX = new double[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-
-            double[] valMatrix = new double[100] { 7, 2, 0, 0, 0, 1, 3, 0, 0, 0, 1, 8, 4, 0, 0, 0, 1, 2, 0, 0, 0, 3, 14, 3, 0, 0, 0, 4, 4, 0, 0, 0, 2, 9, 1, 0, 0, 0, 2, 4, 0, 0, 0, 4, 6, 1, 0, 0, 0, 1, 2, 0, 0, 0, 1, 5, 2, 0, 0, 0, 2, 3, 0, 0, 0, 3, 11, 3, 0, 0, 0, 4, 1, 0, 0, 0, 3, 12, 4, 0, 0, 0, 1, 4, 0, 0, 0, 2, 8, 1, 0, 0, 0, 2, 1, 0, 0, 0, 1, 4 };
-            double[] valB = new double[] { 38.0000, 52.0000, 128.0000, 105.0000, 62.0000, 51.0000, 127.0000, 164.0000, 117.0000, 62.0000 };
-
-
-            for (int i = 0; i < 100; i++)
-            {
-                coord[i] = (i / 10, i % 10);
-            }
-
-            IMatrix mar = new CoordinateMatrix(coord, valMatrix);
-            //NoPreconditioner preco = new NoPreconditioner();
-            LUPreconditioner preco = new LUPreconditioner(mar);
-            //DiagonalPreconditioner preco = new DiagonalPreconditioner(mar);	
-
-            IVector b = new SimpleVector(valB);
-            IVector x0 = new SimpleVector(10);
-            IVector rigthX = new SimpleVector(valX);
-
-            List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", ref mar));
-            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", ref b));
-            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", ref x0));
-            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", ref rigthX));
-
-            Refresh_Window();
+            
     }
 
         //закрывает окно графики если оно существует. Совсем закрыть
@@ -225,6 +193,35 @@ namespace slae_project
 
             //ВАЖНО! После добавлений или удалений вызывать вот эту функцию.
             //SharpGL_limbo.Refresh_Window();
+
+            //CoordinateMatrix.localtest();
+            (int, int)[] coord = new(int, int)[100];
+            //   double[] valMatrix = new double[25] { 1, 5, 1, 2, 1, 8, 2, 1, 3, 2, 2, 9, 3, 7, 3, 1, 3, 10, 4, 6, 3, 1, 2, 11, 5 };	
+            // double[] valB = new double[] { 27, 37, 72, 83, 80 };	
+            double[] valX = new double[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+            double[] valMatrix = new double[100] { 7, 2, 0, 0, 0, 1, 3, 0, 0, 0, 1, 8, 4, 0, 0, 0, 1, 2, 0, 0, 0, 3, 14, 3, 0, 0, 0, 4, 4, 0, 0, 0, 2, 9, 1, 0, 0, 0, 2, 4, 0, 0, 0, 4, 6, 1, 0, 0, 0, 1, 2, 0, 0, 0, 1, 5, 2, 0, 0, 0, 2, 3, 0, 0, 0, 3, 11, 3, 0, 0, 0, 4, 1, 0, 0, 0, 3, 12, 4, 0, 0, 0, 1, 4, 0, 0, 0, 2, 8, 1, 0, 0, 0, 2, 1, 0, 0, 0, 1, 4 };
+            double[] valB = new double[] { 38.0000, 52.0000, 128.0000, 105.0000, 62.0000, 51.0000, 127.0000, 164.0000, 117.0000, 62.0000 };
+
+
+            for (int i = 0; i < 100; i++)
+            {
+                coord[i] = (i / 10, i % 10);
+            }
+
+            IMatrix mar = new CoordinateMatrix(coord, valMatrix);
+            //NoPreconditioner preco = new NoPreconditioner();
+            LUPreconditioner preco = new LUPreconditioner(mar);
+            //DiagonalPreconditioner preco = new DiagonalPreconditioner(mar);	
+
+            IVector b = new SimpleVector(valB);
+            IVector x0 = new SimpleVector(10);
+            IVector rigthX = new SimpleVector(valX);
+
+            List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", ref mar));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", ref b));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", ref x0));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", ref rigthX));
         }
         public string ProjectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
     }

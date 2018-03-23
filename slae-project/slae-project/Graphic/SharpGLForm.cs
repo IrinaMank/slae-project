@@ -347,13 +347,9 @@ namespace slae_project
         private void button_test_Click(object sender, EventArgs e)
         {
             GD.List_Of_Objects.Clear();
+            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", ref Factory.ObjectOfIMatrix));
+            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", ref Factory.Result));
             Refresh_Window();
-            
-            
-            
-
-            //AsyncTest.Start();
-
         }
         //Asynchronized AsyncTest = new Asynchronized();
 
@@ -849,6 +845,20 @@ namespace slae_project
                 if (!TeleporterForm.IsDisposed)
                     return true;
             return false;
+        }
+        private class UR_access : UserGuide
+        {
+            public void UserGuide_access(ref List<GraphicData.GraphicObject> List_Of_Objects)
+            {
+                User_Guide_To_Graphic(ref List_Of_Objects);
+            }
+        }
+        static UR_access UR = new UR_access();
+        private void button1_Test_Click(object sender, EventArgs e)
+        {
+            GD.List_Of_Objects.Clear();
+            UR.UserGuide_access(ref GD.List_Of_Objects);
+            Refresh_Window();
         }
     }
 }
