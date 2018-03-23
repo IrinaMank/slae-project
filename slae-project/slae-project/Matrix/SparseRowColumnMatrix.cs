@@ -161,13 +161,16 @@ namespace slae_project.Matrix
         /// <param name="di">Диагональные элементы</param>
         /// <param name="al">Элементы нижней диагонали</param>
         /// <param name="au">Элементы верхней диагонали</param>
-        public SparseRowColumnMatrix(int[] ig, int[] jg, double[] di, double[] al, double[] au)
+        public SparseRowColumnMatrix(int[] ig, int[] jg, double[] di, double[] al, double[] au, bool isSymmetric = false)
         {
             this.di = di;
             this.ig = ig;
             this.jg = jg;
             this.al = al;
-            this.au = au;
+            if (isSymmetric)
+                this.au = this.al;
+            else
+                this.au = au;
             this.Size = di.Length;
         }
 
