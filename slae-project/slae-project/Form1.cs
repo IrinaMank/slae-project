@@ -423,6 +423,12 @@ namespace slae_project
             accurent = Math.Pow(10, -Convert.ToDouble(acc.Value));
             if (!hand && numbForm == 3)
                 threadSolver();
+            if (hand && numbForm == 4)
+            {
+                str_solver = solver.SelectedItem.ToString();
+                str_precond = precond.SelectedItem.ToString();
+                threadSolver();
+            }
             this.Update();
         }
 
@@ -578,8 +584,8 @@ namespace slae_project
                     maxit.Visible = false;
                     gr.Visible = false;
                     next.Visible = false;
-                    bar.Visible = true;
-                    iterLife.Visible = true;
+                    //bar.Visible = true;
+                    //iterLife.Visible = true;
                 }
                 else
                 {
@@ -604,7 +610,12 @@ namespace slae_project
                 }
                 else
                 {
-
+                    solver.Visible = false;
+                    precond.Visible = false;
+                    solvMatrix.Visible = false;
+                    precondMatrix.Visible = false;
+                    
+                    
                 }
             }
 
