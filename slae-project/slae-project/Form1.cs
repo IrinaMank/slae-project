@@ -15,7 +15,7 @@ namespace slae_project
 {
     public partial class Form1 : Form
     {
-        FileLogger fileLogger = new FileLogger();
+        //FileLogger fileLogger = new FileLogger();
         Dictionary<int, Label> name_arr = new Dictionary<int, Label>();
         public static string str_format_matrix; //формат матрицы
         public static string str_solver; //тип решателя
@@ -383,13 +383,13 @@ namespace slae_project
             Factory.CreateMatrix(str_format_matrix);
             Factory.Create_Full_Matrix(str_format_matrix);
 
-            Thread thread = new Thread(Factory.CreateSolver);
+            Factory.CreateSolver(str_solver);
             
-            thread.Start(str_solver);
+          //  thread.Start(str_solver);
             //var reader = new FileStream("./log.txt", FileMode.Open, FileAccess.Read, FileShare.ReadWrite)
             //StreamReader reader = new StreamReader("./log.txt");
-            while (ourIter < maxiter || percent < 100)
-            {
+           // while (ourIter < maxiter || percent < 100)
+            //{
                 //string s = writer.ReadLine();
 
                 //string[] ss;
@@ -406,12 +406,12 @@ namespace slae_project
                 //if (ourIter != -1)
                 //    iterLife.Text = ourIter.ToString();
 
-                ourIter = fileLogger.iter;
-                percent = fileLogger.per;
-                bar.Value = Convert.ToInt32(percent);
-                iterLife.Text = ourIter.ToString();
-                Update();
-            }
+                //ourIter = fileLogger.iter;
+                //percent = fileLogger.per;
+             //   bar.Value = Convert.ToInt32(percent);
+             //   iterLife.Text = ourIter.ToString();
+             //   Update();
+           // }
             
             //reader.Close();
             //writer.Close();
@@ -420,6 +420,7 @@ namespace slae_project
         private void nextClick(object sender, EventArgs e)
         {
             numbForm++;
+            accurent = Math.Pow(10, -Convert.ToDouble(acc.Value));
             if (!hand && numbForm == 3)
                 threadSolver();
             this.Update();

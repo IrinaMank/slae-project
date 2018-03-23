@@ -28,9 +28,10 @@ namespace slae_project
             InitializeComponent();
             this.Size = new Size(500, 400);
         }
-
+        List<Button> obzors = new List<Button>();
         private void Form2_Load(object sender, EventArgs e)
         {
+            obzors.Clear();
             Factory.CreateMatrix(Form1.str_format_matrix);
 
             List<string> arrays = Factory.name_arr;
@@ -57,6 +58,7 @@ namespace slae_project
                 this.Controls.Add(puth);
 
                 Button button = new Button();
+                obzors.Add(button);
                 button.Text = "Обзор";
                 button.Size = new Size(75, 23);
                 button.Location = new Point(x_b, y);
@@ -83,6 +85,7 @@ namespace slae_project
             this.Controls.Add(puth_b);
 
             Button button_b = new Button();
+            obzors.Add(button_b);
             button_b.Text = "Обзор";
             button_b.Size = new Size(75, 23);
             button_b.Location = new Point(x_b, y);
@@ -108,6 +111,7 @@ namespace slae_project
 
 
             Button button_x0 = new Button();
+            obzors.Add(button_x0);
             button_x0.Text = "Обзор";
             button_x0.Size = new Size(75, 23);
             button_x0.Location = new Point(x_b, y);
@@ -128,9 +132,9 @@ namespace slae_project
         private void button_load_Click(object sender, EventArgs e)
         {
             TextBox value = new TextBox();
-            int y = 50;
+            int y = 55;
             int i = 0;
-            for (i = 0; i < puths.Count(); i++, y += 50)
+            for (i = 0; i < puths.Count(); i++, y += 33)
             {
                 puths.TryGetValue(y, out value);
                 if (value.Text.ToString() == "")
@@ -164,38 +168,34 @@ namespace slae_project
             string filename = openFileDialog1.FileName;
             value.Text = filename;
             filenames_format.Add(val_label.Text.ToString(), filename);
-            if (Y - 100 == coord.Y)
+            if (btn == obzors[obzors.Count - 2])
             {
                 ///вот тут рамс, в F не читает(( 
                 FileStream file = new FileStream(filename, FileMode.Open, FileAccess.Read);
                 StreamReader reader = new StreamReader(file);
-
-                string k;
+                
                 List<int> z = new List<int>(); int y;
                 int i = 0;
-                k = reader.ReadToEnd();
-                int size = Convert.ToInt32(k[i]) - 48;
-                i = 1;
+                int size = Convert.ToInt32(reader.ReadLine());
+                var k = reader.ReadLine().Split();
+
                 F = new SimpleVector(size);
                 while (i < size)
                 {
-                    Console.WriteLine(k[i]);
-                    if (k[i].CompareTo(' ') != 0)
-                        F[i] = Convert.ToInt32(k[i]) - 48;
+                    F[i] = Convert.ToDouble(k[i]);
                     i++;
 
                 }
             }
-            else if (Y - 50 == coord.Y)
+            else if (btn == obzors[obzors.Count-1])
             {
                 FileStream file = new FileStream(filename, FileMode.Open, FileAccess.Read);
                 StreamReader reader = new StreamReader(file);
                 List<int> z = new List<int>(); int y;
                 int i = 0;
 
-                k = reader.ReadToEnd();
-                int size = Convert.ToInt32(k[i]) - 48;
-                i = 1;
+                int size = Convert.ToInt32(reader.ReadLine());
+                var k = reader.ReadLine().Split();
 
                 X0 = new SimpleVector(size);
                 while (i < size)

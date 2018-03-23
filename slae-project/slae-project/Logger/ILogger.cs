@@ -1,4 +1,5 @@
-﻿using System;
+﻿using slae_project.Vector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace slae_project.Logger
 {
     public interface ILogger
     {
-        void WriteIteration(int number, double residual, double percent);
+        void WriteIteration (int number, double residual, double percent);
+        void WriteSolution (IVector x);
     }
 }

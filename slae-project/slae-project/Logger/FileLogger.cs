@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using slae_project.Vector;
+
 namespace slae_project.Logger
 {
     
@@ -33,10 +35,21 @@ namespace slae_project.Logger
         {
             iter = number;
             per = percent;
-            String msg = String.Format("{0}\t{1}", number, percent);
+            String msg = String.Format("{0}\t{1}", number, residual);
             fileStream.WriteLine(msg);
             fileStream.Flush();
-            Thread.Sleep(0);
+            //Thread.Sleep(0);
+        }
+
+        public void WriteSolution(IVector sol)
+        {
+            for (int i = 0; i < sol.Size; i++)
+            {
+                String msg = String.Format("{0}", sol[i]);
+                fileStream.WriteLine(msg);
+
+            }
+            fileStream.Flush();
         }
     }
 }
