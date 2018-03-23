@@ -495,7 +495,7 @@ namespace slae_project
         {
             if (numbForm == 1) //
             {
-                picture.Visible = true;
+                //picture.Visible = true;
                 gr.Visible = true;
                 fileRead.Visible = true;
                 myRead.Visible = true;
