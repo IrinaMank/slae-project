@@ -88,12 +88,9 @@ namespace slae_project
             string typename = typenameOb as string;
             Func<IPreconditioner, IMatrix, IVector, IVector, double, int, ILogger, IVector> value;
             SolverTypes.TryGetValue(typename, out value);
+
             FileLogger f = null;
-
-            value(Prec, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.accurent, Form1.maxiter, f);
-            
-
-            
+            Result = value(Prec, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.accurent, Form1.maxiter, f);
         }
         // Мы передаем симметричность/ несимметричность
         public static bool Get_format()
