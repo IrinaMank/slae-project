@@ -149,10 +149,10 @@ namespace slae_project
             solver.Location = new System.Drawing.Point(200, 100);
             solver.Items.Add("Метод сопряжённых градиентов");
             solver.Items.Add("Локально-оптимальная схема");
-            solver.Items.Add("Метод Якоби");
-            solver.Items.Add("Метод Зейделя");
+            //solver.Items.Add("Метод Якоби");
+           // solver.Items.Add("Метод Зейделя");
             solver.Items.Add("Метод бисопряжённых градиентов");
-            solver.Items.Add("Метод обобщённых минимальных невязок");
+           // solver.Items.Add("Метод обобщённых минимальных невязок");
             solver.SelectedIndex = 0;
             solver.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Controls.Add(solver);
