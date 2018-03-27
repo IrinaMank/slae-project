@@ -210,6 +210,7 @@ namespace slae_project
                     writer.Write("\r\n");
                 }
             }
+            Form2.filenames_format.Clear();
             Form2.filenames_format.Add(arrays[0].ToString(), name);
 
                 Form2.F = new SimpleVector(size);
