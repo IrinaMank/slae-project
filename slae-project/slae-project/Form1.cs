@@ -222,6 +222,7 @@ namespace slae_project
             acc.Visible = false;
             acc.Minimum = 1;
             acc.Maximum = 16;
+            acc.Value = 10;
             acc.ValueChanged += new System.EventHandler(accValueChanged);
 
             maxiterl = new Label();
