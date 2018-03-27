@@ -469,7 +469,10 @@ namespace slae_project.Matrix
                 int line_length = i;
                 try
                 {
-                    result[i] /= this[i, line_length - 1];
+                    if (extraDiagVal == 0)
+                        result[i] /= this[i, i];
+                    else
+                        result[i] /= extraDiagVal;
                 }
                 catch (DivideByZeroException)
                 {
