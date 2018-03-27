@@ -36,7 +36,7 @@ namespace slae_project.Matrix
             public IVector Mult(IVector x, bool UseDiagonal) => Matrix.MultT(x, UseDiagonal);
             public IVector MultU(IVector x, bool UseDiagonal) => Matrix.MultUT(x, UseDiagonal);
             public IVector SolveU(IVector x, bool UseDiagonal) => Matrix.SolveUT(x, UseDiagonal);
-            public IVector SolveD(IVector x) => Matrix.SolveLT(x);
+            public IVector SolveD(IVector x) => Matrix.SolveD(x);
             public void MakeLU() => throw new NotImplementedException();
             public object Clone() => Matrix.Clone();
 
@@ -411,7 +411,10 @@ namespace slae_project.Matrix
                 int line_length = i;
                 try
                 {
-                    result[i] /= this[i, line_length - 1];
+                    if (extraDiagVal == 0)
+                        result[i] /= this[i, i];
+                    else
+                        result[i] /= extraDiagVal;
                 }
                 catch (DivideByZeroException)
                 {

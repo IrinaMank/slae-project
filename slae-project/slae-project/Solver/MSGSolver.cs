@@ -23,8 +23,8 @@ namespace slae_project.Solver
         /// <returns>Вектор x - решение СЛАУ Ax=b с заданной точностью</returns>
         public IVector Solve(IPreconditioner Preconditioner, IMatrix A, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
         {
-            Initial = new SimpleVector(new double[4] {2.0,2.0,2.0,2.0});
-            IVector x = Initial.Clone() as IVector;
+            Initial = new SimpleVector(new double[4] {0,0,0,0});
+            IVector x = Preconditioner.MultU(Initial);
 
             if (b.Norm == 0)
                 return x;
@@ -32,9 +32,9 @@ namespace slae_project.Solver
             double scalAzZ, scalRR, alpha, beta = 1.0;
             
             IVector r = b.Add(A.Mult(Initial), 1, -1);
-            r = Preconditioner.SolveL(Preconditioner.MultL(r));
+            r = Preconditioner.T.SolveL(Preconditioner.SolveL(r));
             IVector Az, Atz, z = A.Transpose.Mult(r);
-            z = Preconditioner.MultU(z);
+            z = Preconditioner.T.SolveU(z);
 
             r = z.Clone() as IVector;
             scalRR = r.ScalarMult(r);
@@ -45,13 +45,13 @@ namespace slae_project.Solver
                 Az = Preconditioner.SolveU(z);
 
                 Atz = A.Mult(Az);
-                Atz = Preconditioner.SolveL(Preconditioner.MultL(Atz));
+                Atz = Preconditioner.T.SolveL(Preconditioner.SolveL(Atz));
                 Az = A.Transpose.Mult(Atz);
-                Az = Preconditioner.MultL(Az);
+                Az = Preconditioner.T.SolveU(Az);
 
                 scalAzZ = Az.ScalarMult(z);
 
-                if (scalAzZ == 0) throw new Exception("Division by 0");
+                if (scalAzZ == 0) throw new DivideByZeroException("Division by 0");
 
                 alpha = scalRR / scalAzZ;
 
@@ -59,7 +59,7 @@ namespace slae_project.Solver
                 r.Add(Az, 1, -alpha, true);
 
                 beta = scalRR;
-                if (scalRR == 0) throw new Exception("Division by 0");
+                if (scalRR == 0) throw new DivideByZeroException("Division by 0");
                 scalRR = r.ScalarMult(r);
                 beta = scalRR / beta;
 
@@ -69,7 +69,9 @@ namespace slae_project.Solver
                 Logger.WriteIteration(iter, normR, 100*Precision/normR);
             };
             Logger.WriteSolution(Preconditioner.SolveU(x));
-            return Preconditioner.SolveU(x);
+            //Logger.WriteSolution(Preconditioner.MultU(x));
+            //Logger.WriteSolution(x);
+            return Preconditioner.MultU(x);
         }
     }
 }

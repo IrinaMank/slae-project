@@ -20,8 +20,8 @@ namespace slae_project.Preconditioner
             public IMatrix Matrix { get; set; }
             public IPreconditioner T => this;
             public IVector MultL(IVector x) => Matrix.T.MultD(x);
-            public IVector SolveL(IVector x) => Matrix.T.SolveD(x);
             public IVector MultU(IVector x) => Matrix.T.MultD(x);
+            public IVector SolveL(IVector x) => Matrix.T.SolveD(x);
             public IVector SolveU(IVector x) => Matrix.T.SolveD(x);
         }
         public IPreconditioner T => new TransposeIllusion { Matrix = matrix };
