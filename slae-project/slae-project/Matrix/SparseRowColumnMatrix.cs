@@ -30,6 +30,11 @@ namespace slae_project.Matrix
             public IVector SolveD(IVector x) => Matrix.SolveD(x);
             public void MakeLU() => Matrix.MakeLU();
             public object Clone() => Matrix.Clone();
+
+            public IVector MultD(IVector a)
+            {
+                throw new NotImplementedException();
+            }
         }
 
 
@@ -642,6 +647,11 @@ namespace slae_project.Matrix
         public object Clone()
         {
             return new SparseRowColumnMatrix(this.ig, this.jg, this.di, this.al, this.au);
+        }
+
+        public IVector MultD(IVector a)
+        {
+            throw new NotImplementedException();
         }
 
         public SparseRowColumnMatrix(Dictionary<string, string> paths, bool isSymmetric)

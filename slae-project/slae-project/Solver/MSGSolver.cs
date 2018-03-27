@@ -23,20 +23,18 @@ namespace slae_project.Solver
         /// <returns>Вектор x - решение СЛАУ Ax=b с заданной точностью</returns>
         public IVector Solve(IPreconditioner Preconditioner, IMatrix A, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
         {
-            //Initial = new SimpleVector(b.Size);
+            Initial = new SimpleVector(new double[4] {2.0,2.0,2.0,2.0});
             IVector x = Initial.Clone() as IVector;
 
             if (b.Norm == 0)
                 return x;
 
             double scalAzZ, scalRR, alpha, beta = 1.0;
-
-            var temp = A.Mult(Initial);
-
+            
             IVector r = b.Add(A.Mult(Initial), 1, -1);
-            r = Preconditioner.SolveU(Preconditioner.MultU(r));
+            r = Preconditioner.SolveL(Preconditioner.MultL(r));
             IVector Az, Atz, z = A.Transpose.Mult(r);
-            z = Preconditioner.MultL(z);
+            z = Preconditioner.MultU(z);
 
             r = z.Clone() as IVector;
             scalRR = r.ScalarMult(r);
@@ -44,10 +42,10 @@ namespace slae_project.Solver
 
             for (int iter = 0; iter < Maxiter && normR > Precision && beta > 0; iter++)
             {
-                Az = Preconditioner.SolveL(z);
+                Az = Preconditioner.SolveU(z);
 
                 Atz = A.Mult(Az);
-                Atz = Preconditioner.SolveU(Preconditioner.MultU(Atz));
+                Atz = Preconditioner.SolveL(Preconditioner.MultL(Atz));
                 Az = A.Transpose.Mult(Atz);
                 Az = Preconditioner.MultL(Az);
 
@@ -70,8 +68,8 @@ namespace slae_project.Solver
 
                 Logger.WriteIteration(iter, normR, 100*Precision/normR);
             };
-            Logger.WriteSolution(Preconditioner.SolveL(x));
-            return Preconditioner.SolveL(x);
+            Logger.WriteSolution(Preconditioner.SolveU(x));
+            return Preconditioner.SolveU(x);
         }
     }
 }

@@ -39,6 +39,11 @@ namespace slae_project.Matrix
             public IVector SolveD(IVector x) => Matrix.SolveLT(x);
             public void MakeLU() => throw new NotImplementedException();
             public object Clone() => Matrix.Clone();
+
+            public IVector MultD(IVector a)
+            {
+                throw new NotImplementedException();
+            }
         }
         // Матрица
         private double[,] d_matrix;
@@ -597,6 +602,15 @@ namespace slae_project.Matrix
 
             IVector lt = mar.T.MultL(x);
             //should be { 10, 9, 7, 4 }
+        }
+
+        public IVector MultD(IVector a)
+        {
+            IVector result = new SimpleVector(Size);
+            for (int i = 0; i < this.Size; i++)
+                result[i] = a[i] * this[i, i];
+            return result;
+
         }
 
         public DenseMatrix(Dictionary<string, string> paths, bool isSymmetric = false)
