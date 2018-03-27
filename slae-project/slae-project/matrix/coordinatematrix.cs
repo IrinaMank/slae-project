@@ -52,6 +52,11 @@ namespace slae_project.Matrix
             public IVector SolveD(IVector x) => Matrix.SolveD(x);
             public object Clone() => Matrix.Clone();
             public void MakeLU() => Matrix.MakeLU();
+
+            public IVector MultD(IVector a)
+            {
+                throw new NotImplementedException();
+            }
         }
         // Элементы матрицы
         protected Dictionary<(int i, int j), double> elements = new Dictionary<(int i, int j), double>();
@@ -464,7 +469,10 @@ namespace slae_project.Matrix
                 int line_length = i;
                 try
                 {
-                    result[i] /= this[i, line_length - 1];
+                    if (extraDiagVal == 0)
+                        result[i] /= this[i, i];
+                    else
+                        result[i] /= extraDiagVal;
                 }
                 catch (DivideByZeroException)
                 {
@@ -692,6 +700,17 @@ namespace slae_project.Matrix
         public object Clone()
         {
             return new CoordinateMatrix(this.elements, Size, isSymmetric);
+        }
+
+        public IVector MultD(IVector a)
+        {
+            IVector result = new SimpleVector(this.Size);
+            foreach(var el in this)
+            {
+                if (el.col == el.row)
+                    result[el.col] = a[el.col] * el.value;
+            }
+            return result;
         }
 
         public CoordinateMatrix(Dictionary<string, string> paths, bool isSymmetric = false)
