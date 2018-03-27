@@ -9,7 +9,7 @@ namespace UnitTestProject
     [TestClass]
     public class SparseRowColumnTest
     {
-        [TestMethod] // работает
+        [TestMethod] 
         public void TestSPRC()
         {
 
@@ -45,6 +45,7 @@ namespace UnitTestProject
 
             Assert.IsTrue(result.CompareWith(right, 1e-5));
         }
+
         // тот самый localtest (работает)
         [TestMethod]
         public void TestMatrix_coord_in_sparserowcolumn()
@@ -66,10 +67,41 @@ namespace UnitTestProject
 
             IMatrix c_matr = new CoordinateMatrix(coord, val);
             IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)c_matr);
+            Assert.IsNotNull(s_matr);
         }
 
-        [TestMethod] // не работает
+        [TestMethod] 
         public void Test_SolveL_nonsimmetr()
+        {
+
+            (int, int)[] coord = new(int, int)[11];
+            coord[0] = (0, 0);
+            coord[1] = (0, 2);
+            coord[2] = (0, 3);
+            coord[3] = (1, 1);
+            coord[4] = (1, 3);
+            coord[5] = (2, 2);
+            coord[6] = (3, 1);
+            coord[7] = (3, 3);
+            coord[8] = (4, 1);
+            coord[9] = (4, 2);
+            coord[10] = (4, 4);
+
+            double[] val = new double[11] { 1, 3, 4, 2, 5, 3, 1, 4, 2, 3, 5 };
+
+
+            IMatrix matr = new CoordinateMatrix(coord, val);
+            IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
+            IVector x = new SimpleVector(new double[5] { 1, 2, 3, 4, 5 });
+
+            IVector result = s_matr.SolveU(x);
+            IVector right = new SimpleVector(new double[5] { -6, -1.5, 1, 1, 1 });
+
+            Assert.IsTrue(result.CompareWith(right, 1e-5));
+        }
+
+        [TestMethod] 
+        public void Test_SolveU_nonsimmetr()
         {
             (int, int)[] coord = new(int, int)[11];
             coord[0] = (0, 0);
@@ -89,16 +121,14 @@ namespace UnitTestProject
 
             IMatrix matr = new CoordinateMatrix(coord, val);
             IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-            IVector x = new SimpleVector(new double[5] { 1, 2, 3, 4, 5  });
+            IVector x = new SimpleVector(new double[5] { 1, 2, 3, 4, 5 });
 
-            IVector result = s_matr.SolveL(x);
-            IVector right = new SimpleVector(new double[5] { 26, 24, 9, 18, 38 });
+            IVector result = s_matr.SolveU(x);
+            IVector right = new SimpleVector(new double[5] { -6, -1.5, 1, 1, 1 });
 
             Assert.IsTrue(result.CompareWith(right, 1e-5));
 
         }
-
-
 
 
     }
