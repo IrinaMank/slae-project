@@ -392,7 +392,9 @@ namespace slae_project
             string buff = text;
             string result = "";
             int lettersCount = text.Count();
-            
+
+
+
             for (int i = 0; i < lettersCount; i++)
                 if (buff[i] >= '0' && buff[i] <= '9')
                 {
