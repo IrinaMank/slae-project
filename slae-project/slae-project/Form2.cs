@@ -167,6 +167,8 @@ namespace slae_project
             //получаем выбранный файл 
             string filename = openFileDialog1.FileName;
             value.Text = filename;
+            //filenames_format.Clear();
+            filenames_format.Remove(val_label.Text.ToString());
             filenames_format.Add(val_label.Text.ToString(), filename);
             if (btn == obzors[obzors.Count - 2])
             {
