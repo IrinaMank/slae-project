@@ -278,8 +278,8 @@ namespace slae_project
             str_format_matrix = format.SelectedItem.ToString();
 
             next.Enabled = true;
-            FileLoadForm form2 = new FileLoadForm();
-            form2.Show();
+            FileLoadForm FileLoadForm = new FileLoadForm();
+            FileLoadForm.Show();
             format.Enabled = true;
         }
 

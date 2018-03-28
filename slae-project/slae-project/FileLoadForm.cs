@@ -28,7 +28,7 @@ namespace slae_project
             this.Size = new Size(500, 400);
         }
         List<Button> obzors = new List<Button>();
-        private void Form2_Load(object sender, EventArgs e)
+        private void FileLoadForm_Load(object sender, EventArgs e)
         {
             obzors.Clear();
             Factory.CreateMatrix(Form1.str_format_matrix);

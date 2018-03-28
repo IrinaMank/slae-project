@@ -45,7 +45,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FileLoadForm";
             this.Text = "FileLoadForm";
-            this.Load += new System.EventHandler(this.Form2_Load);
+            this.Load += new System.EventHandler(this.FileLoadForm_Load);
             this.ResumeLayout(false);
 
         }
