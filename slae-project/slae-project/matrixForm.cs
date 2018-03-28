@@ -21,7 +21,12 @@ namespace slae_project
         {
             InitializeComponent();
         }
-        
+        static Double Eval(String expression)
+        {
+            System.Data.DataTable table = new System.Data.DataTable();
+            return Convert.ToDouble(table.Compute(expression, String.Empty));
+        }
+
         private void matrixFormLoad(object sender, EventArgs e)
         {
             sizeRead();
@@ -54,7 +59,6 @@ namespace slae_project
                 row1.ReadOnly = false; //значение в этой колонке нельзя править
                 row1.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
 
-
                 matrixDataGrid.Columns.Add(column);
                 matrixDataGrid.Rows.Add(row);
                 vectorDataGrid.Rows.Add(row1);
@@ -65,31 +69,37 @@ namespace slae_project
             matrixDataGrid.AllowUserToResizeColumns = false; // запрещаем менять размер столбцов
             matrixDataGrid.RowHeadersVisible = false; // делаем невидимыми заголовки строк
             matrixDataGrid.ColumnHeadersVisible = false; // делаем невидимыми заголовки столбцов
-            matrixDataGrid.Height = 30 * size; // высота рамки
-            matrixDataGrid.Width = 30 * size; // ширина рамки
-
+           
             vectorDataGrid.AllowUserToResizeRows = false; // запрещаем менять размер строчек
             vectorDataGrid.AllowUserToResizeColumns = false; // запрещаем менять размер столбцов
             vectorDataGrid.RowHeadersVisible = false; // делаем невидимыми заголовки строк
             vectorDataGrid.ColumnHeadersVisible = false; // делаем невидимыми заголовки столбцов
-            vectorDataGrid.Height = 30 * size; // высота рамки
-            vectorDataGrid.Width = 30; // ширина рамки
-
-
-            groupBox1.Height = matrixDataGrid.Height + 50; // высота групбокса относительно размера матрицы
-            groupBox1.Width = matrixDataGrid.Width + 30; // ширина групбокса относительно размера матрицы
-            groupBox2.Height = vectorDataGrid.Height + 50; // высота групбокса относительно размера матрицы
-            groupBox2.Width = vectorDataGrid.Width + 60; // ширина групбокса относительно размера матрицы
+            
+            vectorDataGrid.Width = 30; 
+            groupBox2.Width = vectorDataGrid.Width + 60;
+            sizeWrap();
         }
 
+        /// <summary>
+        /// Подгонка размеров элементов окна под текущую размерность матрицы. Вызывается каждый раз при измененении размеров матрицы.
+        /// </summary>
+        private void sizeWrap() {             
+            matrixDataGrid.Height = 30 * size;
+            matrixDataGrid.Width = 30 * size; 
+            vectorDataGrid.Height = 30 * size;
+            groupBox1.Height = matrixDataGrid.Height + 50; 
+            groupBox1.Width = matrixDataGrid.Width + 30;
+            groupBox2.Height = vectorDataGrid.Height + 50;  
+        }
 
-        public void textToOnlyNumbers(ref string text)
+        public void textToOnlyNumbers(int col, int row)
         {
-            try{
-                text = Convert.ToDouble(text).ToString();
+            try
+            {
+                matrixDataGrid[col, row].Value = Eval(matrixDataGrid[col, row].Value.ToString().Replace(",","."));
             }
-            catch {
-                text = "";
+            catch{
+                matrixDataGrid[col, row].Value = null;
             }
         }
 
@@ -105,6 +115,26 @@ namespace slae_project
                     vectorDataGrid[0, i].Value = 0;
             }
             
+        }
+
+        private void clearMatrix()
+        {
+            while (size > 2)
+            {
+                size--;
+                matrixDataGrid.Rows.RemoveAt(size);
+                matrixDataGrid.Columns.RemoveAt(size);
+                vectorDataGrid.Rows.RemoveAt(size);              
+            }
+
+            for (int j = 0; j < size; j++)
+            {
+                for (int i = 0; i < size; i++)
+                    matrixDataGrid[i, j].Value = null;
+                vectorDataGrid[0, j].Value = null;
+            }
+
+            sizeWrap();
         }
         private void sizeRead() // чтение размерности матрицы из файла
         {
@@ -122,7 +152,7 @@ namespace slae_project
 
         private void button1_Click(object sender, EventArgs e)
         {
-            doMatrixNull();
+            clearMatrix();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -179,49 +209,43 @@ namespace slae_project
                         matrixDataGrid.Rows[j].Cells[i].Style.BackColor = Color.White;
                         vectorDataGrid.Rows[j].Cells[0].Style.BackColor = Color.White;
                     }
+                if (size < 10)
+                {
+                    var column = new DataGridViewColumn();
+                    column.Width = 30; //ширина колонки
+                    column.ReadOnly = false; //значение в этой колонке нельзя править
+                    column.Name = "column" + Convert.ToString(size); //текстовое имя колонки, его можно использовать вместо обращений по индексу
+                    column.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
+                    column.CellTemplate = new DataGridViewTextBoxCell(); //тип нашей колонки
+                    column.DefaultCellStyle.BackColor = Color.Gray;
 
-                var column = new DataGridViewColumn();
-                column.Width = 30; //ширина колонки
-                column.ReadOnly = false; //значение в этой колонке нельзя править
-                column.Name = "column" + Convert.ToString(size); //текстовое имя колонки, его можно использовать вместо обращений по индексу
-                column.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
-                column.CellTemplate = new DataGridViewTextBoxCell(); //тип нашей колонки
-                column.DefaultCellStyle.BackColor = Color.Gray;
+                    var row = new DataGridViewRow();
+                    row.Height = 30; //ширина колонки
+                    row.ReadOnly = false; //значение в этой колонке нельзя править
+                    row.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
+                    row.DefaultCellStyle.BackColor = Color.Gray;
 
-                var row = new DataGridViewRow();
-                row.Height = 30; //ширина колонки
-                row.ReadOnly = false; //значение в этой колонке нельзя править
-                row.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
-                row.DefaultCellStyle.BackColor = Color.Gray;
+                    var row1 = new DataGridViewRow();
+                    row1.Height = 30; //ширина колонки
+                    row1.ReadOnly = false; //значение в этой колонке нельзя править
+                    row1.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
+                    row1.DefaultCellStyle.BackColor = Color.Gray;
 
-                var row1 = new DataGridViewRow();
-                row1.Height = 30; //ширина колонки
-                row1.ReadOnly = false; //значение в этой колонке нельзя править
-                row1.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
-                row1.DefaultCellStyle.BackColor = Color.Gray;
+                    size++;
+                    matrixDataGrid.Columns.Add(column);
+                    matrixDataGrid.Rows.Add(row);
+                    vectorDataGrid.Rows.Add(row1);
 
-                size++;
-                matrixDataGrid.Columns.Add(column);
-                matrixDataGrid.Rows.Add(row);
-                vectorDataGrid.Rows.Add(row1);
-                matrixDataGrid.Height = 30 * size; // высота рамки
-                matrixDataGrid.Width = 30 * size; // ширина рамки
-                vectorDataGrid.Height = 30 * size; // высота рамки
-
-                groupBox1.Height = matrixDataGrid.Height + 50; // высота групбокса относительно размера матрицы
-                groupBox1.Width = matrixDataGrid.Width + 30; // ширина групбокса относительно размера матрицы
-                groupBox2.Height = vectorDataGrid.Height + 50; // высота групбокса относительно размера матрицы
-                groupBox2.Width = vectorDataGrid.Width + 60; // ширина групбокса относительно размера матрицы
-                
+                    sizeWrap();
+                }
             }
         }
 
         private void matrixDataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (matrixDataGrid[e.ColumnIndex, e.RowIndex].Value != null)
-            {
-                var buf = matrixDataGrid[e.ColumnIndex, e.RowIndex].Value.ToString();
-                textToOnlyNumbers(ref buf);
+            {                
+                textToOnlyNumbers(e.ColumnIndex, e.RowIndex);
                 if (property == 1)
                     matrixDataGrid[e.RowIndex, e.ColumnIndex].Value = matrixDataGrid[e.ColumnIndex, e.RowIndex].Value;
                 matrixDataGrid.UpdateCellValue(e.RowIndex, e.ColumnIndex);
@@ -245,12 +269,8 @@ namespace slae_project
                         matrixDataGrid.Rows.RemoveAt(e.ColumnIndex);
                         matrixDataGrid.Columns.RemoveAt(e.ColumnIndex);
                         vectorDataGrid.Rows.RemoveAt(e.ColumnIndex);
-                        matrixDataGrid.Height = 30 * size;
-                        matrixDataGrid.Width = 30 * size; 
-                        vectorDataGrid.Height = 30 * size;
-                        groupBox1.Height = matrixDataGrid.Height + 50;
-                        groupBox1.Width = matrixDataGrid.Width + 30;
-                        groupBox2.Height = vectorDataGrid.Height + 50;                      
+
+                        sizeWrap();
                     }
                 }
             }
