@@ -16,7 +16,7 @@ namespace slae_project
     class Factory
     {
         Form1 main_form;
-        FileLogger Log = new FileLogger();
+        FileLogger Log = new FileLogger(0);
         public static Dictionary<string, string> DictionaryOfFormats = FileLoadForm.filenames_format;//словарь путей до массивов
         static public Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)> MatrixTypes = new Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)>();
         public static IMatrix ObjectOfIMatrix;
@@ -92,6 +92,7 @@ namespace slae_project
 
             string typename = typenameOb as string;
             Func<IPreconditioner, IMatrix, IVector, IVector, double, int, ILogger, IVector> value;
+           
             SolverTypes.TryGetValue(typename, out value);
 
             FileLogger f = null;

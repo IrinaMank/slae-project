@@ -259,6 +259,7 @@ namespace slae_project
 
         private void nextClick(object sender, EventArgs e)
         {
+            maxiter = Convert.ToUInt16(maxit.Text);
             bar.Maximum = Convert.ToUInt16(maxit.Text);
             accurent = Convert.ToDouble("1e-" + acc.Value.ToString());
 
