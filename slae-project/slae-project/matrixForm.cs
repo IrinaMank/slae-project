@@ -260,7 +260,7 @@ namespace slae_project
                     bool notEmptyRow = false;
                     for (int i = 0; i < size; i++)
                     {
-                        if (matrixDataGrid[e.ColumnIndex, e.RowIndex].Value != null || matrixDataGrid[e.RowIndex, e.ColumnIndex].Value != null)
+                        if (matrixDataGrid[e.ColumnIndex, i].Value != null || matrixDataGrid[i, e.RowIndex].Value != null)
                             notEmptyRow = true;
                     }
                     if (!notEmptyRow)
