@@ -223,8 +223,8 @@ namespace slae_project
 
             List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", ref mar));
             List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", ref b));
-            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", ref x0));
-            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", ref rigthX));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("The quick brown fox jumps over the lazy dog", ref x0));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("abcdefghijklmnopqrstuvwxyz", ref rigthX));
         }
         public string ProjectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
     }

@@ -567,7 +567,7 @@ namespace slae_project
             x += (int)static_step;
         }
         enum Actions { Верхняя,Нижняя,Средняя, Левая_верт_полная, Левая_верт_нижняя, Левая_верт_верхняя,
-            Правая_верт_полная, Правая_верт_нижняя, Правая_верт_верхняя, Запятая
+            Правая_верт_полная, Правая_верт_нижняя, Правая_верт_верхняя, Запятая, Наискосок_семерки
         }
         void Enum_act(Actions action)
         {
@@ -602,6 +602,9 @@ namespace slae_project
                     break;
                 case Actions.Запятая:
                     fa.Запятая();
+                    break;
+                case Actions.Наискосок_семерки:
+                    fa.Наискосок_семерки();
                     break;
 
             }
@@ -667,6 +670,12 @@ namespace slae_project
             {
                 gl.Vertex(x + fontsize / 4, y, Line_Height);
                 gl.Vertex(x, y - fontsize / 4, Line_Height);
+            }
+            public void Наискосок_семерки()
+            {
+                //Наискосок семерки
+                gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
+                        gl.Vertex(x, y, Line_Height);
             }
         }
         FA fa = new FA();
@@ -757,9 +766,7 @@ namespace slae_project
                         break;
                     case '7':
                         Enum_act(Actions.Верхняя);
-                        //Наискосок семерки
-                        gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
-                        gl.Vertex(x, y, Line_Height);
+                        Enum_act(Actions.Наискосок_семерки);
                         X_draw_move();
                         break;
                     case '8':
@@ -806,6 +813,148 @@ namespace slae_project
                         //Средняя черта
                         gl.Vertex(x, y + fontsize / 4, Line_Height);
                         gl.Vertex(x + fontsize / 2, y + fontsize / 4, Line_Height);
+                        X_draw_move();
+                        break;
+                    case '#':
+                        X_draw_move();
+                        break;
+                    case 'a':
+                        Enum_act(Actions.Средняя);
+                        Enum_act(Actions.Верхняя);
+                        Enum_act(Actions.Левая_верт_полная);
+                        Enum_act(Actions.Правая_верт_полная);
+                        X_draw_move();
+                        break;
+                    case 'b':
+                        Enum_act(Actions.Левая_верт_полная);
+                        //!!!!!!!!!!!!!!!!!!!!!
+                        X_draw_move();
+                        break;
+                    case 'c':
+                        Enum_act(Actions.Нижняя);
+                        Enum_act(Actions.Верхняя);
+                        Enum_act(Actions.Левая_верт_полная);
+                        X_draw_move();
+                        break;
+                    case 'd':
+                        Enum_act(Actions.Левая_верт_полная);
+                        //!!!!!!!!!!!!!!!!!
+                        X_draw_move();
+                        break;
+                    case 'f':
+                        Enum_act(Actions.Средняя);
+                        Enum_act(Actions.Верхняя);
+                        Enum_act(Actions.Левая_верт_полная);
+                        X_draw_move();
+                        break;
+                    case 'g':
+                        Enum_act(Actions.Нижняя);
+                        Enum_act(Actions.Верхняя);
+                        Enum_act(Actions.Правая_верт_нижняя);
+                        Enum_act(Actions.Левая_верт_полная);
+                        X_draw_move();
+                        break;
+                    case 'h':
+                        Enum_act(Actions.Средняя);
+                        Enum_act(Actions.Левая_верт_полная);
+                        Enum_act(Actions.Правая_верт_нижняя);
+                        X_draw_move();
+                        break;
+                    case 'i':
+                        Enum_act(Actions.Правая_верт_полная);
+                        X_draw_move();
+                        break;
+                    case 'j':
+                        //Верхняя черта
+                        gl.Vertex(x + fontsize / 4, y + fontsize, Line_Height);
+                        gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
+                        Enum_act(Actions.Нижняя);
+                        Enum_act(Actions.Правая_верт_полная);
+                        X_draw_move();
+                        break;
+                    case 'k':
+                        Enum_act(Actions.Левая_верт_полная);
+                        //!!!!!!!!!!!!!!!!
+                        X_draw_move();
+                        break;
+                    case 'l':
+                        Enum_act(Actions.Нижняя);
+                        Enum_act(Actions.Левая_верт_полная);
+                        X_draw_move();
+                        break;
+                    case 'm':
+                        Enum_act(Actions.Левая_верт_полная);
+                        Enum_act(Actions.Правая_верт_полная);
+                        //!!!!!!!!!!!!!!!!!!!!!!
+                        X_draw_move();
+                        break;
+                    case 'n':
+                        Enum_act(Actions.Левая_верт_полная);
+                        Enum_act(Actions.Правая_верт_полная);
+                        //!!!!!!!!!!!!!!!!!!!!
+                        X_draw_move();
+                        break;
+                    case 'o':
+                        Enum_act(Actions.Нижняя);
+                        Enum_act(Actions.Верхняя);
+                        Enum_act(Actions.Левая_верт_полная);
+                        Enum_act(Actions.Правая_верт_полная);
+                        X_draw_move();
+                        break;
+                    case 'p':
+                        Enum_act(Actions.Средняя);
+                        Enum_act(Actions.Верхняя);
+                        Enum_act(Actions.Левая_верт_полная);
+                        Enum_act(Actions.Правая_верт_верхняя);
+                        X_draw_move();
+                        break;
+                    case 'q':
+                        Enum_act(Actions.Средняя);
+                        Enum_act(Actions.Верхняя);
+                        Enum_act(Actions.Левая_верт_верхняя);
+                        Enum_act(Actions.Правая_верт_полная);
+                        X_draw_move();
+                        break;
+                    case 'r':
+                        Enum_act(Actions.Левая_верт_полная);
+                        //!!!!!!!!!!!!!!!!!!!!
+                        X_draw_move();
+                        break;
+                    case 's':
+                        Enum_act(Actions.Средняя);
+                        Enum_act(Actions.Нижняя);
+                        Enum_act(Actions.Верхняя);
+                        Enum_act(Actions.Левая_верт_верхняя);
+                        Enum_act(Actions.Правая_верт_нижняя);
+                        X_draw_move();
+                        break;
+                    case 't':
+                        Enum_act(Actions.Верхняя);
+                        //!!!!!!!!!!!!!!!!1
+                        X_draw_move();
+                        break;
+                    case 'u':
+                        Enum_act(Actions.Нижняя);
+                        Enum_act(Actions.Левая_верт_полная);
+                        Enum_act(Actions.Правая_верт_полная);
+                        X_draw_move();
+                        break;
+                    case 'v':
+                        X_draw_move();
+                        break;
+                    case 'w':
+                        X_draw_move();
+                        break;
+                    case 'x':
+                        X_draw_move();
+                        break;
+                    case 'y':
+                        X_draw_move();
+                        break;
+                    case 'z':
+                        Enum_act(Actions.Нижняя);
+                        Enum_act(Actions.Верхняя);
+                        Enum_act(Actions.Наискосок_семерки);
                         X_draw_move();
                         break;
 
