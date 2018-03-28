@@ -221,7 +221,7 @@ namespace slae_project.Matrix
                     result[0] = 0;
                 }
                 else
-                    throw new CannotSolveSLAEExcpetion("Система неразрешима.");
+                    throw new SlaeNotCompatipableException("Система неразрешима.");
             }
             for (int i = 0; i < Size; i++)
             {
@@ -237,7 +237,7 @@ namespace slae_project.Matrix
                 }
                 catch (DivideByZeroException)
                 {
-                    throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
+                    throw new SlaeNotCompatipableException("Произошло деление на ноль.");
                 }
             }
             return result;
@@ -253,7 +253,7 @@ namespace slae_project.Matrix
                     result[Size - 1] = 0;
                 }
                 else
-                    throw new CannotSolveSLAEExcpetion("Система неразрешима.");
+                    throw new SlaeNotCompatipableException("Система неразрешима.");
             }
             for (int i = Size - 1; i >= 0; i--)
             {
@@ -267,7 +267,7 @@ namespace slae_project.Matrix
                 }
                 catch (DivideByZeroException)
                 {
-                    throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
+                    throw new SlaeNotCompatipableException("Произошло деление на ноль.");
                 }
             }
             return result;
@@ -405,7 +405,7 @@ namespace slae_project.Matrix
                     result[Size - 1] = 0;
                 }
                 else
-                    throw new CannotSolveSLAEExcpetion("Система неразрешима.");
+                    throw new SlaeNotCompatipableException("Система неразрешима.");
                 return null;
             }
             for (int i = Size - 1; i >= 0; i--)
@@ -420,7 +420,7 @@ namespace slae_project.Matrix
                 }
                 catch (DivideByZeroException)
                 {
-                    throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
+                    throw new SlaeNotCompatipableException("Произошло деление на ноль.");
                 }
                 for (int j = 0; j < line_length; j++)
                 {
@@ -441,7 +441,7 @@ namespace slae_project.Matrix
                     result[0] = 0;
                 }
                 else
-                    throw new CannotSolveSLAEExcpetion("Система неразрешима.");
+                    throw new SlaeNotCompatipableException("Система неразрешима.");
             }
             for (int i = 0; i < Size; i++)
             {
@@ -454,7 +454,7 @@ namespace slae_project.Matrix
                 }
                 catch (DivideByZeroException)
                 {
-                    throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
+                    throw new SlaeNotCompatipableException("Произошло деление на ноль.");
                 }
             }
             return result;
