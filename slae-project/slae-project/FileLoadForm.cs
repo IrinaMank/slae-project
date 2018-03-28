@@ -14,7 +14,7 @@ namespace slae_project
 {
 
 
-    public partial class Form2 : Form
+    public partial class FileLoadForm : Form
     {
         int Y = 0;
         public static Dictionary<string, Label> name_arr = new Dictionary<string, Label>();//имена массивов
@@ -24,13 +24,13 @@ namespace slae_project
         public static Dictionary<Label, TextBox> sootvet = new Dictionary<Label, TextBox>();
         public static IVector F = new SimpleVector();//правая часть
         public static IVector X0 = new SimpleVector();//Начально приближение 
-        public Form2()
+        public FileLoadForm()
         {
             InitializeComponent();
             this.Size = new Size(500, 400);
         }
         List<Button> obzors = new List<Button>();//лист кнопок обзоров
-        private void Form2_Load(object sender, EventArgs e)
+        private void FileLoadForm_Load(object sender, EventArgs e)
         {
             obzors.Clear();
             Factory.CreateMatrix(Form1.str_format_matrix);

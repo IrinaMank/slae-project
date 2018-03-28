@@ -35,7 +35,7 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // Form2
+            // FileLoadForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -44,7 +44,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "FileLoadForm";
             this.Text = "FileLoadForm";
-            this.Load += new System.EventHandler(this.Form2_Load);
+            this.Load += new System.EventHandler(this.FileLoadForm_Load);
             this.ResumeLayout(false);
 
         }
