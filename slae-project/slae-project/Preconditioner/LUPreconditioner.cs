@@ -14,6 +14,8 @@ namespace slae_project.Preconditioner
         {
             m = matr.Clone() as IMatrix;
             m.MakeLU();
+            if (m.Diagonal.ContainZero())
+                throw new slae_project.Matrix.MatrixExceptions.LUFailException();
         }
     }
 }
