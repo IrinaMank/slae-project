@@ -21,12 +21,16 @@ namespace slae_project
         {
             InitializeComponent();
         }
+        static Double Eval(String expression)
+        {
+            System.Data.DataTable table = new System.Data.DataTable();
+            return Convert.ToDouble(table.Compute(expression, String.Empty));
+        }
 
-        
         private void matrixFormLoad(object sender, EventArgs e)
         {
             sizeRead();
-
+            size = 2;
             var column1 = new DataGridViewColumn();
             column1.Width = 30; //ширина колонки
             column1.ReadOnly = false; //значение в этой колонке нельзя править
@@ -55,120 +59,83 @@ namespace slae_project
                 row1.ReadOnly = false; //значение в этой колонке нельзя править
                 row1.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
 
-
                 matrixDataGrid.Columns.Add(column);
                 matrixDataGrid.Rows.Add(row);
                 vectorDataGrid.Rows.Add(row1);
 
             }
 
-            
-
-            doMatrixNull();
-
-            if (property == 1)  // в случае симметричной матрицы
-            {
-                for(int i=0;i<size;i++)
-                {
-                    for (int j = i+1; j < size; j++) 
-                    {
-                        matrixDataGrid[j, i].ReadOnly = true;
-                    }
-                }
-
-            }
-
-            matrixDataGrid.Click += new System.EventHandler(dataGridChange);
             matrixDataGrid.AllowUserToResizeRows = false; // запрещаем менять размер строчек
             matrixDataGrid.AllowUserToResizeColumns = false; // запрещаем менять размер столбцов
             matrixDataGrid.RowHeadersVisible = false; // делаем невидимыми заголовки строк
             matrixDataGrid.ColumnHeadersVisible = false; // делаем невидимыми заголовки столбцов
-            matrixDataGrid.AllowUserToAddRows = false; // запрещаем добавлять строки
-            matrixDataGrid.Height = 30 * size; // высота рамки
-            matrixDataGrid.Width = 30 * size; // ширина рамки
-
-            vectorDataGrid.Click += new System.EventHandler(dataGridChange);
+           
             vectorDataGrid.AllowUserToResizeRows = false; // запрещаем менять размер строчек
             vectorDataGrid.AllowUserToResizeColumns = false; // запрещаем менять размер столбцов
             vectorDataGrid.RowHeadersVisible = false; // делаем невидимыми заголовки строк
             vectorDataGrid.ColumnHeadersVisible = false; // делаем невидимыми заголовки столбцов
-            vectorDataGrid.AllowUserToAddRows = false; // запрещаем добавлять строки
-            vectorDataGrid.Height = 30 * size; // высота рамки
-            vectorDataGrid.Width = 30; // ширина рамки
-
-
-            groupBox1.Height = matrixDataGrid.Height + 50; // высота групбокса относительно размера матрицы
-            groupBox1.Width = matrixDataGrid.Width + 30; // ширина групбокса относительно размера матрицы
-            groupBox2.Height = vectorDataGrid.Height + 50; // высота групбокса относительно размера матрицы
-            groupBox2.Width = vectorDataGrid.Width + 60; // ширина групбокса относительно размера матрицы
+            
+            vectorDataGrid.Width = 30; 
+            groupBox2.Width = vectorDataGrid.Width + 60;
+            sizeWrap();
         }
 
+        /// <summary>
+        /// Подгонка размеров элементов окна под текущую размерность матрицы. Вызывается каждый раз при измененении размеров матрицы.
+        /// </summary>
+        private void sizeWrap() {             
+            matrixDataGrid.Height = 30 * size;
+            matrixDataGrid.Width = 30 * size; 
+            vectorDataGrid.Height = 30 * size;
+            groupBox1.Height = matrixDataGrid.Height + 50; 
+            groupBox1.Width = matrixDataGrid.Width + 30;
+            groupBox2.Height = vectorDataGrid.Height + 50;  
+        }
 
-        public void textToOnlyNumbers(ref string text) // Проверка, на цифру в поле
-        {                                               //если чо-то левое то обнуление полей
-            string buff = text;
-            string result = "";
-            int lettersCount = text.Count();
-            bool dotNotWas = true;
-            for (int i = 0; i < lettersCount; i++)
-                if (buff[i] >= '0' && buff[i] <= '9' || buff[i] == ',' && dotNotWas || (buff[i] == '-' && i == 0))
-                {
-                    if (buff[i] == ',' && dotNotWas)
-                        dotNotWas = false;
-                    result += buff[i];
-                }
-            if (result == "")
-                result = "0";
-            text = result;
+        public void textToOnlyNumbers(int col, int row)
+        {
+            try
+            {
+                matrixDataGrid[col, row].Value = Eval(matrixDataGrid[col, row].Value.ToString().Replace(",","."));
+            }
+            catch{
+                matrixDataGrid[col, row].Value = null;
+            }
         }
 
         private void doMatrixNull()
         {
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < size - 1; i++)
             {
-                for (int j = 0; j < size; j++)
-                {
-                    matrixDataGrid[j, i].Value = 0;
+                for (int j = 0; j < size - 1; j++)
+                    if (matrixDataGrid[j, i].Value == null)
+                        matrixDataGrid[j, i].Value = 0;
 
-                }
-                vectorDataGrid[0,i].Value = 0;
+                if (vectorDataGrid[0, i].Value == null)
+                    vectorDataGrid[0, i].Value = 0;
             }
+            
         }
 
-        private void dataGridChange(object sender, EventArgs e)
+        private void clearMatrix()
         {
-            string Val;
-            if (property == 1)
+            while (size > 2)
+            {
+                size--;
+                matrixDataGrid.Rows.RemoveAt(size);
+                matrixDataGrid.Columns.RemoveAt(size);
+                vectorDataGrid.Rows.RemoveAt(size);              
+            }
+
+            for (int j = 0; j < size; j++)
+            {
                 for (int i = 0; i < size; i++)
-                {
-                    for (int j = i + 1; j < size; j++)
-                    {
-                        Val = Convert.ToString(matrixDataGrid[i, j].Value);
-                        textToOnlyNumbers(ref Val);
-                        matrixDataGrid[i, j].Value = Val;
+                    matrixDataGrid[i, j].Value = null;
+                vectorDataGrid[0, j].Value = null;
+            }
 
-                        matrixDataGrid[j, i].Value = matrixDataGrid[i, j].Value;
-                        matrixDataGrid.UpdateCellValue(j, i);
-                    }
-                    Val = Convert.ToString(vectorDataGrid[0, i].Value);
-                    textToOnlyNumbers(ref Val);
-                    vectorDataGrid[0, i].Value = Val;
-                }
-            else for (int i = 0; i < size; i++)
-                {
-                    for (int j = 0; j < size; j++)
-                    {
-                        Val = Convert.ToString(matrixDataGrid[i, j].Value);
-                        textToOnlyNumbers(ref Val);
-                        matrixDataGrid[i, j].Value = Val;
-                    }
-                    Val = Convert.ToString(vectorDataGrid[0, i].Value);
-                    textToOnlyNumbers(ref Val);
-                    vectorDataGrid[0, i].Value = Val;
-                }
-           
+            sizeWrap();
         }
-
         private void sizeRead() // чтение размерности матрицы из файла
         {
             using (StreamReader reader = File.OpenText("mymatrixSet.txt"))
@@ -180,16 +147,18 @@ namespace slae_project
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            doMatrixNull();
+            clearMatrix();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            doMatrixNull();
+            size--;
             Form1.str_format_matrix = "Плотный";
             Factory.CreateMatrix(Form1.str_format_matrix);
             List<string> arrays = Factory.name_arr;
@@ -210,35 +179,99 @@ namespace slae_project
                     writer.Write("\r\n");
                 }
             }
-            Form2.filenames_format.Clear();
-            Form2.filenames_format.Add(arrays[0].ToString(), name);
+            FileLoadForm.filenames_format.Clear();
+            FileLoadForm.filenames_format.Add(arrays[0].ToString(), name);
 
-                Form2.F = new SimpleVector(size);
+                FileLoadForm.F = new SimpleVector(size);
                 string line1;
                 for (int i = 0; i < size; i++)
                 {
                     line1 = vectorDataGrid[0,i].Value.ToString();
-                    Form2.F[i] = Convert.ToDouble(line1);
-                 
+                    FileLoadForm.F[i] = Convert.ToDouble(line1);                 
                 }
-            Form2.X0 = new SimpleVector(size);
+            FileLoadForm.X0 = new SimpleVector(size);
             for (int i = 0; i < size; i++)
                 {
-                    Form2.X0[i] = 1.0;
+                    FileLoadForm.X0[i] = 1.0;
                 }
-
             this.Close();
-
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
+        private void matrixDataGrid_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
+            if (e.ColumnIndex == size-1 || e.RowIndex == size-1)
+            {
+                for (int i=0; i<size;i++)
+                    for (int j = 0; j < size; j++)
+                    {
+                        matrixDataGrid.Rows[j].Cells[i].Style.BackColor = Color.White;
+                        vectorDataGrid.Rows[j].Cells[0].Style.BackColor = Color.White;
+                    }
+                if (size < 10)
+                {
+                    var column = new DataGridViewColumn();
+                    column.Width = 30; //ширина колонки
+                    column.ReadOnly = false; //значение в этой колонке нельзя править
+                    column.Name = "column" + Convert.ToString(size); //текстовое имя колонки, его можно использовать вместо обращений по индексу
+                    column.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
+                    column.CellTemplate = new DataGridViewTextBoxCell(); //тип нашей колонки
+                    column.DefaultCellStyle.BackColor = Color.Gray;
 
+                    var row = new DataGridViewRow();
+                    row.Height = 30; //ширина колонки
+                    row.ReadOnly = false; //значение в этой колонке нельзя править
+                    row.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
+                    row.DefaultCellStyle.BackColor = Color.Gray;
+
+                    var row1 = new DataGridViewRow();
+                    row1.Height = 30; //ширина колонки
+                    row1.ReadOnly = false; //значение в этой колонке нельзя править
+                    row1.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
+                    row1.DefaultCellStyle.BackColor = Color.Gray;
+
+                    size++;
+                    matrixDataGrid.Columns.Add(column);
+                    matrixDataGrid.Rows.Add(row);
+                    vectorDataGrid.Rows.Add(row1);
+
+                    sizeWrap();
+                }
+            }
         }
 
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        private void matrixDataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            if (matrixDataGrid[e.ColumnIndex, e.RowIndex].Value != null)
+            {                
+                textToOnlyNumbers(e.ColumnIndex, e.RowIndex);
+                if (property == 1)
+                    matrixDataGrid[e.RowIndex, e.ColumnIndex].Value = matrixDataGrid[e.ColumnIndex, e.RowIndex].Value;
+                matrixDataGrid.UpdateCellValue(e.RowIndex, e.ColumnIndex);
+            }
+            else
+            {
+                if (property == 1)
+                    matrixDataGrid[e.RowIndex, e.ColumnIndex].Value = "";
 
+                if (e.ColumnIndex == size - 2 || e.RowIndex == size - 2)
+                {
+                    bool notEmptyRow = false;
+                    for (int i = 0; i < size; i++)
+                    {
+                        if (matrixDataGrid[e.ColumnIndex, i].Value != null || matrixDataGrid[i, e.RowIndex].Value != null)
+                            notEmptyRow = true;
+                    }
+                    if (!notEmptyRow)
+                    {
+                        size--;
+                        matrixDataGrid.Rows.RemoveAt(e.ColumnIndex);
+                        matrixDataGrid.Columns.RemoveAt(e.ColumnIndex);
+                        vectorDataGrid.Rows.RemoveAt(e.ColumnIndex);
+
+                        sizeWrap();
+                    }
+                }
+            }
         }
     }
 

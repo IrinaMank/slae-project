@@ -1,6 +1,6 @@
 ﻿namespace slae_project
 {
-    partial class Form2
+    partial class FileLoadForm
     {
         /// <summary>
         /// Required designer variable.
@@ -42,8 +42,8 @@
             this.BackgroundImage = global::slae_project.Properties.Resources.kuchka;
             this.ClientSize = new System.Drawing.Size(379, 321);
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Name = "Form2";
-            this.Text = "Form2";
+            this.Name = "FileLoadForm";
+            this.Text = "FileLoadForm";
             this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);
 

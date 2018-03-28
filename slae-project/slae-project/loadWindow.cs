@@ -25,9 +25,9 @@ namespace slae_project
 
         private void timer1_Tick_1(object sender, EventArgs e)
         {
-            this.Opacity += 05;
-            if (this.Opacity == 1)
-                timer1.Stop();
+           // this.Opacity += 0.5;
+            //if (this.Opacity == 1)
+             //   timer1.Stop();
         }
     }
 }
