@@ -16,7 +16,7 @@ namespace slae_project
     class Factory
     {
         Form1 main_form;
-        FileLogger Log = new FileLogger();
+        FileLogger Log = new FileLogger(0);
         public static Dictionary<string, string> DictionaryOfFormats = FileLoadForm.filenames_format;//словарь путей до массивов
         static public Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)> MatrixTypes = new Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)>();
         public static IMatrix ObjectOfIMatrix;
@@ -43,14 +43,13 @@ namespace slae_project
         public Factory()
         {
             //эти изменения с предобуславливателем внесла Ира и она не уверена, что все сделала верно. Но все работает. Вроде.
-            RegisterPrecondClass("Диагональное", () => new DiagonalPreconditioner(ObjectOfIMatrix));
-            //RegisterPrecondClass("Методом Зейделя", () => new (ObjectOfIMatrix));
-            RegisterPrecondClass("LU-разложение", () => new LUPreconditioner(ObjectOfIMatrix));
             RegisterPrecondClass("Без предобуславливания", () => new NoPreconditioner());
-
+            RegisterPrecondClass("LU-разложение", () => new LUPreconditioner(ObjectOfIMatrix));
+            RegisterPrecondClass("Диагональное", () => new DiagonalPreconditioner(ObjectOfIMatrix));
+            
             RegisterMatrixClass("Координатный", (Dictionary<string, string> DictionaryOfFormats, bool isSymmetric) => new CoordinateMatrix(DictionaryOfFormats, isSymmetric), CoordinateMatrix.requiredFileNames);
             RegisterMatrixClass("Плотный", (Dictionary<string, string> DictionaryOfFormats, bool isSymmetric) => new DenseMatrix(DictionaryOfFormats, isSymmetric), DenseMatrix.requiredFileNames);
-            //RegisterMatrixClass("Строчный", (Dictionary<string, string> DictionaryOfFormats) => new SparseRowMatrix(DictionaryOfFormats),SparseRowMatrix.requiredFileNames);
+            //RegisterMatrixClass("Строчный", (Dictionary<string, string> DictionaryOfFormats, bool isSymmetric) => new SparseRowMatrix(DictionaryOfFormats),SparseRowMatrix.requiredFileNames);
             RegisterMatrixClass("Строчно - столбцовый", (Dictionary<string, string> DictionaryOfFormats, bool isSymmetric) => new SparseRowColumnMatrix(DictionaryOfFormats, isSymmetric), SparseRowColumnMatrix.requiredFileNames);
 
             ISolver Msg = new MSGSolver();
@@ -92,6 +91,7 @@ namespace slae_project
 
             string typename = typenameOb as string;
             Func<IPreconditioner, IMatrix, IVector, IVector, double, int, ILogger, IVector> value;
+           
             SolverTypes.TryGetValue(typename, out value);
 
             FileLogger f = null;

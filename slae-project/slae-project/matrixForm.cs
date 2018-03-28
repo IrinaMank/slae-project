@@ -278,6 +278,41 @@ namespace slae_project
             }
         }
 
+        void RecClear()
+        {
+            bool notEmptyRow = false;
+            for (int i = 0; i < size; i++)
+            {
+
+                if (matrixDataGrid[size - 2, i].Value != null || matrixDataGrid[i, size - 2].Value != null)
+                    notEmptyRow = true;
+            }
+            if (!notEmptyRow)
+            {
+                try
+                {
+                    size--;
+                    matrixDataGrid.Rows.RemoveAt(size - 1);
+                    matrixDataGrid.Columns.RemoveAt(size - 1);
+                    vectorDataGrid.Rows.RemoveAt(size - 1);
+                    
+                }
+                catch
+                {
+
+                }
+                for (int i = 0; i < size; i++)
+                {
+                    matrixDataGrid.Rows[i].Cells[size - 1].Style.BackColor = Color.Gray;
+                    matrixDataGrid.Rows[size - 1].Cells[i].Style.BackColor = Color.Gray;
+                }
+                vectorDataGrid.Rows[size - 1].Cells[0].Style.BackColor = Color.Gray;
+                x0DataGrid.Rows[size - 1].Cells[0].Style.BackColor = Color.Gray;
+                sizeWrap();
+                RecClear();
+            }
+        }
+
         private void matrixDataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (matrixDataGrid[e.ColumnIndex, e.RowIndex].Value != null)
@@ -294,26 +329,11 @@ namespace slae_project
 
                 if (e.ColumnIndex == size - 2 || e.RowIndex == size - 2)
                 {
-                    var str = Math.Max(e.ColumnIndex, e.RowIndex);
-                    bool notEmptyRow = false;
-                    for (int i = 0; i < size; i++)
-                    {
-                       
-                        if (matrixDataGrid[str, i].Value != null || matrixDataGrid[i, str].Value != null)
-                            notEmptyRow = true;
-                    }
-                    if (!notEmptyRow)
-                    {
-                        size--;
-                        matrixDataGrid.Rows.RemoveAt(size - 1);
-                        matrixDataGrid.Columns.RemoveAt(size - 1);
-                        vectorDataGrid.Rows.RemoveAt(size - 1);
-
-                        sizeWrap();
+                        RecClear();
                     }
                 }
             }
-        }
+        
 
         private void matrixForm_FormClosing(object sender, FormClosingEventArgs e)
         {
