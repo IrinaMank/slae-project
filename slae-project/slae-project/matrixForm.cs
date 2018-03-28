@@ -111,9 +111,9 @@ namespace slae_project
             int lettersCount = text.Count();
             bool dotNotWas = true;
             for (int i = 0; i < lettersCount; i++)
-                if (buff[i] >= '0' && buff[i] <= '9' || buff[i] == '.' && dotNotWas || (buff[i] == '-' && i == 0))
+                if (buff[i] >= '0' && buff[i] <= '9' || buff[i] == ',' && dotNotWas || (buff[i] == '-' && i == 0))
                 {
-                    if (buff[i] == '.' && dotNotWas)
+                    if (buff[i] == ',' && dotNotWas)
                         dotNotWas = false;
                     result += buff[i];
                 }
