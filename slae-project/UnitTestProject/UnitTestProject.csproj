@@ -50,14 +50,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MatrixTests.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="VectorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SparseRowColumnTest.cs" />
-    <Compile Include="MSGTest.cs" />
-    <Compile Include="LOSTest.cs" />
-    <Compile Include="BSGTests.cs" />
-    <Compile Include="SeidelTest.cs" />
-    <Compile Include="JacobiTest.cs" />
+    <Compile Include="SolverTests\MSGTest.cs" />
+    <Compile Include="SolverTests\LOSTest.cs" />
+    <Compile Include="SolverTests\BSGTests.cs" />
+    <Compile Include="SolverTests\SeidelTest.cs" />
+    <Compile Include="SolverTests\JacobiTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -33,6 +33,28 @@ namespace UnitTestProject
                 );
 
         }
+
+        [TestMethod]
+        public void addVector()
+        {
+            double[] x = new double[] { 1, 2, 3 };
+            double[] xx = new double[] { 2, 4, 6 };
+            IVector v = new SimpleVector(x);
+            IVector resultRight = v.Add(v, 1, 1);
+            IVector result = new SimpleVector(xx);
+            Assert.IsTrue(result.CompareWith(resultRight, 1e-9));
+        }
+
+        [TestMethod]
+        public void multVector()
+        {
+            double[] x = new double[] { 1, 2, 3 };
+            IVector v = new SimpleVector(x);
+            double resultRight = 14;
+            double result = v.ScalarMult(v);
+            Assert.IsTrue(result==resultRight);
+        }
+
     }
 }
 
