@@ -24,6 +24,7 @@ namespace slae_project.Solver
 
         public IVector Solve(IPreconditioner Preconditioner, IMatrix A, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
         {
+            Logger.setMaxIter(Maxiter);
             IVector x = (IVector)Initial.Clone();
 
             if (b.Norm == 0)

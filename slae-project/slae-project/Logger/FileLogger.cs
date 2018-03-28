@@ -5,18 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using slae_project.Vector;
+using System.Windows.Forms;
 
 namespace slae_project.Logger
 {
     
     public class FileLogger : ILogger, IDisposable
     {
+        public int maxiter = 0;
         public double per = 0;
         private System.IO.StreamWriter fileStream;
         private string defaultLogFile = "./log.txt";
 
-        public FileLogger()
+        public FileLogger(int maxi)
         {
+            maxiter = maxi;
             setFile(defaultLogFile);
         }
         public void Dispose()
@@ -37,10 +40,15 @@ namespace slae_project.Logger
             fileStream.Flush();
             //Thread.Sleep(0);
             Form1.updateProgressBar(number);
+            if (number == maxiter-1)
+            {
+                MessageBox.Show("Процесс поиска решения остановлен по достижению максимального числа итераций\n Итоговая невязка:"+residual.ToString());
+            }
         }
 
         public void WriteSolution(IVector sol, int Maxiter)
         {
+            fileStream.WriteLine("================Решение===============\n");
             Form1.updateProgressBar(Maxiter);
             for (int i = 0; i < sol.Size; i++)
             {
@@ -49,6 +57,11 @@ namespace slae_project.Logger
 
             }
             fileStream.Flush();
+        }
+
+        void ILogger.setMaxIter(int i)
+        {
+            maxiter = i;
         }
     }
 }

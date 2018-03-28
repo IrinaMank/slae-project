@@ -33,5 +33,10 @@ namespace slae_project.Logger
             System.Console.Write("{1} ",x[i]);
             System.Console.WriteLine();
         }
+
+        public void setMaxIter(int i)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
