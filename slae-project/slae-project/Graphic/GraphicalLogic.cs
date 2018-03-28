@@ -556,11 +556,127 @@ namespace slae_project
             }
             Ultimate_DrawText(in_x, in_y, r, g, b, "Arial", 14, phrase);
         }
-        void Ultimate_DrawText(int x, int y, Single r, Single g, Single b, string Font, float fontsize, string phrase)
+        static Single Line_Height = 0.5f;
+        static float fontsize;
+        static OpenGL gl;
+        static int x, y;
+        static float static_step;
+        
+        void X_draw_move()
+        {
+            x += (int)static_step;
+        }
+        enum Actions { Верхняя,Нижняя,Средняя, Левая_верт_полная, Левая_верт_нижняя, Левая_верт_верхняя,
+            Правая_верт_полная, Правая_верт_нижняя, Правая_верт_верхняя, Запятая
+        }
+        void Enum_act(Actions action)
+        {
+            switch (action)
+            {
+                case Actions.Левая_верт_полная:
+                    fa.Левая_верт_полная();
+                    break;
+                case Actions.Левая_верт_нижняя:
+                    fa.Левая_верт_нижняя();
+                    break;
+                case Actions.Левая_верт_верхняя:
+                    fa.Левая_верт_верхняя();
+                    break;
+                case Actions.Правая_верт_верхняя:
+                    fa.Правая_верт_верхняя();
+                    break;
+                case Actions.Правая_верт_нижняя:
+                    fa.Правая_верт_нижняя();
+                    break;
+                case Actions.Правая_верт_полная:
+                    fa.Правая_верт_полная();
+                    break;
+                case Actions.Средняя:
+                    fa.Средняя();
+                    break;
+                case Actions.Нижняя:
+                    fa.Нижняя();
+                    break;
+                case Actions.Верхняя:
+                    fa.Верхняя();
+                    break;
+                case Actions.Запятая:
+                    fa.Запятая();
+                    break;
+
+            }
+        }
+        //Мысленно здесь класс функций калькуляторного шрифта начинается
+        public class FA
+        {
+            public void Левая_верт_полная()
+            {
+                //Левая полная черта
+                gl.Vertex(x, y, Line_Height);
+                gl.Vertex(x, y + fontsize, Line_Height);
+            }
+            public void Верхняя()
+            {
+                //Верхняя черта
+                gl.Vertex(x, y + fontsize, Line_Height);
+                gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
+            }
+            public void Нижняя()
+            {
+                //Нижняя линия
+                gl.Vertex(x, y, Line_Height);
+                gl.Vertex(x + fontsize / 2, y, Line_Height);
+            }
+            public void Средняя()
+            {
+                //Средняя черта
+                gl.Vertex(x, y + fontsize / 2, Line_Height);
+                gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
+            }
+            public void Левая_верт_нижняя()
+            {
+                //Левая нижняя черта
+                gl.Vertex(x, y, Line_Height);
+                gl.Vertex(x, y + fontsize / 2, Line_Height);
+            }
+            public void Левая_верт_верхняя()
+            {
+                //Левая верхняя черта
+                gl.Vertex(x, y + fontsize, Line_Height);
+                gl.Vertex(x, y + fontsize / 2, Line_Height);
+            }
+            public void Правая_верт_полная()
+            {
+                //Правая полная черта
+                gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
+                gl.Vertex(x + fontsize / 2, y, Line_Height);
+            }
+            public void Правая_верт_нижняя()
+            {
+                //Правая нижняя черта
+                gl.Vertex(x + fontsize / 2, y, Line_Height);
+                gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
+            }
+            public void Правая_верт_верхняя()
+            {
+                //Правая верхняя черта
+                gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
+                gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
+            }
+            public void Запятая()
+            {
+                gl.Vertex(x + fontsize / 4, y, Line_Height);
+                gl.Vertex(x, y - fontsize / 4, Line_Height);
+            }
+        }
+        FA fa = new FA();
+        //Мысленно здесь класс функций калькуляторного шрифта заканчивается
+        void Ultimate_DrawText(int _x, int _y, Single r, Single g, Single b, string Font, float _fontsize, string phrase)
         {
             //openGLControl.OpenGL.DrawText(x, y, r, g, b, "TimesNewRoman", fontsize, phrase);
 
-            OpenGL gl = openGLControl.OpenGL;
+            x = _x; y = _y;
+            gl = openGLControl.OpenGL;
             //  Clear the color and depth buffer.
             //  Load the identity matrix.
             gl.LoadIdentity();
@@ -568,189 +684,111 @@ namespace slae_project
             gl.LineWidth(1.0f);
             gl.Begin(OpenGL.GL_LINES);
 
-            Single Line_Height = 0.5f;
+            fontsize = _fontsize;
 
             phrase = phrase.ToLower();
-            float step = fontsize * 8 / 10;
+            static_step = fontsize * 8 / 10;
             //fontsize
             foreach (var symbol in phrase)
             {
                 switch (symbol)
                 {
                     case ',':
-                        gl.Vertex(x + fontsize/4, y, Line_Height);
-                        gl.Vertex(x, y - fontsize / 4, Line_Height);
-                        x += (int)step;
+                        Enum_act(Actions.Запятая);
+                        X_draw_move();
                         break;
                     case '.':
-                        gl.Vertex(x + fontsize / 4, y, Line_Height);
-                        gl.Vertex(x, y - fontsize / 4, Line_Height);
-                        x += (int)step;
+                        Enum_act(Actions.Запятая);
+                        X_draw_move();
                         break;
                     case '0':
-                        //Левая полная черта
-                        gl.Vertex(x, y, Line_Height);
-                        gl.Vertex(x, y + fontsize, Line_Height);
-                        //Нижняя линия
-                        gl.Vertex(x, y, Line_Height);
-                        gl.Vertex(x + fontsize/2, y, Line_Height);
-                        //Верхняя черта
-                        gl.Vertex(x, y+fontsize, Line_Height);
-                        gl.Vertex(x+fontsize/2, y+fontsize, Line_Height);
-                        //Правая полная черта
-                        gl.Vertex(x+fontsize/2, y+fontsize, Line_Height);
-                        gl.Vertex(x+fontsize/2, y, Line_Height);
-                        x += (int)step;
+                        Enum_act(Actions.Левая_верт_полная);
+                        Enum_act(Actions.Нижняя);
+                        Enum_act(Actions.Верхняя);
+                        Enum_act(Actions.Правая_верт_полная);
+                        X_draw_move();
                         break;
                     case '1':
-                        //Правая полная черта
-                        gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y, Line_Height);
+                        Enum_act(Actions.Правая_верт_полная);
                         //Палочка однерки
                         gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
                         gl.Vertex(x + fontsize / 4, y + fontsize/2, Line_Height);
-                        x += (int)step;
+                        X_draw_move();
                         break;
                     case '2':
-                        //Нижняя линия
-                        gl.Vertex(x, y, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y, Line_Height);
-                        //Верхняя черта
-                        gl.Vertex(x, y + fontsize, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
-                        //Средняя черта
-                        gl.Vertex(x, y + fontsize/2, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y + fontsize/2, Line_Height);
-                        //Левая нижняя черта
-                        gl.Vertex(x, y, Line_Height);
-                        gl.Vertex(x, y + fontsize/2, Line_Height);
-                        //Правая верхняя черта
-                        gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y + fontsize/2, Line_Height);
-                        x += (int)step;
+                        Enum_act(Actions.Нижняя);
+                        Enum_act(Actions.Верхняя);
+                        Enum_act(Actions.Средняя);
+                        Enum_act(Actions.Левая_верт_нижняя);
+                        Enum_act(Actions.Правая_верт_верхняя);
+
+                       X_draw_move();
                         break;
                     case '3':
-                        //Средняя черта
-                        gl.Vertex(x, y + fontsize / 2, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
-                        //Нижняя линия
-                        gl.Vertex(x, y, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y, Line_Height);
-                        //Верхняя черта
-                        gl.Vertex(x, y + fontsize, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
-                        //Правая полная черта
-                        gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y, Line_Height);
-                        x += (int)step;
+                        Enum_act(Actions.Средняя);
+                        Enum_act(Actions.Нижняя);
+                        Enum_act(Actions.Верхняя);
+                        Enum_act(Actions.Правая_верт_полная);
+                        X_draw_move();
                         break;
                     case '4':
-                        //Правая полная черта
-                        gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y, Line_Height);
-                        //Средняя черта
-                        gl.Vertex(x, y + fontsize / 2, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
+                        Enum_act(Actions.Правая_верт_полная);
+                        Enum_act(Actions.Средняя);
                         //Наискосок чертверки
                         gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
                         gl.Vertex(x, y + fontsize / 2, Line_Height);
-                        x += (int)step;
+                        X_draw_move();
                         break;
                     case '5':
-                        //Нижняя линия
-                        gl.Vertex(x, y, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y, Line_Height);
-                        //Верхняя черта
-                        gl.Vertex(x, y + fontsize, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
-                        //Средняя черта
-                        gl.Vertex(x, y + fontsize / 2, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
-                        //Левая верхняя черта
-                        gl.Vertex(x, y + fontsize, Line_Height);
-                        gl.Vertex(x, y + fontsize / 2, Line_Height);
-                        //Правая нижняя черта
-                        gl.Vertex(x + fontsize / 2, y, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
-                        x += (int)step;
+                        Enum_act(Actions.Средняя);
+                        Enum_act(Actions.Нижняя);
+                        Enum_act(Actions.Верхняя);
+                        Enum_act(Actions.Левая_верт_верхняя);
+                        Enum_act(Actions.Правая_верт_нижняя);
+                        X_draw_move();
                         break;
                     case '6':
-                        //Нижняя линия
-                        gl.Vertex(x, y, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y, Line_Height);
-                        //Верхняя черта
-                        gl.Vertex(x, y + fontsize, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
-                        //Средняя черта
-                        gl.Vertex(x, y + fontsize / 2, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
-                        //Правая нижняя черта
-                        gl.Vertex(x + fontsize / 2, y, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
-                        //Левая полная черта
-                        gl.Vertex(x, y, Line_Height);
-                        gl.Vertex(x, y + fontsize, Line_Height);
-                        x += (int)step;
+                        Enum_act(Actions.Средняя);
+                        Enum_act(Actions.Нижняя);
+                        Enum_act(Actions.Верхняя);
+                        Enum_act(Actions.Правая_верт_нижняя);
+                        Enum_act(Actions.Левая_верт_полная);
+                        X_draw_move();
                         break;
                     case '7':
-                        //Верхняя черта
-                        gl.Vertex(x, y + fontsize, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
+                        Enum_act(Actions.Верхняя);
                         //Наискосок семерки
                         gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
                         gl.Vertex(x, y, Line_Height);
-                        x += (int)step;
+                        X_draw_move();
                         break;
                     case '8':
-                        //Левая полная черта
-                        gl.Vertex(x, y, Line_Height);
-                        gl.Vertex(x, y + fontsize, Line_Height);
-                        //Нижняя линия
-                        gl.Vertex(x, y, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y, Line_Height);
-                        //Верхняя черта
-                        gl.Vertex(x, y + fontsize, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
-                        //Правая полная черта
-                        gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y, Line_Height);
-                        //Средняя черта
-                        gl.Vertex(x, y + fontsize / 2, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
-                        x += (int)step;
+                        Enum_act(Actions.Средняя);
+                        Enum_act(Actions.Нижняя);
+                        Enum_act(Actions.Верхняя);
+                        Enum_act(Actions.Левая_верт_полная);
+                        Enum_act(Actions.Правая_верт_полная);
+
+                        X_draw_move();
                         break;
                     case '9':
-                        //Нижняя линия
-                        gl.Vertex(x, y, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y, Line_Height);
-                        //Верхняя черта
-                        gl.Vertex(x, y + fontsize, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
-                        //Правая полная черта
-                        gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y, Line_Height);
-                        //Средняя черта
-                        gl.Vertex(x, y + fontsize / 2, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
-                        //Левая верхняя черта
-                        gl.Vertex(x, y + fontsize, Line_Height);
-                        gl.Vertex(x, y + fontsize / 2, Line_Height);
-                        x += (int)step;
+                        Enum_act(Actions.Средняя);
+                        Enum_act(Actions.Нижняя);
+                        Enum_act(Actions.Верхняя);
+                        Enum_act(Actions.Правая_верт_полная);
+                        Enum_act(Actions.Левая_верт_верхняя);
+                        X_draw_move();
                         break;
                     case '-':
-                        //Средняя черта
-                        gl.Vertex(x, y + fontsize / 2, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
-                        x += (int)step;
+                        Enum_act(Actions.Средняя);
+                        X_draw_move();
                         break;
                     case '+':
-                        //Средняя черта
-                        gl.Vertex(x, y + fontsize / 2, Line_Height);
-                        gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
+                        Enum_act(Actions.Средняя);
                         //Средняя вертикальная черта
                         gl.Vertex(x + fontsize / 4, y + fontsize / 4, Line_Height);
                         gl.Vertex(x + fontsize / 4, y + fontsize *3 / 4, Line_Height);
-                        x += (int)step;
+                        X_draw_move();
                         break;
                     case 'e':
                         //Левая полная черта
@@ -768,13 +806,13 @@ namespace slae_project
                         //Средняя черта
                         gl.Vertex(x, y + fontsize / 4, Line_Height);
                         gl.Vertex(x + fontsize / 2, y + fontsize / 4, Line_Height);
-                        x += (int)step;
+                        X_draw_move();
                         break;
 
                     default:
                     gl.Vertex(x, y, Line_Height);
                         gl.Vertex(x+ (fontsize / 2), y+ fontsize, Line_Height);
-                        x += (int)step;
+                        X_draw_move();
                         break;
                 }
                 //gl.Color(0.0f, 0.0f, 1.0f);
