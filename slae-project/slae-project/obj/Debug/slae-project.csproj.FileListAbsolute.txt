@@ -171,7 +171,6 @@ C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\
 C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\slae-project\obj\Debug\slae-project.csprojResolveAssemblyReference.cache
 C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\slae-project\obj\Debug\slae_project.aboutProgramForm.resources
 C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\slae-project\obj\Debug\slae_project.Form1.resources
-C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\slae-project\obj\Debug\slae_project.Form2.resources
 C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\slae-project\obj\Debug\slae_project.SaveLoad.resources
 C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\slae-project\obj\Debug\slae_project.Teleporter.resources
 C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\slae-project\obj\Debug\slae_project.infoForm.resources
@@ -208,6 +207,7 @@ D:\Проекты\slae-project\slae-project\slae-project\obj\Debug\slae-project.
 D:\Проекты\slae-project\slae-project\slae-project\obj\Debug\slae-project.csproj.CopyComplete
 D:\Проекты\slae-project\slae-project\slae-project\obj\Debug\slae-project.exe
 D:\Проекты\slae-project\slae-project\slae-project\obj\Debug\slae-project.pdb
+C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\slae-project\obj\Debug\slae_project.FileLoadForm.resources
 C:\Users\Халк\Documents\project\slae-project\slae-project\slae-project\bin\Debug\slae-project.exe.config
 C:\Users\Халк\Documents\project\slae-project\slae-project\slae-project\bin\Debug\slae-project.exe
 C:\Users\Халк\Documents\project\slae-project\slae-project\slae-project\bin\Debug\slae-project.pdb
@@ -220,7 +220,7 @@ C:\Users\Халк\Documents\project\slae-project\slae-project\slae-project\bin\D
 C:\Users\Халк\Documents\project\slae-project\slae-project\slae-project\obj\Debug\slae-project.csprojResolveAssemblyReference.cache
 C:\Users\Халк\Documents\project\slae-project\slae-project\slae-project\obj\Debug\slae_project.aboutProgramForm.resources
 C:\Users\Халк\Documents\project\slae-project\slae-project\slae-project\obj\Debug\slae_project.Form1.resources
-C:\Users\Халк\Documents\project\slae-project\slae-project\slae-project\obj\Debug\slae_project.Form2.resources
+C:\Users\Халк\Documents\project\slae-project\slae-project\slae-project\obj\Debug\slae_project.FileLoadForm.resources
 C:\Users\Халк\Documents\project\slae-project\slae-project\slae-project\obj\Debug\slae_project.SaveLoad.resources
 C:\Users\Халк\Documents\project\slae-project\slae-project\slae-project\obj\Debug\slae_project.Teleporter.resources
 C:\Users\Халк\Documents\project\slae-project\slae-project\slae-project\obj\Debug\slae_project.infoForm.resources
