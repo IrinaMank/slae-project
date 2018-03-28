@@ -16,7 +16,7 @@ namespace slae_project
     class Factory
     {
         Form1 main_form;
-        FileLogger Log = new FileLogger(0);
+        FileLogger Log = new FileLogger(Form1.maxiter);//Form1.maxiter добавлена Ирой, чтобы проект собирался. Возможно, аргументом должно быть что-то другое
         public static Dictionary<string, string> DictionaryOfFormats = FileLoadForm.filenames_format;//словарь путей до массивов
         static public Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)> MatrixTypes = new Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)>();
         public static IMatrix ObjectOfIMatrix;
@@ -43,10 +43,11 @@ namespace slae_project
         public Factory()
         {
             //эти изменения с предобуславливателем внесла Ира и она не уверена, что все сделала верно. Но все работает. Вроде.
+            RegisterPrecondClass("Без предобуславливания", () => new NoPreconditioner());
             RegisterPrecondClass("Диагональное", () => new DiagonalPreconditioner(ObjectOfIMatrix));
             //RegisterPrecondClass("Методом Зейделя", () => new (ObjectOfIMatrix));
             RegisterPrecondClass("LU-разложение", () => new LUPreconditioner(ObjectOfIMatrix));
-            RegisterPrecondClass("Без предобуславливания", () => new NoPreconditioner());
+            
 
             RegisterMatrixClass("Координатный", (Dictionary<string, string> DictionaryOfFormats, bool isSymmetric) => new CoordinateMatrix(DictionaryOfFormats, isSymmetric), CoordinateMatrix.requiredFileNames);
             RegisterMatrixClass("Плотный", (Dictionary<string, string> DictionaryOfFormats, bool isSymmetric) => new DenseMatrix(DictionaryOfFormats, isSymmetric), DenseMatrix.requiredFileNames);

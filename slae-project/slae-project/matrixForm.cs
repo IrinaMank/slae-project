@@ -287,7 +287,7 @@ namespace slae_project
                 if (matrixDataGrid[size - 2, i].Value != null || matrixDataGrid[i, size - 2].Value != null)
                     notEmptyRow = true;
             }
-            if (!notEmptyRow)
+            if (!notEmptyRow && size > 3)
             {
                 try
                 {
@@ -327,7 +327,7 @@ namespace slae_project
                 if (property == 1)
                     matrixDataGrid[e.RowIndex, e.ColumnIndex].Value = "";
 
-                if (e.ColumnIndex == size - 2 || e.RowIndex == size - 2)
+                if ((e.ColumnIndex == size - 2 || e.RowIndex == size - 2) && size >1)
                 {
                         RecClear();
                     }

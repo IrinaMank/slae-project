@@ -47,7 +47,7 @@ namespace slae_project
         public Form1()
         {           
             InitializeComponent();
-            this.Size = new Size(500, 375);
+            this.Size = new Size(430, 350);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -65,7 +65,7 @@ namespace slae_project
             next = new Button();
             next.Text = "Решить";
             next.Size = new Size(100, 30);
-            next.Location = new Point(210, 290);
+            next.Location = new Point(285, 260);
             next.Click += new System.EventHandler(nextClick);
             this.Controls.Add(next);
             next.BackColor = Color.White;
@@ -73,7 +73,7 @@ namespace slae_project
 
             format = new ComboBox();
             format.Size = new Size(210, 30);
-            format.Location = new System.Drawing.Point(200, 70);
+            format.Location = new System.Drawing.Point(175, 70);
             //чтобы все было через Фабрику, как у людей
             for (int i = 0; i < matrixTypesList.Length; i++)
                 format.Items.Add(matrixTypesList[i]);
@@ -86,7 +86,7 @@ namespace slae_project
             formMatrix = new Label();
             formMatrix.Text = "Формат матрицы";
             formMatrix.Size = new Size(110, 15);
-            formMatrix.Location = new System.Drawing.Point(60, 70);
+            formMatrix.Location = new System.Drawing.Point(35, 73);
             name_arr.Add(60, formMatrix);
             this.Controls.Add(formMatrix);
             formMatrix.BringToFront();
@@ -94,7 +94,7 @@ namespace slae_project
 
             solver = new ComboBox();
             solver.Size = new Size(210, 30);
-            solver.Location = new System.Drawing.Point(200, 40);
+            solver.Location = new System.Drawing.Point(175, 40);
             for (int i = 0; i < solverTypesList.Length; i++)
                 solver.Items.Add(solverTypesList[i]);
             
@@ -109,7 +109,7 @@ namespace slae_project
             solvMatrix = new Label();
             solvMatrix.Text = "Решатель";
             solvMatrix.Size = new Size(80, 15);
-            solvMatrix.Location = new System.Drawing.Point(60, 40);
+            solvMatrix.Location = new System.Drawing.Point(35, 43);
             name_arr.Add(90, solvMatrix);
             this.Controls.Add(solvMatrix);
             solvMatrix.BringToFront();
@@ -117,7 +117,7 @@ namespace slae_project
 
             precond = new ComboBox();
             precond.Size = new Size(210, 30);
-            precond.Location = new System.Drawing.Point(200, 100);
+            precond.Location = new System.Drawing.Point(175, 100);
             for (int i = 0; i < precondTypesList.Length; i++)
             {
                 precond.Items.Add(precondTypesList[i]);
@@ -134,16 +134,16 @@ namespace slae_project
             precondMatrix = new Label();
             precondMatrix.Text = "Предобусловливание";
             precondMatrix.Size = new Size(120, 15);
-            precondMatrix.Location = new System.Drawing.Point(60, 100);
+            precondMatrix.Location = new System.Drawing.Point(35, 103);
             name_arr.Add(120, precondMatrix);
             this.Controls.Add(precondMatrix);
             precondMatrix.BringToFront();
             precondMatrix.BackColor = Color.Transparent;
 
             accl = new Label();
-            accl.Text = "Точность решения:               1E -";
+            accl.Text = "Точность решения:                   1E-";
             accl.Size = new Size(200, 15);
-            accl.Location = new System.Drawing.Point(60, 140);
+            accl.Location = new System.Drawing.Point(35, 142);
             name_arr.Add(108, accl);
             this.Controls.Add(accl);
             accl.BringToFront();
@@ -151,7 +151,7 @@ namespace slae_project
 
             acc = new NumericUpDown();
             acc.Size = new Size(40, 60);
-            acc.Location = new System.Drawing.Point(235, 139);
+            acc.Location = new System.Drawing.Point(210, 139);
             this.Controls.Add(acc);
             acc.BringToFront();
             acc.Minimum = 1;
@@ -162,7 +162,7 @@ namespace slae_project
             maxiterl = new Label();
             maxiterl.Text = "Максимальное число итераций:";
             maxiterl.Size = new Size(190, 15);
-            maxiterl.Location = new System.Drawing.Point(60, 170);
+            maxiterl.Location = new System.Drawing.Point(35, 173);
             name_arr.Add(109, maxiterl);
             this.Controls.Add(maxiterl);
             maxiterl.BringToFront();
@@ -170,7 +170,7 @@ namespace slae_project
 
             maxit = new TextBox();
             maxit.Size = new Size(40, 100);
-            maxit.Location = new System.Drawing.Point(235, 170);
+            maxit.Location = new System.Drawing.Point(200, 170);
             this.Controls.Add(maxit);
             maxit.BringToFront();
 
@@ -180,7 +180,7 @@ namespace slae_project
             propertyMatrix = new CheckBox();
             propertyMatrix.Text = "Симметричная матрица";
             propertyMatrix.Size = new Size(200, 20);
-            propertyMatrix.Location = new Point(60, 198);
+            propertyMatrix.Location = new Point(38, 198);
             propertyMatrix.Checked = false;
             propertyMatrix.CheckedChanged += new System.EventHandler(propertyChange);
             this.Controls.Add(propertyMatrix);
@@ -190,7 +190,7 @@ namespace slae_project
             justDoIt = new Button();
             justDoIt.Text = "Ручной ввод";
             justDoIt.Size = new Size(100, 30);
-            justDoIt.Location = new Point(310, 138);
+            justDoIt.Location = new Point(285, 138);
             justDoIt.Click += new System.EventHandler(justDoItClick);
             this.Controls.Add(justDoIt);
             justDoIt.BringToFront();
@@ -198,14 +198,14 @@ namespace slae_project
             loadFiles = new Button();
             loadFiles.Text = "Файловый ввод";
             loadFiles.Size = new Size(100, 30);
-            loadFiles.Location = new Point(310, 173);
+            loadFiles.Location = new Point(285, 173);
             loadFiles.Click += new System.EventHandler(loadFilesClick);
             this.Controls.Add(loadFiles);
             loadFiles.BringToFront();
 
             bar = new ProgressBar();
-            bar.Size = new Size(370, 20);
-            bar.Location = new System.Drawing.Point(50, 225);
+            bar.Size = new Size(350, 20);
+            bar.Location = new System.Drawing.Point(35, 225);
             this.Controls.Add(bar);
             bar.BringToFront();
 
