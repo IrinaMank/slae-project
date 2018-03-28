@@ -718,15 +718,15 @@ namespace slae_project
             public void Б_верхняя()
             {
                 gl.Vertex(x, y + fontsize, Line_Height);
-                gl.Vertex(x + fontsize / 4, y + fontsize *3 / 4, Line_Height);
-                gl.Vertex(x + fontsize / 4, y + fontsize * 3 / 4, Line_Height);
+                gl.Vertex(x + fontsize / 2, y + fontsize *3 / 4, Line_Height);
+                gl.Vertex(x + fontsize / 2, y + fontsize * 3 / 4, Line_Height);
                 gl.Vertex(x, y + fontsize/2, Line_Height);
             }
             public void Б_нижняя()
             {
                 gl.Vertex(x, y + fontsize/2, Line_Height);
-                gl.Vertex(x + fontsize / 4, y + fontsize / 4, Line_Height);
-                gl.Vertex(x + fontsize / 4, y + fontsize / 4, Line_Height);
+                gl.Vertex(x + fontsize / 2, y + fontsize / 4, Line_Height);
+                gl.Vertex(x + fontsize / 2, y + fontsize / 4, Line_Height);
                 gl.Vertex(x, y, Line_Height);
             }
         }
