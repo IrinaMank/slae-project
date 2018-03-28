@@ -9,7 +9,7 @@ namespace slae_project.Logger
 {
     public interface ILogger
     {
-        void WriteIteration (int number, double residual, double percent);
-        void WriteSolution (IVector x);
+        void WriteIteration (int number, double residual);
+        void WriteSolution (IVector x, int Maxiter);
     }
 }

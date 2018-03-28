@@ -67,9 +67,9 @@ namespace slae_project.Solver
 
                 normR = Math.Sqrt(scalRR) / b.Norm;
 
-                Logger.WriteIteration(iter, normR, 100 * Precision / normR);
+                Logger.WriteIteration(iter, normR);
             }
-            Logger.WriteSolution(x);
+            Logger.WriteSolution(x,Maxiter);
             return x;
         }
 

@@ -208,8 +208,6 @@ namespace slae_project
             this.Controls.Add(bar);
             bar.BringToFront();
 
-            bar.Maximum = 100;
-
         }
 
         private void graphicClick(object sender, EventArgs e)
@@ -261,6 +259,7 @@ namespace slae_project
 
         private void nextClick(object sender, EventArgs e)
         {
+            bar.Maximum = Convert.ToUInt16(maxit.Text);
             accurent = Convert.ToDouble("1e-" + acc.Value.ToString());
 
             if (!inputModeHand)

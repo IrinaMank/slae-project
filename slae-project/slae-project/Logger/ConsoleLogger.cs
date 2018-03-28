@@ -14,9 +14,9 @@ namespace slae_project.Logger
         {
             AllocConsole();
         }
-        public void WriteIteration(int number, double residual, double percent)
+        public void WriteIteration(int number, double residual)
         {
-            String msg = String.Format("Iteration: {0} \t residual: {1} \t percent: {2}", number, residual, percent);
+            String msg = String.Format("Iteration: {0} \t residual: {1}", number, residual);
             System.Console.WriteLine(msg);
         }
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -27,7 +27,7 @@ namespace slae_project.Logger
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool FreeConsole();
 
-        public void WriteSolution(IVector x)
+        public void WriteSolution(IVector x, int Maxiter)
         {
             for (int i = 0; i<x.Size;i++)
             System.Console.Write("{1} ",x[i]);
