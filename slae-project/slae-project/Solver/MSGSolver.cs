@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace slae_project.Solver
@@ -67,6 +68,8 @@ namespace slae_project.Solver
                 normR = Math.Sqrt(scalRR) / b.Norm;
 
                 Logger.WriteIteration(iter, normR, 100*Precision/normR);
+                Form1.updateProgressBar(iter);
+                Thread.Sleep(10);
             };
             Logger.WriteSolution(Preconditioner.SolveU(x));
             //Logger.WriteSolution(Preconditioner.MultU(x));

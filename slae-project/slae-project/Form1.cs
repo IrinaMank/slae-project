@@ -13,16 +13,12 @@ namespace slae_project
 {
     public partial class Form1 : Form
     {
-
         Dictionary<int, Label> name_arr = new Dictionary<int, Label>();
         public static string str_format_matrix; //формат матрицы
         public static string str_solver; //тип решателя
         public static string str_precond; //тип предобусловлевания
         public static bool property_matr = false; //симметричность матрицы: по умолчанию несимметричная
-        private int numbForm;
-        private bool hand;
-        private bool writeMyMatrix = false;
-        private bool loadData = false;
+        private bool inputModeHand = true;
         public static double accurent = 0.1;
         public static int maxiter = 1000;
         public double percent = 0;
@@ -41,14 +37,11 @@ namespace slae_project
         public ComboBox solver, format, precond;
         public NumericUpDown size, acc;
         public TextBox maxit;
-        public ProgressBar bar;
+        public static ProgressBar bar;
 
 
         public Form1()
-        {
-            numbForm = 1;
-            hand = false;
-
+        {           
             InitializeComponent();
             this.Size = new Size(500, 375);
         }
@@ -73,7 +66,6 @@ namespace slae_project
             this.Controls.Add(next);
             next.BackColor = Color.White;
             next.Enabled = false;
-
 
             format = new ComboBox();
             format.Size = new Size(210, 30);
@@ -102,7 +94,7 @@ namespace slae_project
             for (int i = 0; i < solverTypesList.Length; i++)
                 solver.Items.Add(solverTypesList[i]);
 
-
+            solver.SelectedValueChanged += new System.EventHandler(solverChanged);
             solver.SelectedIndex = 0;
             solver.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Controls.Add(solver);
@@ -226,10 +218,19 @@ namespace slae_project
             Application.Exit();
         }
 
+        public static void updateProgressBar(int perc)
+        {
+            bar.Value = perc;
+        }
+
+        public void solverChanged(object sender, EventArgs e)
+        {
+            var s = solver.SelectedValue;
+        }
+
         private void readClick(object sender, EventArgs e)
         {
-            if (fileRead.Checked == true) hand = false;
-            else hand = true;
+
         }
 
         private void maxitTextChange(object sender, EventArgs e)
@@ -258,12 +259,12 @@ namespace slae_project
         {
             accurent = Convert.ToDouble("1e-" + acc.Value.ToString());
 
-            str_format_matrix = format.SelectedItem.ToString();
+            if (!inputModeHand)
+                str_format_matrix = format.SelectedItem.ToString();
             str_solver = solver.SelectedItem.ToString();
             str_precond = precond.SelectedItem.ToString();
 
-            Thread solveThread = new Thread(threadSolver);
-            solveThread.Start();
+            threadSolver();
             
         }
 
@@ -275,6 +276,7 @@ namespace slae_project
             next.Enabled = true;
             FileLoadForm form2 = new FileLoadForm();
             form2.Show();
+            format.Enabled = true;
         }
 
         private void propertyChange(object sender, EventArgs e)
@@ -285,10 +287,13 @@ namespace slae_project
         private void justDoItClick(object sender, EventArgs e)
         {
             writeSize("mymatrixSet.txt");
-            writeMyMatrix = true;
             next.Enabled = true;
             matrixForm form = new matrixForm();
             form.Show();
+            inputModeHand = true;
+            format.SelectedValue = 2;
+            format.Enabled = false;
+            
         }
 
         private void writeSize(string name)
