@@ -351,7 +351,7 @@ namespace slae_project
             graphic.BackColor = Color.White;
             graphic.BringToFront();
             graphic.Visible = false;
-
+            graphic.Enabled = false;
         }
         
         private void graphicClick(object sender, EventArgs e)
@@ -620,7 +620,6 @@ namespace slae_project
                     solvMatrix.Visible = false;
                     precondMatrix.Visible = false;
                     graphic.Visible = true;
-                    graphic.Enabled = false;
                 }
             }
         }
