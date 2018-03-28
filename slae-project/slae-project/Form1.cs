@@ -265,7 +265,6 @@ namespace slae_project
 
         private void justDoItClick(object sender, EventArgs e)
         {
-            writeSize("mymatrixSet.txt");
             next.Enabled = true;
             matrixForm form = new matrixForm();
             form.Show();
@@ -274,19 +273,6 @@ namespace slae_project
             format.Enabled = false;
             justDoIt.Enabled = false;
         }
-
-        private void writeSize(string name)
-        {
-            using (StreamWriter writer = File.CreateText(name))
-            {
-                writer.WriteLine("0");
-                if (property_matr)
-                    writer.WriteLine("1");
-                else writer.WriteLine("0");
-            }
-
-        }
-
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
         {

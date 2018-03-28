@@ -35,6 +35,8 @@ namespace slae_project.Logger
         }
         public void WriteIteration(int number, double residual)
         {
+            if (number == 0)
+                fileStream.WriteLine("\n================Итерации===============");
             String msg = String.Format("{0}\t{1}", number, residual);
             fileStream.WriteLine(msg);
             fileStream.Flush();
@@ -48,7 +50,7 @@ namespace slae_project.Logger
 
         public void WriteSolution(IVector sol, int Maxiter)
         {
-            fileStream.WriteLine("================Решение===============\n");
+            fileStream.WriteLine("\n================Решение===============");
             Form1.updateProgressBar(Maxiter);
             for (int i = 0; i < sol.Size; i++)
             {
