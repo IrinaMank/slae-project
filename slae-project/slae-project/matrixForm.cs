@@ -256,18 +256,20 @@ namespace slae_project
 
                 if (e.ColumnIndex == size - 2 || e.RowIndex == size - 2)
                 {
+                    var str = Math.Max(e.ColumnIndex, e.RowIndex);
                     bool notEmptyRow = false;
                     for (int i = 0; i < size; i++)
                     {
-                        if (matrixDataGrid[e.ColumnIndex, i].Value != null || matrixDataGrid[i, e.RowIndex].Value != null)
+                       
+                        if (matrixDataGrid[str, i].Value != null || matrixDataGrid[i, str].Value != null)
                             notEmptyRow = true;
                     }
                     if (!notEmptyRow)
                     {
                         size--;
-                        matrixDataGrid.Rows.RemoveAt(e.ColumnIndex);
-                        matrixDataGrid.Columns.RemoveAt(e.ColumnIndex);
-                        vectorDataGrid.Rows.RemoveAt(e.ColumnIndex);
+                        matrixDataGrid.Rows.RemoveAt(size - 1);
+                        matrixDataGrid.Columns.RemoveAt(size - 1);
+                        vectorDataGrid.Rows.RemoveAt(size - 1);
 
                         sizeWrap();
                     }
