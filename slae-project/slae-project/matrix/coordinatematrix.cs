@@ -52,6 +52,11 @@ namespace slae_project.Matrix
             public IVector SolveD(IVector x) => Matrix.SolveD(x);
             public object Clone() => Matrix.Clone();
             public void MakeLU() => Matrix.MakeLU();
+
+            public IVector MultD(IVector a)
+            {
+                throw new NotImplementedException();
+            }
         }
         // Элементы матрицы
         protected Dictionary<(int i, int j), double> elements = new Dictionary<(int i, int j), double>();
@@ -446,9 +451,6 @@ namespace slae_project.Matrix
             for (int i = 0; i < Size; i++)
                 result[i] = x[i];
 
-            if (isSymmetric)
-                return this.SolveU(x, UseDiagonal);
-
             if (!UseDiagonal)
             {
                 if (Math.Abs(x[Size - 1]) < EQU_TO_ZERO)
@@ -464,13 +466,16 @@ namespace slae_project.Matrix
                 int line_length = i;
                 try
                 {
-                    result[i] /= this[i, line_length - 1];
+                    if (extraDiagVal == 0)
+                        result[i] /= this[i, i];
+                    else
+                        result[i] /= extraDiagVal;
                 }
                 catch (DivideByZeroException)
                 {
                     throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
                 }
-                for (int j = 0; j < line_length - 1; j++)
+                for (int j = 0; j < line_length; j++)
                 {
                     result[j] -= result[i] * this[i, j];
                 }
@@ -482,12 +487,6 @@ namespace slae_project.Matrix
         {
 
             IVector result = new SimpleVector(Size);
-            for (int i = 0; i < Size; i++)
-                result[i] = x[i];
-
-            if (isSymmetric)
-                return this.SolveL(x, UseDiagonal);
-
             if (!UseDiagonal)
             {
                 if (Math.Abs(x[0]) < EQU_TO_ZERO)
@@ -499,7 +498,9 @@ namespace slae_project.Matrix
             }
             for (int i = 0; i < Size; i++)
             {
-                int line_length = Size - i;
+                result[i] = x[i];
+                for (int j = 0; j < i; j++)
+                    result[i] -= result[j] * this[j, i];
                 try
                 {
                     result[i] /= this[i, i];
@@ -508,12 +509,6 @@ namespace slae_project.Matrix
                 {
                     throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
                 }
-
-                for (int j = i + 1; j < line_length; j++)
-                {
-                    result[j] -= result[i] * this[i, j];
-                }
-
             }
             return result;
         }
@@ -692,6 +687,17 @@ namespace slae_project.Matrix
         public object Clone()
         {
             return new CoordinateMatrix(this.elements, Size, isSymmetric);
+        }
+
+        public IVector MultD(IVector a)
+        {
+            IVector result = new SimpleVector(this.Size);
+            foreach(var el in this)
+            {
+                if (el.col == el.row)
+                    result[el.col] = a[el.col] * el.value;
+            }
+            return result;
         }
 
         public CoordinateMatrix(Dictionary<string, string> paths, bool isSymmetric = false)
