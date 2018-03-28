@@ -119,8 +119,8 @@ namespace slae_project.Vector
             {
                 for (int i = 0; i < Size; i++)
                 {
-                    if (this[i] + prec > a[i] &&
-                        this[i] - prec < a[i])
+                    if (this[i] + prec >= a[i] &&
+                        this[i] - prec <= a[i])
                         continue;
                     return false;
                 }

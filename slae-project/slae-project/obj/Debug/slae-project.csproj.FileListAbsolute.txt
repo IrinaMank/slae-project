@@ -183,3 +183,28 @@ C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\
 C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\slae-project\obj\Debug\slae-project.csproj.CoreCompileInputs.cache
 C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\slae-project\obj\Debug\slae-project.exe
 C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\slae-project\obj\Debug\slae-project.pdb
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\bin\Debug\slae-project.exe.config
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\bin\Debug\slae-project.exe
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\bin\Debug\slae-project.pdb
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\bin\Debug\SharpGL.dll
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\bin\Debug\SharpGL.SceneGraph.dll
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\bin\Debug\SharpGL.WinForms.dll
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\bin\Debug\SharpGL.xml
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\bin\Debug\SharpGL.SceneGraph.xml
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\bin\Debug\SharpGL.WinForms.xml
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\obj\Debug\slae-project.csprojResolveAssemblyReference.cache
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\obj\Debug\slae_project.aboutProgramForm.resources
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\obj\Debug\slae_project.Form1.resources
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\obj\Debug\slae_project.Form2.resources
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\obj\Debug\slae_project.SaveLoad.resources
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\obj\Debug\slae_project.Teleporter.resources
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\obj\Debug\slae_project.infoForm.resources
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\obj\Debug\slae_project.loadWindow.resources
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\obj\Debug\slae_project.matrixForm.resources
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\obj\Debug\slae_project.Properties.Resources.resources
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\obj\Debug\slae_project.SharpGLForm.resources
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\obj\Debug\slae-project.csproj.GenerateResource.cache
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\obj\Debug\slae-project.csproj.CoreCompileInputs.cache
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\obj\Debug\slae-project.csproj.CopyComplete
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\obj\Debug\slae-project.exe
+C:\Users\Анхен\slae-project\slae-project\slae-project\slae-project\obj\Debug\slae-project.pdb

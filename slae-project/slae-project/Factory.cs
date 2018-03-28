@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,19 +18,19 @@ namespace slae_project
         Form1 main_form;
         FileLogger Log = new FileLogger();
         public static Dictionary<string, string> DictionaryOfFormats = Form2.filenames_format;//словарь путей до массивов
-        static public Dictionary<string, (Func<Dictionary<string, string>, IMatrix>, Dictionary<string, string>)> MatrixTypes = new Dictionary<string, (Func<Dictionary<string, string>, IMatrix>, Dictionary<string, string>)>();
+        static public Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)> MatrixTypes = new Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)>();
         public static IMatrix ObjectOfIMatrix;
         public static IVector Result;
         public static List<string> name_arr = new List<string>();
         public static IPreconditioner Prec = new NoPreconditioner();
         static public Dictionary<string, Func<IPreconditioner, IMatrix, IVector, IVector, double, int, ILogger, IVector>> SolverTypes = new Dictionary<string, Func<IPreconditioner, IMatrix, IVector, IVector, double, int, ILogger, IVector>>();
-        static public List<string> PrecondTypes = new List<string>();
+        static public Dictionary<string, Func<IPreconditioner>> PrecondTypes = new Dictionary<string, Func<IPreconditioner>>();
 
-        public void RegisterPrecondClass(string Name)
+        public void RegisterPrecondClass(string Name, Func<IPreconditioner> Creator)
         {
-            PrecondTypes.Add(Name);
+            PrecondTypes.Add(Name, Creator);
         }
-        static public void RegisterMatrixClass(string Name, Func<Dictionary<string, string>, IMatrix> Creator1, Dictionary<string, string> Creator2)
+        static public void RegisterMatrixClass(string Name, Func<Dictionary<string, string>, bool, IMatrix> Creator1, Dictionary<string, string> Creator2)
         {
             MatrixTypes.Add(Name, (Creator1, Creator2));
         }
@@ -41,14 +42,16 @@ namespace slae_project
 
         public Factory()
         {
-            RegisterPrecondClass("Диагональное");
-            RegisterPrecondClass("Методом Зейделя");
-            RegisterPrecondClass("LU-разложение");
+            //эти изменения с предобуславливателем внесла Ира и она не уверена, что все сделала верно. Но все работает. Вроде.
+            RegisterPrecondClass("Диагональное", () => new DiagonalPreconditioner(ObjectOfIMatrix));
+            //RegisterPrecondClass("Методом Зейделя", () => new (ObjectOfIMatrix));
+            RegisterPrecondClass("LU-разложение", () => new LUPreconditioner(ObjectOfIMatrix));
+            RegisterPrecondClass("Без предобуславливания", () => new NoPreconditioner());
 
-            RegisterMatrixClass("Координатный", (Dictionary<string, string> DictionaryOfFormats) => new CoordinateMatrix(DictionaryOfFormats), CoordinateMatrix.requiredFileNames);
-            RegisterMatrixClass("Плотный", (Dictionary<string, string> DictionaryOfFormats) => new DenseMatrix(DictionaryOfFormats), DenseMatrix.requiredFileNames);
+            RegisterMatrixClass("Координатный", (Dictionary<string, string> DictionaryOfFormats, bool isSymmetric) => new CoordinateMatrix(DictionaryOfFormats, isSymmetric), CoordinateMatrix.requiredFileNames);
+            RegisterMatrixClass("Плотный", (Dictionary<string, string> DictionaryOfFormats, bool isSymmetric) => new DenseMatrix(DictionaryOfFormats, isSymmetric), DenseMatrix.requiredFileNames);
             //RegisterMatrixClass("Строчный", (Dictionary<string, string> DictionaryOfFormats) => new SparseRowMatrix(DictionaryOfFormats),SparseRowMatrix.requiredFileNames);
-            RegisterMatrixClass("Строчно - столбцовый", (Dictionary<string, string> DictionaryOfFormats) => new SparseRowColumnMatrix(DictionaryOfFormats), SparseRowColumnMatrix.requiredFileNames);
+            RegisterMatrixClass("Строчно - столбцовый", (Dictionary<string, string> DictionaryOfFormats, bool isSymmetric) => new SparseRowColumnMatrix(DictionaryOfFormats, isSymmetric), SparseRowColumnMatrix.requiredFileNames);
 
             ISolver Msg = new MSGSolver();
             ISolver Los = new LOSSolver();
@@ -67,7 +70,7 @@ namespace slae_project
 
         static public void CreateMatrix(string typename)//получаем заполненную матрицу для передачи Solver
         {
-            (Func<Dictionary<string, string>, IMatrix>, Dictionary<string, string>) value;
+            (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>) value;
             MatrixTypes.TryGetValue(typename, out value);
             Dictionary<string, string> reer;
             reer = value.Item2;
@@ -75,12 +78,12 @@ namespace slae_project
             foreach (string i in reer.Keys)
                 name_arr.Add(i);
         }
-        static public void Create_Full_Matrix(string typename)//получаем заполненную матрицу для передачи Solver
+        static public void Create_Full_Matrix(string typename, bool isSymmetric = false)//получаем заполненную матрицу для передачи Solver
         {
-            (Func<Dictionary<string, string>, IMatrix>, Dictionary<string, string>) value;
+            (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>) value;
             MatrixTypes.TryGetValue(typename, out value);
 
-            ObjectOfIMatrix = value.Item1(DictionaryOfFormats);
+            ObjectOfIMatrix = value.Item1(DictionaryOfFormats, isSymmetric);
         }
         static public void CreateSolver(object typenameOb)//получаем заполненную матрицу для передачи Solver
         {
@@ -90,8 +93,18 @@ namespace slae_project
             SolverTypes.TryGetValue(typename, out value);
 
             FileLogger f = null;
-            Result = value(Prec, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.accurent, Form1.maxiter,f);
+            Result = value(Prec, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.accurent, Form1.maxiter, f);
         }
+
+        static public void CreatePrecond(object typenameOb)//получаем заполненную матрицу для передачи Solver
+        {
+            string typename = typenameOb as string;
+            Func<IPreconditioner> value;
+            PrecondTypes.TryGetValue(typename, out value);
+
+            Prec = value();
+        }
+
         // Мы передаем симметричность/ несимметричность
         public static bool Get_format()
         {
