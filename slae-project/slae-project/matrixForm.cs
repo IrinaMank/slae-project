@@ -179,20 +179,20 @@ namespace slae_project
                     writer.Write("\r\n");
                 }
             }
-            Form2.filenames_format.Clear();
-            Form2.filenames_format.Add(arrays[0].ToString(), name);
+            FileLoadForm.filenames_format.Clear();
+            FileLoadForm.filenames_format.Add(arrays[0].ToString(), name);
 
-                Form2.F = new SimpleVector(size);
+                FileLoadForm.F = new SimpleVector(size);
                 string line1;
                 for (int i = 0; i < size; i++)
                 {
                     line1 = vectorDataGrid[0,i].Value.ToString();
-                    Form2.F[i] = Convert.ToDouble(line1);                 
+                    FileLoadForm.F[i] = Convert.ToDouble(line1);                 
                 }
-            Form2.X0 = new SimpleVector(size);
+            FileLoadForm.X0 = new SimpleVector(size);
             for (int i = 0; i < size; i++)
                 {
-                    Form2.X0[i] = 1.0;
+                    FileLoadForm.X0[i] = 1.0;
                 }
 
             this.Close();

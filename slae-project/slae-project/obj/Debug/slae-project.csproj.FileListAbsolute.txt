@@ -171,7 +171,6 @@ C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\
 C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\slae-project\obj\Debug\slae-project.csprojResolveAssemblyReference.cache
 C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\slae-project\obj\Debug\slae_project.aboutProgramForm.resources
 C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\slae-project\obj\Debug\slae_project.Form1.resources
-C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\slae-project\obj\Debug\slae_project.Form2.resources
 C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\slae-project\obj\Debug\slae_project.SaveLoad.resources
 C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\slae-project\obj\Debug\slae_project.Teleporter.resources
 C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\slae-project\obj\Debug\slae_project.infoForm.resources
@@ -208,3 +207,4 @@ D:\Проекты\slae-project\slae-project\slae-project\obj\Debug\slae-project.
 D:\Проекты\slae-project\slae-project\slae-project\obj\Debug\slae-project.csproj.CopyComplete
 D:\Проекты\slae-project\slae-project\slae-project\obj\Debug\slae-project.exe
 D:\Проекты\slae-project\slae-project\slae-project\obj\Debug\slae-project.pdb
+C:\Users\User\OneDrive\NSTU\VIII семестр\royak\slae-project\slae-project\slae-project\obj\Debug\slae_project.FileLoadForm.resources

@@ -23,7 +23,7 @@ namespace slae_project.Solver
         /// <returns>Вектор x - решение СЛАУ Ax=b с заданной точностью</returns>
         public IVector Solve(IPreconditioner Preconditioner, IMatrix A, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
         {
-            Initial = new SimpleVector(new double[4] {0,0,0,0});
+            //Initial = new SimpleVector(new double[4] {0,0,0,0});
             IVector x = Preconditioner.MultU(Initial);
 
             if (b.Norm == 0)

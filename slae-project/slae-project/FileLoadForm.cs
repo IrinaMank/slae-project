@@ -14,16 +14,15 @@ namespace slae_project
 {
 
 
-    public partial class Form2 : Form
+    public partial class FileLoadForm : Form
     {
-        int Y = 0;
         public static Dictionary<int, Label> name_arr = new Dictionary<int, Label>();//имена массивов
         public static Dictionary<int, TextBox> puths = new Dictionary<int, TextBox>();//пути до массивов
         public static Dictionary<string, string> filenames_format = new Dictionary<string, string>(); // словарь: ключ - название массива, значение - путь к файлу
 
         public static IVector F = new SimpleVector();//правая часть
         public static IVector X0 = new SimpleVector();//Начально приближение 
-        public Form2()
+        public FileLoadForm()
         {
             InitializeComponent();
             this.Size = new Size(500, 400);
@@ -126,8 +125,6 @@ namespace slae_project
             button_load.Location = new Point(x_p, y);
             button_load.Click += new System.EventHandler(this.button_load_Click);
             this.Controls.Add(button_load);
-
-            Y = y;
         }
         private void button_load_Click(object sender, EventArgs e)
         {
