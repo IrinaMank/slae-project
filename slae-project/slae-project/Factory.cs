@@ -86,6 +86,7 @@ namespace slae_project
             MatrixTypes.TryGetValue(typename, out value);
 
             ObjectOfIMatrix = value.Item1(DictionaryOfFormats, isSymmetric);
+
         }
         static public void CreateSolver(object typenameOb)//получаем заполненную матрицу для передачи Solver
         {
@@ -97,6 +98,7 @@ namespace slae_project
             FileLogger f = null;
             try
             {
+
                 Result = value(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.accurent, Form1.maxiter, f);
                 System.Media.SoundPlayer sp = new System.Media.SoundPlayer(Properties.Resources.ya);
                 sp.Play();

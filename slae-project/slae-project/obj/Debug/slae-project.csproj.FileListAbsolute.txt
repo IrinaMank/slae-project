@@ -194,7 +194,6 @@ D:\Проекты\slae-project\slae-project\slae-project\bin\Debug\SharpGL.WinFo
 D:\Проекты\slae-project\slae-project\slae-project\obj\Debug\slae-project.csprojResolveAssemblyReference.cache
 D:\Проекты\slae-project\slae-project\slae-project\obj\Debug\slae_project.aboutProgramForm.resources
 D:\Проекты\slae-project\slae-project\slae-project\obj\Debug\slae_project.Form1.resources
-D:\Проекты\slae-project\slae-project\slae-project\obj\Debug\slae_project.Form2.resources
 D:\Проекты\slae-project\slae-project\slae-project\obj\Debug\slae_project.SaveLoad.resources
 D:\Проекты\slae-project\slae-project\slae-project\obj\Debug\slae_project.Teleporter.resources
 D:\Проекты\slae-project\slae-project\slae-project\obj\Debug\slae_project.infoForm.resources
@@ -233,3 +232,4 @@ C:\Users\kilim\SLAE_PROJECT\slae-project\slae-project\slae-project\bin\Debug\Sha
 C:\Users\kilim\SLAE_PROJECT\slae-project\slae-project\slae-project\bin\Debug\SharpGL.SceneGraph.xml
 C:\Users\kilim\SLAE_PROJECT\slae-project\slae-project\slae-project\bin\Debug\SharpGL.WinForms.xml
 C:\Users\kilim\SLAE_PROJECT\slae-project\slae-project\slae-project\obj\Debug\slae-project.csproj.CopyComplete
+D:\Проекты\slae-project\slae-project\slae-project\obj\Debug\slae_project.FileLoadForm.resources
