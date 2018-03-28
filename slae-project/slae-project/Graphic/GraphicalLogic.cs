@@ -60,6 +60,22 @@ namespace slae_project
         {
             public string Name;
 
+            public double max = double.MinValue;
+            public double min = double.MaxValue;
+            public double range = double.MaxValue;
+            public List<double> GraphicalVector = null;
+            public GraphicObject(string _Name, List<double> _GraphicalVector, bool NothingToWorryAbout)
+            {
+                GraphicalVector = _GraphicalVector;
+                xCellCount = GraphicalVector.Count() - 1;
+                yCellCount = 40;
+                foreach (var value in GraphicalVector)
+                {
+                    if (value > max) max = value;
+                    if (value < min) min = value;
+                }
+                range = max - min;
+            }
             public List<List<double>> Matrix = new List<List<double>>();
             public IMatrix ReferencedMatrix = null;
             public IVector ReferencedVector = null;
@@ -314,12 +330,20 @@ namespace slae_project
                      * if (TargetNumber)
                         Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + (((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize)).ToString(),0,0,0);*/
 
-                    for (int i = 0; i < obj.yCellCount; i++)
-                    {
-                        Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, Count_by_Y.ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
-                        Grid.Y_move();
-                        Count_by_Y++;
-                    }
+                    if (obj.GraphicalVector == null)
+                        for (int i = 0; i < obj.yCellCount; i++)
+                        {
+                            Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, Count_by_Y.ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                            Grid.Y_move();
+                            Count_by_Y++;
+                        }
+                    else
+                        for (int i = 0; i < obj.yCellCount; i++)
+                        {
+                            Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, (obj.min + (double)obj.range*((double)((double)obj.yCellCount - Count_by_Y - 0.5)/ obj.yCellCount)).ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                            Grid.Y_move();
+                            Count_by_Y++;
+                        }
                     Grid.X_Y_counter.x = X_new;
                     Grid.X_Y_counter.y = Y_new;
 
@@ -459,6 +483,22 @@ namespace slae_project
                         {
                             if (BoolTextIsEnabledOtherwiseQuads) Draw_Text(cursor_X(x), cursor_Y(y), item.value.ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
                             else draw_white_square(cursor_X(x), cursor_Y(y), item.value);
+                        }
+                    }
+                }
+                else if (GraphicalObject.GraphicalVector != null)
+                {
+                    for (int X_counter = OS_x_begin; X_counter < OS_x_end; X_counter++)
+                    {
+                        int x = LeftTopCellOfEachMatrix[i].X + X_counter;
+                        int y = LeftTopCellOfEachMatrix[i].Y + GraphicalObject.yCellCount + 1;
+                        int Y0 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter] - GraphicalObject.min) * Grid.yCellSize * GraphicalObject.yCellCount / GraphicalObject.range));
+                        int Y1 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter + 1] - GraphicalObject.min) * Grid.yCellSize * GraphicalObject.yCellCount / GraphicalObject.range));
+                        if (X_counter >= 0 && X_counter < GraphicalObject.GraphicalVector.Count()-1 &&
+                            y > OS_y_begin &&
+                            y < OS_y_end)
+                        {
+                            draw_line(cursor_X(x), Y0, cursor_X(x+1), Y1, true,(Single)153/255, (Single)51 /255, (Single)1);
                         }
                     }
                 }
