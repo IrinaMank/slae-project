@@ -98,7 +98,7 @@ namespace slae_project
             try
             {
                 Result = value(Prec, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.accurent, Form1.maxiter, f);
-                System.Media.SoundPlayer sp = new System.Media.SoundPlayer("ya.wav");
+                System.Media.SoundPlayer sp = new System.Media.SoundPlayer(Properties.Resources.ya);
                 sp.Play();
             }
             catch(Exception)
