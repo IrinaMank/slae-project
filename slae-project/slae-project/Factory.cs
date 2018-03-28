@@ -56,12 +56,14 @@ namespace slae_project
             ISolver Msg = new MSGSolver();
             ISolver Los = new LOSSolver();
             ISolver Bsg = new BSGStabSolve();
+            ISolver Jac = new Jacobi();
+            ISolver Zeid = new Seidel();
 
 
             RegisterSolverClass("Метод сопряжённых градиентов", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, ILogger g) => Msg.Solve(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.accurent, Form1.maxiter, Log));
             RegisterSolverClass("Локально-оптимальная схема", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, ILogger g) => Los.Solve(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.accurent, Form1.maxiter, Log));
-            //RegisterSolverClass("Метод Якоби", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, FileLogger g) => new Jacoby.Solver(Prec, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.s_accur_number, Form1.max_iter, Log));
-            //RegisterSolverClass("Метод Зейделя", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, FileLogger g) => new Zeid.Solver(Prec, ObjectOfIMatrix, Form2.F,  Form2.X0,Form1.s_accur_number, Form1.max_iter, Log));
+            RegisterSolverClass("Метод Якоби", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, ILogger g) =>  Jac.Solve(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.accurent, Form1.maxiter, Log));
+            RegisterSolverClass("Метод Зейделя", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, ILogger g) =>  Zeid.Solve(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.accurent, Form1.maxiter, Log));
             RegisterSolverClass("Метод бисопряжённых градиентов", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, ILogger g) => Bsg.Solve(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.accurent, Form1.maxiter, Log));
 
             //RegisterSolverClass("Метод обобщённых минимальных невязок", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, FileLogger g) => new SparseRowColumnMatrix.Solver(Prec, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.s_accur_number, Form1.max_iter, Log));
