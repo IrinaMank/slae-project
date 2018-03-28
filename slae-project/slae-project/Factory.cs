@@ -93,7 +93,19 @@ namespace slae_project
             SolverTypes.TryGetValue(typename, out value);
 
             FileLogger f = null;
-            Result = value(Prec, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.accurent, Form1.maxiter, f);
+            try
+            {
+                Result = value(Prec, ObjectOfIMatrix, Form2.F, Form2.X0, Form1.accurent, Form1.maxiter, f);
+                System.Media.SoundPlayer sp = new System.Media.SoundPlayer("ya.wav");
+                sp.Play();
+            }
+            catch(Exception)
+            {
+                System.Windows.Forms.MessageBox.Show("Решение СЛАУ не может быть получено с помощью данного метода.",
+                    "Ошибка",
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.Stop);
+            }
         }
 
         static public void CreatePrecond(object typenameOb)//получаем заполненную матрицу для передачи Solver
