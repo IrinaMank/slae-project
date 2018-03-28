@@ -86,6 +86,7 @@ namespace slae_project
             MatrixTypes.TryGetValue(typename, out value);
 
             ObjectOfIMatrix = value.Item1(DictionaryOfFormats, isSymmetric);
+
         }
         static public void CreateSolver(object typenameOb)//получаем заполненную матрицу для передачи Solver
         {
@@ -97,11 +98,23 @@ namespace slae_project
             FileLogger f = null;
             try
             {
-                Result = value(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.accurent, Form1.maxiter, f);
-                System.Media.SoundPlayer sp = new System.Media.SoundPlayer(Properties.Resources.ya);
-                sp.Play();
+                if (ObjectOfIMatrix.CheckCompatibility(FileLoadForm.F))
+                {
+                    Result = value(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.accurent, Form1.maxiter, f);
+                    System.Media.SoundPlayer sp = new System.Media.SoundPlayer(Properties.Resources.ya);
+                    sp.Play();
+                }
+                else
+                    throw new Matrix.MatrixExceptions.SlaeNotCompatipableException("СЛАУ несовместна. Решения не существует. ");
             }
-            catch(Exception)
+            catch (Matrix.MatrixExceptions.SlaeNotCompatipableException a)
+            {
+                System.Windows.Forms.MessageBox.Show(a.Message,
+                    "Ошибка",
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.Stop);
+            }
+            catch (Exception a )
             {
                 System.Windows.Forms.MessageBox.Show("Решение СЛАУ не может быть получено с помощью данного метода.",
                     "Ошибка",

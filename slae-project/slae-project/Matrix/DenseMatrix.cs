@@ -221,7 +221,7 @@ namespace slae_project.Matrix
                     result[0] = 0;
                 }
                 else
-                    throw new CannotSolveSLAEExcpetion("Система неразрешима.");
+                    throw new SlaeNotCompatipableException("Система неразрешима.");
             }
             for (int i = 0; i < Size; i++)
             {
@@ -237,7 +237,7 @@ namespace slae_project.Matrix
                 }
                 catch (DivideByZeroException)
                 {
-                    throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
+                    throw new SlaeNotCompatipableException("Произошло деление на ноль.");
                 }
             }
             return result;
@@ -253,7 +253,7 @@ namespace slae_project.Matrix
                     result[Size - 1] = 0;
                 }
                 else
-                    throw new CannotSolveSLAEExcpetion("Система неразрешима.");
+                    throw new SlaeNotCompatipableException("Система неразрешима.");
             }
             for (int i = Size - 1; i >= 0; i--)
             {
@@ -267,7 +267,7 @@ namespace slae_project.Matrix
                 }
                 catch (DivideByZeroException)
                 {
-                    throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
+                    throw new SlaeNotCompatipableException("Произошло деление на ноль.");
                 }
             }
             return result;
@@ -405,7 +405,7 @@ namespace slae_project.Matrix
                     result[Size - 1] = 0;
                 }
                 else
-                    throw new CannotSolveSLAEExcpetion("Система неразрешима.");
+                    throw new SlaeNotCompatipableException("Система неразрешима.");
                 return null;
             }
             for (int i = Size - 1; i >= 0; i--)
@@ -420,7 +420,7 @@ namespace slae_project.Matrix
                 }
                 catch (DivideByZeroException)
                 {
-                    throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
+                    throw new SlaeNotCompatipableException("Произошло деление на ноль.");
                 }
                 for (int j = 0; j < line_length; j++)
                 {
@@ -441,7 +441,7 @@ namespace slae_project.Matrix
                     result[0] = 0;
                 }
                 else
-                    throw new CannotSolveSLAEExcpetion("Система неразрешима.");
+                    throw new SlaeNotCompatipableException("Система неразрешима.");
             }
             for (int i = 0; i < Size; i++)
             {
@@ -454,7 +454,7 @@ namespace slae_project.Matrix
                 }
                 catch (DivideByZeroException)
                 {
-                    throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
+                    throw new SlaeNotCompatipableException("Произошло деление на ноль.");
                 }
             }
             return result;
@@ -668,6 +668,68 @@ namespace slae_project.Matrix
             {
                 throw new CannotFillMatrixException(string.Format("Количество элементов в строке меньше чем размер матрицы.", i));
             }
+        }
+        public bool CheckCompatibility(IVector x)
+        {
+            int j;
+            int firstNotZero;
+            double coef;
+            // Сверхнеоптимальный код
+            // Желательно читать с закрытыми глазами
+            for (int line = 0; line < Size; line++)
+            {
+                for (int line2 = line + 1; line2 < Size; line2++)
+                {
+                    for (firstNotZero = 0; firstNotZero < Size; firstNotZero++)
+                        if (this[line, firstNotZero] != 0 || this[line2, firstNotZero] != 0)
+                            break;
+
+                    if (firstNotZero != Size)
+                    {
+                        // Если ненулевой элемент во второй строчке
+                        if (this[line, firstNotZero] == 0)
+                        {
+                            coef = this[line, firstNotZero] / this[line2, firstNotZero];
+                            // Проверка линейно зависимости строк матрицы
+                            for (j = firstNotZero + 1; j < Size; j++)
+                            {
+                                if (this[line, j] - coef * this[line2, j] != 0)
+                                    break;
+                            }
+                            // Если строки линейно зависимы, то проверка соответствующих элементов вектора
+                            if (j == Size)
+                            {
+                                if (x[line] - x[line2] * coef == 0)
+                                    return false;
+                            }
+                        }
+                        // Если ненулевой элемент в первой строчке
+                        else
+                        {
+                            coef = this[line2, firstNotZero] / this[line, firstNotZero];
+                            // Проверка линейно зависимости строк матрицы
+                            for (j = firstNotZero + 1; j < Size; j++)
+                            {
+                                if (this[line2, j] - coef * this[line, j] != 0)
+                                    break;
+                            }
+                            // Если строки линейно зависимы, то проверка соответствующих элементов вектора
+                            if (j == Size)
+                            {
+                                if (x[line2] - x[line] * coef == 0)
+                                    return false;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Если нулевой строке матрицы соответствует ненулевой элемент вектора
+                        if (x[line2] != 0 || x[line] != 0)
+                            return false;
+                    }
+                }
+            }
+            return true;
         }
     }
 }
