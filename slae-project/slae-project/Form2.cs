@@ -17,10 +17,11 @@ namespace slae_project
     public partial class Form2 : Form
     {
         int Y = 0;
-        public static Dictionary<int, Label> name_arr = new Dictionary<int, Label>();//имена массивов
+        public static Dictionary<string, Label> name_arr = new Dictionary<string, Label>();//имена массивов
         public static Dictionary<int, TextBox> puths = new Dictionary<int, TextBox>();//пути до массивов
         public static Dictionary<string, string> filenames_format = new Dictionary<string, string>(); // словарь: ключ - название массива, значение - путь к файлу
-
+        public static List<string> arrays = new List<string>();
+        public static Dictionary<Label, TextBox> sootvet = new Dictionary<Label, TextBox>();
         public static IVector F = new SimpleVector();//правая часть
         public static IVector X0 = new SimpleVector();//Начально приближение 
         public Form2()
@@ -28,15 +29,41 @@ namespace slae_project
             InitializeComponent();
             this.Size = new Size(500, 400);
         }
-        List<Button> obzors = new List<Button>();
+        List<Button> obzors = new List<Button>();//лист кнопок обзоров
         private void Form2_Load(object sender, EventArgs e)
         {
             obzors.Clear();
             Factory.CreateMatrix(Form1.str_format_matrix);
 
-            List<string> arrays = Factory.name_arr;
+            arrays = Factory.name_arr;
             int count_arr = arrays.Count();
-            int x_l = 45, y = 55, x_p = 100, x_b = 315;
+
+            string mess = "";
+            mess += "Выбери массивы со следующими названиями: ";
+            mess += "F, X0, ";
+            for (int i = 0; i < arrays.Count(); i++)
+            {
+
+                mess += arrays[i];
+                mess += ", ";
+            }
+
+            int x_l = 45, y = 25, x_p = 100, x_b = 315;
+            Label arr_label = new Label();
+            arr_label.Text = mess.ToString();
+            arr_label.Size = new Size(200, 40);
+            arr_label.Location = new System.Drawing.Point(x_l, y);
+            this.Controls.Add(arr_label);
+            arr_label.BackColor = Color.Transparent;
+
+            Button button_all = new Button();
+            button_all.Text = "Обзор";
+            button_all.Size = new Size(75, 23);
+            button_all.Location = new Point(x_b, y);
+            button_all.Click += new System.EventHandler(button_Click);
+            this.Controls.Add(button_all);
+
+            y += 50;
             puths.Clear(); name_arr.Clear();
             //все массивы
             for (int i = 0; i < count_arr; i++)
@@ -46,7 +73,7 @@ namespace slae_project
                 name.Text = arrays[i];
                 name.Size = new Size(50, 15);
                 name.Location = new System.Drawing.Point(x_l, y);
-                name_arr.Add(y, name);
+                name_arr.Add(name.Text, name);
                 this.Controls.Add(name);
                 name.BackColor = Color.Transparent;
 
@@ -55,6 +82,7 @@ namespace slae_project
                 puth.Name = i.ToString();
                 puth.Location = new Point(x_p, y);
                 puths.Add(y, puth);
+                sootvet.Add(name, puth);
                 this.Controls.Add(puth);
 
                 Button button = new Button();
@@ -68,21 +96,22 @@ namespace slae_project
 
                 y += 33;
             }
-            ////правая часть
+            //правая часть
             Label name_b = new Label();
-            name_b.Text = " b";
+            name_b.Text = "F";
             name_b.Size = new Size(25, 15);
             name_b.Location = new System.Drawing.Point(x_l, y);
-            name_arr.Add(y, name_b);
+            name_arr.Add(name_b.Text, name_b);
             this.Controls.Add(name_b);
             name_b.BackColor = Color.Transparent;
 
             TextBox puth_b = new TextBox();
             puth_b.Size = new Size(185, 20);
-            puth_b.Name = " b ";
+            puth_b.Name = "F";
             puth_b.Location = new Point(x_p, y);
             puths.Add(y, puth_b);
             this.Controls.Add(puth_b);
+            sootvet.Add(name_b, puth_b);
 
             Button button_b = new Button();
             obzors.Add(button_b);
@@ -98,7 +127,7 @@ namespace slae_project
             name_x0.Text = "X0";
             name_x0.Size = new Size(25, 15);
             name_x0.Location = new System.Drawing.Point(x_l, y);
-            name_arr.Add(y, name_x0);
+            name_arr.Add(name_x0.Text, name_x0);
             this.Controls.Add(name_x0);
             name_x0.BackColor = Color.Transparent;
 
@@ -108,7 +137,7 @@ namespace slae_project
             puth_x0.Location = new Point(x_p, y);
             puths.Add(y, puth_x0);
             this.Controls.Add(puth_x0);
-
+            sootvet.Add(name_x0, puth_x0);
 
             Button button_x0 = new Button();
             obzors.Add(button_x0);
@@ -153,62 +182,89 @@ namespace slae_project
         private void button_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-            Point coord = btn.Location;
-
-            TextBox value = new TextBox();
-            puths.TryGetValue(coord.Y, out value);
-
-            Label val_label = new Label();
-            name_arr.TryGetValue(coord.Y, out val_label);
-
+            string filename_b = null, filename_X0 = null;
+            openFileDialog1.Multiselect = true;
             if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
                 return;
 
-            //получаем выбранный файл 
-            string filename = openFileDialog1.FileName;
-            value.Text = filename;
-            //filenames_format.Clear();
-            filenames_format.Remove(val_label.Text.ToString());
-            filenames_format.Add(val_label.Text.ToString(), filename);
+            List<string> filenames = new List<string>();
+            foreach (string file in openFileDialog1.FileNames)
+            {
+                //получаем выбранный файл 
+                filenames.Add(file);
+            }
+            arrays.Add("F"); arrays.Add("X0");
+            for (int i = 0; i < filenames.Count(); i++)
+            {
+
+                int j = 0;
+                for (; j < arrays.Count(); j++)
+                {
+                    if (filenames[i].IndexOf(arrays[j]) != -1)
+                    {
+                        filenames_format.Remove(arrays[j]);
+                        filenames_format.Add(arrays[j], filenames[i]);
+                        foreach (string iy in name_arr.Keys)
+                        {
+                            if (arrays[j] == iy)
+                            {
+                                Label value = new Label();
+                                TextBox value1 = new TextBox();
+                                name_arr.TryGetValue(iy, out value);
+                                sootvet.TryGetValue(value, out value1);
+                                value1.Text = filenames[i];
+
+                                if (arrays[j] == "F") filename_b = filenames[i];
+                                if (arrays[j] == "X0") filename_X0 = filenames[i];
+                            }
+                        }
+                        break;
+                    }
+                }
+
+            }
+
+            if (filename_b == null || filename_X0 == null) { MessageBox.Show("Выбраны не все файлы"); }
+
             if (btn == obzors[obzors.Count - 2])
             {
-                ///вот тут рамс, в F не читает(( 
-                FileStream file = new FileStream(filename, FileMode.Open, FileAccess.Read);
+
+                FileStream file = new FileStream(filename_b, FileMode.Open, FileAccess.Read);
                 StreamReader reader = new StreamReader(file);
-                
-                List<int> z = new List<int>(); int y;
-                int i = 0;
+
+                List<int> z = new List<int>();
+                int r = 0;
                 int size = Convert.ToInt32(reader.ReadLine());
                 var k = reader.ReadLine().Split();
 
                 F = new SimpleVector(size);
-                while (i < size)
+                while (r < size)
                 {
-                    F[i] = Convert.ToDouble(k[i]);
-                    i++;
+                    F[r] = Convert.ToDouble(k[r]);
+                    r++;
 
                 }
             }
-            else if (btn == obzors[obzors.Count-1])
+            else if (btn == obzors[obzors.Count - 1])
             {
-                FileStream file = new FileStream(filename, FileMode.Open, FileAccess.Read);
+                FileStream file = new FileStream(filename_X0, FileMode.Open, FileAccess.Read);
                 StreamReader reader = new StreamReader(file);
-                List<int> z = new List<int>(); int y;
-                int i = 0;
+                List<int> z = new List<int>();
+                int r = 0;
 
                 int size = Convert.ToInt32(reader.ReadLine());
                 var k = reader.ReadLine().Split();
 
                 X0 = new SimpleVector(size);
-                while (i < size)
+                while (r < size)
                 {
-                    X0[i] = Convert.ToDouble(k[i]);
-                    i++;
+                    X0[r] = Convert.ToDouble(k[r]);
+                    r++;
 
                 }
             }
         }
-       
-        
+
+
     }
 }
