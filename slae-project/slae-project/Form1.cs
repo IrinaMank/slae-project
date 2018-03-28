@@ -28,7 +28,7 @@ namespace slae_project
         String[] solverTypesList;
         Factory f;
 
-        public Button next, exit, back, justDoIt, icon, loadFiles, graphic;
+        public static Button next, exit, back, justDoIt, icon, loadFiles, graphic;
         public GroupBox gr;
         public PictureBox picture;
         public RadioButton fileRead, myRead;
@@ -39,6 +39,10 @@ namespace slae_project
         public TextBox maxit;
         public static ProgressBar bar;
 
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
 
         public Form1()
         {           
@@ -293,7 +297,7 @@ namespace slae_project
             inputModeHand = true;
             format.SelectedValue = 2;
             format.Enabled = false;
-            
+            justDoIt.Enabled = false;
         }
 
         private void writeSize(string name)

@@ -35,13 +35,14 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // Form2
+            // FileLoadForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::slae_project.Properties.Resources.kuchka;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(379, 321);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FileLoadForm";
             this.Text = "FileLoadForm";
             this.Load += new System.EventHandler(this.Form2_Load);
