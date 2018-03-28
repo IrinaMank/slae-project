@@ -131,7 +131,7 @@
     <Compile Include="Solver\Jacobi.cs" />
     <Compile Include="Solver\LOSSolver.cs" />
     <Compile Include="Matrix\MatrixExceptions\CannotMultException.cs" />
-    <Compile Include="Matrix\MatrixExceptions\CannotSolveSLAEException.cs" />
+    <Compile Include="Matrix\MatrixExceptions\SlaeNotCompatipableException.cs" />
     <Compile Include="Matrix\MatrixExceptions\DifferentSizeException.cs" />
     <Compile Include="Matrix\MatrixExceptions\LUFailException.cs" />
     <Compile Include="Solver\MSGSolver.cs" />

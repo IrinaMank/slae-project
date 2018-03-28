@@ -696,7 +696,7 @@ namespace slae_project.Matrix
                             // Если строки линейно зависимы, то проверка соответствующих элементов вектора
                             if (j == Size)
                             {
-                                if (x[line] - x[line2] * coef == 0)
+                                if (x[line] - x[line2] * coef != 0)
                                     return false;
                             }
                         }
@@ -713,7 +713,7 @@ namespace slae_project.Matrix
                             // Если строки линейно зависимы, то проверка соответствующих элементов вектора
                             if (j == Size)
                             {
-                                if (x[line2] - x[line] * coef == 0)
+                                if (x[line2] - x[line] * coef != 0)
                                     return false;
                             }
                         }
