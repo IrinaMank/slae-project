@@ -37,8 +37,16 @@ namespace slae_project
             column1.Name = "column"; //текстовое имя колонки, его можно использовать вместо обращений по индексу
             column1.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
             column1.CellTemplate = new DataGridViewTextBoxCell(); //тип нашей колонки
+            var column2 = new DataGridViewColumn();
+            column2.Width = 30; //ширина колонки
+            column2.ReadOnly = false; //значение в этой колонке нельзя править
+            column2.Name = "column"; //текстовое имя колонки, его можно использовать вместо обращений по индексу
+            column2.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
+            column2.CellTemplate = new DataGridViewTextBoxCell(); //тип нашей колонки
             vectorDataGrid.Columns.Add(column1);
+            x0DataGrid.Columns.Add(column2);
             vectorDataGrid.BringToFront();
+            x0DataGrid.BringToFront();
 
             for (int i = 0; i < size; i++) 
             {
@@ -59,9 +67,16 @@ namespace slae_project
                 row1.ReadOnly = false; //значение в этой колонке нельзя править
                 row1.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
 
+                var row2 = new DataGridViewRow();
+                row2.Height = 30; //ширина колонки
+                row2.ReadOnly = false; //значение в этой колонке нельзя править
+                row2.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
+
+
                 matrixDataGrid.Columns.Add(column);
                 matrixDataGrid.Rows.Add(row);
                 vectorDataGrid.Rows.Add(row1);
+                x0DataGrid.Rows.Add(row2);
 
             }
 
@@ -74,9 +89,16 @@ namespace slae_project
             vectorDataGrid.AllowUserToResizeColumns = false; // запрещаем менять размер столбцов
             vectorDataGrid.RowHeadersVisible = false; // делаем невидимыми заголовки строк
             vectorDataGrid.ColumnHeadersVisible = false; // делаем невидимыми заголовки столбцов
-            
-            vectorDataGrid.Width = 30; 
+            x0DataGrid.AllowUserToResizeRows = false; // запрещаем менять размер строчек
+            x0DataGrid.AllowUserToResizeColumns = false; // запрещаем менять размер столбцов
+            x0DataGrid.RowHeadersVisible = false; // делаем невидимыми заголовки строк
+            x0DataGrid.ColumnHeadersVisible = false; // делаем невидимыми заголовки столбцов
+
+            vectorDataGrid.Width = 30;
+            x0DataGrid.Width = 30;
+
             groupBox2.Width = vectorDataGrid.Width + 60;
+            groupBox3.Width = vectorDataGrid.Width + 60;
             sizeWrap();
         }
 
@@ -87,9 +109,11 @@ namespace slae_project
             matrixDataGrid.Height = 30 * size;
             matrixDataGrid.Width = 30 * size; 
             vectorDataGrid.Height = 30 * size;
+            x0DataGrid.Height = 30 * size;
             groupBox1.Height = matrixDataGrid.Height + 50; 
             groupBox1.Width = matrixDataGrid.Width + 30;
-            groupBox2.Height = vectorDataGrid.Height + 50;  
+            groupBox2.Height = vectorDataGrid.Height + 50;
+            groupBox3.Height = vectorDataGrid.Height + 50;
         }
 
         public void textToOnlyNumbers(int col, int row)
@@ -113,6 +137,9 @@ namespace slae_project
 
                 if (vectorDataGrid[0, i].Value == null)
                     vectorDataGrid[0, i].Value = 0;
+
+                if (x0DataGrid[0, i].Value == null)
+                    x0DataGrid[0, i].Value = 0;
             }
             
         }
@@ -124,7 +151,8 @@ namespace slae_project
                 size--;
                 matrixDataGrid.Rows.RemoveAt(size);
                 matrixDataGrid.Columns.RemoveAt(size);
-                vectorDataGrid.Rows.RemoveAt(size);              
+                vectorDataGrid.Rows.RemoveAt(size);
+                x0DataGrid.Rows.RemoveAt(size);
             }
 
             for (int j = 0; j < size; j++)
@@ -132,6 +160,7 @@ namespace slae_project
                 for (int i = 0; i < size; i++)
                     matrixDataGrid[i, j].Value = null;
                 vectorDataGrid[0, j].Value = null;
+                x0DataGrid[0, j].Value = null;
             }
 
             sizeWrap();
@@ -192,7 +221,7 @@ namespace slae_project
             FileLoadForm.X0 = new SimpleVector(size);
             for (int i = 0; i < size; i++)
                 {
-                    FileLoadForm.X0[i] = 1.0;
+                    FileLoadForm.X0[i] = Convert.ToDouble(x0DataGrid[0,i].Value);
                 }
             this.Close();
 
@@ -207,6 +236,7 @@ namespace slae_project
                     {
                         matrixDataGrid.Rows[j].Cells[i].Style.BackColor = Color.White;
                         vectorDataGrid.Rows[j].Cells[0].Style.BackColor = Color.White;
+                        x0DataGrid.Rows[j].Cells[0].Style.BackColor = Color.White;
                     }
                 if (size < 10)
                 {
@@ -230,10 +260,18 @@ namespace slae_project
                     row1.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
                     row1.DefaultCellStyle.BackColor = Color.Gray;
 
+                    var row2 = new DataGridViewRow();
+                    row2.Height = 30; //ширина колонки
+                    row2.ReadOnly = false; //значение в этой колонке нельзя править
+                    row2.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
+                    row2.DefaultCellStyle.BackColor = Color.Gray;
+
                     size++;
                     matrixDataGrid.Columns.Add(column);
                     matrixDataGrid.Rows.Add(row);
                     vectorDataGrid.Rows.Add(row1);
+                    x0DataGrid.Rows.Add(row2);
+
 
                     sizeWrap();
                 }
@@ -256,18 +294,20 @@ namespace slae_project
 
                 if (e.ColumnIndex == size - 2 || e.RowIndex == size - 2)
                 {
+                    var str = Math.Max(e.ColumnIndex, e.RowIndex);
                     bool notEmptyRow = false;
                     for (int i = 0; i < size; i++)
                     {
-                        if (matrixDataGrid[e.ColumnIndex, i].Value != null || matrixDataGrid[i, e.RowIndex].Value != null)
+                       
+                        if (matrixDataGrid[str, i].Value != null || matrixDataGrid[i, str].Value != null)
                             notEmptyRow = true;
                     }
                     if (!notEmptyRow)
                     {
                         size--;
-                        matrixDataGrid.Rows.RemoveAt(e.ColumnIndex);
-                        matrixDataGrid.Columns.RemoveAt(e.ColumnIndex);
-                        vectorDataGrid.Rows.RemoveAt(e.ColumnIndex);
+                        matrixDataGrid.Rows.RemoveAt(size - 1);
+                        matrixDataGrid.Columns.RemoveAt(size - 1);
+                        vectorDataGrid.Rows.RemoveAt(size - 1);
 
                         sizeWrap();
                     }
@@ -278,6 +318,11 @@ namespace slae_project
         private void matrixForm_FormClosing(object sender, FormClosingEventArgs e)
         {
                 Form1.justDoIt.Enabled = true;
+        }
+
+        private void groupBox3_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 

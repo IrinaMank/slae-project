@@ -67,11 +67,12 @@ namespace slae_project.Solver
                 z = r.Add(z, 1, beta);
                 normR = Math.Sqrt(scalRR) / b.Norm;
 
-                Logger.WriteIteration(iter, normR, 100*Precision/normR);
-                Form1.updateProgressBar(iter);
-                Thread.Sleep(10);
+                Logger.WriteIteration(iter, normR);
+
+                //Thread.Sleep(10);
             };
-            Logger.WriteSolution(Preconditioner.SolveU(x));
+
+            Logger.WriteSolution(Preconditioner.SolveU(x),Maxiter);
             //Logger.WriteSolution(Preconditioner.MultU(x));
             //Logger.WriteSolution(x);
             return Preconditioner.MultU(x);

@@ -11,7 +11,6 @@ namespace slae_project.Logger
     
     public class FileLogger : ILogger, IDisposable
     {
-        public int iter = 0;
         public double per = 0;
         private System.IO.StreamWriter fileStream;
         private string defaultLogFile = "./log.txt";
@@ -31,18 +30,18 @@ namespace slae_project.Logger
                 System.IO.Directory.CreateDirectory(dirName);
             fileStream = new System.IO.StreamWriter(filename);
         }
-        public void WriteIteration(int number, double residual, double percent)
+        public void WriteIteration(int number, double residual)
         {
-            iter = number;
-            per = percent;
             String msg = String.Format("{0}\t{1}", number, residual);
             fileStream.WriteLine(msg);
             fileStream.Flush();
             //Thread.Sleep(0);
+            Form1.updateProgressBar(number);
         }
 
-        public void WriteSolution(IVector sol)
+        public void WriteSolution(IVector sol, int Maxiter)
         {
+            Form1.updateProgressBar(Maxiter);
             for (int i = 0; i < sol.Size; i++)
             {
                 String msg = String.Format("{0}", sol[i]);

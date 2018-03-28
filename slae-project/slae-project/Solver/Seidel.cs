@@ -38,9 +38,9 @@ namespace slae_project.Solver
                 r = b.Add(A.Mult(x), 1, -1);//r = b - Ax
                 residual = r.Norm / b.Norm;// ||b-Ax|| / ||b||
 
-                Logger.WriteIteration(i, residual, 100 * Precision / residual);
+                Logger.WriteIteration(i, residual);
             }
-            Logger.WriteSolution(x);
+            Logger.WriteSolution(x, Maxiter);
             return x;
         }
 
