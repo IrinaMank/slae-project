@@ -8,7 +8,7 @@ using slae_project.Vector;
 
 namespace slae_project.Preconditioner
 {
-    class LUPreconditioner : UseMatrixPreconditioner
+    public class LUPreconditioner : UseMatrixPreconditioner
     {
         public LUPreconditioner(IMatrix matr)
         {

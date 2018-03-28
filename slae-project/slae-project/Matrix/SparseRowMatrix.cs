@@ -236,32 +236,41 @@ namespace slae_project.Matrix
         /// </summary>
         public void MakeLU()
         {
-            double sum;
-            for (int i = 0; i < Size; i++)
+            try
             {
-                for (int j = 0; j < Size; j++)
+                double sum;
+                for (int i = 0; i < Size; i++)
                 {
-                    sum = 0;
-                    if (this[i, j] != 0 && i >= j)
-                    {
-                        for (int k = 0; k < i; k++)
-                        {
-                            sum += this[i, k] * this[k, j];
-                        }
-                        this[i, j] = this[i, j] - sum;
-                    }
-                    if (this[j, i] != 0 && i < j)
+                    for (int j = 0; j < Size; j++)
                     {
                         sum = 0;
-                        for (int k = 0; k < i; k++)
+                        if (this[i, j] != 0 && i >= j)
                         {
-                            sum += this[j, k] * this[k, i];
+                            for (int k = 0; k < i; k++)
+                            {
+                                sum += this[i, k] * this[k, j];
+                            }
+                            this[i, j] = this[i, j] - sum;
                         }
-                        this[j, i] = (this[j, i] - sum) / this[i, i];
+                        if (this[j, i] != 0 && i < j)
+                        {
+                            sum = 0;
+                            for (int k = 0; k < i; k++)
+                            {
+                                sum += this[j, k] * this[k, i];
+                            }
+                            if (Math.Abs(this[i, j]) < 1e-10)
+                                throw new DivideByZeroException();
+                            this[j, i] = (this[j, i] - sum) / this[i, i];
+                        }
                     }
                 }
+                extraDiagVal = 1;
             }
-            extraDiagVal = 1;
+            catch (DivideByZeroException)
+            {
+                throw new LUFailException("Невозможгно выполнить LU разложение");
+            }
         }
         /// <summary>
         /// 

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace slae_project.Solver
@@ -23,7 +24,7 @@ namespace slae_project.Solver
         /// <returns>Вектор x - решение СЛАУ Ax=b с заданной точностью</returns>
         public IVector Solve(IPreconditioner Preconditioner, IMatrix A, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
         {
-            Initial = new SimpleVector(new double[4] {2,2,2,2});
+            //Initial = new SimpleVector(new double[4] {0,0,0,0});
             IVector x = Preconditioner.MultU(Initial);
 
             if (b.Norm == 0)
@@ -67,6 +68,8 @@ namespace slae_project.Solver
                 normR = Math.Sqrt(scalRR) / b.Norm;
 
                 Logger.WriteIteration(iter, normR, 100*Precision/normR);
+                Form1.updateProgressBar(iter);
+                Thread.Sleep(10);
             };
             Logger.WriteSolution(Preconditioner.SolveU(x));
             //Logger.WriteSolution(Preconditioner.MultU(x));

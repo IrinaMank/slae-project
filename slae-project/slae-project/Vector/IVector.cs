@@ -57,5 +57,11 @@ namespace slae_project.Vector
         /// <param name="prec">Точность, с которой числа считаются равными друг другу.</param>
         /// <returns></returns>
         bool CompareWith( IVector b, double prec);
+
+        /// <summary>
+        /// Проверет наличие нулевого элемента в векторе
+        /// </summary>
+        /// <returns>true, если содержит хоть один нулевой элемент. false - иначе</returns>
+        bool ContainZero();
     }
 }

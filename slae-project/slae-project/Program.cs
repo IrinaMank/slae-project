@@ -15,6 +15,7 @@ namespace slae_project
         [STAThread]
         static void Main()
         {
+            
             //CoordinateMatrix.localtest();
             //(int, int)[] coord = new(int, int)[100];
             ////   double[] valMatrix = new double[25] { 1, 5, 1, 2, 1, 8, 2, 1, 3, 2, 2, 9, 3, 7, 3, 1, 3, 10, 4, 6, 3, 1, 2, 11, 5 };	
