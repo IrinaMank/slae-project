@@ -78,9 +78,10 @@ namespace slae_project.Solver
 
                 normR = r.Norm / b.Norm;
 
-                Logger.WriteIteration(iter, normR);
+                Logger.WriteIteration(iter, normR, 100 * Precision / normR);
             }
             x = Preconditioner.SolveL(x);//x = U(-1)x
+            Logger.WriteSolution(x));
             return x;
         }
     }

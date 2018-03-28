@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using slae_project.Vector;
 
 namespace slae_project.Logger
 {
@@ -13,9 +14,9 @@ namespace slae_project.Logger
         {
             AllocConsole();
         }
-        public void WriteIteration(int number, double residual)
+        public void WriteIteration(int number, double residual, double percent)
         {
-            String msg = String.Format("Iteration: {0} \t residual: {1}", number, residual);
+            String msg = String.Format("Iteration: {0} \t residual: {1} \t percent: {2}", number, residual, percent);
             System.Console.WriteLine(msg);
         }
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -25,5 +26,12 @@ namespace slae_project.Logger
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool FreeConsole();
+
+        public void WriteSolution(IVector x)
+        {
+            for (int i = 0; i<x.Size;i++)
+            System.Console.Write("{1} ",x[i]);
+            System.Console.WriteLine();
+        }
     }
 }

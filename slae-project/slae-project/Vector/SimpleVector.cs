@@ -84,7 +84,7 @@ namespace slae_project.Vector
                     return this;
                 }
                 else
-                    return new SimpleVector(elements);
+                    return new SimpleVector(result);
 
             }
             MessageBox.Show("Попытка сложить вектора разных размерностей. Метод 'Add' вернул null. В следующий раз будь аккуратнее :3",

@@ -43,9 +43,9 @@ namespace slae_project
             openGLControl.DoRender();
 
             //ReadSettings();
-
+            Wrapped_Refreash_And_Show_Clicker();
             //установить границы скруллбаров и сбросить мышки-местоположение в лево-нижний угол
-            Refresh_Window();
+            //Refresh_Window();
         }
         /// <summary>
         /// Handles the OpenGLDraw event of the openGLControl control.
@@ -54,7 +54,7 @@ namespace slae_project
         /// <param name="e">The <see cref="RenderEventArgs"/> instance containing the event data.</param>
         private void openGLControl_OpenGLDraw(object sender, RenderEventArgs e)
         {
-            GD.RealDraw();
+           GD.RealDraw();
         }
         /// <summary>
         /// Записать текущие настройки в файл settings.txt
@@ -193,7 +193,7 @@ namespace slae_project
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void openGLControl_OpenGLInitialized(object sender, EventArgs e)
         {
-            //  TODO: Initialise OpenGL here.
+            //  ем TODO: Initialise OpenGL here.
 
             //  Get the OpenGL object.
             OpenGL gl = openGLControl.OpenGL;
@@ -306,7 +306,20 @@ namespace slae_project
                 //Мышка нажата
                 GD.mouse.isPressed = true;
             }
+            else if (MouseButtons.ToString() == "Right")
+            {
+                MessageBox.Show(""
+                    + "Текущая матрица: " 
+                    + GD.Number_of_current_matrix.ToString()
+                    + "\r\nТекущий столбец: "
+                    + GD.Number_of_current_column.ToString()
+                    + "\r\nТекущая строка: "
+                    + GD.Number_of_current_row.ToString()
+                    + "\r\nТекущее значение: "
+                    + GD.List_Of_Objects[GD.Number_of_current_matrix][GD.Number_of_current_column, GD.Number_of_current_row].ToString()
+                    , "Ячейка");
 
+            }
             Application.DoEvents();
         }
 
@@ -331,16 +344,17 @@ namespace slae_project
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button_test_Click(object sender, EventArgs e)
+        private void button_Refresh_And_Show_Click(object sender, EventArgs e)
+        {
+            GD = new GraphicData(openGLControl, this);
+            Wrapped_Refreash_And_Show_Clicker();
+        }
+        public void Wrapped_Refreash_And_Show_Clicker()
         {
             GD.List_Of_Objects.Clear();
+            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Матрица А", ref Factory.ObjectOfIMatrix));
+            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Результат х", ref Factory.Result));
             Refresh_Window();
-            
-            
-            
-
-            //AsyncTest.Start();
-
         }
         //Asynchronized AsyncTest = new Asynchronized();
 
@@ -366,9 +380,7 @@ namespace slae_project
             GD.font_format = 0;
 
             radioButton1_Number_disabled.Checked = false;
-            GD.TargetNumber = true;
-
-            GD.TargetNumber = true;
+            GD.TargetNumber = false;
             GD.TargetPlus = true;
             radioButton1_Number_enabled.Checked = true;
             radioButton1_Number_disabled.Checked = false;
@@ -378,6 +390,7 @@ namespace slae_project
             GD.BoolTextIsEnabledOtherwiseQuads = true;
 
             Refresh_Window(false);
+            SetScrollBars_to_the_end();
         }
 
         /// <summary>
@@ -418,15 +431,49 @@ namespace slae_project
             {
                 if (GD.mouse != null)
                 {
+                    //double v_old = ((double)vScrollBar1.Value / GD.Grid.yCellSize_old),
+                    //    h_old = ((double)hScrollBar1.Value / GD.Grid.xCellSize_old);
+
                     GD.mouse.BorderEndRecalculate();
-                    hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.x);
-                    vScrollBar1.Minimum = GD.mouse.BorderBegin.y; vScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.y);
+                    hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Value = 0; hScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.x);
+                    vScrollBar1.Minimum = GD.mouse.BorderBegin.y; vScrollBar1.Value = 0; vScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.y);
+
+                    //(((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize))
+
+                    //int v_new = GD.mouse.ShiftedPosition.x
+                    //+ openGLControl.Width / 2;
+                    //int h_new = GD.mouse.ShiftedPosition.y
+                     //   + openGLControl.Height / 2;
+
+                    //vScrollBar1.Value = (int)(v_old * GD.Grid.yCellSize);
+                    //hScrollBar1.Value = (int)(h_old * GD.Grid.xCellSize);
+                }
+            }
+        }
+
+        public void SetScrollBars_to_the_end()
+        {
+            if (GD != null)
+            {
+                if (GD.mouse != null)
+                {
+
+                    GD.mouse.BorderEndRecalculate();
+                    hScrollBar1.Minimum = GD.mouse.BorderBegin.x; hScrollBar1.Value = 0; hScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.x);
+                    vScrollBar1.Minimum = GD.mouse.BorderBegin.y; vScrollBar1.Value = 0; vScrollBar1.Maximum = Math.Abs(GD.mouse.BorderEnd.y);
 
                     if (GD.mouse.BorderEnd.y >= GD.mouse.BorderBegin.y)
-                    vScrollBar1.Value = Math.Abs(GD.mouse.BorderEnd.y);
+                        vScrollBar1.Value = Math.Abs(GD.mouse.BorderEnd.y);
 
                     if (GD.mouse.BorderBegin.x <= GD.mouse.BorderEnd.x)
-                    hScrollBar1.Value = Math.Abs(GD.mouse.BorderBegin.x);
+                        hScrollBar1.Value = Math.Abs(GD.mouse.BorderBegin.x);
+
+                    if (GD.mouse.BorderEnd.y <= openGLControl.Height)
+                        vScrollBar1.Value = Math.Abs(5);
+
+                    if (GD.mouse.BorderEnd.x <= openGLControl.Width)
+                        hScrollBar1.Value = Math.Abs(5);
+
                 }
             }
         }
@@ -615,6 +662,8 @@ namespace slae_project
         private List<double> stringToMatrixRow(string strRow)
         {
             List<double> row = new List<double>();
+            strRow = strRow.Replace('.', System.Globalization.NumberFormatInfo.CurrentInfo.NumberDecimalSeparator[0]);
+            strRow = strRow.Replace(',', System.Globalization.NumberFormatInfo.CurrentInfo.NumberDecimalSeparator[0]);
             string[] numbers = strRow.Split(new char[] { ';', ' ' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string element in numbers)
             {
@@ -664,32 +713,40 @@ namespace slae_project
         /// </summary>
         /// <param name="path">Путь к файлу</param>
         /// <param name="numObject">Номер матрицы в массиве объектов</param>
-        public void ReadMatrix(string path, int numObject)
+        public void ReadMatrix(string path, int numObject, bool BoolMessage = true)
         {
             try
             {
                 using (StreamReader reader = new StreamReader(path, System.Text.Encoding.Default))
                 {
-                    if (numObject > GD.List_Of_Objects.Count - 1)
-                    {
-                        GD.List_Of_Objects.Add(new GraphicData.GraphicObject(reader.ReadLine()));
-                    }
-                    else
-                    {
-                        GD.List_Of_Objects[numObject] = new GraphicData.GraphicObject(reader.ReadLine());
-                    }
+                    List<List<double>> object_to_add = new List<List<double>>();
+                    string name;
+                    //GD.List_Of_Objects
+
+                    name = reader.ReadLine();
+
                     string line = "";
                     while ((line = reader.ReadLine()) != null)
                     {
-                        GD.List_Of_Objects[numObject].Matrix.Add(stringToMatrixRow(line));
+                        object_to_add.Add(stringToMatrixRow(line));
                     }
-                    MessageBox.Show(path + " загружен.");
+
+                    if (numObject > GD.List_Of_Objects.Count - 1)
+                    {
+                        GD.List_Of_Objects.Add(new GraphicData.GraphicObject(name, object_to_add));
+                    }
+                    else
+                    {
+                        GD.List_Of_Objects[numObject] = new GraphicData.GraphicObject(name, object_to_add);
+                    }
+
+                    if (BoolMessage) MessageBox.Show(path + " загружен.");
                     Refresh_Window();
                 }
             }
             catch (Exception IdontNeedErrors)
             {
-                MessageBox.Show(IdontNeedErrors.Message, "Файл не обнаружен!");
+                if (BoolMessage) MessageBox.Show(IdontNeedErrors.Message, "Файл не обнаружен!");
             }
 
         }
@@ -738,6 +795,9 @@ namespace slae_project
         }
         private void AutoSizeCell_Reaction_Wrapped()
         {
+            double hold = (double)(hScrollBar1.Value + openGLControl.Width / 2) / GD.Grid.xCellSize;
+            double vold = (double)(vScrollBar1.Value + openGLControl.Height / 2) / GD.Grid.yCellSize;
+
             if (trackBar_FontSize.Value >= 4)
             {
                 GD.FontSize = trackBar_FontSize.Value;
@@ -758,12 +818,56 @@ namespace slae_project
 
                 Refresh_Window(false);
             }
+
+            int hnew = (int)(hold * GD.Grid.xCellSize) - openGLControl.Width / 2;
+            int vnew = (int)(vold * GD.Grid.yCellSize) - openGLControl.Height / 2;
+
+            if (hnew < hScrollBar1.Minimum) hnew = hScrollBar1.Minimum;
+            if (hnew > hScrollBar1.Maximum) hnew = hScrollBar1.Maximum;
+            if (vnew < vScrollBar1.Minimum) vnew = vScrollBar1.Minimum;
+            if (vnew > vScrollBar1.Maximum) vnew = vScrollBar1.Maximum;
+
+            hScrollBar1.Value = hnew;
+            vScrollBar1.Value = vnew;
+
         }
         private void trackBar_QuantityAfterPoint_ValueChanged(object sender, EventArgs e)
         {
             GD.FontQuanitityAfterPoint = trackBar_QuantityAfterPoint.Value;
 
             AutoSizeCell_Reaction_Wrapped();
+        }
+
+
+        Teleporter TeleporterForm = null;
+        private void button1_Teleporter_Click(object sender, EventArgs e)
+        {
+            if (!Teleporter_is_opened())
+            {
+                TeleporterForm = new Teleporter(this);
+            }
+
+        }
+        public bool Teleporter_is_opened()
+        {
+            if (TeleporterForm != null)
+                if (!TeleporterForm.IsDisposed)
+                    return true;
+            return false;
+        }
+        private class UR_access : UserGuide
+        {
+            public void UserGuide_access(ref List<GraphicData.GraphicObject> List_Of_Objects)
+            {
+                User_Guide_To_Graphic(ref List_Of_Objects);
+            }
+        }
+        static UR_access UR = new UR_access();
+        private void button1_Test_Click(object sender, EventArgs e)
+        {
+            GD = new GraphicData(openGLControl, this);
+            UR.UserGuide_access(ref GD.List_Of_Objects);
+            Refresh_Window();
         }
     }
 }
