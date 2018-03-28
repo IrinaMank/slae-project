@@ -14,6 +14,8 @@ namespace slae_project.Preconditioner
         public DiagonalPreconditioner(IMatrix matr)
         {
             matrix = matr.Clone() as IMatrix;
+            if (matrix.Diagonal.ContainZero())
+                throw new slae_project.Matrix.MatrixExceptions.LUFailException("Для использования диагонального предобуславливания главная диагональ исходной матрицы не должна содержать нулевые элементы.");
         }
         public class TransposeIllusion : IPreconditioner
         {

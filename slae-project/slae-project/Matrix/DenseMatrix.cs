@@ -199,6 +199,8 @@ namespace slae_project.Matrix
                         double sum = 0;
                         for (int u = 0; u < k; u++)
                             sum += this[i, u] * this[u, k];
+                        if (this[k, k] == 0)
+                            throw new DivideByZeroException();
                         this[i, k] = (this[i, k] - sum) / this[k, k];
                     }
                 }

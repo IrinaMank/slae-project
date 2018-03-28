@@ -100,9 +100,21 @@ namespace slae_project
         {
             string typename = typenameOb as string;
             Func<IPreconditioner> value;
-            PrecondTypes.TryGetValue(typename, out value);
+            try
+            {
+                PrecondTypes.TryGetValue(typename, out value);
+                Prec = value();
+            }
+            catch (slae_project.Matrix.MatrixExceptions.LUFailException a)
+            {
+                System.Windows.Forms.MessageBox.Show(a.Message+"\nРешение будет производиться без предобуславливания.",
+                    "Предупреждение",
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.Asterisk);
+                PrecondTypes.TryGetValue("Без предобуславливания", out value);
+                Prec = value();
+            }
 
-            Prec = value();
         }
 
         // Мы передаем симметричность/ несимметричность

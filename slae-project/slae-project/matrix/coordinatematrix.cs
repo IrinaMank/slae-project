@@ -120,7 +120,19 @@ namespace slae_project.Matrix
         public ILinearOperator T => new TransposeIllusion { Matrix = this };
 
         //TODO: Метод и правда должен что-то возвращать
-        public IVector Diagonal => throw new NotImplementedException();
+        public IVector Diagonal
+        {
+            get
+            {
+                IVector diag =  new SimpleVector(Size);
+                foreach(var el in this)
+                {
+                    if (el.col == el.row)
+                        diag[el.row] = el.value;
+                }
+                return diag;
+            }
+        }
 
         // Для выпендрежников, которые решили обойти матрицу поэлементно
         public IEnumerator<(double value, int row, int col)> GetEnumerator()
@@ -273,6 +285,8 @@ namespace slae_project.Matrix
                         double sum = 0;
                         for (int u = 0; u < k; u++)
                             sum += this[i, u] * this[u, k];
+                        if (Math.Abs(this[k, k]) < 1e-10)
+                            throw new DivideByZeroException();
                         this[i, k] = (this[i, k] - sum) / this[k, k];
                     }
                 }

@@ -20,7 +20,7 @@ namespace slae_project.Matrix
             public SparseRowColumnMatrix Matrix { get; set; }
             public ILinearOperator Transpose => Matrix;
             public ILinearOperator T => Matrix;
-            public IVector Diagonal { get; }
+            public IVector Diagonal { get { return Matrix.Diagonal; } } 
             public int Size => Matrix.Size;
             public IVector MultL(IVector x, bool UseDiagonal) => Matrix.MultLT(x, UseDiagonal);
             public IVector SolveL(IVector x, bool UseDiagonal) => Matrix.SolveLT(x, UseDiagonal);
@@ -383,9 +383,10 @@ namespace slae_project.Matrix
                         }
                     }
                     al[m] = al[m] - sum_l;
+
+                    if (Math.Abs(di[jg[m]]) < 1e-10)
+                        throw new DivideByZeroException();
                     au[m] = (au[m] - sum_u) / di[jg[m]];
-                    if (double.IsInfinity(au[m]))
-                        throw new LUFailException("Ошибка при LU предобуславливании!");
                     sum_d += al[m] * au[m];
                 }
                 di[k1] = di[k1] - sum_d;
