@@ -221,7 +221,7 @@ namespace slae_project
             FileLoadForm.X0 = new SimpleVector(size);
             for (int i = 0; i < size; i++)
                 {
-                    FileLoadForm.X0[i] = 1.0;
+                    FileLoadForm.X0[i] = Convert.ToDouble(x0DataGrid[0,i].Value);
                 }
             this.Close();
 
