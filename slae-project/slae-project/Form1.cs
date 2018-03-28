@@ -97,9 +97,10 @@ namespace slae_project
             solver.Location = new System.Drawing.Point(200, 40);
             for (int i = 0; i < solverTypesList.Length; i++)
                 solver.Items.Add(solverTypesList[i]);
-
+            
             solver.SelectedValueChanged += new System.EventHandler(solverChanged);
             solver.SelectedIndex = 0;
+            solver.SelectionChangeCommitted += new System.EventHandler(comboboxSelectionChangeCommitted);
             solver.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Controls.Add(solver);
             solver.BringToFront();
@@ -233,6 +234,17 @@ namespace slae_project
         private void readClick(object sender, EventArgs e)
         {
 
+        }
+
+        private void comboboxSelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (solver.SelectedIndex == 2 || solver.SelectedIndex == 3)
+            {
+                precond.SelectedIndex = 0;
+                precond.Enabled = false;
+            }
+            else
+                precond.Enabled = true;
         }
 
         private void maxitTextChange(object sender, EventArgs e)
