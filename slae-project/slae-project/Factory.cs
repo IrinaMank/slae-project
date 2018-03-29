@@ -16,7 +16,7 @@ namespace slae_project
     class Factory
     {
         Form1 main_form;
-        FileLogger Log = new FileLogger(0);
+        FileLogger Log = new FileLogger(Form1.maxiter);//Form1.maxiter добавлена Ирой, чтобы проект собирался. Возможно, аргументом должно быть что-то другое
         public static Dictionary<string, string> DictionaryOfFormats = FileLoadForm.filenames_format;//словарь путей до массивов
         static public Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)> MatrixTypes = new Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)>();
         public static IMatrix ObjectOfIMatrix;
@@ -98,24 +98,14 @@ namespace slae_project
             FileLogger f = null;
             try
             {
-                switch(ObjectOfIMatrix.CheckCompatibility(FileLoadForm.F))
+                if (ObjectOfIMatrix.CheckCompatibility(FileLoadForm.F))
                 {
-                    case MatrixConstants.SLAE_INCOMPATIBLE:
-                        {
-                            throw new Matrix.MatrixExceptions.SlaeNotCompatipableException("СЛАУ несовместна. Решения не существует. ");
-                        };
-                    case MatrixConstants.SLAE_MORE_ONE_SOLUTION:
-                        {
-                            System.Windows.Forms.MessageBox.Show("СЛАУ имеет более одного решения. Будет найдено одно из них. ",
-                                    "Предупреждение",
-                                    System.Windows.Forms.MessageBoxButtons.OK,
-                                    System.Windows.Forms.MessageBoxIcon.Asterisk);
-                            break;
-                        }
+                    Result = value(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.accurent, Form1.maxiter, f);
+                    System.Media.SoundPlayer sp = new System.Media.SoundPlayer(Properties.Resources.ya);
+                    sp.Play();
                 }
-                Result = value(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.accurent, Form1.maxiter, f);
-                System.Media.SoundPlayer sp = new System.Media.SoundPlayer(Properties.Resources.ya);
-                sp.Play();
+                else
+                    throw new Matrix.MatrixExceptions.SlaeNotCompatipableException("СЛАУ несовместна. Решения не существует. ");
             }
             catch (Matrix.MatrixExceptions.SlaeNotCompatipableException a)
             {
