@@ -14,7 +14,6 @@ namespace slae_project.Matrix
 {
     public class SparseRowMatrix : IMatrix
     {
-        //больше проверок богу проверок маленькая фабрика умри
         //что делать с транспонированием?
         public class TransposeIllusion : ILinearOperator
         {

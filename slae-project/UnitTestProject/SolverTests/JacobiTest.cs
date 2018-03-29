@@ -18,7 +18,7 @@ namespace UnitTestProject
         [TestMethod]
         public void RevertDiagonalJacobi()
         {
-            using (FileLogger logger = new FileLogger())
+            using (FileLogger logger = new FileLogger(0))
             {
                 (int, int)[] coord = new(int, int)[4];
                 double[] valMatrix = new double[4] { 1, 1, 1, 1 };
@@ -49,7 +49,7 @@ namespace UnitTestProject
         public void x0TestJacobi()
         {
             //МСГ - зависит от нач приближения.
-            using (FileLogger logger = new FileLogger())
+            using (FileLogger logger = new FileLogger(0))
             {
                 (int, int)[] coord = new(int, int)[4];
                 double[] valMatrix = new double[4] { 1, 1, 1, 1 };
@@ -84,7 +84,7 @@ namespace UnitTestProject
         [TestMethod]
         public void PrimTestJacobi()
         {
-            using (FileLogger logger = new FileLogger())
+            using (FileLogger logger = new FileLogger(0))
             {
                 (int, int)[] coord = new(int, int)[4];
                 double[] valMatrix = new double[4] { 1, 1, 1, 1 };

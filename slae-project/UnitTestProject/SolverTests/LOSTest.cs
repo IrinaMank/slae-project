@@ -16,7 +16,7 @@ namespace UnitTestProject
         [TestMethod]
         public void RevertDiagonalLOS()
         {
-            using (FileLogger logger = new FileLogger())
+            using (FileLogger logger = new FileLogger(0))
             {
                 (int, int)[] coord = new(int, int)[4];
                 double[] valMatrix = new double[4] { 1, 1, 1, 1 };
@@ -47,7 +47,7 @@ namespace UnitTestProject
         public void x0TestLOS()
         {
             //МСГ - зависит от нач приближения.
-            using (FileLogger logger = new FileLogger())
+            using (FileLogger logger = new FileLogger(0))
             {
                 (int, int)[] coord = new(int, int)[4];
                 double[] valMatrix = new double[4] { 1, 1, 1, 1 };
@@ -82,7 +82,7 @@ namespace UnitTestProject
         [TestMethod]
         public void PrimTestLOS()
         {
-            using (FileLogger logger = new FileLogger())
+            using (FileLogger logger = new FileLogger(0))
             {
                 (int, int)[] coord = new(int, int)[4];
                 double[] valMatrix = new double[4] { 1, 1, 1, 1 };
@@ -112,7 +112,7 @@ namespace UnitTestProject
         //[TestMethod]
         //public void ShittyMatrix()
         //{
-        //    using (FileLogger logger = new FileLogger())
+        //    using (FileLogger logger = new FileLogger(0))
         //    {
         //        (int, int)[] coord = new(int, int)[9];
         //        double[] valMatrix = new double[9] { -1, 2, 3, -1, -1, 4, -4, 7, 9 };
@@ -154,7 +154,7 @@ namespace UnitTestProject
         [TestMethod]
         public void BadObuslMatrix()
         {
-            using (FileLogger logger = new FileLogger())
+            using (FileLogger logger = new FileLogger(0))
             {
                 double[,] val = new double[3, 3] { { 2,2,5 }, { 3,1,4}, { 4,1,8 } };
 
