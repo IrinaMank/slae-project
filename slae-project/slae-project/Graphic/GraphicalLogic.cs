@@ -68,7 +68,7 @@ namespace slae_project
             {
                 GraphicalVector = _GraphicalVector;
                 xCellCount = GraphicalVector.Count() - 1;
-                yCellCount = 20;
+                yCellCount = 20 + 1;
                 foreach (var value in GraphicalVector)
                 {
                     if (value > max) max = value;
@@ -330,20 +330,20 @@ namespace slae_project
                      * if (TargetNumber)
                         Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + (((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize)).ToString(),0,0,0);*/
 
-                    if (obj.GraphicalVector == null)
+                    //if (obj.GraphicalVector == null)
                         for (int i = 0; i < obj.yCellCount; i++)
                         {
                             Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, Count_by_Y.ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
                             Grid.Y_move();
                             Count_by_Y++;
                         }
-                    else
-                        for (int i = 0; i < obj.yCellCount; i++)
-                        {
-                            Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, (obj.min + (double)obj.range*((double)((double)obj.yCellCount - Count_by_Y - 0.5)/ obj.yCellCount)).ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
-                            Grid.Y_move();
-                            Count_by_Y++;
-                        }
+                    //else
+                    //    for (int i = 0; i < obj.yCellCount; i++)
+                    //    {
+                    //        Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, (obj.min + (double)obj.range*((double)((double)obj.yCellCount - Count_by_Y - 0.5)/ obj.yCellCount)).ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                    //        Grid.Y_move();
+                    //        Count_by_Y++;
+                    //    }
                     Grid.X_Y_counter.x = X_new;
                     Grid.X_Y_counter.y = Y_new;
 
@@ -493,30 +493,19 @@ namespace slae_project
                     for (int X_counter = OS_x_begin; X_counter < OS_x_end; X_counter++)
                     {
                         int x = LeftTopCellOfEachMatrix[i].X + X_counter;
-                        int y = LeftTopCellOfEachMatrix[i].Y + GraphicalObject.yCellCount + 1;
+                        int y = LeftTopCellOfEachMatrix[i].Y + (GraphicalObject.yCellCount);
+                        if (x > OS_x_begin && x < OS_x_end)
                         if (X_counter >= 0 && X_counter < GraphicalObject.GraphicalVector.Count()-1)
                         {
-                            int Y0 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter] - GraphicalObject.min) * Grid.yCellSize * GraphicalObject.yCellCount / GraphicalObject.range));
-                            int Y1 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter + 1] - GraphicalObject.min) * Grid.yCellSize * GraphicalObject.yCellCount / GraphicalObject.range));
-
-                            //if (X_counter == 10)
-                            //{
-                                //string str = "Y0/ycell- " + (Y0 / Grid.yCellSize).ToString();
-                                //Draw_Text(mouse.true_x + 50, mouse.true_y + 70, "Y0/ycell- " + (Y0 / Grid.yCellSize).ToString(), 0, 0, 0);
-                                ///Draw_Text(mouse.true_x + 50, mouse.true_y + 50, "Y1/ycell- " + (Y1 / Grid.yCellSize).ToString(), 0, 0, 0);
-                                //Draw_Text(mouse.true_x + 50, mouse.true_y + 30, "Y0modified- " + (((Y0 - openGLControl.Height) / Grid.yCellSize)).ToString(), 0,0,0);
-                                //Draw_Text(mouse.true_x + 50, mouse.true_y + 10, "y- " + (y).ToString(), 0, 0, 0);
-                                //Draw_Text(mouse.true_x + 50, mouse.true_y - 10, "Y0- " + (Y0).ToString(), 0, 0, 0);
-                                //Draw_Text(mouse.true_x + 50, mouse.true_y - 30, "Y1- " + (Y1).ToString(), 0, 0, 0);
-                                //Draw_Text(mouse.true_x + 50, mouse.true_y - 50, "OSbeg- " + (OS_y_begin).ToString(), 0, 0, 0);
-                                //Draw_Text(mouse.true_x + 50, mouse.true_y - 70, "OSend- " + (OS_y_end).ToString(), 0, 0, 0);
-                            //}
-                            //int Test1 = Y0 / Grid.yCellSize;
-                            //int test2 = OS_y_begin;
+                            int Y0 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter] - GraphicalObject.min) * Grid.yCellSize * (GraphicalObject.yCellCount - 1) / GraphicalObject.range));
+                            int Y1 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter + 1] - GraphicalObject.min) * Grid.yCellSize * (GraphicalObject.yCellCount - 1) / GraphicalObject.range));
 
                             if (Math.Abs((Y0 - openGLControl.Height) / Grid.yCellSize) > OS_y_begin &&
                                 Math.Abs((Y1) / Grid.yCellSize) < OS_y_end)
                             draw_line(cursor_X(x), Y0, cursor_X(x+1), Y1, true,(Single)153/255, (Single)51 /255, (Single)1, 3.0f);
+
+                            if (BoolTextIsEnabledOtherwiseQuads && y > OS_y_begin && y < OS_y_end)
+                                Draw_Text(cursor_X(x), cursor_Y(y), GraphicalObject.GraphicalVector[X_counter].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
                         }
                     }
                 }
@@ -578,7 +567,7 @@ namespace slae_project
                     //int y = (mouse.ShiftedPosition.y + openGLControl.Height - mouse.true_y) / Grid.yCellSize;
                     Draw_Text(mouse.true_x + 20, mouse.true_y + 10, "- " + ((Number_of_current_row = y) - 1).ToString(), Color, Color, Color);
 
-                    if (!BoolTextIsEnabledOtherwiseQuads) Draw_Text(mouse.true_x + 20, mouse.true_y - 50, ": " + List_Of_Objects[Number_of_current_matrix][Number_of_current_column, Number_of_current_row].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()), Color, Color, Color);
+                    if (!BoolTextIsEnabledOtherwiseQuads) Draw_Text(mouse.true_x + 20, mouse.true_y - 50, "x: " + List_Of_Objects[Number_of_current_matrix][Number_of_current_column, Number_of_current_row].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()), Color, Color, Color);
 
                 }
             }
@@ -919,6 +908,12 @@ namespace slae_project
                         break;
                     case '-':
                         Enum_act(Actions.Средняя);
+                        X_draw_move();
+                        break;
+                    case '|':
+                        //Средняя вертикально нижняя черта
+                        gl.Vertex(x + fontsize / 4, y + fontsize, Line_Height);
+                        gl.Vertex(x + fontsize / 4, y, Line_Height);
                         X_draw_move();
                         break;
                     case '+':
