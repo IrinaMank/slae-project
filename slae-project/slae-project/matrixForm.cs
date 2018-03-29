@@ -160,7 +160,7 @@ namespace slae_project
 
         private void button2_Click(object sender, EventArgs e)
         {
-            size--;
+           // size--;
             Form1.str_format_matrix = "Плотный";
             Factory.CreateMatrix(Form1.str_format_matrix);
             List<string> arrays = Factory.name_arr;
@@ -169,10 +169,10 @@ namespace slae_project
             string name = "myMatrix.txt";
             using (StreamWriter writer = File.CreateText(name))
             {
-                writer.WriteLine(size.ToString());
-                for (int j = 0; j < size; j++)
+                writer.WriteLine((size-1).ToString());
+                for (int j = 0; j < size-1; j++)
                 {
-                    for (int i = 0; i < size; i++)
+                    for (int i = 0; i < size-1; i++)
                     {
                         var line = matrixDataGrid[i, j].Value;
                         if (line != null)
@@ -187,10 +187,10 @@ namespace slae_project
             FileLoadForm.filenames_format.Clear();
             FileLoadForm.filenames_format.Add(arrays[0].ToString(), name);
 
-            FileLoadForm.F = new SimpleVector(size);
+            FileLoadForm.F = new SimpleVector(size-1);
 
             object line1;
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < size-1; i++)
             {
                 line1 = vectorDataGrid[0, i].Value;
                 if (line1 != null)
@@ -198,8 +198,8 @@ namespace slae_project
                 else
                     FileLoadForm.F[i] = 0.0;
             }
-            FileLoadForm.X0 = new SimpleVector(size);
-            for (int i = 0; i < size; i++)
+            FileLoadForm.X0 = new SimpleVector(size-1);
+            for (int i = 0; i < size-1; i++)
             {
                 line1 = x0DataGrid[0, i].Value;
                 if (line1 != null)
