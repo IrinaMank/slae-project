@@ -838,7 +838,7 @@ namespace slae_project
                 if (size < 6) GD.BoolLinesAreEnabled = false;
                 else GD.BoolLinesAreEnabled = true;
 
-                Refresh_Window(false);
+                //Refresh_Window(false);
             }
 
             int hnew = (int)(hold * GD.Grid.xCellSize) - openGLControl.Width / 2;
