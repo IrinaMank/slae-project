@@ -570,20 +570,20 @@ namespace slae_project
         {
             if (TargetNumber)
             {
-                try
-                {
-                    double_trash = List_Of_Objects[Number_of_current_matrix][Number_of_current_column, Number_of_current_row];
-                }
-                catch (Exception Trashnyak)
-                { }
+                bool ShowTheTrueTruth = false;
+                //try
+                //{
+                //    double_trash = List_Of_Objects[Number_of_current_matrix][Number_of_current_column, Number_of_current_row];
+                //}
+                //catch (Exception Trashnyak)
+                //{ }
                 
                     int Color = 0;
                     if (!BoolTextIsEnabledOtherwiseQuads)
                     { Color = 255; }
 
                     Number_of_current_column = ((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize);
-                if (!double.IsNaN(double_trash))
-                    Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + (Number_of_current_column - 1).ToString(), Color, Color, Color);
+                
 
                     //Щас используется абсолютное значение y, нам надо узнать текущую матрицу и вычесть
                     //LeftTopCellOfEachMatrix
@@ -606,8 +606,17 @@ namespace slae_project
                     //int y = (mouse.ShiftedPosition.y + openGLControl.Height - mouse.true_y) / Grid.yCellSize;
 
                     Number_of_current_row = y;
-                    if (!double.IsNaN(double_trash))
-                    Draw_Text(mouse.true_x + 20, mouse.true_y + 10, "- " + ((Number_of_current_row = y) - 1).ToString(), Color, Color, Color);
+
+                    if (Number_of_current_column > 0 && Number_of_current_row > 0
+                     && Number_of_current_row <= List_Of_Objects[Number_of_current_matrix].yCellCount
+                        && Number_of_current_column <= List_Of_Objects[Number_of_current_matrix].xCellCount)
+                        ShowTheTrueTruth = true;
+
+                    if (ShowTheTrueTruth)
+                        Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + (Number_of_current_column - 1).ToString(), Color, Color, Color);
+
+                    if (ShowTheTrueTruth)
+                    Draw_Text(mouse.true_x + 20, mouse.true_y + 10, "- " + ((Number_of_current_row) - 1).ToString(), Color, Color, Color);
 
                         if (!BoolTextIsEnabledOtherwiseQuads && !double.IsNaN(double_trash)) Draw_Text(mouse.true_x + 20, mouse.true_y - 50, "x: " + List_Of_Objects[Number_of_current_matrix][Number_of_current_column, Number_of_current_row].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()), Color, Color, Color);
 
