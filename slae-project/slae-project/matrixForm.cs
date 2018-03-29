@@ -182,6 +182,7 @@ namespace slae_project
                     }
                     writer.Write("\r\n");
                 }
+                writer.Close();
             }
             FileLoadForm.filenames_format.Clear();
             FileLoadForm.filenames_format.Add(arrays[0].ToString(), name);
