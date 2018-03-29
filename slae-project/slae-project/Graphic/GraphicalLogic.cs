@@ -283,7 +283,7 @@ namespace slae_project
                 Grid.Y_nullificate();
 
                 int Matrix_Counter = 0;
-
+                
                 //List_Of_Objects.Reverse();
                 //Для каждой матрицы в списке объектов
                 foreach (var obj in List_Of_Objects)
@@ -359,19 +359,14 @@ namespace slae_project
 
                         Count_by_Y++; Grid.X_move();
 
-                        int TempMaxWidth = 0;
                         //Пиши его значения в строчку
                         foreach (var value in vect)
                         {
                             if (Grid.X_Y_counter.x % 1000 == 0) if (MemoryChecker()) return;
 
                             Grid.NetWorkValue[Grid.X_Y_counter.y][Grid.X_Y_counter.x] = value;
-                
-                            TempMaxWidth = value.ToString().Length;
-                            if (TempMaxWidth > ViktorsMaxWidth) ViktorsMaxWidth = TempMaxWidth;
 
-                            if (value < double_min) double_min = value;
-                            if (value > double_max) double_max = value;
+                            MaxIdentifiyer(value);
 
                             Grid.X_move();
                         }
@@ -387,6 +382,28 @@ namespace slae_project
                         //Верни курсор в начало строки.
                         Grid.X_nullificate();
                     }
+                    if (obj.ReferencedMatrix != null)
+                    {
+                        foreach (var item in obj.ReferencedMatrix)
+                        {
+                            MaxIdentifiyer(item.value);
+                        }
+
+                    }
+                    else if (obj.ReferencedVector != null)
+                    {
+                        foreach (var item in obj.ReferencedVector)
+                        {
+                            MaxIdentifiyer(item.value);
+                        }
+                    }
+                    else if (obj.GraphicalVector != null)
+                    {
+                        foreach (var item in obj.GraphicalVector)
+                        {
+                            MaxIdentifiyer(item);
+                        }
+                    }
                     //Рисует вертикальные линии матрицы
                     Draw_line_net_for_matrix(obj, Y_start);
 
@@ -396,14 +413,22 @@ namespace slae_project
                     //Grid.X_Y_counter.y = NewY;
                     while (Grid.X_Y_counter.y < NewY) Grid.Y_move();
                 }
-
-                //Возвращает курсор по Y координатами в саааамое начало.
-                //sharpGLform.SetScrollBars();
-                sharpGLform.SetScrollBars_to_the_end();
+                
+                        //Возвращает курсор по Y координатами в саааамое начало.
+                        //sharpGLform.SetScrollBars();
+                        sharpGLform.SetScrollBars_to_the_end();
             }
 
             PartialDrawer();
 
+        }
+        void MaxIdentifiyer(double value)
+        {
+            int TempMaxWidth = value.ToString().Length;
+            if (TempMaxWidth > ViktorsMaxWidth) ViktorsMaxWidth = TempMaxWidth;
+
+            if (value < double_min) double_min = value;
+            if (value > double_max) double_max = value;
         }
         public int ViktorsMaxWidth = 0;
         private void PartialDrawer()

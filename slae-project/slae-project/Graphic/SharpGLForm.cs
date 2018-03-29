@@ -352,8 +352,8 @@ namespace slae_project
         public void Wrapped_Refreash_And_Show_Clicker()
         {
             GD.List_Of_Objects.Clear();
-            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Матрица А", ref Factory.ObjectOfIMatrix));
-            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Результат х", ref Factory.Result));
+            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix A", ref Factory.ObjectOfIMatrix));
+            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Result X", ref Factory.Result));
             Refresh_Window();
         }
         //Asynchronized AsyncTest = new Asynchronized();
