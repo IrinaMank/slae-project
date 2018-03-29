@@ -45,9 +45,9 @@ namespace slae_project
 
             string mess = "";
             mess += "Выберите массивы со следующими названиями: ";
-            mess += "F.txt, X0.txt, ";
+            mess += "F.txt, X0.txt,";
             for (int i = 0; i < arrays.Count(); i++)
-                mess += arrays[i] + ".txt,";
+                mess += " " + arrays[i] + ".txt,";
             mess = mess.Remove(mess.Length - 1);
 
             int x_l = 45, y = 25, x_p = 100, x_b = 315;
@@ -104,7 +104,7 @@ namespace slae_project
             }
             //правая часть
             Label name_b = new Label();
-            name_b.Text = "F";
+            name_b.Text = "f";
             name_b.Size = new Size(25, 15);
             name_b.Location = new System.Drawing.Point(x_l, y);
             //name_arr.Add(name_b.Text, name_b);
@@ -114,7 +114,7 @@ namespace slae_project
 
             TextBox puth_b = new TextBox();
             puth_b.Size = new Size(185, 20);
-            puth_b.Name = "F";
+            puth_b.Name = "f";
             puth_b.Location = new Point(x_p, y);
             puths.Add(puth_b);
             this.Controls.Add(puth_b);
@@ -132,7 +132,7 @@ namespace slae_project
             y += 33;
             ///начальное приближение
             Label name_x0 = new Label();
-            name_x0.Text = "X0";
+            name_x0.Text = "x0";
             name_x0.Size = new Size(25, 15);
             name_x0.Location = new System.Drawing.Point(x_l, y);
             //name_arr.Add(name_x0.Text, name_x0);
@@ -192,14 +192,14 @@ namespace slae_project
             {
                 string buf = file;
                 buf = buf.Remove(0, buf.LastIndexOf('\\') + 1);
-                buf = buf.Remove(buf.LastIndexOf('.'));
+                buf = buf.Remove(buf.LastIndexOf('.')).ToLower();
 
                 switch (buf)
                 {
-                    case "X0":
+                    case "x0":
                         filename_X0 = file;
                         break;
-                    case "F":
+                    case "f":
                         filename_b = file;
                         break;
                     default:
