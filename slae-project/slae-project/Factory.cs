@@ -98,14 +98,24 @@ namespace slae_project
             FileLogger f = null;
             try
             {
-                if (ObjectOfIMatrix.CheckCompatibility(FileLoadForm.F))
+                switch(ObjectOfIMatrix.CheckCompatibility(FileLoadForm.F))
                 {
-                    Result = value(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.accurent, Form1.maxiter, f);
-                    System.Media.SoundPlayer sp = new System.Media.SoundPlayer(Properties.Resources.ya);
-                    sp.Play();
+                    case MatrixConstants.SLAE_INCOMPATIBLE:
+                        {
+                            throw new Matrix.MatrixExceptions.SlaeNotCompatipableException("СЛАУ несовместна. Решения не существует. ");
+                        };
+                    case MatrixConstants.SLAE_MORE_ONE_SOLUTION:
+                        {
+                            System.Windows.Forms.MessageBox.Show("СЛАУ имеет более одного решения. Будет найдено одно из них. ",
+                                    "Предупреждение",
+                                    System.Windows.Forms.MessageBoxButtons.OK,
+                                    System.Windows.Forms.MessageBoxIcon.Asterisk);
+                            break;
+                        }
                 }
-                else
-                    throw new Matrix.MatrixExceptions.SlaeNotCompatipableException("СЛАУ несовместна. Решения не существует. ");
+                Result = value(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.accurent, Form1.maxiter, f);
+                System.Media.SoundPlayer sp = new System.Media.SoundPlayer(Properties.Resources.ya);
+                sp.Play();
             }
             catch (Matrix.MatrixExceptions.SlaeNotCompatipableException a)
             {

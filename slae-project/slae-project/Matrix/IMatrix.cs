@@ -23,7 +23,7 @@ namespace slae_project.Matrix
         /// Проверяет СЛАУ с исходной матрицей и b в качесте правой части на совместимость
         /// </summary>
         /// <param name="b">Правая часть СЛАУ</param>
-        /// <returns>Совместима/несовместима - true/false</returns>
-        bool CheckCompatibility(IVector b);
+        /// <returns>Несовместна/Имеет одно решение/Имеет множество решений - -1/0/1</returns>
+        int CheckCompatibility(IVector b);
     }
 }
