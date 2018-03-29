@@ -26,9 +26,6 @@ namespace slae_project.Solver
             Logger.setMaxIter(Maxiter);
             IVector x = Initial.Clone() as IVector;
 
-            if (b.Norm == 0)
-                return x;
-
             double alpha = 0.0, beta = 0.0;
 
             IVector r = b.Add(AA.Mult(Initial), 1, -1); //r_0 = f - Ax_0

@@ -17,7 +17,6 @@ namespace slae_project
         public static string str_solver; //тип решателя
         public static string str_precond; //тип предобусловлевания
         public static bool property_matr = false; //симметричность матрицы: по умолчанию несимметричная
-        private bool inputModeHand = true;
         public static double accurent = 0.1;
         public static int maxiter = 1000;
         public double percent = 0;
@@ -25,9 +24,8 @@ namespace slae_project
         String[] precondTypesList;
         String[] matrixTypesList;
         String[] solverTypesList;
-        Factory f;
 
-        public static Button next, exit, back, justDoIt, icon, loadFiles, graphic;
+        public static Button next, exit, back, justDoIt, icon, loadFiles, graphics;
         public GroupBox gr;
         public PictureBox picture;
         public RadioButton fileRead, myRead;
@@ -37,6 +35,7 @@ namespace slae_project
         public NumericUpDown size, acc;
         public TextBox maxit;
         public static ProgressBar bar;
+        public matrixForm form = new matrixForm();
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
@@ -44,7 +43,7 @@ namespace slae_project
         }
 
         public Form1()
-        {           
+        {
             InitializeComponent();
             this.Size = new Size(430, 350);
         }
@@ -57,14 +56,6 @@ namespace slae_project
             precondTypesList = Factory.PrecondTypes.Keys.ToArray();
             matrixTypesList = Factory.MatrixTypes.Keys.ToArray();
             solverTypesList = Factory.SolverTypes.Keys.ToArray();
-
-            next = new Button();
-            next.Text = "Решить";
-            next.Size = new Size(100, 30);
-            next.Location = new Point(285, 260);
-            next.Click += new System.EventHandler(nextClick);
-            this.Controls.Add(next);
-            next.Enabled = false;
 
             format = new ComboBox();
             format.Size = new Size(210, 30);
@@ -90,7 +81,7 @@ namespace slae_project
             solver.Location = new System.Drawing.Point(175, 40);
             for (int i = 0; i < solverTypesList.Length; i++)
                 solver.Items.Add(solverTypesList[i]);
-            
+
             solver.SelectedIndex = 0;
             solver.SelectionChangeCommitted += new System.EventHandler(comboboxSelectionChangeCommitted);
             solver.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -185,6 +176,24 @@ namespace slae_project
             this.Controls.Add(loadFiles);
             loadFiles.BringToFront();
 
+            graphics = new Button();
+            graphics.Text = "Графика";
+            graphics.Size = new Size(100, 30);
+            graphics.Location = new Point(165, 260);
+            graphics.Click += new System.EventHandler(graphicsClick);
+            this.Controls.Add(graphics);
+            graphics.BringToFront();
+            graphics.Enabled = false;
+
+            next = new Button();
+            next.Text = "Решить";
+            next.Size = new Size(100, 30);
+            next.Location = new Point(285, 260);
+            next.Click += new System.EventHandler(nextClick);
+            this.Controls.Add(next);
+            next.Enabled = false;
+
+
             bar = new ProgressBar();
             bar.Size = new Size(350, 20);
             bar.Location = new System.Drawing.Point(35, 225);
@@ -245,7 +254,8 @@ namespace slae_project
             str_solver = solver.SelectedItem.ToString();
             str_precond = precond.SelectedItem.ToString();
 
-            threadSolver();            
+            threadSolver();
+            graphics.Enabled = true;
         }
 
         private void loadFilesClick(object sender, EventArgs e)
@@ -265,13 +275,16 @@ namespace slae_project
 
         private void justDoItClick(object sender, EventArgs e)
         {
-            next.Enabled = true;
-            matrixForm form = new matrixForm();
             form.Show();
-            inputModeHand = true;
             format.SelectedValue = 2;
             format.Enabled = false;
             justDoIt.Enabled = false;
+            loadFiles.Enabled = false;
+        }
+
+        public void graphicsClick(object sender, EventArgs e)
+        {
+            
         }
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
