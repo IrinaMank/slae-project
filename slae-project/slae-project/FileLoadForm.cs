@@ -16,10 +16,10 @@ namespace slae_project
 
     public partial class FileLoadForm : Form
     {
-        int Y = 0;
+        int unFiledFields;
         List<string> name_arr = new List<string>();//имена лейблов
         List<Button> input_buttons = new List<Button>();
-        List<TextBox> puths = new List<TextBox>();//пути до массивов
+        List<TextBox> puths = new List<TextBox>();
 
         public static Dictionary<string, string> filenames_format = new Dictionary<string, string>(); // словарь: ключ - название массива, значение - путь к файлу
         public static List<string> arrays = new List<string>();
@@ -28,6 +28,8 @@ namespace slae_project
         public static IVector X0 = new SimpleVector();//Начально приближение 
         string filename_b = null, filename_X0 = null;
         bool multireadFlag = false;
+
+        Button button_load;
 
         public FileLoadForm()
         {
@@ -159,14 +161,15 @@ namespace slae_project
 
             y += 50;
             //кнопка загрузки
-            Button button_load = new Button();
+            button_load = new Button();
             button_load.Text = "ОК";
             button_load.Size = new Size(183, 23);
             button_load.Location = new Point(x_p, y);
             button_load.Click += new System.EventHandler(this.button_load_Click);
             this.Controls.Add(button_load);
+            button_load.Enabled = false;
 
-            Y = y;
+            unFiledFields = name_arr.Count;
             arrays.Add("F"); arrays.Add("X0");
         }
 
@@ -207,12 +210,14 @@ namespace slae_project
                             filenames_format[buf] = file;
                         else
                         {
-                            MessageBox.Show("Выбраные файлы имеют неверные наименования");
+                            MessageBox.Show("Файл "+ buf + " имеет неверное наименование");
                             return;
                         }
                         break;
                 }
+                puths[name_arr.IndexOf(buf)].Text = file;
             }
+            button_load.Enabled = true;
             multireadFlag = true;
         }
 
@@ -259,11 +264,16 @@ namespace slae_project
         {
             if (multireadFlag)
             {
+                unFiledFields = name_arr.Count;
+                button_load.Enabled = false;
                 filename_b = null;
                 filename_X0 = null;
 
                 foreach (var i in puths)
+                {
                     i.Enabled = true;
+                    i.Text = "";
+                }
             }
 
             multireadFlag = false;
@@ -275,10 +285,15 @@ namespace slae_project
             if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
                 return;
 
+            unFiledFields--;
+            if (unFiledFields == 0)
+                button_load.Enabled = true;
+
             puths[pressedButton].Text = openFileDialog1.FileName;
             if (pressedButton == input_buttons.Count - 1)
             {
                 filename_X0 = openFileDialog1.FileName;
+
                 return;
             }
             if (pressedButton == input_buttons.Count - 2)
@@ -287,6 +302,7 @@ namespace slae_project
                 return;
             }
             filenames_format[name_arr[pressedButton]] = openFileDialog1.FileName;
+
         }
     }
 }

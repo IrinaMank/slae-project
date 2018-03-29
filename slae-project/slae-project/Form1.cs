@@ -260,6 +260,8 @@ namespace slae_project
             FileLoadForm FileLoadForm = new FileLoadForm();
             FileLoadForm.Show();
             format.Enabled = true;
+            justDoIt.Enabled = false;
+            loadFiles.Enabled = false;
         }
 
         private void propertyChange(object sender, EventArgs e)
