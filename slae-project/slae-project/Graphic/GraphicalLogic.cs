@@ -60,6 +60,31 @@ namespace slae_project
         {
             public string Name;
 
+            public List<string> FilesString = null;
+            public GraphicObject(string _Name, string _FileName)
+            {
+                xCellCount = 1;
+                yCellCount = 1;
+                try
+                {
+                    using (FileStream stream = File.Open(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    {
+                        using (StreamReader reader = new StreamReader(stream))
+                        {
+                            while (!reader.EndOfStream)
+                            {
+                                string str = "123";
+                                FilesString = new List<string>();
+                                while ((str = reader.ReadLine()) != null) FilesString.Add(str);
+                            }
+                        }
+                    }
+                    
+                }
+                catch (Exception Exc)
+                {
+                }
+            }
             public double max = double.MinValue;
             public double min = double.MaxValue;
             public double range = double.MaxValue;
@@ -407,7 +432,15 @@ namespace slae_project
                         {
                             MaxIdentifiyer(item); //Grid.X_move();
                         }
-                       // for (int i = 0; i < obj.yCellCount; i++) Grid.Y_move();
+                        // for (int i = 0; i < obj.yCellCount; i++) Grid.Y_move();
+                    }
+                    else if (obj.FilesString != null)
+                    {
+                        foreach (var str in obj.FilesString)
+                        {
+                            Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, str, Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                            Grid.Y_move();
+                        }
                     }
                     //Рисует вертикальные линии матрицы
                     Draw_line_net_for_matrix(obj, Y_start);
@@ -450,7 +483,8 @@ namespace slae_project
             if (Grid.NetWorkOS_X.Count != 0 && true)
                 for (int x = OS_x_begin; (x < OS_x_end)&&(x < Grid.NetWorkOS_X.Count()); x++)
                 {
-                    foreach (var func in Grid.NetWorkOS_X[x].List_of_func)
+                    if (x > 0 && x < Grid.NetWorkOS_X.Count())
+                        foreach (var func in Grid.NetWorkOS_X[x].List_of_func)
                         if (func.func_type == Net.FunctionType.DrawLine)
                         {
                             if (BoolLinesAreEnabled) draw_line(cursor_X(func.value1), cursor_Y(func.value2), cursor_X(func.value3), cursor_Y(func.value4));
@@ -461,6 +495,7 @@ namespace slae_project
 
             for (int y = OS_y_begin; y < OS_y_end; y++)
             {
+                if (y > 0 && y < Grid.NetWorkOS_Y.Count())
                 foreach (var func in Grid.NetWorkOS_Y[y].List_of_func)
                     if (func.func_type == Net.FunctionType.DrawLine)
                     {
@@ -1571,8 +1606,12 @@ namespace slae_project
                     BorderEnd.x = Grid.NetWorkOS_X.Count() * Grid.xCellSize;//+Grid.DeadPoint.x - openGLControl.Width + Grid.xCellSize;
                     BorderEnd.y = Grid.NetWorkOS_Y.Count() * Grid.yCellSize;//Grid.DeadPoint.y;
 
-                    BorderEnd.x -= openGLControl.Width;
-                    BorderEnd.y -= openGLControl.Height;
+                    if (BorderEnd.x - openGLControl.Width > 0 &&
+                        BorderEnd.y - openGLControl.Height > 0)
+                    {
+                        BorderEnd.x -= openGLControl.Width;
+                        BorderEnd.y -= openGLControl.Height;
+                    }
                 }
             }
             else

@@ -500,10 +500,10 @@ namespace slae_project
                         hScrollBar1.Value = Math.Abs(GD.mouse.BorderBegin.x);
 
                     if (GD.mouse.BorderEnd.y <= openGLControl.Height)
-                        vScrollBar1.Value = Math.Abs(5);
+                        vScrollBar1.Value = Math.Abs(0);
 
                     if (GD.mouse.BorderEnd.x <= openGLControl.Width)
-                        hScrollBar1.Value = Math.Abs(5);
+                        hScrollBar1.Value = Math.Abs(0);
 
                 }
             }
@@ -896,15 +896,12 @@ namespace slae_project
         static UR_access UR = new UR_access();
         private void button1_Test_Click(object sender, EventArgs e)
         {
-            ShowThemTheTrueRefreshment = false;
             Clear_Window();
             UR.UserGuide_access(ref GD.List_Of_Objects);
             Refresh_Window();
         }
-        bool ShowThemTheTrueRefreshment = false;
         public void Wrapped_Refreash_And_Show_Clicker()
         {
-            ShowThemTheTrueRefreshment = true;
             Clear_Window();
             GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix A", ref Factory.ObjectOfIMatrix));
             GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Result X", ref Factory.Result));
@@ -914,6 +911,13 @@ namespace slae_project
         {
             GD = new GraphicData(openGLControl, this);
             Wrapped_Reverse_Reseter();
+        }
+
+        private void button1_Log_Click(object sender, EventArgs e)
+        {
+            Clear_Window();
+            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix A", Directory.GetCurrentDirectory() + "\\log.txt"));
+            Refresh_Window();
         }
     }
 }
