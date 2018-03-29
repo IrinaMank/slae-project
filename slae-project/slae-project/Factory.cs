@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +15,7 @@ namespace slae_project
     class Factory
     {
         Form1 main_form;
-        FileLogger Log = new FileLogger();
+        FileLogger Log = new FileLogger(Form1.maxiter);//Form1.maxiter добавлена Ирой, чтобы проект собирался. Возможно, аргументом должно быть что-то другое
         public static Dictionary<string, string> DictionaryOfFormats = FileLoadForm.filenames_format;//словарь путей до массивов
         static public Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)> MatrixTypes = new Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)>();
         public static IMatrix ObjectOfIMatrix;
@@ -43,13 +42,13 @@ namespace slae_project
         public Factory()
         {
             //эти изменения с предобуславливателем внесла Ира и она не уверена, что все сделала верно. Но все работает. Вроде.
+            RegisterPrecondClass("Без предобуславливания", () => new NoPreconditioner());
             RegisterPrecondClass("Диагональное", () => new DiagonalPreconditioner(ObjectOfIMatrix));
             //RegisterPrecondClass("Методом Зейделя", () => new (ObjectOfIMatrix));
             RegisterPrecondClass("LU-разложение", () => new LUPreconditioner(ObjectOfIMatrix));
-            RegisterPrecondClass("Без предобуславливания", () => new NoPreconditioner());
 
-            RegisterMatrixClass("Координатный", (Dictionary<string, string> DictionaryOfFormats, bool isSymmetric) => new CoordinateMatrix(DictionaryOfFormats, isSymmetric), CoordinateMatrix.requiredFileNames);
             RegisterMatrixClass("Плотный", (Dictionary<string, string> DictionaryOfFormats, bool isSymmetric) => new DenseMatrix(DictionaryOfFormats, isSymmetric), DenseMatrix.requiredFileNames);
+            RegisterMatrixClass("Координатный", (Dictionary<string, string> DictionaryOfFormats, bool isSymmetric) => new CoordinateMatrix(DictionaryOfFormats, isSymmetric), CoordinateMatrix.requiredFileNames);
             //RegisterMatrixClass("Строчный", (Dictionary<string, string> DictionaryOfFormats) => new SparseRowMatrix(DictionaryOfFormats),SparseRowMatrix.requiredFileNames);
             RegisterMatrixClass("Строчно - столбцовый", (Dictionary<string, string> DictionaryOfFormats, bool isSymmetric) => new SparseRowColumnMatrix(DictionaryOfFormats, isSymmetric), SparseRowColumnMatrix.requiredFileNames);
 
@@ -86,6 +85,7 @@ namespace slae_project
             MatrixTypes.TryGetValue(typename, out value);
 
             ObjectOfIMatrix = value.Item1(DictionaryOfFormats, isSymmetric);
+
         }
         static public void CreateSolver(object typenameOb)//получаем заполненную матрицу для передачи Solver
         {
@@ -97,11 +97,33 @@ namespace slae_project
             FileLogger f = null;
             try
             {
+                switch (ObjectOfIMatrix.CheckCompatibility(FileLoadForm.F))
+                {
+                    case MatrixConstants.SLAE_INCOMPATIBLE:
+                        {
+                            throw new Matrix.MatrixExceptions.SlaeNotCompatipableException("СЛАУ несовместна. Решения не существует. ");
+                        };
+                    case MatrixConstants.SLAE_MORE_ONE_SOLUTION:
+                        {
+                            System.Windows.Forms.MessageBox.Show("СЛАУ имеет более одного решения. Будет найдено одно из них. ",
+                                    "Предупреждение",
+                                    System.Windows.Forms.MessageBoxButtons.OK,
+                                    System.Windows.Forms.MessageBoxIcon.Asterisk);
+                            break;
+                        }
+                }
                 Result = value(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.accurent, Form1.maxiter, f);
                 System.Media.SoundPlayer sp = new System.Media.SoundPlayer(Properties.Resources.ya);
                 sp.Play();
             }
-            catch(Exception)
+            catch (Matrix.MatrixExceptions.SlaeNotCompatipableException a)
+            {
+                System.Windows.Forms.MessageBox.Show(a.Message,
+                    "Ошибка",
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.Stop);
+            }
+            catch (Exception a)
             {
                 System.Windows.Forms.MessageBox.Show("Решение СЛАУ не может быть получено с помощью данного метода.",
                     "Ошибка",
@@ -121,7 +143,7 @@ namespace slae_project
             }
             catch (slae_project.Matrix.MatrixExceptions.LUFailException a)
             {
-                System.Windows.Forms.MessageBox.Show(a.Message+"\nРешение будет производиться без предобуславливания.",
+                System.Windows.Forms.MessageBox.Show(a.Message + "\nРешение будет производиться без предобуславливания.",
                     "Предупреждение",
                     System.Windows.Forms.MessageBoxButtons.OK,
                     System.Windows.Forms.MessageBoxIcon.Asterisk);
