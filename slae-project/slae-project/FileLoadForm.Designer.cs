@@ -37,14 +37,18 @@
             // 
             // FileLoadForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::slae_project.Properties.Resources.kuchka;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(379, 321);
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.ClientSize = new System.Drawing.Size(426, 401);
+            this.ControlBox = false;
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FileLoadForm";
             this.Text = "FileLoadForm";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FileLoadForm_FormClosed);
             this.Load += new System.EventHandler(this.FileLoadForm_Load);
             this.ResumeLayout(false);
 

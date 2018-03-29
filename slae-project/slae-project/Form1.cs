@@ -37,11 +37,6 @@ namespace slae_project
         public static ProgressBar bar;
         public matrixForm form = new matrixForm();
 
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
         public Form1()
         {
             InitializeComponent();
@@ -262,7 +257,6 @@ namespace slae_project
         {
             str_format_matrix = format.SelectedItem.ToString();
 
-            next.Enabled = true;
             FileLoadForm FileLoadForm = new FileLoadForm();
             FileLoadForm.Show();
             format.Enabled = true;
