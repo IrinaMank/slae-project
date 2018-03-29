@@ -14,6 +14,7 @@ namespace slae_project
 {
     class Factory
     {
+        //появится ли после этого коммита маленькая фабрика? Сейчас узнаем
         Form1 main_form;
         FileLogger Log = new FileLogger(Form1.maxiter);//Form1.maxiter добавлена Ирой, чтобы проект собирался. Возможно, аргументом должно быть что-то другое
         public static Dictionary<string, string> DictionaryOfFormats = FileLoadForm.filenames_format;//словарь путей до массивов
