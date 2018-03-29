@@ -814,11 +814,12 @@ namespace slae_project.Matrix
             if (this.isSymmetric)
                 this.au = this.al;
         }
-        public bool CheckCompatibility(IVector x)
+        public int CheckCompatibility(IVector x)
         {
             int j;
             int firstNotZero;
             double coef;
+            int toReturn = MatrixConstants.SLAE_OK;
             // Сверхнеоптимальный код
             // Желательно читать с закрытыми глазами
             for (int line = 0; line < Size; line++)
@@ -831,7 +832,7 @@ namespace slae_project.Matrix
 
                     if (firstNotZero != Size)
                     {
-                        // Если ненулевой элемент во второй строчке
+                        // Если первый ненулевой элемент во второй строчке
                         if (this[line, firstNotZero] == 0)
                         {
                             coef = this[line, firstNotZero] / this[line2, firstNotZero];
@@ -845,7 +846,9 @@ namespace slae_project.Matrix
                             if (j == Size)
                             {
                                 if (x[line] - x[line2] * coef != 0)
-                                    return false;
+                                    return MatrixConstants.SLAE_INCOMPATIBLE;
+                                else
+                                    toReturn = MatrixConstants.SLAE_MORE_ONE_SOLUTION;
                             }
                         }
                         // Если ненулевой элемент в первой строчке
@@ -862,7 +865,9 @@ namespace slae_project.Matrix
                             if (j == Size)
                             {
                                 if (x[line2] - x[line] * coef != 0)
-                                    return false;
+                                    return MatrixConstants.SLAE_INCOMPATIBLE;
+                                else
+                                    toReturn = MatrixConstants.SLAE_MORE_ONE_SOLUTION;
                             }
                         }
                     }
@@ -870,11 +875,13 @@ namespace slae_project.Matrix
                     {
                         // Если нулевой строке матрицы соответствует ненулевой элемент вектора
                         if (x[line2] != 0 || x[line] != 0)
-                            return false;
+                            return MatrixConstants.SLAE_INCOMPATIBLE;
+                        else
+                            toReturn = MatrixConstants.SLAE_MORE_ONE_SOLUTION;
                     }
                 }
             }
-            return true;
+            return toReturn;
         }
     }
 }

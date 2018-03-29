@@ -124,8 +124,8 @@ namespace slae_project.Matrix
         {
             get
             {
-                IVector diag =  new SimpleVector(Size);
-                foreach(var el in this)
+                IVector diag = new SimpleVector(Size);
+                foreach (var el in this)
                 {
                     if (el.col == el.row)
                         diag[el.row] = el.value;
@@ -409,10 +409,10 @@ namespace slae_project.Matrix
             IVector result = new SimpleVector(Size);
             if (UseDiagonal)
             {
-                if(isSymmetric)
+                if (isSymmetric)
                 {
                     foreach (var el in elements)
-                            result[el.Key.j] += el.Value * x[el.Key.i];
+                        result[el.Key.j] += el.Value * x[el.Key.i];
                 }
                 else
                 {
@@ -604,7 +604,7 @@ namespace slae_project.Matrix
                 coord[i] = (i / 4, i % 4);
             }
 
-            IMatrix mar = new CoordinateMatrix(new Dictionary<string, string> { {"size","size.txt"},{"elements","elements.txt"}});
+            IMatrix mar = new CoordinateMatrix(new Dictionary<string, string> { { "size", "size.txt" }, { "elements", "elements.txt" } });
 
             IPreconditioner pre = new LUPreconditioner(mar);
 
@@ -706,7 +706,7 @@ namespace slae_project.Matrix
         public IVector MultD(IVector a)
         {
             IVector result = new SimpleVector(this.Size);
-            foreach(var el in this)
+            foreach (var el in this)
             {
                 if (el.col == el.row)
                     result[el.col] = a[el.col] * el.value;
@@ -714,11 +714,13 @@ namespace slae_project.Matrix
             return result;
         }
 
-        public bool CheckCompatibility(IVector x)
+
+        public int CheckCompatibility(IVector x)
         {
             int j;
             int firstNotZero;
             double coef;
+            int toReturn = MatrixConstants.SLAE_OK;
             // Сверхнеоптимальный код
             // Желательно читать с закрытыми глазами
             for (int line = 0; line < Size; line++)
@@ -731,7 +733,7 @@ namespace slae_project.Matrix
 
                     if (firstNotZero != Size)
                     {
-                        // Если ненулевой элемент во второй строчке
+                        // Если первый ненулевой элемент во второй строчке
                         if (this[line, firstNotZero] == 0)
                         {
                             coef = this[line, firstNotZero] / this[line2, firstNotZero];
@@ -745,7 +747,9 @@ namespace slae_project.Matrix
                             if (j == Size)
                             {
                                 if (x[line] - x[line2] * coef != 0)
-                                    return false;
+                                    return MatrixConstants.SLAE_INCOMPATIBLE;
+                                else
+                                    toReturn = MatrixConstants.SLAE_MORE_ONE_SOLUTION;
                             }
                         }
                         // Если ненулевой элемент в первой строчке
@@ -762,7 +766,9 @@ namespace slae_project.Matrix
                             if (j == Size)
                             {
                                 if (x[line2] - x[line] * coef != 0)
-                                    return false;
+                                    return MatrixConstants.SLAE_INCOMPATIBLE;
+                                else
+                                    toReturn = MatrixConstants.SLAE_MORE_ONE_SOLUTION;
                             }
                         }
                     }
@@ -770,11 +776,13 @@ namespace slae_project.Matrix
                     {
                         // Если нулевой строке матрицы соответствует ненулевой элемент вектора
                         if (x[line2] != 0 || x[line] != 0)
-                            return false;
+                            return MatrixConstants.SLAE_INCOMPATIBLE;
+                        else
+                            toReturn = MatrixConstants.SLAE_MORE_ONE_SOLUTION;
                     }
                 }
             }
-            return true;
+            return toReturn;
         }
 
         public CoordinateMatrix(Dictionary<string, string> paths, bool isSymmetric = false)
@@ -839,7 +847,7 @@ namespace slae_project.Matrix
             int k = 0;
             try
             {
-                for ( k = 0; k < n; k++)
+                for (k = 0; k < n; k++)
                 {
                     line = reader.ReadLine();
                     subline = line.Split(' ', '\t', ',');
@@ -851,11 +859,11 @@ namespace slae_project.Matrix
             }
             catch (IndexOutOfRangeException e)
             {
-                throw new CannotFillMatrixException(string.Format("Индекс, указанный в строке {0} не соответствует указанному размеру матрицы", k+2));
+                throw new CannotFillMatrixException(string.Format("Индекс, указанный в строке {0} не соответствует указанному размеру матрицы", k + 2));
             }
             catch
             {
-                throw new CannotFillMatrixException(string.Format("Строка #{0} в файле 'elements' не соответствует формату", k+2));
+                throw new CannotFillMatrixException(string.Format("Строка #{0} в файле 'elements' не соответствует формату", k + 2));
             }
         }
     }

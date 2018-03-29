@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,14 +97,24 @@ namespace slae_project
             FileLogger f = null;
             try
             {
-                if (ObjectOfIMatrix.CheckCompatibility(FileLoadForm.F))
+                switch (ObjectOfIMatrix.CheckCompatibility(FileLoadForm.F))
                 {
-                    Result = value(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.accurent, Form1.maxiter, f);
-                    System.Media.SoundPlayer sp = new System.Media.SoundPlayer(Properties.Resources.ya);
-                    sp.Play();
+                    case MatrixConstants.SLAE_INCOMPATIBLE:
+                        {
+                            throw new Matrix.MatrixExceptions.SlaeNotCompatipableException("СЛАУ несовместна. Решения не существует. ");
+                        };
+                    case MatrixConstants.SLAE_MORE_ONE_SOLUTION:
+                        {
+                            System.Windows.Forms.MessageBox.Show("СЛАУ имеет более одного решения. Будет найдено одно из них. ",
+                                    "Предупреждение",
+                                    System.Windows.Forms.MessageBoxButtons.OK,
+                                    System.Windows.Forms.MessageBoxIcon.Asterisk);
+                            break;
+                        }
                 }
-                else
-                    throw new Matrix.MatrixExceptions.SlaeNotCompatipableException("СЛАУ несовместна. Решения не существует. ");
+                Result = value(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.accurent, Form1.maxiter, f);
+                System.Media.SoundPlayer sp = new System.Media.SoundPlayer(Properties.Resources.ya);
+                sp.Play();
             }
             catch (Matrix.MatrixExceptions.SlaeNotCompatipableException a)
             {
@@ -114,7 +123,7 @@ namespace slae_project
                     System.Windows.Forms.MessageBoxButtons.OK,
                     System.Windows.Forms.MessageBoxIcon.Stop);
             }
-            catch (Exception a )
+            catch (Exception a)
             {
                 System.Windows.Forms.MessageBox.Show("Решение СЛАУ не может быть получено с помощью данного метода.",
                     "Ошибка",
@@ -134,7 +143,7 @@ namespace slae_project
             }
             catch (slae_project.Matrix.MatrixExceptions.LUFailException a)
             {
-                System.Windows.Forms.MessageBox.Show(a.Message+"\nРешение будет производиться без предобуславливания.",
+                System.Windows.Forms.MessageBox.Show(a.Message + "\nРешение будет производиться без предобуславливания.",
                     "Предупреждение",
                     System.Windows.Forms.MessageBoxButtons.OK,
                     System.Windows.Forms.MessageBoxIcon.Asterisk);

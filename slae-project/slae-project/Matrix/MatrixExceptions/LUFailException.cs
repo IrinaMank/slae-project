@@ -9,7 +9,7 @@ namespace slae_project.Matrix.MatrixExceptions
 {
     public class LUFailException : ApplicationException
     {
-        private static string base_message = "Не удалось выполнить LU - разложение. ";
+        private static string base_message = "Использование  выбранного предобуславливания для данного СЛАУ невозможно. ";
         public LUFailException() : base(base_message) { }
         public LUFailException(string message) : base(base_message + message) { }
     }
