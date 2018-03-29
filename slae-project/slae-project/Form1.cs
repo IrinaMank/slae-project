@@ -37,6 +37,7 @@ namespace slae_project
         public NumericUpDown size, acc;
         public TextBox maxit;
         public static ProgressBar bar;
+        public matrixForm form = new matrixForm();
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
@@ -264,8 +265,7 @@ namespace slae_project
         }
 
         private void justDoItClick(object sender, EventArgs e)
-        {
-            matrixForm form = new matrixForm();
+        {           
             form.Show();
             inputModeHand = true;
             format.SelectedValue = 2;
