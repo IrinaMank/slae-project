@@ -668,6 +668,7 @@ namespace slae_project.Matrix
             {
                 throw new CannotFillMatrixException(string.Format("Количество элементов в строке меньше чем размер матрицы.", i));
             }
+            reader.Close();
         }
         public int CheckCompatibility(IVector x)
         {
