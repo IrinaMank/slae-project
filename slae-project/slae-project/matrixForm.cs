@@ -15,7 +15,7 @@ namespace slae_project
     public partial class matrixForm : Form
     {
         public int size;
-        public int property;
+        public bool property;
 
         public matrixForm()
         {
@@ -29,7 +29,7 @@ namespace slae_project
 
         private void matrixFormLoad(object sender, EventArgs e)
         {
-            sizeRead();
+            property = Form1.property_matr;
             size = 2;
             var column1 = new DataGridViewColumn();
             column1.Width = 30; //ширина колонки
@@ -48,7 +48,7 @@ namespace slae_project
             vectorDataGrid.BringToFront();
             x0DataGrid.BringToFront();
 
-            for (int i = 0; i < size; i++) 
+            for (int i = 0; i < size; i++)
             {
                 var column = new DataGridViewColumn();
                 column.Width = 30; //ширина колонки
@@ -84,7 +84,7 @@ namespace slae_project
             matrixDataGrid.AllowUserToResizeColumns = false; // запрещаем менять размер столбцов
             matrixDataGrid.RowHeadersVisible = false; // делаем невидимыми заголовки строк
             matrixDataGrid.ColumnHeadersVisible = false; // делаем невидимыми заголовки столбцов
-           
+
             vectorDataGrid.AllowUserToResizeRows = false; // запрещаем менять размер строчек
             vectorDataGrid.AllowUserToResizeColumns = false; // запрещаем менять размер столбцов
             vectorDataGrid.RowHeadersVisible = false; // делаем невидимыми заголовки строк
@@ -105,12 +105,13 @@ namespace slae_project
         /// <summary>
         /// Подгонка размеров элементов окна под текущую размерность матрицы. Вызывается каждый раз при измененении размеров матрицы.
         /// </summary>
-        private void sizeWrap() {             
+        private void sizeWrap()
+        {
             matrixDataGrid.Height = 30 * size;
-            matrixDataGrid.Width = 30 * size; 
+            matrixDataGrid.Width = 30 * size;
             vectorDataGrid.Height = 30 * size;
             x0DataGrid.Height = 30 * size;
-            groupBox1.Height = matrixDataGrid.Height + 50; 
+            groupBox1.Height = matrixDataGrid.Height + 50;
             groupBox1.Width = matrixDataGrid.Width + 30;
             groupBox2.Height = vectorDataGrid.Height + 50;
             groupBox3.Height = vectorDataGrid.Height + 50;
@@ -120,9 +121,10 @@ namespace slae_project
         {
             try
             {
-                matrixDataGrid[col, row].Value = Eval(matrixDataGrid[col, row].Value.ToString().Replace(",","."));
+                matrixDataGrid[col, row].Value = Eval(matrixDataGrid[col, row].Value.ToString().Replace(",", "."));
             }
-            catch{
+            catch
+            {
                 matrixDataGrid[col, row].Value = null;
             }
         }
@@ -141,7 +143,7 @@ namespace slae_project
                 if (x0DataGrid[0, i].Value == null)
                     x0DataGrid[0, i].Value = 0;
             }
-            
+
         }
 
         private void clearMatrix()
@@ -165,19 +167,7 @@ namespace slae_project
 
             sizeWrap();
         }
-        private void sizeRead() // чтение размерности матрицы из файла
-        {
-            using (StreamReader reader = File.OpenText("mymatrixSet.txt"))
-            {
-                size = Convert.ToInt32(reader.ReadLine());
-                property = Convert.ToInt32(reader.ReadLine());
-            }
-        }
 
-        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -202,7 +192,7 @@ namespace slae_project
                 {
                     for (int i = 0; i < size; i++)
                     {
-                        line = matrixDataGrid[i,j].Value.ToString();
+                        line = matrixDataGrid[i, j].Value.ToString();
                         writer.Write(line + " ");
                     }
                     writer.Write("\r\n");
@@ -211,27 +201,27 @@ namespace slae_project
             FileLoadForm.filenames_format.Clear();
             FileLoadForm.filenames_format.Add(arrays[0].ToString(), name);
 
-                FileLoadForm.F = new SimpleVector(size);
-                string line1;
-                for (int i = 0; i < size; i++)
-                {
-                    line1 = vectorDataGrid[0,i].Value.ToString();
-                    FileLoadForm.F[i] = Convert.ToDouble(line1);                 
-                }
+            FileLoadForm.F = new SimpleVector(size);
+            string line1;
+            for (int i = 0; i < size; i++)
+            {
+                line1 = vectorDataGrid[0, i].Value.ToString();
+                FileLoadForm.F[i] = Convert.ToDouble(line1);
+            }
             FileLoadForm.X0 = new SimpleVector(size);
             for (int i = 0; i < size; i++)
-                {
-                    FileLoadForm.X0[i] = Convert.ToDouble(x0DataGrid[0,i].Value);
-                }
+            {
+                FileLoadForm.X0[i] = Convert.ToDouble(x0DataGrid[0, i].Value);
+            }
             this.Close();
 
         }
 
         private void matrixDataGrid_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            if (e.ColumnIndex == size-1 || e.RowIndex == size-1)
+            if (e.ColumnIndex == size - 1 || e.RowIndex == size - 1)
             {
-                for (int i=0; i<size;i++)
+                for (int i = 0; i < size; i++)
                     for (int j = 0; j < size; j++)
                     {
                         matrixDataGrid.Rows[j].Cells[i].Style.BackColor = Color.White;
@@ -287,7 +277,7 @@ namespace slae_project
                 if (matrixDataGrid[size - 2, i].Value != null || matrixDataGrid[i, size - 2].Value != null)
                     notEmptyRow = true;
             }
-            if (!notEmptyRow)
+            if (!notEmptyRow && size > 3)
             {
                 try
                 {
@@ -295,7 +285,7 @@ namespace slae_project
                     matrixDataGrid.Rows.RemoveAt(size - 1);
                     matrixDataGrid.Columns.RemoveAt(size - 1);
                     vectorDataGrid.Rows.RemoveAt(size - 1);
-                    
+
                 }
                 catch
                 {
@@ -316,35 +306,28 @@ namespace slae_project
         private void matrixDataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (matrixDataGrid[e.ColumnIndex, e.RowIndex].Value != null)
-            {                
+            {
                 textToOnlyNumbers(e.ColumnIndex, e.RowIndex);
-                if (property == 1)
+                if (property == true)
                     matrixDataGrid[e.RowIndex, e.ColumnIndex].Value = matrixDataGrid[e.ColumnIndex, e.RowIndex].Value;
                 matrixDataGrid.UpdateCellValue(e.RowIndex, e.ColumnIndex);
             }
             else
             {
-                if (property == 1)
+                if (property == true)
                     matrixDataGrid[e.RowIndex, e.ColumnIndex].Value = "";
 
-                if (e.ColumnIndex == size - 2 || e.RowIndex == size - 2)
+                if ((e.ColumnIndex == size - 2 || e.RowIndex == size - 2) && size > 1)
                 {
-                        RecClear();
-                    }
+                    RecClear();
                 }
             }
-        
+        }
+
 
         private void matrixForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-                Form1.justDoIt.Enabled = true;
-        }
-
-        private void groupBox3_Enter(object sender, EventArgs e)
-        {
-
+            Form1.justDoIt.Enabled = true;
         }
     }
-
-    
 }

@@ -69,7 +69,6 @@
             this.matrixDataGrid.Size = new System.Drawing.Size(454, 415);
             this.matrixDataGrid.TabIndex = 0;
             this.matrixDataGrid.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.matrixDataGrid_CellBeginEdit);
-            this.matrixDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
             this.matrixDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.matrixDataGrid_CellEndEdit);
             // 
             // button1
@@ -139,7 +138,6 @@
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Начальное приближение";
-            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
             // 
             // x0DataGrid
             // 
