@@ -421,8 +421,7 @@ namespace slae_project
                         //sharpGLform.SetScrollBars();
                         sharpGLform.SetScrollBars_to_the_end();
             }
-
-            PartialDrawer();
+            else PartialDrawer();
 
         }
         void MaxIdentifiyer(double value)
