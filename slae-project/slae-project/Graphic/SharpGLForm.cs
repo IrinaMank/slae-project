@@ -380,7 +380,7 @@ namespace slae_project
             GD.font_format = 0;
 
             radioButton1_Number_disabled.Checked = false;
-            GD.TargetNumber = false;
+            GD.TargetNumber = true;
             GD.TargetPlus = true;
             radioButton1_Number_enabled.Checked = true;
             radioButton1_Number_disabled.Checked = false;

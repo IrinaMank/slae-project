@@ -394,12 +394,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.radioButton1_Number_disabled.AutoSize = true;
-            this.radioButton1_Number_disabled.Checked = true;
             this.radioButton1_Number_disabled.Location = new System.Drawing.Point(89, 3);
             this.radioButton1_Number_disabled.Name = "radioButton1_Number_disabled";
             this.radioButton1_Number_disabled.Size = new System.Drawing.Size(81, 21);
             this.radioButton1_Number_disabled.TabIndex = 1;
-            this.radioButton1_Number_disabled.TabStop = true;
             this.radioButton1_Number_disabled.Text = "выкл.";
             this.radioButton1_Number_disabled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.radioButton1_Number_disabled.UseVisualStyleBackColor = true;
@@ -411,10 +409,12 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.radioButton1_Number_enabled.AutoSize = true;
+            this.radioButton1_Number_enabled.Checked = true;
             this.radioButton1_Number_enabled.Location = new System.Drawing.Point(3, 3);
             this.radioButton1_Number_enabled.Name = "radioButton1_Number_enabled";
             this.radioButton1_Number_enabled.Size = new System.Drawing.Size(80, 21);
             this.radioButton1_Number_enabled.TabIndex = 0;
+            this.radioButton1_Number_enabled.TabStop = true;
             this.radioButton1_Number_enabled.Text = "вкл.";
             this.radioButton1_Number_enabled.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.radioButton1_Number_enabled.UseVisualStyleBackColor = true;

@@ -68,7 +68,7 @@ namespace slae_project
             {
                 GraphicalVector = _GraphicalVector;
                 xCellCount = GraphicalVector.Count() - 1;
-                yCellCount = 40;
+                yCellCount = 20;
                 foreach (var value in GraphicalVector)
                 {
                     if (value > max) max = value;
@@ -261,7 +261,7 @@ namespace slae_project
             return false;
         }
         public bool TargetPlus = true;
-        public bool TargetNumber = false;
+        public bool TargetNumber = true;
         /// <summary>
         /// Главная рисовалка.
         /// </summary>
@@ -455,6 +455,7 @@ namespace slae_project
             }
 
             //Вставить сюда.
+            
             for (int i = 0; i < List_Of_Objects.Count(); i++)
             {
                 var GraphicalObject = List_Of_Objects[i];
@@ -486,19 +487,36 @@ namespace slae_project
                         }
                     }
                 }
+
                 else if (GraphicalObject.GraphicalVector != null)
                 {
                     for (int X_counter = OS_x_begin; X_counter < OS_x_end; X_counter++)
                     {
                         int x = LeftTopCellOfEachMatrix[i].X + X_counter;
                         int y = LeftTopCellOfEachMatrix[i].Y + GraphicalObject.yCellCount + 1;
-                        int Y0 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter] - GraphicalObject.min) * Grid.yCellSize * GraphicalObject.yCellCount / GraphicalObject.range));
-                        int Y1 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter + 1] - GraphicalObject.min) * Grid.yCellSize * GraphicalObject.yCellCount / GraphicalObject.range));
-                        if (X_counter >= 0 && X_counter < GraphicalObject.GraphicalVector.Count()-1 &&
-                            y > OS_y_begin &&
-                            y < OS_y_end)
+                        if (X_counter >= 0 && X_counter < GraphicalObject.GraphicalVector.Count()-1)
                         {
-                            draw_line(cursor_X(x), Y0, cursor_X(x+1), Y1, true,(Single)153/255, (Single)51 /255, (Single)1);
+                            int Y0 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter] - GraphicalObject.min) * Grid.yCellSize * GraphicalObject.yCellCount / GraphicalObject.range));
+                            int Y1 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter + 1] - GraphicalObject.min) * Grid.yCellSize * GraphicalObject.yCellCount / GraphicalObject.range));
+
+                            //if (X_counter == 10)
+                            //{
+                                //string str = "Y0/ycell- " + (Y0 / Grid.yCellSize).ToString();
+                                //Draw_Text(mouse.true_x + 50, mouse.true_y + 70, "Y0/ycell- " + (Y0 / Grid.yCellSize).ToString(), 0, 0, 0);
+                                ///Draw_Text(mouse.true_x + 50, mouse.true_y + 50, "Y1/ycell- " + (Y1 / Grid.yCellSize).ToString(), 0, 0, 0);
+                                //Draw_Text(mouse.true_x + 50, mouse.true_y + 30, "Y0modified- " + (((Y0 - openGLControl.Height) / Grid.yCellSize)).ToString(), 0,0,0);
+                                //Draw_Text(mouse.true_x + 50, mouse.true_y + 10, "y- " + (y).ToString(), 0, 0, 0);
+                                //Draw_Text(mouse.true_x + 50, mouse.true_y - 10, "Y0- " + (Y0).ToString(), 0, 0, 0);
+                                //Draw_Text(mouse.true_x + 50, mouse.true_y - 30, "Y1- " + (Y1).ToString(), 0, 0, 0);
+                                //Draw_Text(mouse.true_x + 50, mouse.true_y - 50, "OSbeg- " + (OS_y_begin).ToString(), 0, 0, 0);
+                                //Draw_Text(mouse.true_x + 50, mouse.true_y - 70, "OSend- " + (OS_y_end).ToString(), 0, 0, 0);
+                            //}
+                            //int Test1 = Y0 / Grid.yCellSize;
+                            //int test2 = OS_y_begin;
+
+                            if (Math.Abs((Y0 - openGLControl.Height) / Grid.yCellSize) > OS_y_begin &&
+                                Math.Abs((Y1) / Grid.yCellSize) < OS_y_end)
+                            draw_line(cursor_X(x), Y0, cursor_X(x+1), Y1, true,(Single)153/255, (Single)51 /255, (Single)1, 3.0f);
                         }
                     }
                 }
@@ -558,9 +576,9 @@ namespace slae_project
 
                     int y = ((y_pointed - CurrentMatrix.Y * Grid.yCellSize) / Grid.yCellSize);
                     //int y = (mouse.ShiftedPosition.y + openGLControl.Height - mouse.true_y) / Grid.yCellSize;
-                    Draw_Text(mouse.true_x + 20, mouse.true_y, "- " + ((Number_of_current_row = y) - 1).ToString(), Color, Color, Color);
+                    Draw_Text(mouse.true_x + 20, mouse.true_y + 10, "- " + ((Number_of_current_row = y) - 1).ToString(), Color, Color, Color);
 
-                    if (!BoolTextIsEnabledOtherwiseQuads) Draw_Text(mouse.true_x + 20, mouse.true_y - 40, ": " + List_Of_Objects[Number_of_current_matrix][Number_of_current_column, Number_of_current_row].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()), Color, Color, Color);
+                    if (!BoolTextIsEnabledOtherwiseQuads) Draw_Text(mouse.true_x + 20, mouse.true_y - 50, ": " + List_Of_Objects[Number_of_current_matrix][Number_of_current_column, Number_of_current_row].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()), Color, Color, Color);
 
                 }
             }
@@ -570,8 +588,8 @@ namespace slae_project
             //Целеуказатель плюсиком зеленый
             if (TargetPlus)
             {
-                draw_line(0, mouse.true_y, openGLControl.Width, mouse.true_y, false, 0, 1, 0);
-                draw_line(mouse.true_x, 0, mouse.true_x, openGLControl.Height, false, 0, 1, 0);
+                draw_line(0, mouse.true_y, openGLControl.Width, mouse.true_y, false, 0, 1, 0, 3.0f);
+                draw_line(mouse.true_x, 0, mouse.true_x, openGLControl.Height, false, 0, 1, 0, 3.0f);
             }
         }
         void Draw_Text(int in_x, int in_y, string phrase)
@@ -1198,7 +1216,7 @@ namespace slae_project
         /// <summary>
         /// Draw Grid
         /// </summary>
-        private void draw_line(int x_from,int y_from = 0, int x_to = 0, int y_to = 0, bool autoshifter = true, Single r = 0, Single g = 0, Single b = 0)
+        private void draw_line(int x_from,int y_from = 0, int x_to = 0, int y_to = 0, bool autoshifter = true, Single r = 0, Single g = 0, Single b = 0, float linewidth = 1.0f, float lineheight = 0.5f)
         {
             if (autoshifter)
             {
@@ -1213,15 +1231,15 @@ namespace slae_project
             //  Load the identity matrix.
             gl.LoadIdentity();
             gl.Color(r, g, b, 1.0f); //Must have, weirdness!
-            gl.LineWidth(1.0f);
+            gl.LineWidth(linewidth);
             gl.Begin(OpenGL.GL_LINES);
 
-            Single Line_Height = 0.5f;
+            //Single Line_Height = 1.0f;
 
             //gl.Color(0.0f, 0.0f, 1.0f);
-            gl.Vertex(x_from, y_from, Line_Height);
+            gl.Vertex(x_from, y_from, lineheight);
             //gl.Color(0.0f, 0.0f, 1.0f);
-            gl.Vertex(x_to, y_to, Line_Height);
+            gl.Vertex(x_to, y_to, lineheight);
             gl.End();
         }
 
