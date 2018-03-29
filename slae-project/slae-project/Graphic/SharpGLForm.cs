@@ -424,7 +424,11 @@ namespace slae_project
         {
             if (TryInit) GD.RealDraw_Try_To_Initialize = true;
             openGLControl.Refresh();
-            SetScrollBars();
+            if (TryInit) 
+            {
+                AutoSizeCell_Reaction_Wrapped();
+                SetScrollBars();
+            }
             //GD.MoveToEndCursor();
             //openGLControl.Refresh();
         }
@@ -887,29 +891,21 @@ namespace slae_project
         static UR_access UR = new UR_access();
         private void button1_Test_Click(object sender, EventArgs e)
         {
-            GD = new GraphicData(openGLControl, this);
-            Wrapped_Reverse_Reseter();
+            Clear_Window();
             UR.UserGuide_access(ref GD.List_Of_Objects);
             Refresh_Window();
-            AutoSizeCell_Reaction_Wrapped();
-            SetScrollBars();
-
-
-            //Wrapped_Reverse_Reseter();
-            //Wrapped_Reset_Click();
         }
         public void Wrapped_Refreash_And_Show_Clicker()
         {
-            GD = new GraphicData(openGLControl, this);
-            Wrapped_Reverse_Reseter();
-            GD.List_Of_Objects.Clear();
+            Clear_Window();
             GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix A", ref Factory.ObjectOfIMatrix));
             GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Result X", ref Factory.Result));
             Refresh_Window();
-            AutoSizeCell_Reaction_Wrapped();
-            SetScrollBars();
-            //
-            //Wrapped_Reset_Click();
+        }
+        public void Clear_Window()
+        {
+            GD = new GraphicData(openGLControl, this);
+            Wrapped_Reverse_Reseter();
         }
     }
 }

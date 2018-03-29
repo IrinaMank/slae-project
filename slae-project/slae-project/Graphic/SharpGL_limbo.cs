@@ -37,7 +37,10 @@ namespace slae_project
             if (SharpGL_is_opened()) SharpForm.Refresh_Window();
         }
 
-        
+        public static void Clear_Window()
+        {
+            if (SharpGL_is_opened()) SharpForm.Clear_Window();
+        }
         //Конструктор. Параметр самовызова для ленивости.
         /*public static SharpGL_limbo(bool SelfInit = false)
         {
