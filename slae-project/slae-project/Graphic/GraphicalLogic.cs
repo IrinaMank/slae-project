@@ -962,8 +962,12 @@ namespace slae_project
                         break;
                     case 'd':
                         Enum_act(Actions.Левая_верт_полная);
-                        Enum_act(Actions.Х_верхне_лев);
-                        Enum_act(Actions.Х_нижн_лев);
+                        //Enum_act(Actions.Х_верхне_лев);
+                        //Enum_act(Actions.Х_нижн_лев);
+                        gl.Vertex(x + fontsize / 2, y + fontsize/2, Line_Height);
+                        gl.Vertex(x, y, Line_Height);
+                        gl.Vertex(x, y + fontsize, Line_Height);
+                        gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
                         X_draw_move();
                         break;
                     case 'f':
@@ -977,6 +981,8 @@ namespace slae_project
                         Enum_act(Actions.Верхняя);
                         Enum_act(Actions.Правая_верт_нижняя);
                         Enum_act(Actions.Левая_верт_полная);
+                        gl.Vertex(x + fontsize / 4, y + fontsize / 2, Line_Height);
+                        gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
                         X_draw_move();
                         break;
                     case 'h':
@@ -988,9 +994,12 @@ namespace slae_project
                     case 'i':
                         //Средняя вертикально нижняя черта
                         gl.Vertex(x + fontsize / 4, y + fontsize, Line_Height);
-                        gl.Vertex(x + fontsize / 4, y + fontsize * 4 / 5, Line_Height);
-                        gl.Vertex(x + fontsize / 4, y + fontsize*3/5, Line_Height);
                         gl.Vertex(x + fontsize / 4, y, Line_Height);
+                        //Снизу и сверху черточка
+                        gl.Vertex(x + fontsize * 1 / 8, y, Line_Height);
+                        gl.Vertex(x + fontsize * 3 / 8, y, Line_Height);
+                        gl.Vertex(x + fontsize * 1 / 8, y + fontsize, Line_Height);
+                        gl.Vertex(x + fontsize * 3 / 8, y + fontsize, Line_Height);
                         X_draw_move();
                         break;
                     case 'j':
@@ -1043,10 +1052,13 @@ namespace slae_project
                         X_draw_move();
                         break;
                     case 'q':
-                        Enum_act(Actions.Средняя);
+                        Enum_act(Actions.Нижняя);
                         Enum_act(Actions.Верхняя);
-                        Enum_act(Actions.Левая_верт_верхняя);
+                        Enum_act(Actions.Левая_верт_полная);
                         Enum_act(Actions.Правая_верт_полная);
+                        Enum_act(Actions.Запятая);
+                        //gl.Vertex(x + fontsize / 3, y - fontsize / 3, Line_Height);
+                        //gl.Vertex(x + fontsize / 5, y, Line_Height);
                         X_draw_move();
                         break;
                     case 'r':
