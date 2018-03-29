@@ -26,9 +26,6 @@ namespace slae_project.Solver
             Logger.setMaxIter(Maxiter);
             IVector x = (IVector)Initial.Clone();//начальное приблежение
 
-            if (b.Norm == 0)
-                return x;
-
             IVector r = b.Add(A.Mult(x), 1, -1);//r = b - Ax_0
             double residual = r.Norm / b.Norm;// ||b-Ax_0|| / ||b||
 
