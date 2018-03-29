@@ -355,6 +355,7 @@ namespace slae_project
             GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix A", ref Factory.ObjectOfIMatrix));
             GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Result X", ref Factory.Result));
             Refresh_Window();
+            AutoSizeCell_Reaction_Wrapped();
         }
         //Asynchronized AsyncTest = new Asynchronized();
 
@@ -367,6 +368,10 @@ namespace slae_project
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void button_reset_Click(object sender, EventArgs e)
+        {
+            Wrapped_Reset_Click();
+        }
+        void Wrapped_Reset_Click()
         {
             trackBar_QuantityAfterPoint.Value = GD.FontQuanitityAfterPoint = 3;
             trackBar_FontSize.Value = 14; GD.FontSize = 14;
@@ -391,8 +396,9 @@ namespace slae_project
 
             Refresh_Window(false);
             SetScrollBars_to_the_end();
-        }
+            AutoSizeCell_Reaction_Wrapped();
 
+        }
         /// <summary>
         /// Эту функцию я подарил юзерам, вызывать после добавления или удаления объектов
         /// Она обновляет изображение, настраивает максимумы скруллбаров(ибо оно зависит от границ матриц)
@@ -868,6 +874,7 @@ namespace slae_project
             GD = new GraphicData(openGLControl, this);
             UR.UserGuide_access(ref GD.List_Of_Objects);
             Refresh_Window();
+            AutoSizeCell_Reaction_Wrapped();
         }
     }
 }

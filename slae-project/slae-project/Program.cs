@@ -55,6 +55,7 @@ namespace slae_project
                 Application.DoEvents();
             window.Close();
             window.Dispose();
+            SharpGL_limbo.SharpGL_Open();
             Application.Run(new Form1());
         }
     }
