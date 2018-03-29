@@ -84,7 +84,7 @@ namespace slae_project.Vector
                     return this;
                 }
                 else
-                    return new SimpleVector(elements);
+                    return new SimpleVector(result);
 
             }
             MessageBox.Show("Попытка сложить вектора разных размерностей. Метод 'Add' вернул null. В следующий раз будь аккуратнее :3",
@@ -119,8 +119,8 @@ namespace slae_project.Vector
             {
                 for (int i = 0; i < Size; i++)
                 {
-                    if (this[i] + prec > a[i] &&
-                        this[i] - prec < a[i])
+                    if (this[i] + prec >= a[i] &&
+                        this[i] - prec <= a[i])
                         continue;
                     return false;
                 }
@@ -150,5 +150,12 @@ namespace slae_project.Vector
             return clon;
         }
 
+        public bool ContainZero()
+        {
+            for (int i = 0; i < Size; i++)
+                if (elements[i]==0)
+                    return true;
+            return false;
+        }
     }
 }

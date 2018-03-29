@@ -12,7 +12,7 @@ using System.IO;
 
 namespace slae_project.Matrix
 {
-    class SparseRowColumnMatrix : IMatrix
+    public class SparseRowColumnMatrix : IMatrix
     {
         //что делать с транспонированием?
         class TransposeIllusion : ILinearOperator
@@ -20,7 +20,7 @@ namespace slae_project.Matrix
             public SparseRowColumnMatrix Matrix { get; set; }
             public ILinearOperator Transpose => Matrix;
             public ILinearOperator T => Matrix;
-            public IVector Diagonal { get; }
+            public IVector Diagonal { get { return Matrix.Diagonal; } } 
             public int Size => Matrix.Size;
             public IVector MultL(IVector x, bool UseDiagonal) => Matrix.MultLT(x, UseDiagonal);
             public IVector SolveL(IVector x, bool UseDiagonal) => Matrix.SolveLT(x, UseDiagonal);
@@ -30,6 +30,11 @@ namespace slae_project.Matrix
             public IVector SolveD(IVector x) => Matrix.SolveD(x);
             public void MakeLU() => Matrix.MakeLU();
             public object Clone() => Matrix.Clone();
+
+            public IVector MultD(IVector a)
+            {
+                throw new NotImplementedException();
+            }
         }
 
 
@@ -40,6 +45,7 @@ namespace slae_project.Matrix
         double[] al;
         double[] au;
         double extraDiagVal = 0;
+        bool isSymmetric = false;
         //bool LU_was_made = false;
         //// портрет сохраняется
         //private double[] L;
@@ -161,13 +167,17 @@ namespace slae_project.Matrix
         /// <param name="di">Диагональные элементы</param>
         /// <param name="al">Элементы нижней диагонали</param>
         /// <param name="au">Элементы верхней диагонали</param>
-        public SparseRowColumnMatrix(int[] ig, int[] jg, double[] di, double[] al, double[] au)
+        public SparseRowColumnMatrix(int[] ig, int[] jg, double[] di, double[] al, double[] au, bool isSymmetric = false)
         {
+            this.isSymmetric = isSymmetric;
             this.di = di;
             this.ig = ig;
             this.jg = jg;
             this.al = al;
-            this.au = au;
+            if (isSymmetric)
+                this.au = this.al;
+            else
+                this.au = au;
             this.Size = di.Length;
         }
 
@@ -373,9 +383,10 @@ namespace slae_project.Matrix
                         }
                     }
                     al[m] = al[m] - sum_l;
+
+                    if (Math.Abs(di[jg[m]]) < 1e-10)
+                        throw new DivideByZeroException();
                     au[m] = (au[m] - sum_u) / di[jg[m]];
-                    if (double.IsInfinity(au[m]))
-                        throw new LUFailException("Ошибка при LU предобуславливании!");
                     sum_d += al[m] * au[m];
                 }
                 di[k1] = di[k1] - sum_d;
@@ -639,8 +650,14 @@ namespace slae_project.Matrix
             return new SparseRowColumnMatrix(this.ig, this.jg, this.di, this.al, this.au);
         }
 
-        public SparseRowColumnMatrix(Dictionary<string, string> paths)
+        public IVector MultD(IVector a)
         {
+            throw new NotImplementedException();
+        }
+
+        public SparseRowColumnMatrix(Dictionary<string, string> paths, bool isSymmetric)
+        {
+            this.isSymmetric = isSymmetric;
             string line;
             string[] sub;
             // n - размерность матрицы, m - количество ненулевых элементов
@@ -650,20 +667,20 @@ namespace slae_project.Matrix
             {
                 switch (el.Key)
                 {
-                    case "ig.txt":
+                    case "ig":
 
                         var reader = new StreamReader(el.Value);
 
                         // считываем размерность массива
                         line = reader.ReadLine();
-                        sub = line.Split(' ', '\t');
+                        sub = line.Split(' ', '\t', '\n');
                         n = Convert.ToInt32(sub[0]) - 1;
                         ig = new int[n + 1];
 
                         //считывание элементов массива
                         line = reader.ReadLine();
                         sub = line.Split(' ', '\t');
-                        if (sub.Length != n)
+                        if (sub.Length != n+1)
                         {
                             throw new CannotFillMatrixException("Ошибка при считывании файла ig. Некорректная структура файла. Проверьте количество элементов и их фактическое количество");
                         }
@@ -676,10 +693,10 @@ namespace slae_project.Matrix
                             if (ig[n + 1] != m)
                                 throw new CannotFillMatrixException("Ошибка при считывании файла ig. Массив не соответсвует другим массивам. Проверьте файлы al, au, jg");
 
-                        m = ig[n + 1];
+                        m = ig[n];
                         count_files++;
                         break;
-                    case "jg.txt":
+                    case "jg":
 
                         reader = new StreamReader(el.Value);
 
@@ -707,7 +724,7 @@ namespace slae_project.Matrix
                         }
                         count_files++;
                         break;
-                    case "di.txt":
+                    case "di":
 
                         reader = new StreamReader(el.Value);
                         // считываем размерность массива
@@ -733,7 +750,7 @@ namespace slae_project.Matrix
                         }
                         count_files++;
                         break;
-                    case "al.txt":
+                    case "al":
 
                         reader = new StreamReader(el.Value);
                         // считываем размерность массива
@@ -761,7 +778,7 @@ namespace slae_project.Matrix
                         }
                         count_files++;
                         break;
-                    case "au.txt":
+                    case "au":
 
                         reader = new StreamReader(el.Value);
                         // считываем размерность массива
@@ -794,6 +811,77 @@ namespace slae_project.Matrix
             Size = n;
             if (count_files != 5)
                 throw new CannotFillMatrixException("Считаны не все необходимые файлы. Проверьте наличие файлов и их содержимое");
+            if (this.isSymmetric)
+                this.au = this.al;
+        }
+        public int CheckCompatibility(IVector x)
+        {
+            int j;
+            int firstNotZero;
+            double coef;
+            int toReturn = MatrixConstants.SLAE_OK;
+            // Сверхнеоптимальный код
+            // Желательно читать с закрытыми глазами
+            for (int line = 0; line < Size; line++)
+            {
+                for (int line2 = line + 1; line2 < Size; line2++)
+                {
+                    for (firstNotZero = 0; firstNotZero < Size; firstNotZero++)
+                        if (this[line, firstNotZero] != 0 || this[line2, firstNotZero] != 0)
+                            break;
+
+                    if (firstNotZero != Size)
+                    {
+                        // Если первый ненулевой элемент во второй строчке
+                        if (this[line, firstNotZero] == 0)
+                        {
+                            coef = this[line, firstNotZero] / this[line2, firstNotZero];
+                            // Проверка линейно зависимости строк матрицы
+                            for (j = firstNotZero + 1; j < Size; j++)
+                            {
+                                if (this[line, j] - coef * this[line2, j] != 0)
+                                    break;
+                            }
+                            // Если строки линейно зависимы, то проверка соответствующих элементов вектора
+                            if (j == Size)
+                            {
+                                if (x[line] - x[line2] * coef != 0)
+                                    return MatrixConstants.SLAE_INCOMPATIBLE;
+                                else
+                                    toReturn = MatrixConstants.SLAE_MORE_ONE_SOLUTION;
+                            }
+                        }
+                        // Если ненулевой элемент в первой строчке
+                        else
+                        {
+                            coef = this[line2, firstNotZero] / this[line, firstNotZero];
+                            // Проверка линейно зависимости строк матрицы
+                            for (j = firstNotZero + 1; j < Size; j++)
+                            {
+                                if (this[line2, j] - coef * this[line, j] != 0)
+                                    break;
+                            }
+                            // Если строки линейно зависимы, то проверка соответствующих элементов вектора
+                            if (j == Size)
+                            {
+                                if (x[line2] - x[line] * coef != 0)
+                                    return MatrixConstants.SLAE_INCOMPATIBLE;
+                                else
+                                    toReturn = MatrixConstants.SLAE_MORE_ONE_SOLUTION;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Если нулевой строке матрицы соответствует ненулевой элемент вектора
+                        if (x[line2] != 0 || x[line] != 0)
+                            return MatrixConstants.SLAE_INCOMPATIBLE;
+                        else
+                            toReturn = MatrixConstants.SLAE_MORE_ONE_SOLUTION;
+                    }
+                }
+            }
+            return toReturn;
         }
     }
 }

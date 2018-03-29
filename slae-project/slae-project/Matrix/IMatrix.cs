@@ -18,5 +18,12 @@ namespace slae_project.Matrix
         /// <param name="j"></param>
         /// <returns></returns>
         double this[int i, int j] { get; set; }
+
+        /// <summary>
+        /// Проверяет СЛАУ с исходной матрицей и b в качесте правой части на совместимость
+        /// </summary>
+        /// <param name="b">Правая часть СЛАУ</param>
+        /// <returns>Несовместна/Имеет одно решение/Имеет множество решений - -1/0/1</returns>
+        int CheckCompatibility(IVector b);
     }
 }

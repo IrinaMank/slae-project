@@ -1,6 +1,6 @@
 ﻿namespace slae_project
 {
-    partial class Form2
+    partial class FileLoadForm
     {
         /// <summary>
         /// Required designer variable.
@@ -35,17 +35,18 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // Form2
+            // FileLoadForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Name = "Form2";
-            this.Text = "Form2";
-            this.Load += new System.EventHandler(this.Form2_Load);
+            this.BackgroundImage = global::slae_project.Properties.Resources.kuchka;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(379, 321);
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Name = "FileLoadForm";
+            this.Text = "FileLoadForm";
+            this.Load += new System.EventHandler(this.FileLoadForm_Load);
             this.ResumeLayout(false);
-
-           
 
         }
 

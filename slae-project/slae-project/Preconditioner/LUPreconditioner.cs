@@ -8,12 +8,14 @@ using slae_project.Vector;
 
 namespace slae_project.Preconditioner
 {
-    class LUPreconditioner : UseMatrixPreconditioner
+    public class LUPreconditioner : UseMatrixPreconditioner
     {
         public LUPreconditioner(IMatrix matr)
         {
             m = matr.Clone() as IMatrix;
             m.MakeLU();
+            if (m.Diagonal.ContainZero())
+                throw new slae_project.Matrix.MatrixExceptions.LUFailException();
         }
     }
 }

@@ -4,10 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using slae_project.Matrix;
-using slae_project.Vector;
-using slae_project.Solver;
-using slae_project.Preconditioner;
-using slae_project.Logger;
 
 namespace slae_project
 {
@@ -19,6 +15,7 @@ namespace slae_project
         [STAThread]
         static void Main()
         {
+            
             //CoordinateMatrix.localtest();
             //(int, int)[] coord = new(int, int)[100];
             ////   double[] valMatrix = new double[25] { 1, 5, 1, 2, 1, 8, 2, 1, 3, 2, 2, 9, 3, 7, 3, 1, 3, 10, 4, 6, 3, 1, 2, 11, 5 };	
@@ -51,7 +48,13 @@ namespace slae_project
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            SharpGL_limbo.SharpGL_Open();
+            loadWindow window = new loadWindow();
+            DateTime end = DateTime.Now + TimeSpan.FromSeconds(3);
+            window.Show();
+            while (end > DateTime.Now)
+                Application.DoEvents();
+            window.Close();
+            window.Dispose();
             Application.Run(new Form1());
         }
     }

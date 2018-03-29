@@ -23,7 +23,8 @@ namespace slae_project.Solver
         /// <returns>Вектор x - решение СЛАУ Ax=b с заданной точностью</returns>
         public IVector Solve(IPreconditioner A, IMatrix AA, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
         {
-            IVector x = new SimpleVector(b.Size);
+            Logger.setMaxIter(Maxiter);
+            IVector x = Initial.Clone() as IVector;
 
             if (b.Norm == 0)
                 return x;
@@ -67,8 +68,9 @@ namespace slae_project.Solver
 
                 normR = Math.Sqrt(scalRR) / b.Norm;
 
-                Logger.WriteIteration(iter, normR, 100 * Precision / normR);
+                Logger.WriteIteration(iter, normR);
             }
+            Logger.WriteSolution(x,Maxiter);
             return x;
         }
 

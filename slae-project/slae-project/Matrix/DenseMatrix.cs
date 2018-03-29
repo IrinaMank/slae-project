@@ -36,13 +36,22 @@ namespace slae_project.Matrix
             public IVector Mult(IVector x, bool UseDiagonal) => Matrix.MultT(x, UseDiagonal);
             public IVector MultU(IVector x, bool UseDiagonal) => Matrix.MultUT(x, UseDiagonal);
             public IVector SolveU(IVector x, bool UseDiagonal) => Matrix.SolveUT(x, UseDiagonal);
-            public IVector SolveD(IVector x) => Matrix.SolveLT(x);
+            public IVector SolveD(IVector x) => Matrix.SolveD(x);
             public void MakeLU() => throw new NotImplementedException();
             public object Clone() => Matrix.Clone();
+
+            public IVector MultD(IVector a)
+            {
+                throw new NotImplementedException();
+            }
         }
         // Матрица
         private double[,] d_matrix;
+        //Переменная, необходимая для реализации возможности наличия в матрицы двух диагоналей ( например в случае LU - разложенной матрицы)
+        // Если extraDiagVal = 0, то считается, что в матрице одна диагональ
+        // Если extraDiagVal != 0, то считается, что нижний треугольник матрицы содержит диагональ, заполненную значениями extraDiagVal
         double extraDiagVal = 0;
+        bool isSymmetric = false;
         // Значение, начиная с которого любое число считается равным нулю
         private double EQU_TO_ZERO { get; } = 1e-10;
         public double this[int i, int j]
@@ -94,8 +103,9 @@ namespace slae_project.Matrix
         /// Инициализация матрицы массивом значений
         /// </summary>
         /// <param name="val">Двумерный массив значений</param>
-        public DenseMatrix(double[,] val)
+        public DenseMatrix(double[,] val, bool isSymmetric = false)
         {
+            this.isSymmetric = isSymmetric;
             this.Size = val.GetLength(0);
             d_matrix = new double[Size, Size];
             for (int i = 0; i < val.GetLength(0); i++)
@@ -108,8 +118,9 @@ namespace slae_project.Matrix
 
         }
 
-        public DenseMatrix(int Size)
+        public DenseMatrix(int Size, bool isSymmetric = false)
         {
+            this.isSymmetric = isSymmetric;
             d_matrix = new double[Size, Size];
             this.Size = Size;
             for (int i = 0; i < Size; i++)
@@ -138,8 +149,9 @@ namespace slae_project.Matrix
                 this.d_matrix[val.row, val.col] = val.value;
         }
 
-        public DenseMatrix()
+        public DenseMatrix(bool isSymmetric = false)
         {
+            this.isSymmetric = isSymmetric;
             this.Size = 0;
         }
 
@@ -151,16 +163,16 @@ namespace slae_project.Matrix
             IVector result = new SimpleVector(Size);
             if (UseDiagonal)
             {
-                for (int i = 0; i < Size; i++)
-                    for (int j = 0; j < Size; j++)
-                        result[i] += d_matrix[i, j] * x[j];
+                    for (int i = 0; i < Size; i++)
+                        for (int j = 0; j < Size; j++)
+                            result[i] += d_matrix[i, j] * x[j];
             }
             else
             {
-                for (int i = 0; i < Size; i++)
-                    for (int j = 0; j < Size; j++)
-                        if (i != j)
-                            result[i] += d_matrix[i, j] * x[j];
+                    for (int i = 0; i < Size; i++)
+                        for (int j = 0; j < Size; j++)
+                            if (i != j)
+                                result[i] += d_matrix[i, j] * x[j];
             }
             return result;
         }
@@ -187,6 +199,8 @@ namespace slae_project.Matrix
                         double sum = 0;
                         for (int u = 0; u < k; u++)
                             sum += this[i, u] * this[u, k];
+                        if (this[k, k] == 0)
+                            throw new DivideByZeroException();
                         this[i, k] = (this[i, k] - sum) / this[k, k];
                     }
                 }
@@ -207,7 +221,7 @@ namespace slae_project.Matrix
                     result[0] = 0;
                 }
                 else
-                    throw new CannotSolveSLAEExcpetion("Система неразрешима.");
+                    throw new SlaeNotCompatipableException("Система неразрешима.");
             }
             for (int i = 0; i < Size; i++)
             {
@@ -223,7 +237,7 @@ namespace slae_project.Matrix
                 }
                 catch (DivideByZeroException)
                 {
-                    throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
+                    throw new SlaeNotCompatipableException("Произошло деление на ноль.");
                 }
             }
             return result;
@@ -239,7 +253,7 @@ namespace slae_project.Matrix
                     result[Size - 1] = 0;
                 }
                 else
-                    throw new CannotSolveSLAEExcpetion("Система неразрешима.");
+                    throw new SlaeNotCompatipableException("Система неразрешима.");
             }
             for (int i = Size - 1; i >= 0; i--)
             {
@@ -253,7 +267,7 @@ namespace slae_project.Matrix
                 }
                 catch (DivideByZeroException)
                 {
-                    throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
+                    throw new SlaeNotCompatipableException("Произошло деление на ноль.");
                 }
             }
             return result;
@@ -323,6 +337,7 @@ namespace slae_project.Matrix
             IVector result = new SimpleVector(Size);
             if (UseDiagonal)
             {
+
                 for (int i = 0; i < Size; i++)
                 {
                     for (int j = 0; j < Size; j++)
@@ -351,6 +366,7 @@ namespace slae_project.Matrix
             {
                 throw new DifferentSizeException("Не удалось выполнить LU-разложение");
             }
+
             IVector result = new SimpleVector(Size);
             if (UseDiagonal)
             {
@@ -389,7 +405,7 @@ namespace slae_project.Matrix
                     result[Size - 1] = 0;
                 }
                 else
-                    throw new CannotSolveSLAEExcpetion("Система неразрешима.");
+                    throw new SlaeNotCompatipableException("Система неразрешима.");
                 return null;
             }
             for (int i = Size - 1; i >= 0; i--)
@@ -397,15 +413,18 @@ namespace slae_project.Matrix
                 int line_length = i;
                 try
                 {
-                    result[i] /= this[i, line_length - 1];
+                    if (extraDiagVal == 0)
+                        result[i] /= this[i, i];
+                    else
+                        result[i] /= extraDiagVal;
                 }
                 catch (DivideByZeroException)
                 {
-                    throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
+                    throw new SlaeNotCompatipableException("Произошло деление на ноль.");
                 }
-                for (int j = 0; j < line_length - 1; j++)
+                for (int j = 0; j < line_length; j++)
                 {
-                    result[j] -= result[i] * this[i, j];
+                    result[j] -= result[i] * this[i,j];
                 }
 
             }
@@ -415,9 +434,6 @@ namespace slae_project.Matrix
         protected IVector SolveUT(IVector x, bool UseDiagonal = true)
         {
             IVector result = new SimpleVector(Size);
-            for (int i = 0; i < Size; i++)
-                result[i] = x[i];
-
             if (!UseDiagonal)
             {
                 if (Math.Abs(x[0]) < EQU_TO_ZERO)
@@ -425,25 +441,21 @@ namespace slae_project.Matrix
                     result[0] = 0;
                 }
                 else
-                    throw new CannotSolveSLAEExcpetion("Система неразрешима.");
+                    throw new SlaeNotCompatipableException("Система неразрешима.");
             }
             for (int i = 0; i < Size; i++)
             {
-                int line_length = Size - i;
+                result[i] = x[i];
+                for (int j = 0; j < i; j++)
+                    result[i] -= result[j] * this[j, i];
                 try
                 {
                     result[i] /= this[i, i];
                 }
                 catch (DivideByZeroException)
                 {
-                    throw new CannotSolveSLAEExcpetion("Произошло деление на ноль.");
+                    throw new SlaeNotCompatipableException("Произошло деление на ноль.");
                 }
-
-                for (int j = i + 1; j < line_length; j++)
-                {
-                    result[j] -= result[i] * this[i, j];
-                }
-
             }
             return result;
         }
@@ -550,7 +562,7 @@ namespace slae_project.Matrix
 
         public object Clone()
         {
-            return new DenseMatrix(d_matrix);
+            return new DenseMatrix(d_matrix, isSymmetric);
         }
 
         public static void localtest()
@@ -590,8 +602,18 @@ namespace slae_project.Matrix
             //should be { 10, 9, 7, 4 }
         }
 
-        public DenseMatrix(Dictionary<string, string> paths)
+        public IVector MultD(IVector a)
         {
+            IVector result = new SimpleVector(Size);
+            for (int i = 0; i < this.Size; i++)
+                result[i] = a[i] * this[i, i];
+            return result;
+
+        }
+
+        public DenseMatrix(Dictionary<string, string> paths, bool isSymmetric = false)
+        {
+            this.isSymmetric = isSymmetric;
             StreamReader reader;
             try
             {
@@ -615,7 +637,8 @@ namespace slae_project.Matrix
             {
                 throw new CannotFillMatrixException(string.Format("Файл 'dense' не соответствует требуемому формату. Первая строка не содержит размер матрицы."));
             }
-
+            this.Size = n;
+            d_matrix = new double[Size, Size];
             double val;
             int i = 0;
             try
@@ -624,17 +647,96 @@ namespace slae_project.Matrix
                 {
                     line = reader.ReadLine();
                     subline = line.Split(' ', '\t', ',');
-                    for (int j = 0; j < n; j++)
-                    {
-                        val = Convert.ToDouble(subline[j]);
-                        this[i, j] = val;
-                    }
+
+                    if (isSymmetric)
+                        for (int j = 0; j <= i; j++)
+                        {
+                            val = Convert.ToDouble(subline[j]);
+                            this[i, j] = val;
+                            this[j, i] = val;
+                        }
+                    else
+                        for (int j = 0; j < n; j++)
+                        {
+                            val = Convert.ToDouble(subline[j]);
+                            this[i, j] = val;
+                        }
+
                 }
             }
             catch
             {
                 throw new CannotFillMatrixException(string.Format("Количество элементов в строке меньше чем размер матрицы.", i));
             }
+        }
+        public int CheckCompatibility(IVector x)
+        {
+            int j;
+            int firstNotZero;
+            double coef;
+            int toReturn = MatrixConstants.SLAE_OK;
+            // Сверхнеоптимальный код
+            // Желательно читать с закрытыми глазами
+            for (int line = 0; line < Size; line++)
+            {
+                for (int line2 = line + 1; line2 < Size; line2++)
+                {
+                    for (firstNotZero = 0; firstNotZero < Size; firstNotZero++)
+                        if (this[line, firstNotZero] != 0 || this[line2, firstNotZero] != 0)
+                            break;
+
+                    if (firstNotZero != Size)
+                    {
+                        // Если первый ненулевой элемент во второй строчке
+                        if (this[line, firstNotZero] == 0)
+                        {
+                            coef = this[line, firstNotZero] / this[line2, firstNotZero];
+                            // Проверка линейно зависимости строк матрицы
+                            for (j = firstNotZero + 1; j < Size; j++)
+                            {
+                                if (this[line, j] - coef * this[line2, j] != 0)
+                                    break;
+                            }
+                            // Если строки линейно зависимы, то проверка соответствующих элементов вектора
+                            if (j == Size)
+                            {
+                                if (x[line] - x[line2] * coef != 0)
+                                    return MatrixConstants.SLAE_INCOMPATIBLE;
+                                else
+                                    toReturn = MatrixConstants.SLAE_MORE_ONE_SOLUTION;
+                            }
+                        }
+                        // Если ненулевой элемент в первой строчке
+                        else
+                        {
+                            coef = this[line2, firstNotZero] / this[line, firstNotZero];
+                            // Проверка линейно зависимости строк матрицы
+                            for (j = firstNotZero + 1; j < Size; j++)
+                            {
+                                if (this[line2, j] - coef * this[line, j] != 0)
+                                    break;
+                            }
+                            // Если строки линейно зависимы, то проверка соответствующих элементов вектора
+                            if (j == Size)
+                            {
+                                if (x[line2] - x[line] * coef != 0)
+                                    return MatrixConstants.SLAE_INCOMPATIBLE;
+                                else
+                                    toReturn = MatrixConstants.SLAE_MORE_ONE_SOLUTION;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Если нулевой строке матрицы соответствует ненулевой элемент вектора
+                        if (x[line2] != 0 || x[line] != 0)
+                            return MatrixConstants.SLAE_INCOMPATIBLE;
+                        else
+                            toReturn = MatrixConstants.SLAE_MORE_ONE_SOLUTION;
+                    }
+                }
+            }
+            return toReturn;
         }
     }
 }
