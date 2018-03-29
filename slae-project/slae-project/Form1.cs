@@ -284,7 +284,7 @@ namespace slae_project
 
         public void graphicsClick(object sender, EventArgs e)
         {
-            
+            SharpGL_limbo.SharpGL_Open();
         }
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
