@@ -244,10 +244,11 @@ namespace slae_project
         public void DrawingInitializer()
         {
             LeftTopCellOfEachMatrix.Clear();
+
             foreach (var item in Grid.NetWorkOS_X) item.List_of_func.Clear();
             Grid.NetWorkOS_X.Clear();
-
-            Grid.NetWorkValue.Clear();
+            
+            //Grid = new Net(this);
         }
         ComputerInfo Comp = new ComputerInfo();
         bool MemoryChecker()
@@ -386,23 +387,25 @@ namespace slae_project
                     {
                         foreach (var item in obj.ReferencedMatrix)
                         {
-                            MaxIdentifiyer(item.value);
+                            MaxIdentifiyer(item.value); //Grid.X_move();
                         }
-
+                        //for (int i = 0; i < obj.yCellCount; i++) Grid.Y_move();
                     }
                     else if (obj.ReferencedVector != null)
                     {
                         foreach (var item in obj.ReferencedVector)
                         {
-                            MaxIdentifiyer(item.value);
+                            MaxIdentifiyer(item.value); //Grid.X_move();
                         }
+                        //for (int i = 0; i < obj.yCellCount; i++) Grid.Y_move();
                     }
                     else if (obj.GraphicalVector != null)
                     {
                         foreach (var item in obj.GraphicalVector)
                         {
-                            MaxIdentifiyer(item);
+                            MaxIdentifiyer(item); //Grid.X_move();
                         }
+                       // for (int i = 0; i < obj.yCellCount; i++) Grid.Y_move();
                     }
                     //Рисует вертикальные линии матрицы
                     Draw_line_net_for_matrix(obj, Y_start);
@@ -1496,11 +1499,14 @@ namespace slae_project
         { mousebuttons = str; x = _x; y = _y; Mouse_movements(); true_x = _true_x; true_y = _true_y; }
 
         double mouse_decrease = 1;
+        bool IsPressedPressedBefore = false;
         public void Mouse_movements()
         {
+            IsPressedPressedBefore = false;
             //Если мышка ранее не была нажатой, то запомнить последними коордами текущие коорды
             if (isPressedBefore == false && isPressed == true)
             {
+                IsPressedPressedBefore = true;
                 isPressedBefore = true;
                 LastPosition.x = x;
                 LastPosition.y = y;
@@ -1509,6 +1515,10 @@ namespace slae_project
             //Посчитать смещение мышки и прибавить к итогу.
             if (isPressed == true)
             {
+                //if (!IsPressedPressedBefore)
+                //{
+                    //Console.Write("");
+                //}
                 ShiftPosition.x = (int)((x - LastPosition.x) / mouse_decrease);
                 ShiftPosition.y = (int)((y - LastPosition.y) / mouse_decrease);
 
@@ -1517,10 +1527,10 @@ namespace slae_project
 
                 BorderEndRecalculate();
 
-                if (ShiftedPosition.x - ShiftPosition.x > BorderBegin.x && ShiftedPosition.x - ShiftPosition.x < (BorderEnd.x))
+                if (ShiftedPosition.x - ShiftPosition.x > BorderBegin.x && ShiftedPosition.x - ShiftPosition.x < (Math.Abs(BorderEnd.x)))
                     ShiftedPosition.x -= ShiftPosition.x;
 
-                if (ShiftedPosition.y - ShiftPosition.y > BorderBegin.y && ShiftedPosition.y - ShiftPosition.y < (BorderEnd.y))
+                if (ShiftedPosition.y - ShiftPosition.y > BorderBegin.y && ShiftedPosition.y - ShiftPosition.y < (Math.Abs(BorderEnd.y)))
                 ShiftedPosition.y -= ShiftPosition.y;
             }
             

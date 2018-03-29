@@ -349,14 +349,7 @@ namespace slae_project
             GD = new GraphicData(openGLControl, this);
             Wrapped_Refreash_And_Show_Clicker();
         }
-        public void Wrapped_Refreash_And_Show_Clicker()
-        {
-            GD.List_Of_Objects.Clear();
-            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix A", ref Factory.ObjectOfIMatrix));
-            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Result X", ref Factory.Result));
-            Refresh_Window();
-            AutoSizeCell_Reaction_Wrapped();
-        }
+
         //Asynchronized AsyncTest = new Asynchronized();
 
         
@@ -395,9 +388,32 @@ namespace slae_project
             GD.BoolTextIsEnabledOtherwiseQuads = true;
 
             Refresh_Window(false);
-            SetScrollBars_to_the_end();
             AutoSizeCell_Reaction_Wrapped();
+            SetScrollBars_to_the_end();
 
+        }
+        void Wrapped_Reverse_Reseter()
+        {
+            GD.FontQuanitityAfterPoint = trackBar_QuantityAfterPoint.Value;
+            GD.FontSize = trackBar_FontSize.Value;
+
+            GD.Grid.xCellSize = 80;
+            GD.Grid.yCellSize = 35;
+
+            if (radioButton1_General.Checked) GD.font_format = GraphicData.FontFormat.G;
+            else if (radioButton2_Double.Checked) GD.font_format = GraphicData.FontFormat.F;
+            else if (radioButton3_Exponential.Checked) GD.font_format = GraphicData.FontFormat.E;
+
+            GD.BoolTextIsEnabledOtherwiseQuads = true;
+
+            GD.TargetNumber = radioButton1_Number_enabled.Checked;
+            GD.TargetPlus = radioButton2_TargetPlus_Enabled.Checked;
+
+            //Refresh_Window(false);
+            //AutoSizeCell_Reaction_Wrapped();
+            //Refresh_Window(true);
+            //SetScrollBars();
+            //SetScrollBars_to_the_end();
         }
         /// <summary>
         /// Эту функцию я подарил юзерам, вызывать после добавления или удаления объектов
@@ -872,9 +888,28 @@ namespace slae_project
         private void button1_Test_Click(object sender, EventArgs e)
         {
             GD = new GraphicData(openGLControl, this);
+            Wrapped_Reverse_Reseter();
             UR.UserGuide_access(ref GD.List_Of_Objects);
             Refresh_Window();
             AutoSizeCell_Reaction_Wrapped();
+            SetScrollBars();
+
+
+            //Wrapped_Reverse_Reseter();
+            //Wrapped_Reset_Click();
+        }
+        public void Wrapped_Refreash_And_Show_Clicker()
+        {
+            GD = new GraphicData(openGLControl, this);
+            Wrapped_Reverse_Reseter();
+            GD.List_Of_Objects.Clear();
+            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix A", ref Factory.ObjectOfIMatrix));
+            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Result X", ref Factory.Result));
+            Refresh_Window();
+            AutoSizeCell_Reaction_Wrapped();
+            SetScrollBars();
+            //
+            //Wrapped_Reset_Click();
         }
     }
 }
