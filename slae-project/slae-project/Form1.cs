@@ -265,13 +265,13 @@ namespace slae_project
 
         private void justDoItClick(object sender, EventArgs e)
         {
-            next.Enabled = true;
             matrixForm form = new matrixForm();
             form.Show();
             inputModeHand = true;
             format.SelectedValue = 2;
             format.Enabled = false;
             justDoIt.Enabled = false;
+            loadFiles.Enabled = false;
         }
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)

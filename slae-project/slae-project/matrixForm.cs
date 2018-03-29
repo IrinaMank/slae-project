@@ -214,7 +214,6 @@ namespace slae_project
                 FileLoadForm.X0[i] = Convert.ToDouble(x0DataGrid[0, i].Value);
             }
             this.Close();
-
         }
 
         private void matrixDataGrid_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -328,6 +327,8 @@ namespace slae_project
         private void matrixForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Form1.justDoIt.Enabled = true;
+            Form1.loadFiles.Enabled = true;
+            Form1.next.Enabled = true;
         }
     }
 }
