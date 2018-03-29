@@ -246,7 +246,7 @@ namespace slae_project
         /// <param name="e"></param>
         private void button_exit_Click(object sender, EventArgs e)
         {
-            this.Visible = false;
+            this.Close();
         }
 
         void setMouseData()
@@ -422,13 +422,18 @@ namespace slae_project
         /// </summary>
         public void Refresh_Window(bool TryInit = true)
         {
-            if (TryInit) GD.RealDraw_Try_To_Initialize = true;
+            if (TryInit)
+            {
+                GD.RealDraw_Try_To_Initialize = true;
+                
+            }
             openGLControl.Refresh();
             if (TryInit) 
             {
                 AutoSizeCell_Reaction_Wrapped();
                 SetScrollBars();
             }
+            //openGLControl.Refresh();
             //GD.MoveToEndCursor();
             //openGLControl.Refresh();
         }
@@ -891,12 +896,15 @@ namespace slae_project
         static UR_access UR = new UR_access();
         private void button1_Test_Click(object sender, EventArgs e)
         {
+            ShowThemTheTrueRefreshment = false;
             Clear_Window();
             UR.UserGuide_access(ref GD.List_Of_Objects);
             Refresh_Window();
         }
+        bool ShowThemTheTrueRefreshment = false;
         public void Wrapped_Refreash_And_Show_Clicker()
         {
+            ShowThemTheTrueRefreshment = true;
             Clear_Window();
             GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix A", ref Factory.ObjectOfIMatrix));
             GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Result X", ref Factory.Result));

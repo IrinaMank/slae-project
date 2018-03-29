@@ -103,6 +103,7 @@ namespace slae_project
         static public void SharpGL_Open()
         {
             if (!SharpGL_is_opened()) SharpForm = new SharpGLForm(true);
+            //else SharpForm.Wrapped_Refreash_And_Show_Clicker();
             List_Of_Objects = SharpForm.GD.List_Of_Objects;
             SharpForm.Show();
         }
