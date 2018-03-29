@@ -116,6 +116,7 @@
     <Compile Include="matrixForm.Designer.cs">
       <DependentUpon>matrixForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Matrix\MatrixConstants.cs" />
     <Compile Include="Matrix\CoordinateMatrix.cs" />
     <Compile Include="Matrix\DenseMatrix.cs" />
     <Compile Include="Matrix\ILinearOperator.cs" />
