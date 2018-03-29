@@ -27,9 +27,6 @@ namespace slae_project.Solver
             Logger.setMaxIter(Maxiter);
             IVector x = Preconditioner.MultU(Initial);
 
-            if (b.Norm == 0)
-                return x;
-
             double scalAzZ, scalRR, alpha, beta = 1.0;
             
             IVector r = b.Add(A.Mult(Initial), 1, -1);

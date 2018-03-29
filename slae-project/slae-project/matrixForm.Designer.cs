@@ -157,6 +157,7 @@
             this.BackgroundImage = global::slae_project.Properties.Resources.kuchka;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1148, 591);
+            this.ControlBox = false;
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.vectorDataGrid);
@@ -169,8 +170,8 @@
             this.MinimizeBox = false;
             this.Name = "matrixForm";
             this.Text = "Manual input";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.matrixForm_FormClosing);
             this.Load += new System.EventHandler(this.matrixFormLoad);
+            this.VisibleChanged += new System.EventHandler(this.matrixForm_VisibleChanged);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.matrixDataGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vectorDataGrid)).EndInit();

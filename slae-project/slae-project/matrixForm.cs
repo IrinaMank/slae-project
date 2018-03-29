@@ -14,6 +14,7 @@ namespace slae_project
 {
     public partial class matrixForm : Form
     {
+
         public int size;
         public bool property;
 
@@ -129,23 +130,6 @@ namespace slae_project
             }
         }
 
-        private void doMatrixNull()
-        {
-            for (int i = 0; i < size - 1; i++)
-            {
-                for (int j = 0; j < size - 1; j++)
-                    if (matrixDataGrid[j, i].Value == null)
-                        matrixDataGrid[j, i].Value = 0;
-
-                if (vectorDataGrid[0, i].Value == null)
-                    vectorDataGrid[0, i].Value = 0;
-
-                if (x0DataGrid[0, i].Value == null)
-                    x0DataGrid[0, i].Value = 0;
-            }
-
-        }
-
         private void clearMatrix()
         {
             while (size > 2)
@@ -176,7 +160,6 @@ namespace slae_project
 
         private void button2_Click(object sender, EventArgs e)
         {
-            doMatrixNull();
             size--;
             Form1.str_format_matrix = "Плотный";
             Factory.CreateMatrix(Form1.str_format_matrix);
@@ -186,14 +169,16 @@ namespace slae_project
             string name = "myMatrix.txt";
             using (StreamWriter writer = File.CreateText(name))
             {
-                string line;
                 writer.WriteLine(size.ToString());
                 for (int j = 0; j < size; j++)
                 {
                     for (int i = 0; i < size; i++)
                     {
-                        line = matrixDataGrid[i, j].Value.ToString();
-                        writer.Write(line + " ");
+                        var line = matrixDataGrid[i, j].Value;
+                        if (line != null)
+                            writer.Write(line + " ");
+                        else
+                            writer.Write(0.0 + " ");
                     }
                     writer.Write("\r\n");
                 }
@@ -202,19 +187,26 @@ namespace slae_project
             FileLoadForm.filenames_format.Add(arrays[0].ToString(), name);
 
             FileLoadForm.F = new SimpleVector(size);
-            string line1;
+
+            object line1;
             for (int i = 0; i < size; i++)
             {
-                line1 = vectorDataGrid[0, i].Value.ToString();
-                FileLoadForm.F[i] = Convert.ToDouble(line1);
+                line1 = vectorDataGrid[0, i].Value;
+                if (line1 != null)
+                    FileLoadForm.F[i] = Convert.ToDouble(line1);
+                else
+                    FileLoadForm.F[i] = 0.0;
             }
             FileLoadForm.X0 = new SimpleVector(size);
             for (int i = 0; i < size; i++)
             {
-                FileLoadForm.X0[i] = Convert.ToDouble(x0DataGrid[0, i].Value);
+                line1 = x0DataGrid[0, i].Value;
+                if (line1 != null)
+                    FileLoadForm.X0[i] = Convert.ToDouble(line1);
+                else
+                    FileLoadForm.X0[i] = 0.0;
             }
-            this.Close();
-
+            this.Visible = false;
         }
 
         private void matrixDataGrid_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -324,10 +316,12 @@ namespace slae_project
             }
         }
 
-
-        private void matrixForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void matrixForm_VisibleChanged(object sender, EventArgs e)
         {
             Form1.justDoIt.Enabled = true;
+            Form1.loadFiles.Enabled = true;
+            if (this.Visible == false)
+                Form1.next.Enabled = true;
         }
     }
 }
