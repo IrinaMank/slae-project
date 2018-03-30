@@ -595,7 +595,7 @@ namespace slae_project
                                     //    Math.Abs((Y1) / Grid.yCellSize) < OS_y_end)
                                         draw_line(cursor_X(x), Y0, cursor_X(x + 1), Y1, true, (Single)153 / 255, (Single)51 / 255, (Single)1, 6.0f);
                                 }
-                            if (y > OS_y_begin && y < OS_y_end)
+                            if (y - GraphicalObject.yCellCount > OS_y_begin && y - GraphicalObject.yCellCount < OS_y_end)
                                 Draw_Text(cursor_X(x), cursor_Y(y-GraphicalObject.yCellCount), GraphicalObject.GraphicalVector[X_counter].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
                         }
                     }
