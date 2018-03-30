@@ -64,7 +64,7 @@ namespace slae_project.Solver
                 scalRR = r.ScalarMult(r);
 
                 normR = Math.Sqrt(scalRR) / b.Norm;
-
+                Factory.Residual.Add(normR);
                 Logger.WriteIteration(iter, normR);
             }
             Logger.WriteSolution(x,Maxiter);

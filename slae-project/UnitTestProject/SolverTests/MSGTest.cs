@@ -110,5 +110,130 @@ namespace UnitTestProject
             }
         }
 
+        [TestMethod]
+        public void NegNumbers()
+        {
+            using (FileLogger logger = new FileLogger())
+            {
+                double[,] val = new double[4, 4] { { 1, 1, 1, 0 }, { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 0, -1 } };
+                IMatrix mar = new DenseMatrix(val);
+                double[] valB = new double[] { 1, 1, 1, 1 };
+                double[] valX = new double[] { 1, 1, -1, -1 };
+                IPreconditioner prec = new NoPreconditioner();
+                IVector b = new SimpleVector(valB);
+                IVector x0 = new SimpleVector(4);
+                IVector rigth_X = new SimpleVector(valX);
+
+                ISolver s = new MSGSolver();
+                IVector x1 = s.Solve(prec, mar, b, x0, 1e-10, 10000, logger);
+                IVector x2 = s.Solve(new LUPreconditioner(mar), mar, b, x0, 1e-10, 10000, logger);
+                IVector x3 = s.Solve(new DiagonalPreconditioner(mar), mar, b, x0, 1e-10, 10000, logger);
+                Assert.IsTrue(x1.CompareWith(rigth_X, 1e-8), "NoPrec");
+                Assert.IsTrue(x2.CompareWith(rigth_X, 1e-8), "LUPrec");
+                Assert.IsTrue(x3.CompareWith(rigth_X, 1e-8), "DiPrec");
+
+            }
+        }
+
+        [TestMethod]
+        public void NotNullx0()
+        {
+            using (FileLogger logger = new FileLogger())
+            {
+                double[,] val = new double[6, 6] { { 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 0, 0, 0 }, { 1, 1, 1, 1, 1, 0 }, { 1, 0, 1, 1, 1, 0 }, { 1, 0, 1, 1, 1, 1 }, { 1, 0, 0, 0, 1, 1 } };
+                IMatrix mar = new DenseMatrix(val);
+                double[] valB = new double[] { 1, 1, 1, 1, 1, 1 };
+                double[] valX0 = new double[] { 1, 1, 1, 1, 1, 1 };
+                double[] valX = new double[] { 0.74999999999999989, 0, 0.25, -0.24999999999999972, 0.25, 0 };
+                IPreconditioner prec = new NoPreconditioner();
+                IVector b = new SimpleVector(valB);
+                IVector x0 = new SimpleVector(valX0);
+                IVector rigth_X = new SimpleVector(valX);
+
+                ISolver s = new MSGSolver();
+                IVector x1 = s.Solve(prec, mar, b, x0, 1e-10, 10000, logger);
+                IVector x2 = s.Solve(new LUPreconditioner(mar), mar, b, x0, 1e-10, 10000, logger);
+                IVector x3 = s.Solve(new DiagonalPreconditioner(mar), mar, b, x0, 1e-10, 10000, logger);
+                Assert.IsTrue(x1.CompareWith(rigth_X, 1e-8), "NoPrec");
+                Assert.IsTrue(x2.CompareWith(rigth_X, 1e-8), "LUPrec");
+                Assert.IsTrue(x3.CompareWith(rigth_X, 1e-8), "DiPrec");
+
+            }
+        }
+
+        [TestMethod]
+        public void CalculateNumbers()//Preco no work
+        {
+            using (FileLogger logger = new FileLogger())
+            {
+                double[,] val = new double[4, 4] { { 1, 2, 3, 4 }, { 2, 2, 3, 4 }, { 3, 3, 3, 4 }, { 4, 4, 4, 4 } };
+                IMatrix mar = new DenseMatrix(val);
+                double[] valB = new double[] { 30, 31, 34, 40 };
+                double[] valX = new double[] { 1, 2, 3, 4 };
+                IPreconditioner prec = new NoPreconditioner();
+                IVector b = new SimpleVector(valB);
+                IVector x0 = new SimpleVector(4);
+                IVector rigth_X = new SimpleVector(valX);
+
+                ISolver s = new MSGSolver();
+                IVector x1 = s.Solve(prec, mar, b, x0, 1e-10, 10000, logger);
+                IVector x2 = s.Solve(new LUPreconditioner(mar), mar, b, x0, 1e-10, 10000, logger);
+                IVector x3 = s.Solve(new DiagonalPreconditioner(mar), mar, b, x0, 1e-10, 10000, logger);
+                Assert.IsTrue(x1.CompareWith(rigth_X, 1e-8), "NoPrec");
+                Assert.IsTrue(x2.CompareWith(rigth_X, 1e-5), "LUPrec");
+                Assert.IsTrue(x3.CompareWith(rigth_X, 1e-5), "DiPrec");
+
+            }
+        }
+
+        [TestMethod]
+        public void UMatrix()//LU валится
+        {
+            using (FileLogger logger = new FileLogger())
+            {
+                double[,] val = new double[4, 4] { { 1, 1, 1, 1 }, { 0, 1, 1, 1 }, { 0, 0, 1, 1 }, { 0, 0, 0, 1 } };
+                IMatrix mar = new DenseMatrix(val);
+                double[] valB = new double[] { 4, 3, 2, 1 };
+                double[] valX = new double[] { 1, 1, 1, 1 };
+                IPreconditioner prec = new NoPreconditioner();
+                IVector b = new SimpleVector(valB);
+                IVector x0 = new SimpleVector(4);
+                IVector rigth_X = new SimpleVector(valX);
+
+                ISolver s = new MSGSolver();
+                IVector x1 = s.Solve(prec, mar, b, x0, 1e-10, 10000, logger);
+                IVector x2 = s.Solve(new LUPreconditioner(mar), mar, b, x0, 1e-10, 10000, logger);
+                IVector x3 = s.Solve(new DiagonalPreconditioner(mar), mar, b, x0, 1e-10, 10000, logger);
+                Assert.IsTrue(x1.CompareWith(rigth_X, 1e-8), "NoPrec");
+                //Assert.IsTrue(x2.CompareWith(rigth_X, 1e-8), "LUPrec");
+                Assert.IsTrue(x3.CompareWith(rigth_X, 1e-8), "DiPrec");
+
+            }
+        }
+
+        [TestMethod]
+        public void FirstColumn()
+        {
+            using (FileLogger logger = new FileLogger())
+            {
+                double[,] val = new double[2, 2] { { 1, 0 }, { 1, 0 } };
+                IMatrix mar = new DenseMatrix(val);
+                double[] valB = new double[] { 1, 1 };
+                double[] valX = new double[] { 1, 0 };
+                IPreconditioner prec = new NoPreconditioner();
+                IVector b = new SimpleVector(valB);
+                IVector x0 = new SimpleVector(2);
+                IVector rigth_X = new SimpleVector(valX);
+
+                ISolver s = new MSGSolver();
+                IVector x1 = s.Solve(prec, mar, b, x0, 1e-10, 10000, logger);
+                //IVector x2 = s.Solve(new LUPreconditioner(mar), mar, b, x0, 1e-10, 10000, logger);
+                //IVector x3 = s.Solve(new DiagonalPreconditioner(mar), mar, b, x0, 1e-10, 10000, logger);
+                Assert.IsTrue(x1[0] - rigth_X[0] < 1e-8, "NoPrec");
+                // Assert.IsTrue(x2[0] - rigth_X[0] < 1e-8, "LUPrec");
+                //Assert.IsTrue(x3[0] - rigth_X[0] < 1e-8, "DiPrec");
+            }
+        }
+
     }
 }

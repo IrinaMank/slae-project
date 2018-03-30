@@ -16,28 +16,63 @@ namespace slae_project
 
     public partial class FileLoadForm : Form
     {
-        public static Dictionary<int, Label> name_arr = new Dictionary<int, Label>();//имена массивов
-        public static Dictionary<int, TextBox> puths = new Dictionary<int, TextBox>();//пути до массивов
-        public static Dictionary<string, string> filenames_format = new Dictionary<string, string>(); // словарь: ключ - название массива, значение - путь к файлу
+        int unFiledFields;
+        List<string> name_arr = new List<string>();//имена лейблов
+        List<Button> input_buttons = new List<Button>();
+        List<TextBox> puths = new List<TextBox>();
 
-        public static IVector F = new SimpleVector();//правая часть
-        public static IVector X0 = new SimpleVector();//Начально приближение 
+        public static Dictionary<string, string> filenames_format = new Dictionary<string, string>(); // словарь: ключ - название массива, значение - путь к файлу
+        public static List<string> arrays = new List<string>();
+        public static Dictionary<Label, TextBox> sootvet = new Dictionary<Label, TextBox>();
+        //public static IVector F = new SimpleVector();//правая часть
+        //public static IVector X0 = new SimpleVector();//Начально приближение 
+        string filename_b = null, filename_X0 = null;
+        bool multireadFlag = false;
+
+        Button button_load, button_cancel;
+
         public FileLoadForm()
         {
             InitializeComponent();
-            this.Size = new Size(500, 400);
+
         }
-        List<Button> obzors = new List<Button>();
+        List<Button> obzors = new List<Button>();//лист кнопок обзоров
         private void FileLoadForm_Load(object sender, EventArgs e)
         {
             obzors.Clear();
             Factory.CreateMatrix(Form1.str_format_matrix);
 
-            List<string> arrays = Factory.name_arr;
+            arrays = Factory.name_arr; //<==========================================================LOOK AT ME
             int count_arr = arrays.Count();
-            int x_l = 45, y = 55, x_p = 100, x_b = 315;
-            puths.Clear(); name_arr.Clear();
-            //все массивы
+
+            string mess = "";
+            mess += "Выберите массивы со следующими названиями: ";
+            mess += "F.txt, X0.txt,";
+            for (int i = 0; i < arrays.Count(); i++)
+                mess += " " + arrays[i] + ".txt,";
+            mess = mess.Remove(mess.Length - 1);
+
+            int x_l = 45, y = 25, x_p = 100, x_b = 315;
+            Label arr_label = new Label();
+            arr_label.Text = mess.ToString();
+            arr_label.Size = new Size(200, 40);
+            arr_label.Location = new System.Drawing.Point(x_l, y);
+            this.Controls.Add(arr_label);
+            arr_label.BackColor = Color.Transparent;
+
+            Button button_all = new Button();
+            button_all.Text = "Обзор";
+            button_all.Size = new Size(75, 23);
+            button_all.Location = new Point(x_b, y);
+            button_all.Click += new System.EventHandler(MultireadingButton_Click);
+            this.Controls.Add(button_all);
+
+            y += 50;
+            puths.Clear();
+            name_arr.Clear();
+            filenames_format.Clear();
+            input_buttons.Clear();
+
             for (int i = 0; i < count_arr; i++)
             {
 
@@ -45,15 +80,16 @@ namespace slae_project
                 name.Text = arrays[i];
                 name.Size = new Size(50, 15);
                 name.Location = new System.Drawing.Point(x_l, y);
-                name_arr.Add(y, name);
+                filenames_format.Add(name.Text, "");
                 this.Controls.Add(name);
                 name.BackColor = Color.Transparent;
+                name_arr.Add(name.Text);
 
                 TextBox puth = new TextBox();
                 puth.Size = new Size(185, 20);
                 puth.Name = i.ToString();
                 puth.Location = new Point(x_p, y);
-                puths.Add(y, puth);
+                puths.Add(puth);
                 this.Controls.Add(puth);
 
                 Button button = new Button();
@@ -63,24 +99,25 @@ namespace slae_project
                 button.Location = new Point(x_b, y);
                 button.Click += new System.EventHandler(button_Click);
                 this.Controls.Add(button);
-
+                input_buttons.Add(button);
 
                 y += 33;
             }
-            ////правая часть
+            //правая часть
             Label name_b = new Label();
-            name_b.Text = " b";
+            name_b.Text = "f";
             name_b.Size = new Size(25, 15);
             name_b.Location = new System.Drawing.Point(x_l, y);
-            name_arr.Add(y, name_b);
+            //name_arr.Add(name_b.Text, name_b);
             this.Controls.Add(name_b);
             name_b.BackColor = Color.Transparent;
+            name_arr.Add(name_b.Text);
 
             TextBox puth_b = new TextBox();
             puth_b.Size = new Size(185, 20);
-            puth_b.Name = " b ";
+            puth_b.Name = "f";
             puth_b.Location = new Point(x_p, y);
-            puths.Add(y, puth_b);
+            puths.Add(puth_b);
             this.Controls.Add(puth_b);
 
             Button button_b = new Button();
@@ -90,24 +127,25 @@ namespace slae_project
             button_b.Location = new Point(x_b, y);
             button_b.Click += new System.EventHandler(button_Click);
             this.Controls.Add(button_b);
+            input_buttons.Add(button_b);
 
             y += 33;
             ///начальное приближение
             Label name_x0 = new Label();
-            name_x0.Text = "X0";
+            name_x0.Text = "x0";
             name_x0.Size = new Size(25, 15);
             name_x0.Location = new System.Drawing.Point(x_l, y);
-            name_arr.Add(y, name_x0);
+            //name_arr.Add(name_x0.Text, name_x0);
             this.Controls.Add(name_x0);
             name_x0.BackColor = Color.Transparent;
+            name_arr.Add(name_x0.Text);
 
             TextBox puth_x0 = new TextBox();
             puth_x0.Size = new Size(185, 20);
             puth_x0.Name = "x0";
             puth_x0.Location = new Point(x_p, y);
-            puths.Add(y, puth_x0);
+            puths.Add(puth_x0);
             this.Controls.Add(puth_x0);
-
 
             Button button_x0 = new Button();
             obzors.Add(button_x0);
@@ -116,96 +154,179 @@ namespace slae_project
             button_x0.Location = new Point(x_b, y);
             button_x0.Click += new System.EventHandler(button_Click);
             this.Controls.Add(button_x0);
+            input_buttons.Add(button_x0);
 
             y += 50;
             //кнопка загрузки
-            Button button_load = new Button();
+            button_load = new Button();
             button_load.Text = "ОК";
-            button_load.Size = new Size(183, 23);
-            button_load.Location = new Point(x_p, y);
+            button_load.Size = new Size(85, 23);
+            button_load.Location = new Point(100, y);
             button_load.Click += new System.EventHandler(this.button_load_Click);
             this.Controls.Add(button_load);
+            button_load.Enabled = false;
+
+            button_cancel = new Button();
+            button_cancel.Text = "Отмена";
+            button_cancel.Size = new Size(85, 23);
+            button_cancel.Location = new Point(200, y);
+            button_cancel.Click += new System.EventHandler(this.button_cancel_Click);
+            this.Controls.Add(button_cancel);
+            button_cancel.Enabled = true;
+
+            unFiledFields = name_arr.Count;
+            arrays.Add("F"); arrays.Add("X0");
+
+            this.Size = new Size(450, y+100);
         }
-        private void button_load_Click(object sender, EventArgs e)
+
+        private void button_cancel_Click(object sender, EventArgs e)
         {
-            TextBox value = new TextBox();
-            int y = 55;
-            int i = 0;
-            for (i = 0; i < puths.Count(); i++, y += 33)
-            {
-                puths.TryGetValue(y, out value);
-                if (value.Text.ToString() == "")
-                {
-                    MessageBox.Show("Заполнены не все поля!");
-                    break;
-                }
-            }
-            if (i == puths.Count())
-            {
-                this.Close();
-            }
-
-
+            Form1.format.Enabled = true;
+            this.Visible = false;
+            Form1.next.Enabled = false;
         }
-        private void button_Click(object sender, EventArgs e)
+
+        private void MultireadingButton_Click(object sender, EventArgs e)
         {
-            Button btn = (Button)sender;
-            Point coord = btn.Location;
+            filename_b = null;
+            filename_X0 = null;
+            openFileDialog1.Multiselect = true;
 
-            TextBox value = new TextBox();
-            puths.TryGetValue(coord.Y, out value);
-
-            Label val_label = new Label();
-            name_arr.TryGetValue(coord.Y, out val_label);
+            foreach (var i in puths)
+                i.Enabled = false;
 
             if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
                 return;
 
-            //получаем выбранный файл 
-            string filename = openFileDialog1.FileName;
-            value.Text = filename;
-            //filenames_format.Clear();
-            filenames_format.Remove(val_label.Text.ToString());
-            filenames_format.Add(val_label.Text.ToString(), filename);
-            if (btn == obzors[obzors.Count - 2])
+            if (openFileDialog1.FileNames.Length != arrays.Count)
             {
-                ///вот тут рамс, в F не читает(( 
-                FileStream file = new FileStream(filename, FileMode.Open, FileAccess.Read);
-                StreamReader reader = new StreamReader(file);
-                
-                List<int> z = new List<int>(); int y;
-                int i = 0;
-                int size = Convert.ToInt32(reader.ReadLine());
-                var k = reader.ReadLine().Split();
-
-                F = new SimpleVector(size);
-                while (i < size)
-                {
-                    F[i] = Convert.ToDouble(k[i]);
-                    i++;
-
-                }
+                MessageBox.Show("Неверное число файлов");
+                return;
             }
-            else if (btn == obzors[obzors.Count-1])
+
+            foreach (string file in openFileDialog1.FileNames)
             {
-                FileStream file = new FileStream(filename, FileMode.Open, FileAccess.Read);
-                StreamReader reader = new StreamReader(file);
-                List<int> z = new List<int>(); int y;
-                int i = 0;
+                string buf = file;
+                buf = buf.Remove(0, buf.LastIndexOf('\\') + 1);
+                buf = buf.Remove(buf.LastIndexOf('.')).ToLower();
 
-                int size = Convert.ToInt32(reader.ReadLine());
-                var k = reader.ReadLine().Split();
-
-                X0 = new SimpleVector(size);
-                while (i < size)
+                switch (buf)
                 {
-                    X0[i] = Convert.ToDouble(k[i]);
-                    i++;
-
+                    case "x0":
+                        filename_X0 = file;
+                        break;
+                    case "f":
+                        filename_b = file;
+                        break;
+                    default:
+                        if (filenames_format.ContainsKey(buf))
+                            filenames_format[buf] = file;
+                        else
+                        {
+                            MessageBox.Show("Файл "+ buf + " имеет неверное наименование");
+                            return;
+                        }
+                        break;
                 }
+                puths[name_arr.IndexOf(buf)].Text = file;
+            }
+            button_load.Enabled = true;
+            multireadFlag = true;
+        }
+
+        private void button_load_Click(object sender, EventArgs e)
+        {
+            FileStream file = new FileStream(filename_b, FileMode.Open, FileAccess.Read);
+            StreamReader reader = new StreamReader(file);
+
+            int size = Convert.ToInt32(reader.ReadLine());
+            var k = reader.ReadLine().Split();
+            Factory.RightVector = new SimpleVector(size);
+           // F = new SimpleVector(size);
+            for (int r = 0; r < size; r++)
+            {
+                Factory.RightVector[r] = Convert.ToDouble(k[r]);
+            }
+            reader.Close();
+            file.Close();
+
+            file = new FileStream(filename_X0, FileMode.Open, FileAccess.Read);
+            reader = new StreamReader(file);
+
+            size = Convert.ToInt32(reader.ReadLine());
+            k = reader.ReadLine().Split();
+            Factory.X0 = new SimpleVector(size);
+            //X0 = new SimpleVector(size);
+            for (int r = 0; r < size; r++)
+            {
+                Factory.X0[r] = Convert.ToDouble(k[r]);
+            }
+            Form1.format.Enabled = true;
+            this.Visible = false;
+            return;
+        }
+
+        private void FileLoadForm_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible == false)
+            {
+                Form1.justDoIt.Enabled = true;
+                Form1.loadFiles.Enabled = true;
+                Form1.next.Enabled = true;
+                Form1.format.Enabled = true;
             }
         }
-       
-        
+
+        private void FileLoadForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Form1.justDoIt.Enabled = true;
+            Form1.loadFiles.Enabled = true;
+            Form1.format.Enabled = false;
+        }
+
+        private void button_Click(object sender, EventArgs e)
+        {
+            if (multireadFlag)
+            {
+                unFiledFields = name_arr.Count;
+                button_load.Enabled = false;
+                filename_b = null;
+                filename_X0 = null;
+
+                foreach (var i in puths)
+                {
+                    i.Enabled = true;
+                    i.Text = "";
+                }
+            }
+
+            multireadFlag = false;
+            Button btn = (Button)sender;
+            openFileDialog1.Multiselect = false;
+
+            int pressedButton = input_buttons.IndexOf(btn);
+
+            if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
+                return;
+
+            unFiledFields--;
+            if (unFiledFields == 0)
+                button_load.Enabled = true;
+
+            puths[pressedButton].Text = openFileDialog1.FileName;
+            if (pressedButton == input_buttons.Count - 1)
+            {
+                filename_X0 = openFileDialog1.FileName;
+                return;
+            }
+            if (pressedButton == input_buttons.Count - 2)
+            {
+                filename_b = openFileDialog1.FileName;
+                return;
+            }
+            filenames_format[name_arr[pressedButton]] = openFileDialog1.FileName;
+
+        }
     }
 }
