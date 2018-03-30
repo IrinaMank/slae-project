@@ -231,6 +231,7 @@ namespace slae_project
                     Factory.X0[i] = 0.0;
             }
             this.Visible = false;
+            Form1.format.Enabled = true;
         }
 
         private void matrixDataGrid_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -356,6 +357,13 @@ namespace slae_project
         private void vectorDataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             textToOnlyNumbers(e.ColumnIndex, e.RowIndex, 2);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Visible = false;
+            Form1.next.Enabled = false;
+            Form1.format.Enabled = true;
         }
     }
 }
