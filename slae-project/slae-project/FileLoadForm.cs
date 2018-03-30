@@ -240,32 +240,27 @@ namespace slae_project
         {
             FileStream file = new FileStream(filename_b, FileMode.Open, FileAccess.Read);
             StreamReader reader = new StreamReader(file);
-
-            int size = Convert.ToInt32(reader.ReadLine());
             var k = reader.ReadLine().Split();
-            Factory.RightVector = new SimpleVector(size);
-           // F = new SimpleVector(size);
-            for (int r = 0; r < size; r++)
-            {
-                Factory.RightVector[r] = Convert.ToDouble(k[r]);
-            }
+            Factory.RightVector = new SimpleVector(k.Length);
+
+            for (int i=0; i<k.Length; i++)
+                Factory.RightVector[i] = Convert.ToDouble(k[i]);
+
             reader.Close();
             file.Close();
 
             file = new FileStream(filename_X0, FileMode.Open, FileAccess.Read);
             reader = new StreamReader(file);
-
-            size = Convert.ToInt32(reader.ReadLine());
             k = reader.ReadLine().Split();
-            Factory.X0 = new SimpleVector(size);
-            //X0 = new SimpleVector(size);
-            for (int r = 0; r < size; r++)
-            {
-                Factory.X0[r] = Convert.ToDouble(k[r]);
-            }
+            Factory.X0 = new SimpleVector(k.Length);
+            for (int i = 0; i < k.Length; i++)
+                Factory.X0[i] = Convert.ToDouble(k[i]);
+
+            reader.Close();
+            file.Close();
+
             Form1.format.Enabled = true;
             this.Visible = false;
-            return;
         }
 
         private void FileLoadForm_VisibleChanged(object sender, EventArgs e)
