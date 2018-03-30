@@ -38,6 +38,7 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.x0DataGrid = new System.Windows.Forms.DataGridView();
+            this.button3 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.matrixDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vectorDataGrid)).BeginInit();
@@ -67,6 +68,9 @@
             this.matrixDataGrid.TabIndex = 0;
             this.matrixDataGrid.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.matrixDataGrid_CellBeginEdit);
             this.matrixDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.matrixDataGrid_CellEndEdit);
+            this.matrixDataGrid.MouseDown += new System.Windows.Forms.MouseEventHandler(this.matrixDataGrid_MouseDown);
+            this.matrixDataGrid.MouseMove += new System.Windows.Forms.MouseEventHandler(this.matrixDataGrid_MouseMove);
+            this.matrixDataGrid.MouseUp += new System.Windows.Forms.MouseEventHandler(this.matrixDataGrid_MouseUp);
             // 
             // button1
             // 
@@ -99,13 +103,13 @@
             this.vectorDataGrid.RowTemplate.Height = 24;
             this.vectorDataGrid.Size = new System.Drawing.Size(73, 332);
             this.vectorDataGrid.TabIndex = 2;
-            this.vectorDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.vectorDataGrid_CellEndEdit);
+            this.vectorDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.vector_CellEdit);
             // 
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.Transparent;
             this.groupBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.groupBox2.Location = new System.Drawing.Point(508, 12);
+            this.groupBox2.Location = new System.Drawing.Point(507, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(156, 414);
             this.groupBox2.TabIndex = 3;
@@ -139,7 +143,7 @@
             this.x0DataGrid.RowTemplate.Height = 24;
             this.x0DataGrid.Size = new System.Drawing.Size(73, 332);
             this.x0DataGrid.TabIndex = 3;
-            this.x0DataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.x0DataGrid_CellEndEdit);
+            this.x0DataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.vector_CellEdit);
             // 
             // button3
             // 
@@ -160,10 +164,10 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1020, 473);
             this.ControlBox = false;
-            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.vectorDataGrid);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.vectorDataGrid);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
@@ -194,5 +198,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.DataGridView x0DataGrid;
+        private System.Windows.Forms.Button button3;
     }
 }
