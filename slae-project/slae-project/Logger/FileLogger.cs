@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using slae_project.Vector;
+using slae_project.Preconditioner;
 using System.Windows.Forms;
 
 namespace slae_project.Logger
@@ -35,7 +36,7 @@ namespace slae_project.Logger
         public void WriteIteration(int number, double residual)
         {
             if (number == 0)
-                fileStream.WriteLine("\n================Итерации===============");
+                fileStream.WriteLine("\n--------Итерации---------Невязка-------");
             String msg = String.Format("{0}\t{1}", number, residual);
             fileStream.WriteLine(msg);
             fileStream.Flush();
@@ -47,9 +48,23 @@ namespace slae_project.Logger
             }
         }
 
+        public void WriteNameSolution(string nameSolver,  string namePred)
+        {
+            fileStream.WriteLine("Решатель: "+nameSolver+"\n");
+            //fileStream.WriteLine("Предобуславливание: " + namePred + "\n");
+            
+        }
+
+        public void WriteTime(string start, string end)
+        {
+            fileStream.WriteLine("Время начала решения:\t\t" +start +"\n"+
+                                 "Время окончания решения:\t"+ end +"\n" );
+            fileStream.WriteLine("\n\n\n");
+        }
+
         public void WriteSolution(IVector sol, int Maxiter)
         {
-            fileStream.WriteLine("\n================Решение===============");
+            fileStream.WriteLine("\n----------------Решение----------------");
             Form1.updateProgressBar(Maxiter);
             for (int i = 0; i < sol.Size; i++)
             {
@@ -64,5 +79,6 @@ namespace slae_project.Logger
         {
             maxiter = i;
         }
+        
     }
 }
