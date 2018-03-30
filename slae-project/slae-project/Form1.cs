@@ -34,6 +34,12 @@ namespace slae_project
         public static ComboBox solver, format, precond;
         public NumericUpDown size, acc;
         public TextBox maxit;
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
         public static ProgressBar bar;
         public matrixForm form = new matrixForm();
 
@@ -308,13 +314,13 @@ namespace slae_project
             SharpGL_limbo.SharpGL_Open();
         }
 
-        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        private void helpToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             infoForm form = new infoForm();
             form.Show();
         }
 
-        private void aboutProgramToolStripMenuItem_Click(object sender, EventArgs e)
+        private void aboutProgramToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             aboutProgramForm form = new aboutProgramForm();
             form.Show();

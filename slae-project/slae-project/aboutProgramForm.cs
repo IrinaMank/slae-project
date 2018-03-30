@@ -16,5 +16,10 @@ namespace slae_project
         {
             InitializeComponent();
         }
+
+        private void aboutProgramForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
