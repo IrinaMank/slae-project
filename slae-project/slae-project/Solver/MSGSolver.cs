@@ -24,8 +24,9 @@ namespace slae_project.Solver
         /// <returns>Вектор x - решение СЛАУ Ax=b с заданной точностью</returns>
         public IVector Solve(IPreconditioner Preconditioner, IMatrix A, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
         {
-            //Logger.WriteNameSolution("MSG", Preconditioner.getname);
+            Logger.WriteNameSolution("MSG", Preconditioner.getName);
             string start = DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff");
+
             Logger.setMaxIter(Maxiter);
             IVector x = Preconditioner.MultU(Initial);
 
