@@ -298,9 +298,12 @@ namespace slae_project
         }
         private void matrixDataGrid_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            if (e.ColumnIndex == size || e.RowIndex == size)
-            {
+            if (e.ColumnIndex + 1 == maxSize || e.RowIndex + 1 == maxSize)
                 e.Cancel = true;
+            if ((e.ColumnIndex == size || e.RowIndex == size) && !(e.ColumnIndex+1 == maxSize || e.RowIndex+1 == maxSize))
+            {
+                MakeWhite();
+                AddGrey();
             }
         }
 

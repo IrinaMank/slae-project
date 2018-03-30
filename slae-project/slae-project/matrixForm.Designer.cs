@@ -162,7 +162,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::slae_project.Properties.Resources.kuchka;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1020, 473);
+            this.ClientSize = new System.Drawing.Size(1020, 504);
             this.ControlBox = false;
             this.Controls.Add(this.vectorDataGrid);
             this.Controls.Add(this.button3);
