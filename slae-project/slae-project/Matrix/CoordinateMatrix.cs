@@ -865,6 +865,7 @@ namespace slae_project.Matrix
             {
                 throw new CannotFillMatrixException(string.Format("Строка #{0} в файле 'elements' не соответствует формату", k + 2));
             }
+            reader.Close();
         }
     }
 }

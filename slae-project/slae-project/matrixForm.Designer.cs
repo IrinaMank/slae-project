@@ -105,12 +105,13 @@
             this.vectorDataGrid.RowTemplate.Height = 24;
             this.vectorDataGrid.Size = new System.Drawing.Size(82, 415);
             this.vectorDataGrid.TabIndex = 2;
+            this.vectorDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.vectorDataGrid_CellEndEdit);
             // 
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.Transparent;
             this.groupBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.groupBox2.Location = new System.Drawing.Point(567, 15);
+            this.groupBox2.Location = new System.Drawing.Point(572, 15);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -149,6 +150,7 @@
             this.x0DataGrid.RowTemplate.Height = 24;
             this.x0DataGrid.Size = new System.Drawing.Size(82, 415);
             this.x0DataGrid.TabIndex = 3;
+            this.x0DataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.x0DataGrid_CellEndEdit);
             // 
             // matrixForm
             // 
@@ -158,8 +160,8 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1148, 591);
             this.ControlBox = false;
-            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.vectorDataGrid);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);

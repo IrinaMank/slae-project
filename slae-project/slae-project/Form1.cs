@@ -31,7 +31,7 @@ namespace slae_project
         public RadioButton fileRead, myRead;
         public Label sizel, iconRule, formMatrix, solvMatrix, precondMatrix, accl, maxiterl, iterLife;
         public CheckBox propertyMatrix;
-        public ComboBox solver, format, precond;
+        public static ComboBox solver, format, precond;
         public NumericUpDown size, acc;
         public TextBox maxit;
         public static ProgressBar bar;
@@ -265,9 +265,10 @@ namespace slae_project
 
             FileLoadForm FileLoadForm = new FileLoadForm();
             FileLoadForm.Show();
-            format.Enabled = true;
+            format.Enabled = false;
             justDoIt.Enabled = false;
             loadFiles.Enabled = false;
+            next.Enabled = false;
         }
 
         private void propertyChange(object sender, EventArgs e)
@@ -278,7 +279,8 @@ namespace slae_project
         private void justDoItClick(object sender, EventArgs e)
         {
             form.Show();
-            format.SelectedValue = 2;
+            format.SelectedIndex = 0;
+            format.Enabled = false;
             justDoIt.Enabled = false;
             loadFiles.Enabled = false;
         }

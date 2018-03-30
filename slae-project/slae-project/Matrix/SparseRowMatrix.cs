@@ -608,6 +608,7 @@ namespace slae_project.Matrix
                                 throw new CannotFillMatrixException("Ошибка при считывании файла ig. Массив не соответсвует другим массивам. Проверьте файлы al, au, jg");
                         m = ig[n + 1];
                         count_files++;
+                        reader.Close();
                         break;
                     case "jg.txt":
                         reader = new StreamReader(el.Value);
@@ -633,6 +634,7 @@ namespace slae_project.Matrix
                                 jg[i] = Convert.ToInt32(sub[i]);
                         }
                         count_files++;
+                        reader.Close();
                         break;
                   
                     case "al.txt":
@@ -659,6 +661,7 @@ namespace slae_project.Matrix
                                 al[i] = Convert.ToDouble(sub[i]);
                         }
                         count_files++;
+                        reader.Close();
                         break;
                 }
             }
