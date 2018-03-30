@@ -191,10 +191,10 @@ namespace slae_project
             string name = "myMatrix.txt";
             using (StreamWriter writer = File.CreateText(name))
             {
-                writer.WriteLine((size-1).ToString());
-                for (int j = 0; j < size-1; j++)
+                writer.WriteLine((size).ToString());
+                for (int j = 0; j < size; j++)
                 {
-                    for (int i = 0; i < size-1; i++)
+                    for (int i = 0; i < size; i++)
                     {
                         var line = matrixDataGrid[i, j].Value;
                         if (line != null)
@@ -208,12 +208,10 @@ namespace slae_project
             }
             FileLoadForm.filenames_format.Clear();
             FileLoadForm.filenames_format.Add(arrays[0].ToString(), name);
-
-            Factory.RightVector = new SimpleVector(size - 1);
-            //FileLoadForm.F = new SimpleVector(size-1);
+            Factory.RightVector = new SimpleVector(size);
 
             object line1;
-            for (int i = 0; i < size-1; i++)
+            for (int i = 0; i < size; i++)
             {
                 line1 = vectorDataGrid[0, i].Value;
                 if (line1 != null)
@@ -221,8 +219,8 @@ namespace slae_project
                 else
                     Factory.RightVector[i] = 0.0;
             }
-            Factory.X0 = new SimpleVector(size-1);
-            for (int i = 0; i < size-1; i++)
+            Factory.X0 = new SimpleVector(size);
+            for (int i = 0; i < size; i++)
             {
                 line1 = x0DataGrid[0, i].Value;
                 if (line1 != null)
