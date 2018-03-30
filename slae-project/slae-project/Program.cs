@@ -41,7 +41,7 @@ namespace slae_project
             //IVector rigthX = new SimpleVector(valX);
 
             //LOSSolver s = new LOSSolver();
-            //FileLogger logger = new FileLogger(0);
+            //FileLogger logger = new FileLogger();
             //IVector x = s.Solve(preco,mar, b, x0, 1e-10, 10000, logger);
 
            // logger.Dispose();
@@ -55,6 +55,7 @@ namespace slae_project
                 Application.DoEvents();
             window.Close();
             window.Dispose();
+          
             Application.Run(new Form1());
         }
     }
