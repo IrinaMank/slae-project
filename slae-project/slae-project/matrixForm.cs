@@ -319,10 +319,17 @@ namespace slae_project
 
         private void matrixForm_VisibleChanged(object sender, EventArgs e)
         {
+            Form1.format.Enabled = true;
             Form1.justDoIt.Enabled = true;
             Form1.loadFiles.Enabled = true;
             if (this.Visible == false)
                 Form1.next.Enabled = true;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {     
+            this.Visible = false;
+            Form1.next.Enabled = false;
         }
     }
 }
