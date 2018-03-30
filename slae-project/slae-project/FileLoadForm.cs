@@ -29,12 +29,12 @@ namespace slae_project
         string filename_b = null, filename_X0 = null;
         bool multireadFlag = false;
 
-        Button button_load;
+        Button button_load, button_cancel;
 
         public FileLoadForm()
         {
             InitializeComponent();
-            this.Size = new Size(500, 400);
+
         }
         List<Button> obzors = new List<Button>();//лист кнопок обзоров
         private void FileLoadForm_Load(object sender, EventArgs e)
@@ -163,14 +163,29 @@ namespace slae_project
             //кнопка загрузки
             button_load = new Button();
             button_load.Text = "ОК";
-            button_load.Size = new Size(183, 23);
-            button_load.Location = new Point(x_p, y);
+            button_load.Size = new Size(85, 23);
+            button_load.Location = new Point(100, y);
             button_load.Click += new System.EventHandler(this.button_load_Click);
             this.Controls.Add(button_load);
             button_load.Enabled = false;
 
+            button_cancel = new Button();
+            button_cancel.Text = "Отмена";
+            button_cancel.Size = new Size(85, 23);
+            button_cancel.Location = new Point(200, y);
+            button_cancel.Click += new System.EventHandler(this.button_cancel_Click);
+            this.Controls.Add(button_cancel);
+            button_cancel.Enabled = true;
+
             unFiledFields = name_arr.Count;
             arrays.Add("F"); arrays.Add("X0");
+
+            this.Size = new Size(450, y+100);
+        }
+
+        private void button_cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         private void MultireadingButton_Click(object sender, EventArgs e)
@@ -249,15 +264,24 @@ namespace slae_project
                 X0[r] = Convert.ToDouble(k[r]);
             }
 
-            this.Close();
+            this.Hide();
             return;
+        }
+
+        private void FileLoadForm_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible == false)
+            {
+                Form1.justDoIt.Enabled = true;
+                Form1.loadFiles.Enabled = true;
+                Form1.next.Enabled = true;
+            }
         }
 
         private void FileLoadForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Form1.justDoIt.Enabled = true;
             Form1.loadFiles.Enabled = true;
-            Form1.next.Enabled = true;
         }
 
         private void button_Click(object sender, EventArgs e)
@@ -293,7 +317,6 @@ namespace slae_project
             if (pressedButton == input_buttons.Count - 1)
             {
                 filename_X0 = openFileDialog1.FileName;
-
                 return;
             }
             if (pressedButton == input_buttons.Count - 2)
