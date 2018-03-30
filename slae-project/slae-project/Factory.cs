@@ -126,7 +126,7 @@ namespace slae_project
                     System.Windows.Forms.MessageBoxButtons.OK,
                     System.Windows.Forms.MessageBoxIcon.Stop);
             }
-            catch (Exception a)
+            catch
             {
                 System.Windows.Forms.MessageBox.Show("Решение СЛАУ не может быть получено с помощью данного метода.",
                     "Ошибка",
