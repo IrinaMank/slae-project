@@ -66,13 +66,10 @@ namespace slae_project.Solver
 
                 Logger.WriteIteration(iter, normR);
 
-                //Thread.Sleep(10);
             };
-
-            Logger.WriteSolution(Preconditioner.SolveU(x),Maxiter);
-            //Logger.WriteSolution(Preconditioner.MultU(x));
-            //Logger.WriteSolution(x);
-            return Preconditioner.MultU(x);
+            x = Preconditioner.SolveU(x);
+            Logger.WriteSolution(x,Maxiter);
+            return x;
         }
     }
 }

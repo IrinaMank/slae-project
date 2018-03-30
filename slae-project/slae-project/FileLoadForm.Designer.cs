@@ -50,6 +50,7 @@
             this.Text = "FileLoadForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FileLoadForm_FormClosed);
             this.Load += new System.EventHandler(this.FileLoadForm_Load);
+            this.VisibleChanged += new System.EventHandler(this.FileLoadForm_VisibleChanged);
             this.ResumeLayout(false);
 
         }

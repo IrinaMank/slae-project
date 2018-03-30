@@ -52,16 +52,7 @@ namespace slae_project
             matrixTypesList = Factory.MatrixTypes.Keys.ToArray();
             solverTypesList = Factory.SolverTypes.Keys.ToArray();
 
-            format = new ComboBox();
-            format.Size = new Size(210, 30);
-            format.Location = new System.Drawing.Point(175, 70);
-            for (int i = 0; i < matrixTypesList.Length; i++)
-                format.Items.Add(matrixTypesList[i]);
 
-            format.SelectedIndex = 0;
-            format.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.Controls.Add(format);
-            format.BringToFront();
 
             formMatrix = new Label();
             formMatrix.Text = "Формат матрицы";
@@ -188,12 +179,28 @@ namespace slae_project
             this.Controls.Add(next);
             next.Enabled = false;
 
+            format = new ComboBox();
+            format.Size = new Size(210, 30);
+            format.Location = new System.Drawing.Point(175, 70);
+            for (int i = 0; i < matrixTypesList.Length; i++)
+                format.Items.Add(matrixTypesList[i]);
+            format.SelectedIndexChanged += new System.EventHandler(format_SelectedIndexChanged);
+
+            format.SelectedIndex = 0;
+            format.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Controls.Add(format);
+            format.BringToFront();
 
             bar = new ProgressBar();
             bar.Size = new Size(350, 20);
             bar.Location = new System.Drawing.Point(35, 225);
             this.Controls.Add(bar);
             bar.BringToFront();
+        }
+
+        private void format_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            next.Enabled = false;
         }
 
         private void graphicClick(object sender, EventArgs e)
@@ -235,8 +242,6 @@ namespace slae_project
             Factory.Create_Full_Matrix(str_format_matrix, property_matr);
             Factory.CreatePrecond(str_precond);
             Factory.CreateSolver(str_solver);
-            //graphic.Enabled = true;
-            //back.Enabled = true;
         }
 
         private void nextClick(object sender, EventArgs e)
@@ -273,7 +278,6 @@ namespace slae_project
         {
             form.Show();
             format.SelectedValue = 2;
-            format.Enabled = false;
             justDoIt.Enabled = false;
             loadFiles.Enabled = false;
         }
