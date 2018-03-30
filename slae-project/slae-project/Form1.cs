@@ -96,7 +96,7 @@ namespace slae_project
             precond.BackColor = Color.White;
 
             precondMatrix = new Label();
-            precondMatrix.Text = "Предобусловливание";
+            precondMatrix.Text = "Предобуславливание";
             precondMatrix.Size = new Size(120, 15);
             precondMatrix.Location = new System.Drawing.Point(35, 103);
             this.Controls.Add(precondMatrix);
