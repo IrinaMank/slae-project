@@ -54,17 +54,21 @@ namespace slae_project
 
 
 
-            formMatrix = new Label();
-            formMatrix.Text = "Формат матрицы";
-            formMatrix.Size = new Size(110, 15);
-            formMatrix.Location = new System.Drawing.Point(35, 73);
+            formMatrix = new Label
+            {
+                Text = "Формат матрицы",
+                Size = new Size(110, 15),
+                Location = new System.Drawing.Point(35, 73)
+            };
             this.Controls.Add(formMatrix);
             formMatrix.BringToFront();
             formMatrix.BackColor = Color.Transparent;
 
-            solver = new ComboBox();
-            solver.Size = new Size(210, 30);
-            solver.Location = new System.Drawing.Point(175, 40);
+            solver = new ComboBox
+            {
+                Size = new Size(210, 30),
+                Location = new System.Drawing.Point(175, 40)
+            };
             for (int i = 0; i < solverTypesList.Length; i++)
                 solver.Items.Add(solverTypesList[i]);
 
@@ -75,17 +79,21 @@ namespace slae_project
             solver.BringToFront();
             solver.BackColor = Color.White;
 
-            solvMatrix = new Label();
-            solvMatrix.Text = "Решатель";
-            solvMatrix.Size = new Size(80, 15);
-            solvMatrix.Location = new System.Drawing.Point(35, 43);
+            solvMatrix = new Label
+            {
+                Text = "Решатель",
+                Size = new Size(80, 15),
+                Location = new System.Drawing.Point(35, 43),
+                BackColor = Color.Transparent
+            };
             this.Controls.Add(solvMatrix);
             solvMatrix.BringToFront();
-            solvMatrix.BackColor = Color.Transparent;
 
-            precond = new ComboBox();
-            precond.Size = new Size(210, 30);
-            precond.Location = new System.Drawing.Point(175, 100);
+            precond = new ComboBox
+            {
+                Size = new Size(210, 30),
+                Location = new System.Drawing.Point(175, 100)
+            };
             for (int i = 0; i < precondTypesList.Length; i++)
                 precond.Items.Add(precondTypesList[i]);
 
@@ -95,21 +103,27 @@ namespace slae_project
             precond.BringToFront();
             precond.BackColor = Color.White;
 
-            precondMatrix = new Label();
-            precondMatrix.Text = "Предобуславливание";
-            precondMatrix.Size = new Size(120, 15);
-            precondMatrix.Location = new System.Drawing.Point(35, 103);
+
+            precondMatrix = new Label
+            {
+                Text = "Предобусловливание",
+                Size = new Size(120, 15),
+                Location = new System.Drawing.Point(35, 103)
+            };
+
             this.Controls.Add(precondMatrix);
             precondMatrix.BringToFront();
             precondMatrix.BackColor = Color.Transparent;
 
-            accl = new Label();
-            accl.Text = "Точность решения:                   1E-";
-            accl.Size = new Size(200, 15);
-            accl.Location = new System.Drawing.Point(35, 142);
+            accl = new Label
+            {
+                Text = "Точность решения:                   1E-",
+                Size = new Size(200, 15),
+                Location = new System.Drawing.Point(35, 142),
+                BackColor = Color.Transparent
+            };
             this.Controls.Add(accl);
             accl.BringToFront();
-            accl.BackColor = Color.Transparent;
 
             acc = new NumericUpDown();
             acc.Size = new Size(40, 60);

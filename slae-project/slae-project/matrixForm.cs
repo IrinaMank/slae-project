@@ -37,18 +37,23 @@ namespace slae_project
 
             property = Form1.property_matr;
             size = 2;
-            var column1 = new DataGridViewColumn();
-            column1.Width = widthCol; //ширина колонки
-            column1.ReadOnly = false; //значение в этой колонке нельзя править
-            column1.Name = "column"; //текстовое имя колонки, его можно использовать вместо обращений по индексу
-            column1.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
-            column1.CellTemplate = new DataGridViewTextBoxCell(); //тип нашей колонки
-            var column2 = new DataGridViewColumn();
-            column2.Width = widthCol; //ширина колонки
-            column2.ReadOnly = false; //значение в этой колонке нельзя править
-            column2.Name = "column"; //текстовое имя колонки, его можно использовать вместо обращений по индексу
-            column2.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
-            column2.CellTemplate = new DataGridViewTextBoxCell(); //тип нашей колонки
+
+            var column1 = new DataGridViewColumn
+            {
+                Width = 30, //ширина колонки
+                ReadOnly = false, //значение в этой колонке нельзя править
+                Name = "column", //текстовое имя колонки, его можно использовать вместо обращений по индексу
+                Frozen = true, //флаг, что данная колонка всегда отображается на своем месте
+                CellTemplate = new DataGridViewTextBoxCell() //тип нашей колонки
+            };
+            var column2 = new DataGridViewColumn
+            {
+                Width = 30, //ширина колонки
+                ReadOnly = false, //значение в этой колонке нельзя править
+                Name = "column", //текстовое имя колонки, его можно использовать вместо обращений по индексу
+                Frozen = true, //флаг, что данная колонка всегда отображается на своем месте
+                CellTemplate = new DataGridViewTextBoxCell() //тип нашей колонки
+            };
             vectorDataGrid.Columns.Add(column1);
             x0DataGrid.Columns.Add(column2);
             vectorDataGrid.BringToFront();
@@ -56,28 +61,35 @@ namespace slae_project
 
             for (int i = 0; i < size; i++)
             {
-                var column = new DataGridViewColumn();
-                column.Width = widthCol; //ширина колонки
-                column.ReadOnly = false; //значение в этой колонке нельзя править
-                column.Name = "column" + Convert.ToString(i); //текстовое имя колонки, его можно использовать вместо обращений по индексу
-                column.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
-                column.CellTemplate = new DataGridViewTextBoxCell(); //тип нашей колонки
+                var column = new DataGridViewColumn
+                {
+                    Width = 30, //ширина колонки
+                    ReadOnly = false, //значение в этой колонке нельзя править
+                    Name = "column" + Convert.ToString(i), //текстовое имя колонки, его можно использовать вместо обращений по индексу
+                    Frozen = true, //флаг, что данная колонка всегда отображается на своем месте
+                    CellTemplate = new DataGridViewTextBoxCell() //тип нашей колонки
+                };
 
-                var row = new DataGridViewRow();
-                row.Height = heightRow; //ширина колонки
-                row.ReadOnly = false; //значение в этой колонке нельзя править
-                row.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
+                var row = new DataGridViewRow
+                {
+                    Height = 30, //ширина колонки
+                    ReadOnly = false, //значение в этой колонке нельзя править
+                    Frozen = true //флаг, что данная колонка всегда отображается на своем месте
+                };
 
-                var row1 = new DataGridViewRow();
-                row1.Height = heightRow; //ширина колонки
-                row1.ReadOnly = false; //значение в этой колонке нельзя править
-                row1.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
+                var row1 = new DataGridViewRow
+                {
+                    Height = 30, //ширина колонки
+                    ReadOnly = false, //значение в этой колонке нельзя править
+                    Frozen = true //флаг, что данная колонка всегда отображается на своем месте
+                };
 
-                var row2 = new DataGridViewRow();
-                row2.Height = heightRow; //ширина колонки
-                row2.ReadOnly = false; //значение в этой колонке нельзя править
-                row2.Frozen = true; //флаг, что данная колонка всегда отображается на своем месте
-
+                var row2 = new DataGridViewRow
+                {
+                    Height = 30, //ширина колонки
+                    ReadOnly = false, //значение в этой колонке нельзя править
+                    Frozen = true //флаг, что данная колонка всегда отображается на своем месте
+                };
 
                 matrixDataGrid.Columns.Add(column);
                 matrixDataGrid.Rows.Add(row);
