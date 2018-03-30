@@ -905,6 +905,7 @@ namespace slae_project
             Clear_Window();
             GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix A", ref Factory.ObjectOfIMatrix));
             GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Result X", ref Factory.Result));
+            //List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", ref Factory., true));
             Refresh_Window();
         }
         public void Clear_Window()

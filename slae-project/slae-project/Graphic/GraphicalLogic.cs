@@ -336,7 +336,8 @@ namespace slae_project
                     Grid.X_move();
 
                     //Напиши как называется текущая матрица
-                    Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, "#" + (Matrix_Counter).ToString() + " - " + obj.Name, Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                    if (!TextMod) Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, "#" + (Matrix_Counter).ToString() + " - " + obj.Name, Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                    else Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, " " + obj.Name.ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
                     Matrix_Counter++;
                     //Draw_Text(Grid.cursorP.x, Grid.cursorP.y, "#" + Matrix_Counter.ToString() + " - " + obj.Name); 
                     Grid.Y_move();
@@ -626,9 +627,9 @@ namespace slae_project
                 //catch (Exception Trashnyak)
                 //{ }
                 
-                    int Color = 0;
-                    if (!BoolTextIsEnabledOtherwiseQuads)
-                    { Color = 255; }
+                    float R = (float)0 / 255, G = (float)154/255, B = (float)0 / 255;
+                    //if (!BoolTextIsEnabledOtherwiseQuads)
+                    //{ Color = 255; }
 
                     Number_of_current_column = ((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize);
                 
@@ -661,12 +662,13 @@ namespace slae_project
                         ShowTheTrueTruth = true;
 
                     if (ShowTheTrueTruth)
-                        Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + (Number_of_current_column - 1).ToString(), Color, Color, Color);
+                        Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "J " + (Number_of_current_column - 1).ToString(), R, G, B);
 
                     if (ShowTheTrueTruth)
-                    Draw_Text(mouse.true_x + 20, mouse.true_y + 10, "- " + ((Number_of_current_row) - 1).ToString(), Color, Color, Color);
+                    Draw_Text(mouse.true_x + 20, mouse.true_y + 10, "I " + ((Number_of_current_row) - 1).ToString(), R, G, B);
 
-                        if (!BoolTextIsEnabledOtherwiseQuads && !double.IsNaN(double_trash)) Draw_Text(mouse.true_x + 20, mouse.true_y - 50, "x: " + List_Of_Objects[Number_of_current_matrix][Number_of_current_column, Number_of_current_row].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()), Color, Color, Color);
+                    //!BoolTextIsEnabledOtherwiseQuads && 
+                    if (ShowTheTrueTruth) Draw_Text(mouse.true_x + 20, mouse.true_y - 50, "x: " + List_Of_Objects[Number_of_current_matrix][Number_of_current_column, Number_of_current_row].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()), R, G, B);
 
                     }
                 
@@ -677,8 +679,8 @@ namespace slae_project
             //Целеуказатель плюсиком зеленый
             if (TargetPlus)
             {
-                draw_line(0, mouse.true_y, openGLControl.Width, mouse.true_y, false, 0, 1, 0, 3.0f);
-                draw_line(mouse.true_x, 0, mouse.true_x, openGLControl.Height, false, 0, 1, 0, 3.0f);
+                draw_line(0, mouse.true_y, openGLControl.Width, mouse.true_y, false, 0, 1, 0, 1.0f);
+                draw_line(mouse.true_x, 0, mouse.true_x, openGLControl.Height, false, 0, 1, 0, 1.0f);
             }
         }
         void Draw_Text(int in_x, int in_y, string phrase)
