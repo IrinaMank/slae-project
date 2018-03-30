@@ -179,7 +179,7 @@ namespace slae_project
 
                 }
             }
-            catch (Exception WhoNeedsError)
+            catch (Exception)
             {
 
             }
@@ -277,9 +277,9 @@ namespace slae_project
                 //Местоположение экрана смещенное мышкой присваивает слайдерам(скруллбарам)
                 try
                 { hScrollBar1.Value = GD.mouse.ShiftedPosition.x; }
-                catch (Exception error) { }
+                catch (Exception) { }
                 try { vScrollBar1.Value = GD.mouse.ShiftedPosition.y; }
-                catch (Exception error) { }
+                catch (Exception) { }
                 //Обновили экран
 
             }
@@ -589,7 +589,7 @@ namespace slae_project
                 vScrollBar1.Value -= (int)e.Delta/5;
                 e_Delta_old = e.Delta;
             }
-            catch (Exception error) { }
+            catch (Exception) { }
 
 
             //Обновили 
@@ -702,7 +702,7 @@ namespace slae_project
                 {
                     row.Add(Convert.ToDouble(element));
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Console.WriteLine("Can't convert double in your file");
                 }
@@ -933,7 +933,7 @@ namespace slae_project
                 }
 
             }
-            catch (Exception Exc)
+            catch (Exception)
             {
             }
             Refresh_Window();

@@ -794,7 +794,7 @@ namespace slae_project.Matrix
             {
                 reader = new StreamReader(paths["size"]);
             }
-            catch (System.Collections.Generic.KeyNotFoundException e)
+            catch (System.Collections.Generic.KeyNotFoundException)
             {
                 throw new CannotFillMatrixException(string.Format("Отсутствует информация о расположении файла 'size'."));
             }
@@ -821,7 +821,7 @@ namespace slae_project.Matrix
             {
                 reader = new StreamReader(paths["elements"]);
             }
-            catch (System.Collections.Generic.KeyNotFoundException e)
+            catch (System.Collections.Generic.KeyNotFoundException)
             {
                 throw new CannotFillMatrixException(string.Format("Отсутствует информация о расположении файла 'elements'."));
             }
@@ -857,7 +857,7 @@ namespace slae_project.Matrix
                     this[i, j] = val;
                 }
             }
-            catch (IndexOutOfRangeException e)
+            catch (IndexOutOfRangeException)
             {
                 throw new CannotFillMatrixException(string.Format("Индекс, указанный в строке {0} не соответствует указанному размеру матрицы", k + 2));
             }

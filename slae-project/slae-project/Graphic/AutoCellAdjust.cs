@@ -31,8 +31,7 @@ namespace slae_project
 
             int maxWidth = GD.ViktorsMaxWidth;
             int maxAppropriateWidth = 0;
-            int tempWidth;
-            int borderIndent = 10;
+            //int borderIndent = 10;
 
             if (GD.font_format == GraphicData.FontFormat.G && GD.FontQuanitityAfterPoint == 0)
                 maxAppropriateWidth = maxWidth + GD.FontQuanitityAfterPoint + 2;

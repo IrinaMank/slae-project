@@ -89,7 +89,7 @@ namespace slae_project
                     }
                     
                 }
-                catch (Exception Exc)
+                catch (Exception)
                 {
                 }
             }
@@ -205,7 +205,7 @@ namespace slae_project
                         else if (ReferencedVector != null && row == 1) return ReferencedVector[column - 1];
                         else return Matrix[row - 1][column - 1];
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         return double.NaN;
                     }
@@ -1562,7 +1562,7 @@ namespace slae_project
         void InitiaiteMemoryRewriter()
         {
             MemorySizeChangeChecker.Clear();
-            int counter = 0;
+            //int counter = 0;
             foreach (var Object in GD_link.List_Of_Objects)
                 foreach (var vector in Object.Matrix)
                 {

@@ -62,7 +62,7 @@ namespace slae_project.Matrix
                 {
                     return d_matrix[i, j];
                 }
-                catch (KeyNotFoundException ex)
+                catch (KeyNotFoundException)
                 {
                     return 0;
                 }
@@ -619,7 +619,7 @@ namespace slae_project.Matrix
             {
                 reader = new StreamReader(paths["dense"]);
             }
-            catch (System.Collections.Generic.KeyNotFoundException e)
+            catch (System.Collections.Generic.KeyNotFoundException)
             {
                 throw new CannotFillMatrixException(string.Format("Отсутствует информация о расположении файла 'dense'."));
             }

@@ -14,7 +14,7 @@ namespace slae_project
 {
     class Factory
     {
-        //Form1 main_form;
+
         FileLogger Log = new FileLogger();//Form1.maxiter добавлена Ирой, чтобы проект собирался. Возможно, аргументом должно быть что-то другое
         public static Dictionary<string, string> DictionaryOfFormats = FileLoadForm.filenames_format;//словарь путей до массивов
         static public Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)> MatrixTypes = new Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)>();
@@ -23,6 +23,7 @@ namespace slae_project
         public static IVector RightVector;
         public static IVector X0;
         public static List<double> Residual = new List<double>();//Невязка
+
         public static int MaxIter;
         public static double Accuracy;
         public static List<string> name_arr = new List<string>();
@@ -128,7 +129,7 @@ namespace slae_project
                     System.Windows.Forms.MessageBoxButtons.OK,
                     System.Windows.Forms.MessageBoxIcon.Stop);
             }
-            catch (Exception a)
+            catch (Exception)
             {
                 System.Windows.Forms.MessageBox.Show("Решение СЛАУ не может быть получено с помощью данного метода.",
                     "Ошибка",
