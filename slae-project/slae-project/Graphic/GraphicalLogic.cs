@@ -591,9 +591,9 @@ namespace slae_project
                                     int Y0 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter] - GraphicalObject.min) * Grid.yCellSize * (GraphicalObject.yCellCount - 1) / GraphicalObject.range));
                                     int Y1 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter + 1] - GraphicalObject.min) * Grid.yCellSize * (GraphicalObject.yCellCount - 1) / GraphicalObject.range));
 
-                                    if (Math.Abs((Y0 - openGLControl.Height) / Grid.yCellSize) > OS_y_begin &&
-                                        Math.Abs((Y1) / Grid.yCellSize) < OS_y_end)
-                                        draw_line(cursor_X(x), Y0, cursor_X(x + 1), Y1, true, (Single)153 / 255, (Single)51 / 255, (Single)1, 3.0f);
+                                    //if (Math.Abs((Y0 - openGLControl.Height) / Grid.yCellSize) > OS_y_begin &&
+                                    //    Math.Abs((Y1) / Grid.yCellSize) < OS_y_end)
+                                        draw_line(cursor_X(x), Y0, cursor_X(x + 1), Y1, true, (Single)153 / 255, (Single)51 / 255, (Single)1, 6.0f);
                                 }
                             if (y > OS_y_begin && y < OS_y_end)
                                 Draw_Text(cursor_X(x), cursor_Y(y-GraphicalObject.yCellCount), GraphicalObject.GraphicalVector[X_counter].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
