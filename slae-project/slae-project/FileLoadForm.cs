@@ -43,6 +43,9 @@ namespace slae_project
             Factory.CreateMatrix(Form1.str_format_matrix);
 
             arrays = Factory.name_arr; //<==========================================================LOOK AT ME
+            if (Form1.property_matr && Form1.format.SelectedIndex == 2)
+                arrays.RemoveAt(arrays.IndexOf("au"));
+
             int count_arr = arrays.Count();
 
             string mess = "";
@@ -75,7 +78,6 @@ namespace slae_project
 
             for (int i = 0; i < count_arr; i++)
             {
-
                 Label name = new Label();
                 name.Text = arrays[i];
                 name.Size = new Size(50, 15);
@@ -108,7 +110,6 @@ namespace slae_project
             name_b.Text = "f";
             name_b.Size = new Size(25, 15);
             name_b.Location = new System.Drawing.Point(x_l, y);
-            //name_arr.Add(name_b.Text, name_b);
             this.Controls.Add(name_b);
             name_b.BackColor = Color.Transparent;
             name_arr.Add(name_b.Text);
@@ -326,7 +327,6 @@ namespace slae_project
                 return;
             }
             filenames_format[name_arr[pressedButton]] = openFileDialog1.FileName;
-
         }
     }
 }
