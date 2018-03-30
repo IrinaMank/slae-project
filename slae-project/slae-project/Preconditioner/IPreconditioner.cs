@@ -38,6 +38,7 @@ namespace slae_project.Preconditioner
         /// <returns></returns>
         IVector SolveU(IVector v);
         IPreconditioner T { get; }
+        string getName { get; }
     }
 
     public class UseMatrixPreconditioner : IPreconditioner
@@ -47,12 +48,19 @@ namespace slae_project.Preconditioner
         {
             public IMatrix Matrix { get; set; }
             public IPreconditioner T => this;
+
+            public string getName => throw new NotImplementedException();
+
             public IVector MultL(IVector x) => Matrix.T.MultL(x);
             public IVector SolveL(IVector x) => Matrix.T.SolveL(x);
             public IVector MultU(IVector x) => Matrix.T.MultU(x);
             public IVector SolveU(IVector x) => Matrix.T.SolveU(x);
         }
+
         public IPreconditioner T => new TransposeIllusion { Matrix = m };
+
+        public string getName => throw new NotImplementedException();
+
         IVector IPreconditioner.MultL(IVector v) => m.MultL(v);
         IVector IPreconditioner.MultU(IVector v) => m.MultU(v);
         IVector IPreconditioner.SolveL(IVector v) => m.SolveL(v);
