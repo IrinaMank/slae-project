@@ -225,14 +225,17 @@ namespace slae_project
             {
                 Size = new Size(210, 30),
                 Location = new System.Drawing.Point(175, 70),
-                SelectedIndex = 0,
-                DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+                
             };
+
+            format.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+
             for (int i = 0; i < matrixTypesList.Length; i++)
                 format.Items.Add(matrixTypesList[i]);
             format.SelectedIndexChanged += new System.EventHandler(format_SelectedIndexChanged);
             this.Controls.Add(format);
             format.BringToFront();
+            format.SelectedIndex = 0;
 
             bar = new ProgressBar
             {
