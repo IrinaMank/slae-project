@@ -181,7 +181,9 @@ namespace slae_project
 
         private void button_cancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Form1.format.Enabled = true;
+            this.Visible = false;
+            Form1.next.Enabled = false;
         }
 
         private void MultireadingButton_Click(object sender, EventArgs e)
@@ -259,8 +261,8 @@ namespace slae_project
             {
                 X0[r] = Convert.ToDouble(k[r]);
             }
-
-            this.Hide();
+            Form1.format.Enabled = true;
+            this.Visible = false;
             return;
         }
 

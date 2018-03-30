@@ -267,6 +267,7 @@ namespace slae_project
             format.Enabled = false;
             justDoIt.Enabled = false;
             loadFiles.Enabled = false;
+            next.Enabled = false;
         }
 
         private void propertyChange(object sender, EventArgs e)
@@ -277,7 +278,8 @@ namespace slae_project
         private void justDoItClick(object sender, EventArgs e)
         {
             form.Show();
-            format.SelectedValue = 2;
+            format.SelectedIndex = 0;
+            format.Enabled = false;
             justDoIt.Enabled = false;
             loadFiles.Enabled = false;
         }
