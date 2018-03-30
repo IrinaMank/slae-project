@@ -121,7 +121,7 @@ namespace slae_project
 
             accl = new Label
             {
-                Text = "Точность решения:                   1E-",
+                Text = "Точность решения                    1E-",
                 Size = new Size(200, 15),
                 Location = new System.Drawing.Point(35, 142),
                 BackColor = Color.Transparent

@@ -106,7 +106,7 @@ namespace slae_project
                 obzors.Add(button);
                 button.Text = "Обзор";
                 button.Size = new Size(75, 23);
-                button.Location = new Point(x_b, y);
+                button.Location = new Point(x_b, y-2);
                 button.Click += new System.EventHandler(button_Click);
                 this.Controls.Add(button);
                 input_buttons.Add(button);
