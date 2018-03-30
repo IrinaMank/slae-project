@@ -226,7 +226,7 @@ namespace slae_project
             IVector rigthX = new SimpleVector(valX);
 
             List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", ref mar));
-            List_Of_Objects.Add(new GraphicData.GraphicObject("Ivector", ref b));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("абвгдеёжзийклмнопрстуфхшцчщьыъэюя", ref b));
             List_Of_Objects.Add(new GraphicData.GraphicObject("The quick brown fox jumps over the lazy dog", ref x0));
             List_Of_Objects.Add(new GraphicData.GraphicObject("0123456789 abcdefghijklmnopqrstuvwxyz", ref rigthX));
 
