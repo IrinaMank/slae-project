@@ -23,7 +23,6 @@ namespace slae_project
 
         public static Dictionary<string, string> filenames_format = new Dictionary<string, string>(); // словарь: ключ - название массива, значение - путь к файлу
         public static List<string> arrays = new List<string>();
-        public static Dictionary<Label, TextBox> sootvet = new Dictionary<Label, TextBox>();
         public static IVector F = new SimpleVector();//правая часть
         public static IVector X0 = new SimpleVector();//Начально приближение 
         string filename_b = null, filename_X0 = null;
@@ -90,7 +89,6 @@ namespace slae_project
                 puth.Name = i.ToString();
                 puth.Location = new Point(x_p, y);
                 puths.Add(puth);
-                sootvet.Add(name, puth);
                 this.Controls.Add(puth);
 
                 Button button = new Button();
@@ -120,7 +118,6 @@ namespace slae_project
             puth_b.Location = new Point(x_p, y);
             puths.Add(puth_b);
             this.Controls.Add(puth_b);
-            sootvet.Add(name_b, puth_b);
 
             Button button_b = new Button();
             obzors.Add(button_b);
@@ -148,7 +145,6 @@ namespace slae_project
             puth_x0.Location = new Point(x_p, y);
             puths.Add(puth_x0);
             this.Controls.Add(puth_x0);
-            sootvet.Add(name_x0, puth_x0);
 
             Button button_x0 = new Button();
             obzors.Add(button_x0);
