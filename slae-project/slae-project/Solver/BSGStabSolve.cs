@@ -24,6 +24,7 @@ namespace slae_project.Solver
 
         public IVector Solve(IPreconditioner Preconditioner, IMatrix A, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
         {
+            Logger.setMaxIter(Maxiter);
             IVector x = (IVector)Initial.Clone();
 
             if (b.Norm == 0)
@@ -76,10 +77,11 @@ namespace slae_project.Solver
 
                 normR = r.Norm / b.Norm;
 
-                Logger.WriteIteration(iter, normR, 100 * Precision / normR);
+                Factory.Residual.Add(normR);
+                Logger.WriteIteration(iter, normR);
             }
             x = Preconditioner.SolveU(x);//x = U(-1)x
-            Logger.WriteSolution(x);
+            Logger.WriteSolution(x, Maxiter);
             return x;
         }
     }
