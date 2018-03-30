@@ -101,9 +101,9 @@ namespace slae_project
             {
                 Name = _Name;
                 GraphicalVector = _GraphicalVector;
-                if (GraphicalVector != null && GraphicalVector.Count() > 1)
+                if (GraphicalVector != null && GraphicalVector.Count() > 0)
                 {
-                    xCellCount = GraphicalVector.Count() - 1;
+                    xCellCount = GraphicalVector.Count();
                     yCellCount = 10 + 1;
                 }
                 else
@@ -351,7 +351,7 @@ namespace slae_project
                     else Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, " " + obj.Name.ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
                     Matrix_Counter++;
                     //Draw_Text(Grid.cursorP.x, Grid.cursorP.y, "#" + Matrix_Counter.ToString() + " - " + obj.Name); 
-                    Grid.Y_move();
+                    if (!TextMod) Grid.Y_move();
                     Grid.X_nullificate();
 
                     Grid.X_move();
@@ -379,7 +379,7 @@ namespace slae_project
                      * if (TargetNumber)
                         Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + (((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize)).ToString(),0,0,0);*/
 
-                    //if (obj.GraphicalVector == null)
+                    if (obj.GraphicalVector == null)
                         for (int i = 0; i < obj.yCellCount; i++)
                         {
                             Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, Count_by_Y.ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
@@ -584,15 +584,17 @@ namespace slae_project
                         int x = LeftTopCellOfEachMatrix[i].X + X_counter;
                         int y = LeftTopCellOfEachMatrix[i].Y + (GraphicalObject.yCellCount);
                         if (x > OS_x_begin && x < OS_x_end)
-                        if (X_counter >= 0 && X_counter < GraphicalObject.GraphicalVector.Count()-1)
+                        if (X_counter >= 0 && X_counter < GraphicalObject.GraphicalVector.Count())
                         {
-                            int Y0 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter] - GraphicalObject.min) * Grid.yCellSize * (GraphicalObject.yCellCount - 1) / GraphicalObject.range));
-                            int Y1 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter + 1] - GraphicalObject.min) * Grid.yCellSize * (GraphicalObject.yCellCount - 1) / GraphicalObject.range));
+                                if (X_counter < GraphicalObject.GraphicalVector.Count() - 1)
+                                {
+                                    int Y0 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter] - GraphicalObject.min) * Grid.yCellSize * (GraphicalObject.yCellCount - 1) / GraphicalObject.range));
+                                    int Y1 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter + 1] - GraphicalObject.min) * Grid.yCellSize * (GraphicalObject.yCellCount - 1) / GraphicalObject.range));
 
-                            if (Math.Abs((Y0 - openGLControl.Height) / Grid.yCellSize) > OS_y_begin &&
-                                Math.Abs((Y1) / Grid.yCellSize) < OS_y_end)
-                            draw_line(cursor_X(x), Y0, cursor_X(x+1), Y1, true,(Single)153/255, (Single)51 /255, (Single)1, 3.0f);
-
+                                    if (Math.Abs((Y0 - openGLControl.Height) / Grid.yCellSize) > OS_y_begin &&
+                                        Math.Abs((Y1) / Grid.yCellSize) < OS_y_end)
+                                        draw_line(cursor_X(x), Y0, cursor_X(x + 1), Y1, true, (Single)153 / 255, (Single)51 / 255, (Single)1, 3.0f);
+                                }
                             if (y > OS_y_begin && y < OS_y_end)
                                 Draw_Text(cursor_X(x), cursor_Y(y), GraphicalObject.GraphicalVector[X_counter].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
                         }
@@ -1353,21 +1355,23 @@ namespace slae_project
         }
         void Draw_line_net_for_matrix(GraphicObject obj, int Y_start)
         {
-            Grid.X_move();
-            for(int i = 0; i < obj.xCellCount; i++)
-            {
-                //if (Belongs_xCellArea())
+            
+            
+                Grid.X_move();
+                for (int i = 0; i < obj.xCellCount; i++)
+                {
+                    //if (Belongs_xCellArea())
+                    while (Grid.X_Y_counter.x >= Grid.NetWorkOS_X.Count())
+                        Grid.NetWorkOS_X.Add(new Net.NetWorkOSCell());
+                    Grid.NetWorkOS_X[Grid.X_Y_counter.x].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", Grid.X_Y_counter.x, Y_start, Grid.X_Y_counter.x, Y_start + obj.yCellCount));
+                    //draw_line(Grid.cursorP.x, Y_start,Grid.cursorP.x, Grid.cursorP.y);
+                    Grid.X_move();
+                }
                 while (Grid.X_Y_counter.x >= Grid.NetWorkOS_X.Count())
                     Grid.NetWorkOS_X.Add(new Net.NetWorkOSCell());
                 Grid.NetWorkOS_X[Grid.X_Y_counter.x].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", Grid.X_Y_counter.x, Y_start, Grid.X_Y_counter.x, Y_start + obj.yCellCount));
                 //draw_line(Grid.cursorP.x, Y_start,Grid.cursorP.x, Grid.cursorP.y);
-                Grid.X_move();
-            }
-            while (Grid.X_Y_counter.x >= Grid.NetWorkOS_X.Count())
-                Grid.NetWorkOS_X.Add(new Net.NetWorkOSCell());
-            Grid.NetWorkOS_X[Grid.X_Y_counter.x].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", Grid.X_Y_counter.x, Y_start, Grid.X_Y_counter.x, Y_start + obj.yCellCount));
-            //draw_line(Grid.cursorP.x, Y_start,Grid.cursorP.x, Grid.cursorP.y);
-
+            
             Grid.X_nullificate();
             Grid.X_move();
             Grid.X_Y_counter.y = Y_start;
