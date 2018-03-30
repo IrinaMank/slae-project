@@ -18,7 +18,7 @@ namespace UnitTestProject
         [TestCategory("BSG")]
         public void RevertDiagonalBSG()
         {
-            using (FileLogger logger = new FileLogger(0))
+            using (FileLogger logger = new FileLogger())
             {
                 (int, int)[] coord = new(int, int)[4];
                 double[] valMatrix = new double[4] { 1, 1, 1, 1 };
@@ -49,7 +49,7 @@ namespace UnitTestProject
         [TestCategory("BSG")]
         public void x0TestBSG()
         {
-            using (FileLogger logger = new FileLogger(0))
+            using (FileLogger logger = new FileLogger())
             {
                 (int, int)[] coord = new(int, int)[4];
                 double[] valMatrix = new double[4] { 1, 1, 1, 1 };
@@ -85,7 +85,7 @@ namespace UnitTestProject
         [TestCategory("BSG")]
         public void PrimTestBSG()//!!!!!!!!!!!!!!!!!!
             {
-                using (FileLogger logger = new FileLogger(0))
+                using (FileLogger logger = new FileLogger())
                 {
                     (int, int)[] coord = new(int, int)[4];
                     double[] valMatrix = new double[4] { 1, 1, 1, 1 };

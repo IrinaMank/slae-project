@@ -17,7 +17,7 @@ namespace UnitTestProject
         [TestMethod]
         public void RevertDiagonalSeidel()
         {
-            using (FileLogger logger = new FileLogger(0))
+            using (FileLogger logger = new FileLogger())
             {
                 (int, int)[] coord = new(int, int)[4];
                 double[] valMatrix = new double[4] { 1, 1, 1, 1 };
@@ -48,7 +48,7 @@ namespace UnitTestProject
         public void x0TestSeidel()
         {
             //МСГ - зависит от нач приближения.
-            using (FileLogger logger = new FileLogger(0))
+            using (FileLogger logger = new FileLogger())
             {
                 (int, int)[] coord = new(int, int)[4];
                 double[] valMatrix = new double[4] { 1, 1, 1, 1 };
@@ -83,7 +83,7 @@ namespace UnitTestProject
         [TestMethod]
         public void PrimTestSeidel()
         {
-            using (FileLogger logger = new FileLogger(0))
+            using (FileLogger logger = new FileLogger())
             {
                 (int, int)[] coord = new(int, int)[4];
                 double[] valMatrix = new double[4] { 1, 1, 1, 1 };
