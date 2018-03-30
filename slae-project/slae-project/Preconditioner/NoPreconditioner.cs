@@ -13,12 +13,17 @@ namespace slae_project.Preconditioner
         public class TransposeIllusion : IPreconditioner
         {
             public IPreconditioner T => this;
+
+            public string getName => "Без предобуславливания";
+
             public IVector MultL(IVector x) => x.Clone() as IVector;
             public IVector SolveL(IVector x) => x.Clone() as IVector;
             public IVector MultU(IVector x) => x.Clone() as IVector;
             public IVector SolveU(IVector x) => x.Clone() as IVector;
         }
         public IPreconditioner T => new TransposeIllusion {  };
+
+        public string getName => "Без предобуславливания";
         IVector IPreconditioner.MultL(IVector v) => v.Clone() as IVector;
         IVector IPreconditioner.MultU(IVector v) => v.Clone() as IVector;
         IVector IPreconditioner.SolveL(IVector v) => v.Clone() as IVector;
