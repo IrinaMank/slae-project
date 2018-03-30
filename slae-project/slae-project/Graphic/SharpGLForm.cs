@@ -916,7 +916,26 @@ namespace slae_project
         private void button1_Log_Click(object sender, EventArgs e)
         {
             Clear_Window();
-            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix A", Directory.GetCurrentDirectory() + "\\log.txt"));
+            GD.TextMod = true;
+            //GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Log.txt", Directory.GetCurrentDirectory() + "\\log.txt"));
+            try
+            {
+                using (FileStream stream = File.Open(Directory.GetCurrentDirectory() + "\\log.txt", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        while (!reader.EndOfStream)
+                        {
+                            string str = "123";
+                            while ((str = reader.ReadLine()) != null) GD.List_Of_Objects.Add(new GraphicData.GraphicObject(str)); //FilesString.Add(str);
+                        }
+                    }
+                }
+
+            }
+            catch (Exception Exc)
+            {
+            }
             Refresh_Window();
         }
     }
