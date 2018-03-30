@@ -55,6 +55,7 @@ namespace slae_project
                 Application.DoEvents();
             window.Close();
             window.Dispose();
+          
             Application.Run(new Form1());
         }
     }

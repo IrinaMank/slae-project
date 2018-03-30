@@ -168,11 +168,13 @@ namespace slae_project
                 {
                     try
                     {
-                        return Matrix[row - 1][column - 1];
+                        if (ReferencedMatrix != null) return ReferencedMatrix[row - 1,column - 1];
+                        else if (ReferencedVector != null && row == 1) return ReferencedVector[column - 1];
+                        else return Matrix[row - 1][column - 1];
                     }
                     catch (Exception ex)
                     {
-                        return 0;
+                        return double.NaN;
                     }
                 }
 
@@ -563,40 +565,63 @@ namespace slae_project
         public int Number_of_current_matrix = 0;
         public int Number_of_current_row = 0;
         public int Number_of_current_column = 0;
+        double double_trash;
         private void NumberCrossroad()
         {
             if (TargetNumber)
             {
-                int Color = 0;
-                if (!BoolTextIsEnabledOtherwiseQuads)
-                { Color = 255; }
+                bool ShowTheTrueTruth = false;
+                //try
+                //{
+                //    double_trash = List_Of_Objects[Number_of_current_matrix][Number_of_current_column, Number_of_current_row];
+                //}
+                //catch (Exception Trashnyak)
+                //{ }
+                
+                    int Color = 0;
+                    if (!BoolTextIsEnabledOtherwiseQuads)
+                    { Color = 255; }
 
-                Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + ((Number_of_current_column = ((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize)) - 1).ToString(), Color, Color, Color);
+                    Number_of_current_column = ((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize);
+                
 
-                //Щас используется абсолютное значение y, нам надо узнать текущую матрицу и вычесть
-                //LeftTopCellOfEachMatrix
+                    //Щас используется абсолютное значение y, нам надо узнать текущую матрицу и вычесть
+                    //LeftTopCellOfEachMatrix
 
-                if (LeftTopCellOfEachMatrix.Count() != 0)
-                {
-                    Point CurrentMatrix = LeftTopCellOfEachMatrix[0];
-                    int y_pointed = mouse.ShiftedPosition.y + openGLControl.Height - mouse.true_y - Grid.yCellSize / 4;
-                    for (int i = 0; i < LeftTopCellOfEachMatrix.Count(); i++)
+                    if (LeftTopCellOfEachMatrix.Count() != 0)
                     {
-                        if (LeftTopCellOfEachMatrix[i].Y * Grid.yCellSize < y_pointed)
+                        Point CurrentMatrix = LeftTopCellOfEachMatrix[0];
+                        int y_pointed = mouse.ShiftedPosition.y + openGLControl.Height - mouse.true_y - Grid.yCellSize / 4;
+                        for (int i = 0; i < LeftTopCellOfEachMatrix.Count(); i++)
                         {
-                            CurrentMatrix = LeftTopCellOfEachMatrix[i];
-                            Number_of_current_matrix = i;
+                            if (LeftTopCellOfEachMatrix[i].Y * Grid.yCellSize < y_pointed)
+                            {
+                                CurrentMatrix = LeftTopCellOfEachMatrix[i];
+                                Number_of_current_matrix = i;
+                            }
+                            else break;
                         }
-                        else break;
-                    }
 
-                    int y = ((y_pointed - CurrentMatrix.Y * Grid.yCellSize) / Grid.yCellSize);
+                        int y = ((y_pointed - CurrentMatrix.Y * Grid.yCellSize) / Grid.yCellSize);
                     //int y = (mouse.ShiftedPosition.y + openGLControl.Height - mouse.true_y) / Grid.yCellSize;
-                    Draw_Text(mouse.true_x + 20, mouse.true_y + 10, "- " + ((Number_of_current_row = y) - 1).ToString(), Color, Color, Color);
 
-                    if (!BoolTextIsEnabledOtherwiseQuads) Draw_Text(mouse.true_x + 20, mouse.true_y - 50, "x: " + List_Of_Objects[Number_of_current_matrix][Number_of_current_column, Number_of_current_row].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()), Color, Color, Color);
+                    Number_of_current_row = y;
 
-                }
+                    if (Number_of_current_column > 0 && Number_of_current_row > 0
+                     && Number_of_current_row <= List_Of_Objects[Number_of_current_matrix].yCellCount
+                        && Number_of_current_column <= List_Of_Objects[Number_of_current_matrix].xCellCount)
+                        ShowTheTrueTruth = true;
+
+                    if (ShowTheTrueTruth)
+                        Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + (Number_of_current_column - 1).ToString(), Color, Color, Color);
+
+                    if (ShowTheTrueTruth)
+                    Draw_Text(mouse.true_x + 20, mouse.true_y + 10, "- " + ((Number_of_current_row) - 1).ToString(), Color, Color, Color);
+
+                        if (!BoolTextIsEnabledOtherwiseQuads && !double.IsNaN(double_trash)) Draw_Text(mouse.true_x + 20, mouse.true_y - 50, "x: " + List_Of_Objects[Number_of_current_matrix][Number_of_current_column, Number_of_current_row].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()), Color, Color, Color);
+
+                    }
+                
             }
         }
         private void LaserCrossroad()
