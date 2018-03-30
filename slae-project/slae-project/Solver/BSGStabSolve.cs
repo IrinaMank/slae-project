@@ -29,9 +29,12 @@ namespace slae_project.Solver
             if (b.Norm == 0)
                 return x;
 
+            double alpha = 0.0, beta = 0.0, gamma = 0.0;
+
             IVector r0 = b.Add(A.Mult(Initial), 1, -1); //r_0 = f - Ax_0
-            r0 = Preconditioner.SolveU(r0);//r_0 = L(-1)(f - Ax_0)
-            IVector z = Preconditioner.SolveL(r0);//z_0 = U(-1)r_0
+            r0 = Preconditioner.SolveL(r0);//r_0 = L(-1)(f - Ax_0)
+
+            IVector z = Preconditioner.SolveU(r0);//z_0 = U(-1)r_0
 
             IVector r = (IVector)r0.Clone(); // r = r_0
 
@@ -39,26 +42,21 @@ namespace slae_project.Solver
             IVector LAUz = new SimpleVector(b.Size);
             IVector LAUp = new SimpleVector(b.Size);
 
-            double alpha, beta, gamma;
-            double r_r, r_r_1;
+            double r_r = 0.0, r_r_1 = 0.0;
 
             double normR = r.Norm / b.Norm;
 
-            r_r = r0.ScalarMult(r);//(r(k-1),r0)
-
             for (int iter = 0; iter < Maxiter && normR > Precision; iter++)
             {
-                LAUz = Preconditioner.SolveL(z);//U(-1)z(k - 1)
-                LAUz = A.Mult(LAUz);//AU(-1)z(k-1)
-                LAUz = Preconditioner.SolveU(LAUz);//L(-1)AU(-1)z(k-1)
+                r_r = r0.ScalarMult(r);//(r(k-1),r0)
+
+                LAUz = Preconditioner.SolveL(A.Mult(Preconditioner.SolveU(z)));//L(-1)AU(-1)z(k-1)
 
                 alpha = r_r / r0.ScalarMult(LAUz);//alpha = (r(k-1),r0)/(r0,L(-1)AU(-1)z(k-1))
 
                 p = r.Add(LAUz, 1, -alpha);//pk = r(k-1) - alpha * L(-1)AU(-1)z(k-1)
 
-                LAUp = Preconditioner.SolveL(p);//U(-1)p(k)
-                LAUp = A.Mult(LAUp);//AU(-1)p(k)
-                LAUp = Preconditioner.SolveU(LAUp);//L(-1)AU(-1)p(k)
+                LAUp = Preconditioner.SolveL(A.Mult(Preconditioner.SolveU(p)));//L(-1)AU(-1)p(k)
 
                 gamma = p.ScalarMult(LAUp) / LAUp.ScalarMult(LAUp);//gamma = (p(k),L(-1)AU(-1)p(k))/(L(-1)AU(-1)p(k),L(-1)AU(-1)p(k))
 
@@ -80,8 +78,8 @@ namespace slae_project.Solver
 
                 Logger.WriteIteration(iter, normR, 100 * Precision / normR);
             }
-            x = Preconditioner.SolveL(x);//x = U(-1)x
-            Logger.WriteSolution(x));
+            x = Preconditioner.SolveU(x);//x = U(-1)x
+            Logger.WriteSolution(x);
             return x;
         }
     }
