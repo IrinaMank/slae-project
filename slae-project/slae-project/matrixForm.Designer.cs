@@ -38,7 +38,6 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.x0DataGrid = new System.Windows.Forms.DataGridView();
-            this.button3 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.matrixDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vectorDataGrid)).BeginInit();
@@ -155,7 +154,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1074, 537);
             this.ControlBox = false;
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -188,6 +187,5 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.DataGridView x0DataGrid;
-        private System.Windows.Forms.Button button3;
     }
 }

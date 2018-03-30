@@ -217,7 +217,7 @@ namespace slae_project
             FileLoadForm.filenames_format.Clear();
             FileLoadForm.filenames_format.Add(arrays[0].ToString(), name);
 
-            FileLoadForm.F = new SimpleVector(size);
+            Factory.RightVector = new SimpleVector(size);
 
             object line1;
             for (int i = 0; i < size; i++)
@@ -228,7 +228,7 @@ namespace slae_project
                 else
                     Factory.RightVector[i] = 0.0;
             }
-            FileLoadForm.X0 = new SimpleVector(size);
+            Factory.X0 = new SimpleVector(size);
             for (int i = 0; i < size; i++)
             {
                 line1 = x0DataGrid[0, i].Value;
