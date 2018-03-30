@@ -693,25 +693,21 @@ namespace slae_project.Matrix
                     case "ig":
 
                         var reader = new StreamReader(el.Value);
-
-                        // считываем размерность массива
-                        line = reader.ReadLine();
-                        sub = line.Split(' ', '\t', '\n');
-                        n = Convert.ToInt32(sub[0]) - 1;
-                        ig = new int[n + 1];
-
+                        
                         //считывание элементов массива
                         line = reader.ReadLine();
                         sub = line.Split(' ', '\t');
-                        if (sub.Length != n+1)
+                        if (di != null)
                         {
-                            throw new CannotFillMatrixException("Ошибка при считывании файла ig. Некорректная структура файла. Проверьте количество элементов и их фактическое количество");
+                            if (n != sub.Length)
+                                throw new CannotFillMatrixException("Ошибка при считывании файла ig. Массив не соответсвует другим массивам.");
                         }
                         else
-                        {
-                            for (int i = 0; i < n + 1; i++)
+                            n = sub.Length - 1;
+                        ig = new int[n+1];
+                        for (int i = 0; i < n + 1; i++)
                                 ig[i] = Convert.ToInt32(sub[i]);
-                        }
+                        
                         if (jg != null || al != null || au != null)
                             if (ig[n + 1] != m)
                                 throw new CannotFillMatrixException("Ошибка при считывании файла ig. Массив не соответсвует другим массивам. Проверьте файлы al, au, jg");
@@ -723,114 +719,89 @@ namespace slae_project.Matrix
                     case "jg":
 
                         reader = new StreamReader(el.Value);
-
-                        // считываем размерность массива
-                        line = reader.ReadLine();
-                        sub = line.Split(' ', '\t');
-                        // проверяем корректность
-                        if (ig != null || al != null || au != null)
-                            if (Convert.ToInt32(sub[0]) != m)
-                                throw new CannotFillMatrixException("Ошибка при считывании файла jg. Несовпадение размерности массива в соответствии с остальными файлами");
-
-                        jg = new int[m];
-
+                        
                         //считывание элементов массива
                         line = reader.ReadLine();
                         sub = line.Split(' ', '\t');
-                        if (sub.Length != m)
+                        if (al != null || au != null)
                         {
-                            throw new CannotFillMatrixException("Ошибка при считывании файла jg. Некорректная структура файла. Проверьте количество элементов и их фактическое количество");
+                            if (m != sub.Length)
+                                throw new CannotFillMatrixException("Ошибка при считывании файла jg. Массив не соответсвует другим массивам.");
                         }
-                        else
-                        {
-                            for (int i = 0; i < m; i++)
+                        else 
+                            m = sub.Length;
+                        jg = new int[m];
+                        for (int i = 0; i < m; i++)
                                 jg[i] = Convert.ToInt32(sub[i]);
-                        }
+                        
                         count_files++;
                         reader.Close();
                         break;
                     case "di":
 
                         reader = new StreamReader(el.Value);
-                        // считываем размерность массива
-                        line = reader.ReadLine();
-                        sub = line.Split(' ', '\t');
-                        // проверяем корректность
-                        if (ig != null)
-                            if (Convert.ToInt32(sub[0]) != n)
-                                throw new CannotFillMatrixException("Ошибка при считывании файла di. Несовпадение размерности массива в соответствии с остальными файлами");
-
-                        di = new double[n];
+                        
+                        
                         //считывание элементов массива
                         line = reader.ReadLine();
                         sub = line.Split(' ', '\t');
-                        if (sub.Length != n)
+                        if (ig != null)
                         {
-                            throw new CannotFillMatrixException("Ошибка при считывании файла di. Некорректная структура файла. Проверьте количество элементов и их фактическое количество");
+                            if (n != sub.Length)
+                                throw new CannotFillMatrixException("Ошибка при считывании файла di. Массив не соответсвует другим массивам.");
                         }
                         else
-                        {
-                            for (int i = 0; i < n; i++)
+                            n = sub.Length;
+                        di = new double[n];
+                        for (int i = 0; i < n; i++)
                                 di[i] = Convert.ToDouble(sub[i]);
-                        }
+                        
                         count_files++;
                         reader.Close();
                         break;
                     case "al":
 
                         reader = new StreamReader(el.Value);
-                        // считываем размерность массива
+                        //считывание элементов массива
                         line = reader.ReadLine();
                         sub = line.Split(' ', '\t');
 
                         // проверяем корректность
-                        if (ig != null || jg!= null || au!= null)
-                            if (Convert.ToInt32(sub[0]) != m)
-                                throw new CannotFillMatrixException("Ошибка при считывании файла al. Несовпадение размерности массива в соответствии с остальными файлами");
-
-                        al = new double[m];
-
-                        //считывание элементов массива
-                        line = reader.ReadLine();
-                        sub = line.Split(' ', '\t');
-                        if (sub.Length != m)
+                        if (ig != null || jg != null || au != null)
                         {
-                            throw new CannotFillMatrixException("Ошибка при считывании файла al. Некорректная структура файла. Проверьте количество элементов и их фактическое количество");
+                            if (sub.Length != m)
+                                throw new CannotFillMatrixException("Ошибка при считывании файла al. Массив не соответствует другим массивам.");
                         }
                         else
-                        {
-                            for (int i = 0; i < m; i++)
+                            m = sub.Length;
+                        al = new double[m];
+
+                        for (int i = 0; i < m; i++)
                                 al[i] = Convert.ToDouble(sub[i]);
-                        }
+                        
                         count_files++;
                         reader.Close();
                         break;
                     case "au":
 
                         reader = new StreamReader(el.Value);
-                        // считываем размерность массива
+                        //считывание элементов массива
                         line = reader.ReadLine();
                         sub = line.Split(' ', '\t');
 
                         // проверяем корректность
                         if (ig != null || jg != null || al != null)
-                            if (Convert.ToInt32(sub[0]) != m)
-                                throw new CannotFillMatrixException("Ошибка при считывании файла al. Несовпадение размерности массива в соответствии с остальными файлами");
-
-                        au = new double[m];
-
-                        //считывание элементов массива
-                        line = reader.ReadLine();
-                        sub = line.Split(' ', '\t');
-                        if (sub.Length != m)
                         {
-                            throw new CannotFillMatrixException("Ошибка при считывании файла al. Некорректная структура файла. Проверьте количество элементов и их фактическое количество");
+                            if (sub.Length != m)
+                                throw new CannotFillMatrixException("Ошибка при считывании файла al. Несовпадение размерности массива в соответствии с остальными файлами");
                         }
                         else
-                        {
-                            for (int i = 0; i < m; i++)
+                            m = sub.Length;
+                        au = new double[m];
+
+                        for (int i = 0; i < m; i++)
                                 au[i] = Convert.ToDouble(sub[i]);
-                        }
+                        
                         count_files++;
                         reader.Close();
                         break;
