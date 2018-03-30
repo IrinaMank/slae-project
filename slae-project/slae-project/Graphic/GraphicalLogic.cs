@@ -99,9 +99,18 @@ namespace slae_project
             public List<double> GraphicalVector = null;
             public GraphicObject(string _Name, List<double> _GraphicalVector, bool NothingToWorryAbout)
             {
+                Name = _Name;
                 GraphicalVector = _GraphicalVector;
-                xCellCount = GraphicalVector.Count() - 1;
-                yCellCount = 20 + 1;
+                if (GraphicalVector != null && GraphicalVector.Count() > 1)
+                {
+                    xCellCount = GraphicalVector.Count() - 1;
+                    yCellCount = 10 + 1;
+                }
+                else
+                {
+                    xCellCount = 0;
+                    yCellCount = 0;
+                }
                 foreach (var value in GraphicalVector)
                 {
                     if (value > max) max = value;
@@ -203,7 +212,9 @@ namespace slae_project
                     {
                         if (ReferencedMatrix != null) return ReferencedMatrix[row - 1,column - 1];
                         else if (ReferencedVector != null && row == 1) return ReferencedVector[column - 1];
+                        else if (GraphicalVector != null && row  <= yCellCount) return GraphicalVector[column - 1];
                         else return Matrix[row - 1][column - 1];
+                        return double.NaN;
                     }
                     catch (Exception ex)
                     {
@@ -499,7 +510,7 @@ namespace slae_project
             if (Grid.NetWorkOS_X.Count != 0 && true)
                 for (int x = OS_x_begin; (x < OS_x_end)&&(x < Grid.NetWorkOS_X.Count()); x++)
                 {
-                    if (x > 0 && x < Grid.NetWorkOS_X.Count())
+                    if (x >= 0 && x < Grid.NetWorkOS_X.Count())
                         foreach (var func in Grid.NetWorkOS_X[x].List_of_func)
                         if (func.func_type == Net.FunctionType.DrawLine)
                         {
@@ -511,7 +522,7 @@ namespace slae_project
 
             for (int y = OS_y_begin; y < OS_y_end; y++)
             {
-                if (y > 0 && y < Grid.NetWorkOS_Y.Count())
+                if (y >= 0 && y < Grid.NetWorkOS_Y.Count())
                 foreach (var func in Grid.NetWorkOS_Y[y].List_of_func)
                     if (func.func_type == Net.FunctionType.DrawLine)
                     {
@@ -582,7 +593,7 @@ namespace slae_project
                                 Math.Abs((Y1) / Grid.yCellSize) < OS_y_end)
                             draw_line(cursor_X(x), Y0, cursor_X(x+1), Y1, true,(Single)153/255, (Single)51 /255, (Single)1, 3.0f);
 
-                            if (BoolTextIsEnabledOtherwiseQuads && y > OS_y_begin && y < OS_y_end)
+                            if (y > OS_y_begin && y < OS_y_end)
                                 Draw_Text(cursor_X(x), cursor_Y(y), GraphicalObject.GraphicalVector[X_counter].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
                         }
                     }

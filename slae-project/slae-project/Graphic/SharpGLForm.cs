@@ -858,7 +858,14 @@ namespace slae_project
             if (vnew < vScrollBar1.Minimum) vnew = vScrollBar1.Minimum;
             if (vnew > vScrollBar1.Maximum) vnew = vScrollBar1.Maximum;
 
+            SetScrollBars();
+            if (hnew > hScrollBar1.Maximum)
+                hScrollBar1.Maximum = hnew;
+
             hScrollBar1.Value = hnew;
+            if (vnew > vScrollBar1.Maximum)
+                vScrollBar1.Maximum = vnew;
+
             vScrollBar1.Value = vnew;
 
         }
@@ -905,7 +912,9 @@ namespace slae_project
             Clear_Window();
             GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix A", ref Factory.ObjectOfIMatrix));
             GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Result X", ref Factory.Result));
-            //List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", ref Factory., true));
+            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Right Vector", ref Factory.RightVector));
+            if (Factory.Residual != null && Factory.Residual.Count() > 1)
+                GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Residual", Factory.Residual, true));
             Refresh_Window();
         }
         public void Clear_Window()
