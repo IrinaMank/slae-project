@@ -32,14 +32,14 @@ namespace UnitTestProject
             IVector result = mar.Mult(x);
             IVector right = new SimpleVector(new double[4] { 37, 24, 14, 10 });
 
-            Assert.IsTrue(result.CompareWith(right, 1e-5));
+            Assert.IsTrue(result.CompareWith(right, 0));
         }
 
         [TestMethod]
         public void Test_f_Mult_plot_format_simmetr()
         {
             (int, int)[] coord = new(int, int)[16];
-            double[] val = new double[16] { 1, 2, 5, 1, 2, 2, 2, 5, 5, 2, 3, 2, 1, 5, 2, 4 };
+            double[] val = new double[16] { 1.5, 2.5, 7.5, 1, 2.5, 2.5, 2.5, 7.5, 7.5, 2.5, 3.5, 2.5, 1, 7.5, 2.5, 4.5 };
 
             for (int i = 0; i < 16; i++)
             {
@@ -47,38 +47,42 @@ namespace UnitTestProject
             }
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+            IVector x = new SimpleVector(new double[4] { 1.1, 2.2, 3.3, 4.4 });
             IVector y;
 
             y = mar.Mult(x);
-            IVector right = new SimpleVector(new double[4] { 24, 32, 26, 33 });
+            IVector right = new SimpleVector(new double[4] { 36.3, 49.5, 36.3, 45.65 });
             Assert.IsTrue(y.CompareWith(right, 1e-5));
 
         }
 
-        //неплотная несимметричная матрица
         [TestMethod]
-        public void Test_f_Mult_ne_plot_format_nonsimmetr()
+        public void Test_f_Mult_ne_plot_nonsimmetr()
         {
-            (int, int)[] coord = new(int, int)[14];
-            double[] val = new double[14] { 1, 2, 3, 4, 5, 6, 7, 8, 23, 52, 6, 9, 34, 5 };
+            (int, int)[] coord = new(int, int)[11];
+            double[] val = new double[11] { 1.5, 1.1, 2.2, 2.5, 3.3, 4.4, 5.5, 3.5, 6.6, 7.7, 4.4 };
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 3; i++)
             {
                 coord[i] = (i / 4, i % 4);
             }
-            coord[8] = (2, 0);
-            coord[9] = (2, 2);
-            coord[10] = (2, 3);
-            coord[11] = (3, 0);
-            coord[12] = (3, 1);
-            coord[13] = (3, 3);
+            coord[3] = (1, 1);
+            coord[4] = (1, 2);
+            for (int i = 5; i < 8; i++)
+            {
+                coord[i] = ((i + 3) / 4, (i + 3) % 4);
+            }
+            for (int i = 8; i < 11; i++)
+            {
+                coord[i] = ((i + 5) / 4, (i + 5) % 4);
+            }
+
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+            IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
             IVector result = mar.Mult(x);
-            IVector right = new SimpleVector(new double[4] { 30, 70, 203, 97 });
+            IVector right = new SimpleVector(new double[4] { 4.8, 5.8, 13.4, 18.7 });
 
             Assert.IsTrue(result.CompareWith(right, 1e-5));
         }
@@ -105,7 +109,7 @@ namespace UnitTestProject
             IVector result = mar.Mult(x);
             IVector right = new SimpleVector(new double[4] { 16, 65, 64, 63 });
 
-            Assert.IsTrue(result.CompareWith(right, 1e-5));
+            Assert.IsTrue(result.CompareWith(right, 0));
         }
 
         [TestMethod]
@@ -131,7 +135,7 @@ namespace UnitTestProject
 
             IVector y;
             y = mar.Mult(x);
-            Assert.IsTrue(y.CompareWith(right, 1e-5));
+            Assert.IsTrue(y.CompareWith(right, 0));
 
         }
 
@@ -175,16 +179,15 @@ namespace UnitTestProject
 
             y = mar.SolveL(x);
             IVector right = new SimpleVector(new double[4] { 1, 1, 1, 1 });
-            Assert.IsTrue(y.CompareWith(right, 1e-5));
-            //13, 0.5, 0.5, -4
-            //5, 0, 0, -1
+            Assert.IsTrue(y.CompareWith(right, 0));
+
         }
 
         [TestMethod]
         public void Test_f_SolveL_plot_format_simmetr()
         {
             (int, int)[] coord = new(int, int)[16];
-            double[] val = new double[16] { 1, 2, 5, 1, 2, 2, 2, 5, 5, 2, 3, 2, 1, 5, 2, 4 };
+            double[] val = new double[16] { 1.5, 2.5, 7.5, 1, 2.5, 2.5, 2.5, 7.5, 7.5, 2.5, 3.5, 2.5, 1, 7.5, 2.5, 4.5 };
 
             for (int i = 0; i < 16; i++)
             {
@@ -192,11 +195,11 @@ namespace UnitTestProject
             }
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+            IVector x = new SimpleVector(new double[4] { 1.65, 8.25, 25.3, 45.65 });
             IVector y;
 
             y = mar.SolveL(x);
-            IVector right = new SimpleVector(new double[4] { 1, 0, -2, 0 });
+            IVector right = new SimpleVector(new double[4] { 1.1, 2.2, 3.3, 4.4 });
             Assert.IsTrue(y.CompareWith(right, 1e-5));
 
         }
@@ -204,25 +207,30 @@ namespace UnitTestProject
         [TestMethod]
         public void Test_f_SolveL_ne_plot_nonsimmetr()
         {
-            (int, int)[] coord = new(int, int)[14];
-            double[] val = new double[14] { 1, 2, 3, 4, 5, 6, 7, 8, 23, 52, 6, 9, 34, 5 };
+            (int, int)[] coord = new(int, int)[11];
+            double[] val = new double[11] { 1.5, 1.1, 2.2, 2.5, 3.3, 4.4, 5.5, 3.5, 6.6, 7.7, 4.4 };
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 3; i++)
             {
                 coord[i] = (i / 4, i % 4);
             }
-            coord[8] = (2, 0);
-            coord[9] = (2, 2);
-            coord[10] = (2, 3);
-            coord[11] = (3, 0);
-            coord[12] = (3, 1);
-            coord[13] = (3, 3);
+            coord[3] = (1, 1);
+            coord[4] = (1, 2);
+            for (int i = 5; i < 8; i++)
+            {
+                coord[i] = ((i + 3) / 4, (i + 3) % 4);
+            }
+            for (int i = 8; i < 11; i++)
+            {
+                coord[i] = ((i + 5) / 4, (i + 5) % 4);
+            }
+
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+            IVector x = new SimpleVector(new double[4] { 1.5, 2.5, 13.4, 18.7 });
 
             IVector result = mar.SolveL(x);
-            IVector right = new SimpleVector(new double[4] { 1, -3, 29 / 2.0, -839 / 150.0 });
+            IVector right = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
             Assert.IsTrue(result.CompareWith(right, 1e-5));
         }
@@ -244,33 +252,12 @@ namespace UnitTestProject
             coord[11] = (3, 3);
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+            IVector x = new SimpleVector(new double[4] { 1, 2, 15, 23 });
 
             IVector result = mar.SolveL(x);
-            IVector right = new SimpleVector(new double[4] { 1, 2, -9, -30 / 31.0 });
-
-            Assert.IsTrue(result.CompareWith(right, 1e-5));
-        }
-
-        [TestMethod]
-        public void Test_f_SolveL_degenerate_matrix()
-        {
-            (int, int)[] coord = new(int, int)[16];
-            double[] val = new double[16];
-
-            for (int i = 0; i < 16; i++)
-            {
-                coord[i] = (i / 4, i % 4);
-                val[i] = 1;
-            }
-
-            IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 2, 2, 2 });
-            IVector y;
-
-            y = mar.SolveL(x);
             IVector right = new SimpleVector(new double[4] { 1, 1, 1, 1 });
-            Assert.IsTrue(y.CompareWith(right, 1e-5));
+
+            Assert.IsTrue(result.CompareWith(right, 0));
         }
 
         [TestMethod]
@@ -290,7 +277,7 @@ namespace UnitTestProject
             IVector right = new SimpleVector(new double[100]);
             for (int i = 0; i < 100; i++)
             {
-                x[i] = 100;
+                x[i] = i + 1;
                 right[i] = 1;
             }
 
@@ -299,6 +286,23 @@ namespace UnitTestProject
             Assert.IsTrue(y.CompareWith(right, 1e-5));
 
         }
+
+        //[TestMethod]
+        //public void Test_f_SolveL_Exception()
+        //{
+        //    (int, int)[] coord = new(int, int)[16];
+        //    double[] val = new double[16] { 1, 4, 4, 4, 1, 1, 3, 3, 1, 1, 1, 2, 1, 1, 1, 1 };
+
+        //    for (int i = 0; i < 16; i++)
+        //    {
+        //        coord[i] = (i / 4, i % 4);
+        //    }
+
+        //    IMatrix mar = new CoordinateMatrix(coord, val);
+        //    IVector x = new SimpleVector(new double[4] { 0,0,0,0 });
+        //    IVector y;            
+        //    Assert.ThrowsException<SlaeNotCompatipableException>(() => { y = mar.SolveL(x); });
+        //}
 
 
         //////////////////SolveU#3
@@ -315,19 +319,20 @@ namespace UnitTestProject
             }
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+            IVector x = new SimpleVector(new double[4] { 13, 7, 3, 1 });
             IVector y;
 
             y = mar.SolveU(x);
-            IVector right = new SimpleVector(new double[4] { 13, 0.5, 0.5, -4 });
-            Assert.IsTrue(y.CompareWith(right, 1e-5));
+            IVector right = new SimpleVector(new double[4] { 1, 1, 1, 1 });
+            Assert.IsTrue(y.CompareWith(right, 0));
+
         }
 
         [TestMethod]
         public void Test_f_SolveU_plot_format_simmetr()
         {
             (int, int)[] coord = new(int, int)[16];
-            double[] val = new double[16] { 1, 2, 5, 1, 2, 2, 2, 5, 5, 2, 3, 2, 1, 5, 2, 4 };
+            double[] val = new double[16] { 1.5, 2.5, 7.5, 1, 2.5, 2.5, 2.5, 7.5, 7.5, 2.5, 3.5, 2.5, 1, 7.5, 2.5, 4.5 };
 
             for (int i = 0; i < 16; i++)
             {
@@ -335,38 +340,42 @@ namespace UnitTestProject
             }
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 9, -7, -5, -15 });
+            IVector x = new SimpleVector(new double[4] { 36.3, 46.75, 22.55, 19.8 });
             IVector y;
 
             y = mar.SolveU(x);
-            IVector right = new SimpleVector(new double[4] { 1, 1, 1, 1 });
+            IVector right = new SimpleVector(new double[4] { 1.1, 2.2, 3.3, 4.4 });
             Assert.IsTrue(y.CompareWith(right, 1e-5));
 
         }
 
-
         [TestMethod]
         public void Test_f_SolveU_ne_plot_nonsimmetr()
         {
-            (int, int)[] coord = new(int, int)[14];
-            double[] val = new double[14] { 1, 2, 3, 4, 5, 6, 7, 8, 23, 52, 6, 9, 34, 5 };
+            (int, int)[] coord = new(int, int)[11];
+            double[] val = new double[11] { 1.5, 1.1, 2.2, 2.5, 3.3, 4.4, 5.5, 3.5, 6.6, 7.7, 4.4 };
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 3; i++)
             {
                 coord[i] = (i / 4, i % 4);
             }
-            coord[8] = (2, 0);
-            coord[9] = (2, 2);
-            coord[10] = (2, 3);
-            coord[11] = (3, 0);
-            coord[12] = (3, 1);
-            coord[13] = (3, 3);
+            coord[3] = (1, 1);
+            coord[4] = (1, 2);
+            for (int i = 5; i < 8; i++)
+            {
+                coord[i] = ((i + 3) / 4, (i + 3) % 4);
+            }
+            for (int i = 8; i < 11; i++)
+            {
+                coord[i] = ((i + 5) / 4, (i + 5) % 4);
+            }
+
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 306, -912, 3975, -2857 });
+            IVector x = new SimpleVector(new double[4] { 4.8, 5.8, 3.5, 4.4 });
 
             IVector result = mar.SolveU(x);
-            IVector right = new SimpleVector(new double[4] { 1, 1, 1, 75 });
+            IVector right = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
             Assert.IsTrue(result.CompareWith(right, 1e-5));
         }
@@ -388,12 +397,38 @@ namespace UnitTestProject
             coord[11] = (3, 3);
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 6, 939, -4929 / 2.0, -2926 });
+            IVector x = new SimpleVector(new double[4] { 6, 19, 12, 4 });
 
             IVector result = mar.SolveU(x);
-            IVector right = new SimpleVector(new double[4] { 1, 1, 1, 93 });
+            IVector right = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
-            Assert.IsTrue(result.CompareWith(right, 1e-5));
+            Assert.IsTrue(result.CompareWith(right, 0));
+        }
+
+        [TestMethod]
+        public void Test_f_SolveU_big_matrix()
+        {
+            (int, int)[] coord = new(int, int)[10000];
+            double[] val = new double[10000];
+
+            for (int i = 0; i < 10000; i++)
+            {
+                coord[i] = (i / 100, i % 100);
+                val[i] = 1;
+            }
+
+            IMatrix mar = new CoordinateMatrix(coord, val);
+            IVector x = new SimpleVector(new double[100]);
+            IVector right = new SimpleVector(new double[100]);
+            for (int i = 99; i >= 0; i--)
+            {
+                x[i] = 100 - i;
+                right[i] = 1;
+            }
+
+            IVector y;
+            y = mar.SolveU(x);
+            Assert.IsTrue(y.CompareWith(right, 1e-5));
         }
 
 
@@ -418,7 +453,7 @@ namespace UnitTestProject
 
             y = mar.MultL(x);
             IVector right = new SimpleVector(new double[4] { 1, 2, 3, 4 });
-            Assert.IsTrue(y.CompareWith(right, 1e-5));
+            Assert.IsTrue(y.CompareWith(right, 0));
 
         }
 
@@ -426,7 +461,7 @@ namespace UnitTestProject
         public void Test_f_MultL_plot_format_simmetr()
         {
             (int, int)[] coord = new(int, int)[16];
-            double[] val = new double[16] { 1, 2, 5, 1, 2, 2, 2, 5, 5, 2, 3, 2, 1, 5, 2, 4 };
+            double[] val = new double[16] { 1.5, 2.5, 7.5, 1, 2.5, 2.5, 2.5, 7.5, 7.5, 2.5, 3.5, 2.5, 1, 7.5, 2.5, 4.5 };
 
             for (int i = 0; i < 16; i++)
             {
@@ -434,11 +469,11 @@ namespace UnitTestProject
             }
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
+            IVector x = new SimpleVector(new double[4] { 1.1, 2.2, 3.3, 4.4 });
             IVector y;
 
             y = mar.MultL(x);
-            IVector right = new SimpleVector(new double[4] { 1, 3, 10, -1 });
+            IVector right = new SimpleVector(new double[4] { 1.65, 8.25, 25.3, 45.65 });
             Assert.IsTrue(y.CompareWith(right, 1e-5));
 
         }
@@ -446,25 +481,30 @@ namespace UnitTestProject
         [TestMethod]
         public void Test_f_MultL_ne_plot_nonsimmetr()
         {
-            (int, int)[] coord = new(int, int)[14];
-            double[] val = new double[14] { 1, 2, 3, 4, 5, 6, 7, 8, 23, 52, 6, 9, 34, 5 };
+            (int, int)[] coord = new(int, int)[11];
+            double[] val = new double[11] { 1.5, 1.1, 2.2, 2.5, 3.3, 4.4, 5.5, 3.5, 6.6, 7.7, 4.4 };
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 3; i++)
             {
                 coord[i] = (i / 4, i % 4);
             }
-            coord[8] = (2, 0);
-            coord[9] = (2, 2);
-            coord[10] = (2, 3);
-            coord[11] = (3, 0);
-            coord[12] = (3, 1);
-            coord[13] = (3, 3);
+            coord[3] = (1, 1);
+            coord[4] = (1, 2);
+            for (int i = 5; i < 8; i++)
+            {
+                coord[i] = ((i + 3) / 4, (i + 3) % 4);
+            }
+            for (int i = 8; i < 11; i++)
+            {
+                coord[i] = ((i + 5) / 4, (i + 5) % 4);
+            }
+
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+            IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
             IVector result = mar.MultL(x);
-            IVector right = new SimpleVector(new double[4] { 1, 7, 49, 66 / 25.0 });
+            IVector right = new SimpleVector(new double[4] { 1.5, 2.5, 13.4, 18.7 });
 
             Assert.IsTrue(result.CompareWith(right, 1e-5));
         }
@@ -486,35 +526,58 @@ namespace UnitTestProject
             coord[11] = (3, 3);
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+            IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
             IVector result = mar.MultL(x);
-            IVector right = new SimpleVector(new double[4] { 1, 2, 15, 486 / 31.0 });
+            IVector right = new SimpleVector(new double[4] { 1, 2, 15, 23 });
 
-            Assert.IsTrue(result.CompareWith(right, 1e-5));
+            Assert.IsTrue(result.CompareWith(right, 0));
         }
 
         [TestMethod]
-        public void Test_f_MultL_degenerate_matrix()
+        public void Test_f_MultL_big_matrix()
         {
-            (int, int)[] coord = new(int, int)[16];
-            double[] val = new double[16];
+            (int, int)[] coord = new(int, int)[10000];
+            double[] val = new double[10000];
 
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < 10000; i++)
             {
-                coord[i] = (i / 4, i % 4);
+                coord[i] = (i / 100, i % 100);
                 val[i] = 1;
             }
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
-            IVector y;
+            IVector x = new SimpleVector(new double[100]);
+            IVector right = new SimpleVector(new double[100]);
+            for (int i = 0; i < 100; i++)
+            {
+                x[i] = 1;
+                right[i] = i + 1;
+            }
 
+            IVector y;
             y = mar.MultL(x);
-            IVector right = new SimpleVector(new double[4] { 1, 2, 2, 2 });
             Assert.IsTrue(y.CompareWith(right, 1e-5));
+
         }
 
+        [TestMethod]
+        public void Test_f_MultL_Exception()
+        {
+            (int, int)[] coord = new(int, int)[16];
+            double[] val = new double[16] { 1, 4, 4, 4, 1, 1, 3, 3, 1, 1, 1, 2, 1, 1, 1, 1 };
+
+            for (int i = 0; i < 16; i++)
+            {
+                coord[i] = (i / 4, i % 4);
+            }
+
+            IMatrix mar = new CoordinateMatrix(coord, val);
+            IVector x = new SimpleVector(new double[3] { 1, 1, 1 });
+            IVector y;
+            Assert.ThrowsException<DifferentSizeException>(() => { y = mar.MultL(x); });
+
+        }
 
         //////////////////MultU#5
 
@@ -530,19 +593,20 @@ namespace UnitTestProject
             }
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 13, 0.5, 0.5, -4 });
+            IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
             IVector y;
 
             y = mar.MultU(x);
-            IVector right = new SimpleVector(new double[4] { 1, 2, 3, 4 });
-            Assert.IsTrue(y.CompareWith(right, 1e-5));
+            IVector right = new SimpleVector(new double[4] { 13, 7, 3, 1 });
+            Assert.IsTrue(y.CompareWith(right, 0));
+
         }
 
         [TestMethod]
         public void Test_f_MultU_plot_format_simmetr()
         {
             (int, int)[] coord = new(int, int)[16];
-            double[] val = new double[16] { 1, 2, 5, 1, 2, 2, 2, 5, 5, 2, 3, 2, 1, 5, 2, 4 };
+            double[] val = new double[16] { 1.5, 2.5, 7.5, 1, 2.5, 2.5, 2.5, 7.5, 7.5, 2.5, 3.5, 2.5, 1, 7.5, 2.5, 4.5 };
 
             for (int i = 0; i < 16; i++)
             {
@@ -550,38 +614,42 @@ namespace UnitTestProject
             }
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
+            IVector x = new SimpleVector(new double[4] { 1.1, 2.2, 3.3, 4.4 });
             IVector y;
 
             y = mar.MultU(x);
-            IVector right = new SimpleVector(new double[4] { 9, -7, -5, -15 });
+            IVector right = new SimpleVector(new double[4] { 36.3, 46.75, 22.55, 19.8 });
             Assert.IsTrue(y.CompareWith(right, 1e-5));
 
         }
 
-
         [TestMethod]
         public void Test_f_MultU_ne_plot_nonsimmetr()
         {
-            (int, int)[] coord = new(int, int)[14];
-            double[] val = new double[14] { 1, 2, 3, 4, 5, 6, 7, 8, 23, 52, 6, 9, 34, 5 };
+            (int, int)[] coord = new(int, int)[11];
+            double[] val = new double[11] { 1.5, 1.1, 2.2, 2.5, 3.3, 4.4, 5.5, 3.5, 6.6, 7.7, 4.4 };
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 3; i++)
             {
                 coord[i] = (i / 4, i % 4);
             }
-            coord[8] = (2, 0);
-            coord[9] = (2, 2);
-            coord[10] = (2, 3);
-            coord[11] = (3, 0);
-            coord[12] = (3, 1);
-            coord[13] = (3, 3);
+            coord[3] = (1, 1);
+            coord[4] = (1, 2);
+            for (int i = 5; i < 8; i++)
+            {
+                coord[i] = ((i + 3) / 4, (i + 3) % 4);
+            }
+            for (int i = 8; i < 11; i++)
+            {
+                coord[i] = ((i + 5) / 4, (i + 5) % 4);
+            }
+
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 1, 1, 75 });
+            IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
             IVector result = mar.MultU(x);
-            IVector right = new SimpleVector(new double[4] { 306, -912, 3975, -2857 });
+            IVector right = new SimpleVector(new double[4] { 4.8, 5.8, 3.5, 4.4 });
 
             Assert.IsTrue(result.CompareWith(right, 1e-5));
         }
@@ -603,12 +671,57 @@ namespace UnitTestProject
             coord[11] = (3, 3);
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 1, 1, 93 });
+            IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
             IVector result = mar.MultU(x);
-            IVector right = new SimpleVector(new double[4] { 6, 939, -4929 / 2.0, -2926 });
+            IVector right = new SimpleVector(new double[4] { 6, 19, 12, 4 });
 
-            Assert.IsTrue(result.CompareWith(right, 1e-5));
+            Assert.IsTrue(result.CompareWith(right, 0));
+        }
+
+        [TestMethod]
+        public void Test_f_MultU_big_matrix()
+        {
+            (int, int)[] coord = new(int, int)[10000];
+            double[] val = new double[10000];
+
+            for (int i = 0; i < 10000; i++)
+            {
+                coord[i] = (i / 100, i % 100);
+                val[i] = 1;
+            }
+
+            IMatrix mar = new CoordinateMatrix(coord, val);
+            IVector x = new SimpleVector(new double[100]);
+            IVector right = new SimpleVector(new double[100]);
+            for (int i = 99; i >= 0; i--)
+            {
+                x[i] = 1;
+                right[i] = 100 - i;
+            }
+
+            IVector y;
+            y = mar.MultU(x);
+            Assert.IsTrue(y.CompareWith(right, 1e-5));
+
+        }
+
+        [TestMethod]
+        public void Test_f_MultU_Exception()
+        {
+            (int, int)[] coord = new(int, int)[16];
+            double[] val = new double[16] { 1, 4, 4, 4, 1, 1, 3, 3, 1, 1, 1, 2, 1, 1, 1, 1 };
+
+            for (int i = 0; i < 16; i++)
+            {
+                coord[i] = (i / 4, i % 4);
+            }
+
+            IMatrix mar = new CoordinateMatrix(coord, val);
+            IVector x = new SimpleVector(new double[3] { 1, 1, 1 });
+            IVector y;
+            Assert.ThrowsException<DifferentSizeException>(() => { y = mar.MultU(x); });
+
         }
 
 
@@ -633,14 +746,14 @@ namespace UnitTestProject
             IVector result = mar.T.Mult(x);
             IVector right = new SimpleVector(new double[4] { 37, 24, 14, 10 });
 
-            Assert.IsTrue(result.CompareWith(right, 1e-5));
+            Assert.IsTrue(result.CompareWith(right, 0));
         }
 
         [TestMethod]
         public void Test_f_MultT_plot_format_simmetr()
         {
             (int, int)[] coord = new(int, int)[16];
-            double[] val = new double[16] { 1, 2, 5, 1, 2, 2, 2, 5, 5, 2, 3, 2, 1, 5, 2, 4 };
+            double[] val = new double[16] { 1.5, 2.5, 7.5, 1, 2.5, 2.5, 2.5, 7.5, 7.5, 2.5, 3.5, 2.5, 1, 7.5, 2.5, 4.5 };
 
             for (int i = 0; i < 16; i++)
             {
@@ -648,42 +761,42 @@ namespace UnitTestProject
             }
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+            IVector x = new SimpleVector(new double[4] { 1.1, 2.2, 3.3, 4.4 });
             IVector y;
 
             y = mar.T.Mult(x);
-            IVector right = new SimpleVector(new double[4] { 24, 32, 26, 33 });
+            IVector right = new SimpleVector(new double[4] { 36.3, 49.5, 36.3, 45.65 });
             Assert.IsTrue(y.CompareWith(right, 1e-5));
 
         }
 
-        //неплотная несимметричная матрица
         [TestMethod]
-        public void Test_f_MultT_ne_plot_format_nonsimmetr()
+        public void Test_f_MultT_ne_plot_nonsimmetr()
         {
-            (int, int)[] coord = new(int, int)[14];
-            double[] val = new double[14] { 1, 5, 23, 9, 2, 6, 34, 3, 7, 52, 4, 8, 6, 5 };
+            (int, int)[] coord = new(int, int)[11];
+            double[] val = new double[11] { 1.5, 1.1, 2.2, 2.5, 3.3, 4.4, 5.5, 3.5, 6.6, 7.7, 4.4 };
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 3; i++)
             {
                 coord[i] = (i / 4, i % 4);
             }
-
-            for (int i = 6; i < 10; i++)
+            coord[3] = (1, 1);
+            coord[4] = (1, 2);
+            for (int i = 5; i < 8; i++)
             {
-                coord[i] = ((i + 1) / 4, (i + 1) % 4);
+                coord[i] = ((i + 3) / 4, (i + 3) % 4);
+            }
+            for (int i = 8; i < 11; i++)
+            {
+                coord[i] = ((i + 5) / 4, (i + 5) % 4);
             }
 
-            for (int i = 10; i < 14; i++)
-            {
-                coord[i] = ((i + 2) / 4, (i + 2) % 4);
-            }
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+            IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
             IVector result = mar.T.Mult(x);
-            IVector right = new SimpleVector(new double[4] { 30, 70, 203, 97 });
+            IVector right = new SimpleVector(new double[4] { 5.9, 15.7, 16.7, 4.4 });
 
             Assert.IsTrue(result.CompareWith(right, 1e-5));
         }
@@ -710,7 +823,7 @@ namespace UnitTestProject
             IVector result = mar.T.Mult(x);
             IVector right = new SimpleVector(new double[4] { 16, 65, 64, 63 });
 
-            Assert.IsTrue(result.CompareWith(right, 1e-5));
+            Assert.IsTrue(result.CompareWith(right, 0));
         }
 
         [TestMethod]
@@ -736,7 +849,7 @@ namespace UnitTestProject
 
             IVector y;
             y = mar.T.Mult(x);
-            Assert.IsTrue(y.CompareWith(right, 1e-5));
+            Assert.IsTrue(y.CompareWith(right, 0));
 
         }
 
@@ -767,7 +880,7 @@ namespace UnitTestProject
         public void Test_f_SolveLT_plot_format_nonsimmetr()
         {
             (int, int)[] coord = new(int, int)[16];
-            double[] val = new double[16] { 1, 1, 1, 1, 4, 1, 1, 1, 4, 3, 1, 1, 4, 3, 2, 1 };
+            double[] val = new double[16] { 1, 4, 4, 4, 1, 1, 3, 3, 1, 1, 1, 2, 1, 1, 1, 1 };
 
             for (int i = 0; i < 16; i++)
             {
@@ -780,14 +893,15 @@ namespace UnitTestProject
 
             y = mar.T.SolveL(x);
             IVector right = new SimpleVector(new double[4] { 1, 2, 3, 4 });
-            Assert.IsTrue(y.CompareWith(right, 1e-5));
+            Assert.IsTrue(y.CompareWith(right, 0));
+
         }
 
         [TestMethod]
         public void Test_f_SolveLT_plot_format_simmetr()
         {
             (int, int)[] coord = new(int, int)[16];
-            double[] val = new double[16] { 1, 2, 5, 1, 2, 2, 2, 5, 5, 2, 3, 2, 1, 5, 2, 4 };
+            double[] val = new double[16] { 1.5, 2.5, 7.5, 1, 2.5, 2.5, 2.5, 7.5, 7.5, 2.5, 3.5, 2.5, 1, 7.5, 2.5, 4.5 };
 
             for (int i = 0; i < 16; i++)
             {
@@ -795,11 +909,11 @@ namespace UnitTestProject
             }
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 24, 8, -3, 4 });
+            IVector x = new SimpleVector(new double[4] { 36.3, 46.75, 22.55, 19.8 });
             IVector y;
 
             y = mar.T.SolveL(x);
-            IVector right = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+            IVector right = new SimpleVector(new double[4] { 1.1, 2.2, 3.3, 4.4 });
             Assert.IsTrue(y.CompareWith(right, 1e-5));
 
         }
@@ -807,29 +921,30 @@ namespace UnitTestProject
         [TestMethod]
         public void Test_f_SolveLT_ne_plot_nonsimmetr()
         {
-            (int, int)[] coord = new(int, int)[14];
-            double[] val = new double[14] { 1, 5, 23, 9, 2, 6, 34, 3, 7, 52, 4, 8, 6, 5 };
+            (int, int)[] coord = new(int, int)[11];
+            double[] val = new double[11] { 1.5, 1.1, 2.2, 2.5, 3.3, 4.4, 5.5, 3.5, 6.6, 7.7, 4.4 };
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 3; i++)
             {
                 coord[i] = (i / 4, i % 4);
             }
-
-            for (int i = 6; i < 10; i++)
+            coord[3] = (1, 1);
+            coord[4] = (1, 2);
+            for (int i = 5; i < 8; i++)
             {
-                coord[i] = ((i + 1) / 4, (i + 1) % 4);
+                coord[i] = ((i + 3) / 4, (i + 3) % 4);
+            }
+            for (int i = 8; i < 11; i++)
+            {
+                coord[i] = ((i + 5) / 4, (i + 5) % 4);
             }
 
-            for (int i = 10; i < 14; i++)
-            {
-                coord[i] = ((i + 2) / 4, (i + 2) % 4);
-            }
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 727, -276, -57, 75 });
+            IVector x = new SimpleVector(new double[4] { 5.9, 14.6, 11.2, 4.4 });
 
             IVector result = mar.T.SolveL(x);
-            IVector right = new SimpleVector(new double[4] { 1, 1, 2, 75 });
+            IVector right = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
             Assert.IsTrue(result.CompareWith(right, 1e-5));
         }
@@ -851,14 +966,114 @@ namespace UnitTestProject
             coord[11] = (3, 3);
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 11, 473, 54, 93 });
+            IVector x = new SimpleVector(new double[4] { 6, 19, 12, 4 });
 
             IVector result = mar.T.SolveL(x);
-            IVector right = new SimpleVector(new double[4] { 1, 1, 2, 93 });
+            IVector right = new SimpleVector(new double[4] { 1, 1, 1, 1 });
+
+            Assert.IsTrue(result.CompareWith(right, 0));
+        }
+
+
+        //////////////////SolveUT#8
+
+        [TestMethod]
+        public void Test_f_SolveUT_plot_format_nonsimmetr()
+        {
+            (int, int)[] coord = new(int, int)[16];
+            double[] val = new double[16] { 1, 4, 4, 4, 1, 1, 3, 3, 1, 1, 1, 2, 1, 1, 1, 1 };
+
+            for (int i = 0; i < 16; i++)
+            {
+                coord[i] = (i / 4, i % 4);
+            }
+
+            IMatrix mar = new CoordinateMatrix(coord, val);
+            IVector x = new SimpleVector(new double[4] { 1, 5, 8, 10 });
+            IVector y;
+
+            y = mar.T.SolveU(x);
+            IVector right = new SimpleVector(new double[4] { 1, 1, 1, 1 });
+            Assert.IsTrue(y.CompareWith(right, 0));
+
+        }
+
+        [TestMethod]
+        public void Test_f_SolveUT_plot_format_simmetr()
+        {
+            (int, int)[] coord = new(int, int)[16];
+            double[] val = new double[16] { 1.5, 2.5, 7.5, 1, 2.5, 2.5, 2.5, 7.5, 7.5, 2.5, 3.5, 2.5, 1, 7.5, 2.5, 4.5 };
+
+            for (int i = 0; i < 16; i++)
+            {
+                coord[i] = (i / 4, i % 4);
+            }
+
+            IMatrix mar = new CoordinateMatrix(coord, val);
+            IVector x = new SimpleVector(new double[4] { 1.65, 8.25, 25.3, 45.65 });
+            IVector y;
+
+            y = mar.T.SolveU(x);
+            IVector right = new SimpleVector(new double[4] { 1.1, 2.2, 3.3, 4.4 });
+            Assert.IsTrue(y.CompareWith(right, 1e-5));
+
+        }
+
+        [TestMethod]
+        public void Test_f_SolveUT_ne_plot_nonsimmetr()
+        {
+            (int, int)[] coord = new(int, int)[11];
+            double[] val = new double[11] { 1.5, 1.1, 2.2, 2.5, 3.3, 4.4, 5.5, 3.5, 6.6, 7.7, 4.4 };
+
+            for (int i = 0; i < 3; i++)
+            {
+                coord[i] = (i / 4, i % 4);
+            }
+            coord[3] = (1, 1);
+            coord[4] = (1, 2);
+            for (int i = 5; i < 8; i++)
+            {
+                coord[i] = ((i + 3) / 4, (i + 3) % 4);
+            }
+            for (int i = 8; i < 11; i++)
+            {
+                coord[i] = ((i + 5) / 4, (i + 5) % 4);
+            }
+
+
+            IMatrix mar = new CoordinateMatrix(coord, val);
+            IVector x = new SimpleVector(new double[4] { 1.5, 3.6, 9, 4.4 });
+
+            IVector result = mar.T.SolveU(x);
+            IVector right = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
             Assert.IsTrue(result.CompareWith(right, 1e-5));
         }
 
+        [TestMethod]
+        public void Test_f_SolveUT_ne_plot_simmetr()
+        {
+            (int, int)[] coord = new(int, int)[12];
+            double[] val = new double[12] { 1, 5, 2, 7, 10, 5, 7, 3, 9, 10, 9, 4 };
+
+            for (int i = 2; i < 9; i++)
+            {
+                coord[i] = ((i + 3) / 4, (i + 3) % 4);
+            }
+            coord[0] = (0, 0);
+            coord[1] = (0, 2);
+            coord[9] = (3, 1);
+            coord[10] = (3, 2);
+            coord[11] = (3, 3);
+
+            IMatrix mar = new CoordinateMatrix(coord, val);
+            IVector x = new SimpleVector(new double[4] { 1, 2, 15, 23 });
+
+            IVector result = mar.T.SolveU(x);
+            IVector right = new SimpleVector(new double[4] { 1, 1, 1, 1 });
+
+            Assert.IsTrue(result.CompareWith(right, 0));
+        }
 
 
         //////////////////MultLT#9
@@ -880,7 +1095,7 @@ namespace UnitTestProject
 
             y = mar.T.MultL(x);
             IVector right = new SimpleVector(new double[4] { 10, 9, 7, 4 });
-            Assert.IsTrue(y.CompareWith(right, 1e-5));
+            Assert.IsTrue(y.CompareWith(right, 0));
 
         }
 
@@ -888,7 +1103,7 @@ namespace UnitTestProject
         public void Test_f_MultLT_plot_format_simmetr()
         {
             (int, int)[] coord = new(int, int)[16];
-            double[] val = new double[16] { 1, 2, 5, 1, 2, 2, 2, 5, 5, 2, 3, 2, 1, 5, 2, 4 };
+            double[] val = new double[16] { 1.5, 2.5, 7.5, 1, 2.5, 2.5, 2.5, 7.5, 7.5, 2.5, 3.5, 2.5, 1, 7.5, 2.5, 4.5 };
 
             for (int i = 0; i < 16; i++)
             {
@@ -896,11 +1111,11 @@ namespace UnitTestProject
             }
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+            IVector x = new SimpleVector(new double[4] { 1.1, 2.2, 3.3, 4.4 });
             IVector y;
 
             y = mar.T.MultL(x);
-            IVector right = new SimpleVector(new double[4] { 24, 8, -3, 4 });
+            IVector right = new SimpleVector(new double[4] { 36.3, 46.75, 22.55, 19.8 });
             Assert.IsTrue(y.CompareWith(right, 1e-5));
 
         }
@@ -908,25 +1123,30 @@ namespace UnitTestProject
         [TestMethod]
         public void Test_f_MultLT_ne_plot_nonsimmetr()
         {
-            (int, int)[] coord = new(int, int)[14];
-            double[] val = new double[14] { 1, 2, 3, 4, 5, 6, 7, 8, 23, 52, 6, 9, 34, 5 };
+            (int, int)[] coord = new(int, int)[11];
+            double[] val = new double[11] { 1.5, 1.1, 2.2, 2.5, 3.3, 4.4, 5.5, 3.5, 6.6, 7.7, 4.4 };
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 3; i++)
             {
                 coord[i] = (i / 4, i % 4);
             }
-            coord[8] = (2, 0);
-            coord[9] = (2, 2);
-            coord[10] = (2, 3);
-            coord[11] = (3, 0);
-            coord[12] = (3, 1);
-            coord[13] = (3, 3);
+            coord[3] = (1, 1);
+            coord[4] = (1, 2);
+            for (int i = 5; i < 8; i++)
+            {
+                coord[i] = ((i + 3) / 4, (i + 3) % 4);
+            }
+            for (int i = 8; i < 11; i++)
+            {
+                coord[i] = ((i + 5) / 4, (i + 5) % 4);
+            }
+
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 1, 2, 75 });
+            IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
             IVector result = mar.T.MultL(x);
-            IVector right = new SimpleVector(new double[4] { 727, -276, -57, 75 });
+            IVector right = new SimpleVector(new double[4] { 5.9, 14.6, 11.2, 4.4 });
 
             Assert.IsTrue(result.CompareWith(right, 1e-5));
         }
@@ -948,20 +1168,16 @@ namespace UnitTestProject
             coord[11] = (3, 3);
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 1, 2, 93 });
+            IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
             IVector result = mar.T.MultL(x);
-            IVector right = new SimpleVector(new double[4] { 11, 473, 54, 93 });
+            IVector right = new SimpleVector(new double[4] { 6, 19, 12, 4 });
 
-            Assert.IsTrue(result.CompareWith(right, 1e-5));
+            Assert.IsTrue(result.CompareWith(right, 0));
         }
 
-
-
-        //////////////////SolveL + SolveU
-
         [TestMethod]
-        public void Test_f_SolveL_SolveU_plot_format_nonsimmetr()
+        public void Test_f_MultLT_Exception()
         {
             (int, int)[] coord = new(int, int)[16];
             double[] val = new double[16] { 1, 4, 4, 4, 1, 1, 3, 3, 1, 1, 1, 2, 1, 1, 1, 1 };
@@ -972,13 +1188,239 @@ namespace UnitTestProject
             }
 
             IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+            IVector x = new SimpleVector(new double[3] { 1, 1, 1 });
+            IVector y;
+            Assert.ThrowsException<DifferentSizeException>(() => { y = mar.T.MultL(x); });
 
-            IVector z = mar.Mult(x);
-            z = mar.SolveL(x);
-            z = mar.SolveU(z);
-            IVector right = new SimpleVector(new double[4] { 5, 0, 0, -1 });
-            Assert.IsTrue(z.CompareWith(right, 1e-5));
+        }
+
+        //////////////////MultUT#10
+
+        [TestMethod]
+        public void Test_f_MultUT_plot_format_nonsimmetr()
+        {
+            (int, int)[] coord = new(int, int)[16];
+            double[] val = new double[16] { 1, 4, 4, 4, 1, 1, 3, 3, 1, 1, 1, 2, 1, 1, 1, 1 };
+
+            for (int i = 0; i < 16; i++)
+            {
+                coord[i] = (i / 4, i % 4);
+            }
+
+            IMatrix mar = new CoordinateMatrix(coord, val);
+            IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
+            IVector y;
+
+            y = mar.T.MultU(x);
+            IVector right = new SimpleVector(new double[4] { 1, 5, 8, 10 });
+            Assert.IsTrue(y.CompareWith(right, 0));
+
+        }
+
+        [TestMethod]
+        public void Test_f_MultUT_plot_format_simmetr()
+        {
+            (int, int)[] coord = new(int, int)[16];
+            double[] val = new double[16] { 1.5, 2.5, 7.5, 1, 2.5, 2.5, 2.5, 7.5, 7.5, 2.5, 3.5, 2.5, 1, 7.5, 2.5, 4.5 };
+
+            for (int i = 0; i < 16; i++)
+            {
+                coord[i] = (i / 4, i % 4);
+            }
+
+            IMatrix mar = new CoordinateMatrix(coord, val);
+            IVector x = new SimpleVector(new double[4] { 1.1, 2.2, 3.3, 4.4 });
+            IVector y;
+
+            y = mar.T.MultU(x);
+            IVector right = new SimpleVector(new double[4] { 1.65, 8.25, 25.3, 45.65 });
+            Assert.IsTrue(y.CompareWith(right, 1e-5));
+
+        }
+
+        [TestMethod]
+        public void Test_f_MultUT_ne_plot_nonsimmetr()
+        {
+            (int, int)[] coord = new(int, int)[11];
+            double[] val = new double[11] { 1.5, 1.1, 2.2, 2.5, 3.3, 4.4, 5.5, 3.5, 6.6, 7.7, 4.4 };
+
+            for (int i = 0; i < 3; i++)
+            {
+                coord[i] = (i / 4, i % 4);
+            }
+            coord[3] = (1, 1);
+            coord[4] = (1, 2);
+            for (int i = 5; i < 8; i++)
+            {
+                coord[i] = ((i + 3) / 4, (i + 3) % 4);
+            }
+            for (int i = 8; i < 11; i++)
+            {
+                coord[i] = ((i + 5) / 4, (i + 5) % 4);
+            }
+
+
+            IMatrix mar = new CoordinateMatrix(coord, val);
+            IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
+
+            IVector result = mar.T.MultU(x);
+            IVector right = new SimpleVector(new double[4] { 1.5, 3.6, 9, 4.4 });
+
+            Assert.IsTrue(result.CompareWith(right, 1e-5));
+        }
+
+        [TestMethod]
+        public void Test_f_MultUT_ne_plot_simmetr()
+        {
+            (int, int)[] coord = new(int, int)[12];
+            double[] val = new double[12] { 1, 5, 2, 7, 10, 5, 7, 3, 9, 10, 9, 4 };
+
+            for (int i = 2; i < 9; i++)
+            {
+                coord[i] = ((i + 3) / 4, (i + 3) % 4);
+            }
+            coord[0] = (0, 0);
+            coord[1] = (0, 2);
+            coord[9] = (3, 1);
+            coord[10] = (3, 2);
+            coord[11] = (3, 3);
+
+            IMatrix mar = new CoordinateMatrix(coord, val);
+            IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
+
+            IVector result = mar.T.MultU(x);
+            IVector right = new SimpleVector(new double[4] { 1, 2, 15, 23 });
+
+            Assert.IsTrue(result.CompareWith(right, 0));
+        }
+
+        [TestMethod]
+        public void Test_f_MultUT_Exception()
+        {
+            (int, int)[] coord = new(int, int)[16];
+            double[] val = new double[16] { 1, 4, 4, 4, 1, 1, 3, 3, 1, 1, 1, 2, 1, 1, 1, 1 };
+
+            for (int i = 0; i < 16; i++)
+            {
+                coord[i] = (i / 4, i % 4);
+            }
+
+            IMatrix mar = new CoordinateMatrix(coord, val);
+            IVector x = new SimpleVector(new double[3] { 1, 1, 1 });
+            IVector y;
+            Assert.ThrowsException<DifferentSizeException>(() => { y = mar.T.MultU(x); });
+
+        }
+
+        //////////////////MultD#11
+
+        [TestMethod]
+        public void Test_f_MultD_plot_format()
+        {
+            (int, int)[] coord = new(int, int)[8];
+            double[] val = new double[8] { 1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8 };
+
+            for (int i = 0; i < 8; i++)
+            {
+                coord[i] = (i, i);
+            }
+
+            IMatrix mar = new CoordinateMatrix(coord, val);
+            IVector x = new SimpleVector(new double[8] { 1.5, 2.5, 1.5, 2.5, 1.5, 2.5, 1.5, 2.5 });
+            IVector y;
+
+            y = mar.MultD(x);
+            IVector right = new SimpleVector(new double[8] { 1.65, 5.5, 4.95, 11, 8.25, 16.5, 11.55, 22 });
+            Assert.IsTrue(y.CompareWith(right, 1e-5));
+
+        }
+
+        [TestMethod]
+        public void Test_f_MultD_ne_plot_format()
+        {
+            (int, int)[] coord = new(int, int)[6];
+            double[] val = new double[6] { 1.1, 3.3, 4.4, 5.5, 7.7, 8.8 };
+
+            coord[0] = (0, 0);
+            for (int i = 1; i < 4; i++)
+            {
+                coord[i] = (i + 1, i + 1);
+            }
+            coord[4] = (6, 6);
+            coord[5] = (7, 7);
+            IMatrix mar = new CoordinateMatrix(coord, val);
+            IVector x = new SimpleVector(new double[8] { 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5 });
+            IVector y;
+
+            y = mar.MultD(x);
+            IVector right = new SimpleVector(new double[8] { 1.65, 0, 4.95, 6.6, 8.25, 0, 11.55, 13.2 });
+            Assert.IsTrue(y.CompareWith(right, 1e-5));
+
+        }
+
+
+        //////////////////SolveD#12
+
+        [TestMethod]
+        public void Test_f_SolveD_plot_format()
+        {
+            (int, int)[] coord = new(int, int)[8];
+            double[] val = new double[8] { 1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8 };
+
+            for (int i = 0; i < 8; i++)
+            {
+                coord[i] = (i, i);
+            }
+
+            IMatrix mar = new CoordinateMatrix(coord, val);
+            IVector x = new SimpleVector(new double[8] { 1.65, 5.5, 4.95, 11, 8.25, 16.5, 11.55, 22 });
+            IVector y;
+
+            y = mar.SolveD(x);
+            IVector right = new SimpleVector(new double[8] { 1.5, 2.5, 1.5, 2.5, 1.5, 2.5, 1.5, 2.5 });
+            Assert.IsTrue(y.CompareWith(right, 1e-5));
+
+        }
+
+        [TestMethod]
+        public void Test_f_SolveD_size()
+        {
+            (int, int)[] coord = new(int, int)[8];
+            double[] val = new double[8] { 1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8 };
+
+            for (int i = 0; i < 8; i++)
+            {
+                coord[i] = (i, i);
+            }
+
+            IMatrix mar = new CoordinateMatrix(coord, val);
+            IVector x = new SimpleVector(new double[6] { 1.65, 5.5, 4.95, 11, 8.25, 16.5 });
+            IVector y;
+            Assert.ThrowsException<DifferentSizeException>(() => { y = mar.SolveD(x); });
+
+        }
+
+        [TestMethod]
+        public void Test_f_SolveD_ne_plot_format()
+        {
+            (int, int)[] coord = new(int, int)[6];
+            double[] val = new double[6] { 1.1, 3.3, 4.4, 5.5, 7.7, 8.8 };
+
+            coord[0] = (0, 0);
+            for (int i = 1; i < 4; i++)
+            {
+                coord[i] = (i + 1, i + 1);
+            }
+            coord[4] = (6, 6);
+            coord[5] = (7, 7);
+            IMatrix mar = new CoordinateMatrix(coord, val);
+            IVector x = new SimpleVector(new double[8] { 1.65, 0, 4.95, 6.6, 8.25, 0, 11.55, 13.2 });
+            IVector y;
+
+            y = mar.SolveD(x);
+            IVector right = new SimpleVector(new double[8] { 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5 });
+            Assert.IsTrue(y.CompareWith(right, 1e-5));
+
         }
 
 
