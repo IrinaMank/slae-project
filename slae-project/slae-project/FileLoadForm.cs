@@ -275,6 +275,7 @@ namespace slae_project
                 Form1.justDoIt.Enabled = true;
                 Form1.loadFiles.Enabled = true;
                 Form1.next.Enabled = true;
+                Form1.format.Enabled = true;
             }
         }
 
@@ -282,6 +283,7 @@ namespace slae_project
         {
             Form1.justDoIt.Enabled = true;
             Form1.loadFiles.Enabled = true;
+            Form1.format.Enabled = false;
         }
 
         private void button_Click(object sender, EventArgs e)
