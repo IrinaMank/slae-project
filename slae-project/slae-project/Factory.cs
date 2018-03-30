@@ -14,8 +14,7 @@ namespace slae_project
 {
     class Factory
     {
-        //Form1 main_form;
-        FileLogger Log = new FileLogger();//Form1.maxiter добавлена Ирой, чтобы проект собирался. Возможно, аргументом должно быть что-то другое
+        FileLogger Log = new FileLogger();
         public static Dictionary<string, string> DictionaryOfFormats = FileLoadForm.filenames_format;//словарь путей до массивов
         static public Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)> MatrixTypes = new Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)>();
         public static IMatrix ObjectOfIMatrix;
@@ -62,7 +61,6 @@ namespace slae_project
             ISolver Bsg = new BSGStabSolve();
             ISolver Jacoby = new Jacobi();
             ISolver Zeid = new Seidel();
-
 
             RegisterSolverClass("Метод сопряжённых градиентов", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, ILogger g) => Msg.Solve(Prec, ObjectOfIMatrix, RightVector, X0, Accuracy, MaxIter, Log));
             RegisterSolverClass("Локально-оптимальная схема", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, ILogger g) => Los.Solve(Prec, ObjectOfIMatrix, RightVector, X0, Accuracy, MaxIter, Log));
