@@ -59,7 +59,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "infoForm";
-            this.Text = "Информация";
+            this.Text = "Справка";
             this.ResumeLayout(false);
 
         }
