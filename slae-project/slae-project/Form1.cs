@@ -247,6 +247,7 @@ namespace slae_project
 
         private void nextClick(object sender, EventArgs e)
         {
+            bar.Value = 0;
             Factory.MaxIter = Convert.ToUInt16(maxit.Text);
             bar.Maximum = Convert.ToUInt16(maxit.Text);
             Factory.Accuracy = Convert.ToDouble("1e-" + acc.Value.ToString());
@@ -269,6 +270,7 @@ namespace slae_project
             justDoIt.Enabled = false;
             loadFiles.Enabled = false;
             next.Enabled = false;
+            bar.Value = 0;
         }
 
         private void propertyChange(object sender, EventArgs e)
@@ -283,6 +285,7 @@ namespace slae_project
             format.Enabled = false;
             justDoIt.Enabled = false;
             loadFiles.Enabled = false;
+            bar.Value = 0;
         }
 
         public void graphicsClick(object sender, EventArgs e)
