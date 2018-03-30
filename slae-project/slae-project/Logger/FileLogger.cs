@@ -60,8 +60,8 @@ namespace slae_project.Logger
         public void WriteTime(string start, string end)
         {
             fileStream.WriteLine("---------------------------------------------------");
-            fileStream.WriteLine("Время начала решения:\t\t" +start +"\n"+
-                                 "Время окончания решения:\t"+ end );
+            fileStream.WriteLine("Время начала решения:\t\t" + start);
+            fileStream.WriteLine("Время окончания решения:\t"+ end );
             fileStream.WriteLine("---------------------------------------------------");
             fileStream.WriteLine("\n\n\n");
             fileStream.Flush();
