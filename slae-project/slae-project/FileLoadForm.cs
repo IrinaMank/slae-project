@@ -23,7 +23,6 @@ namespace slae_project
 
         public static Dictionary<string, string> filenames_format = new Dictionary<string, string>(); // словарь: ключ - название массива, значение - путь к файлу
         public static List<string> arrays = new List<string>();
-        public static Dictionary<Label, TextBox> sootvet = new Dictionary<Label, TextBox>();
         public static IVector F = new SimpleVector();//правая часть
         public static IVector X0 = new SimpleVector();//Начально приближение 
         string filename_b = null, filename_X0 = null;
@@ -90,7 +89,6 @@ namespace slae_project
                 puth.Name = i.ToString();
                 puth.Location = new Point(x_p, y);
                 puths.Add(puth);
-                sootvet.Add(name, puth);
                 this.Controls.Add(puth);
 
                 Button button = new Button();
@@ -120,7 +118,6 @@ namespace slae_project
             puth_b.Location = new Point(x_p, y);
             puths.Add(puth_b);
             this.Controls.Add(puth_b);
-            sootvet.Add(name_b, puth_b);
 
             Button button_b = new Button();
             obzors.Add(button_b);
@@ -148,7 +145,6 @@ namespace slae_project
             puth_x0.Location = new Point(x_p, y);
             puths.Add(puth_x0);
             this.Controls.Add(puth_x0);
-            sootvet.Add(name_x0, puth_x0);
 
             Button button_x0 = new Button();
             obzors.Add(button_x0);
@@ -185,7 +181,9 @@ namespace slae_project
 
         private void button_cancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Form1.format.Enabled = true;
+            this.Visible = false;
+            Form1.next.Enabled = false;
         }
 
         private void MultireadingButton_Click(object sender, EventArgs e)
@@ -263,8 +261,8 @@ namespace slae_project
             {
                 X0[r] = Convert.ToDouble(k[r]);
             }
-
-            this.Hide();
+            Form1.format.Enabled = true;
+            this.Visible = false;
             return;
         }
 
@@ -275,6 +273,7 @@ namespace slae_project
                 Form1.justDoIt.Enabled = true;
                 Form1.loadFiles.Enabled = true;
                 Form1.next.Enabled = true;
+                Form1.format.Enabled = true;
             }
         }
 
@@ -282,6 +281,7 @@ namespace slae_project
         {
             Form1.justDoIt.Enabled = true;
             Form1.loadFiles.Enabled = true;
+            Form1.format.Enabled = false;
         }
 
         private void button_Click(object sender, EventArgs e)

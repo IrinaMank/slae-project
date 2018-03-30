@@ -118,15 +118,37 @@ namespace slae_project
             groupBox3.Height = vectorDataGrid.Height + 50;
         }
 
-        public void textToOnlyNumbers(int col, int row)
+        public void textToOnlyNumbers(int col, int row, int mat)
         {
             try
             {
-                matrixDataGrid[col, row].Value = Eval(matrixDataGrid[col, row].Value.ToString().Replace(",", "."));
+                switch (mat)
+                {
+                    case 1:
+                        matrixDataGrid[col, row].Value = Eval(matrixDataGrid[col, row].Value.ToString().Replace(",", "."));
+                        break;
+                    case 2:
+                        vectorDataGrid[col, row].Value = Eval(vectorDataGrid[col, row].Value.ToString().Replace(",", "."));
+                        break;
+                    case 3:
+                        x0DataGrid[col, row].Value = Eval(x0DataGrid[col, row].Value.ToString().Replace(",", "."));
+                        break;
+                }
             }
             catch
             {
-                matrixDataGrid[col, row].Value = null;
+                switch (mat)
+                {
+                    case 1:
+                        matrixDataGrid[col, row].Value = null;
+                        break;
+                    case 2:
+                        vectorDataGrid[col, row].Value = null;
+                        break;
+                    case 3:
+                        x0DataGrid[col, row].Value = null;
+                        break;
+                }
             }
         }
 
@@ -300,7 +322,7 @@ namespace slae_project
         {
             if (matrixDataGrid[e.ColumnIndex, e.RowIndex].Value != null)
             {
-                textToOnlyNumbers(e.ColumnIndex, e.RowIndex);
+                textToOnlyNumbers(e.ColumnIndex, e.RowIndex, 1);
                 if (property == true)
                     matrixDataGrid[e.RowIndex, e.ColumnIndex].Value = matrixDataGrid[e.ColumnIndex, e.RowIndex].Value;
                 matrixDataGrid.UpdateCellValue(e.RowIndex, e.ColumnIndex);
@@ -323,6 +345,16 @@ namespace slae_project
             Form1.loadFiles.Enabled = true;
             if (this.Visible == false)
                 Form1.next.Enabled = true;
+        }
+
+        private void x0DataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            textToOnlyNumbers(e.ColumnIndex, e.RowIndex, 3);
+        }
+
+        private void vectorDataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            textToOnlyNumbers(e.ColumnIndex, e.RowIndex, 2);
         }
     }
 }
