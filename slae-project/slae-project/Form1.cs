@@ -58,8 +58,6 @@ namespace slae_project
             matrixTypesList = Factory.MatrixTypes.Keys.ToArray();
             solverTypesList = Factory.SolverTypes.Keys.ToArray();
 
-
-
             formMatrix = new Label
             {
                 Text = "Формат матрицы",
@@ -161,7 +159,7 @@ namespace slae_project
             };
             this.Controls.Add(maxit);
             maxit.BringToFront();
-            TextChanged += new System.EventHandler(maxitTextChange);
+            maxit.TextChanged += new System.EventHandler(maxitTextChange);
 
             propertyMatrix = new CheckBox
             {
@@ -169,7 +167,7 @@ namespace slae_project
                 Size = new Size(200, 20),
                 Location = new Point(38, 198),
                 BackColor = Color.Transparent
-        };
+            };
             propertyMatrix.CheckedChanged += new System.EventHandler(propertyChange);
             this.Controls.Add(propertyMatrix);
             propertyMatrix.BringToFront();
@@ -339,6 +337,11 @@ namespace slae_project
         private void propertyChange(object sender, EventArgs e)
         {
             property_matr = !property_matr;
+            next.Enabled = false;
+            if (property_matr == true)
+            {
+                form.clearMatrix();
+            }
         }
 
         private void justDoItClick(object sender, EventArgs e)

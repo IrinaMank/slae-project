@@ -17,7 +17,7 @@ namespace slae_project
         const int widthCol = 30;
         const int heightRow = 30;
         const int maxSize = 11;
-        public int size;
+        public static int size;
         public bool property;
 
         public matrixForm()
@@ -170,7 +170,7 @@ namespace slae_project
             }
         }
 
-        private void clearMatrix()
+        public void clearMatrix()
         {
             while (size > 2)
             {
