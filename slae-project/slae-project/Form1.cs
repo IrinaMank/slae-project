@@ -25,7 +25,7 @@ namespace slae_project
         String[] matrixTypesList;
         String[] solverTypesList;
 
-        public static Button next, exit, back, justDoIt, icon, loadFiles, graphics;
+        public static Button next, exit, back, justDoIt, icon, loadFiles, graphics, fileResult;
         public GroupBox gr;
         public PictureBox picture;
         public RadioButton fileRead, myRead;
@@ -165,7 +165,7 @@ namespace slae_project
             graphics = new Button();
             graphics.Text = "Графика";
             graphics.Size = new Size(100, 30);
-            graphics.Location = new Point(165, 260);
+            graphics.Location = new Point(175, 260);
             graphics.Click += new System.EventHandler(graphicsClick);
             this.Controls.Add(graphics);
             graphics.BringToFront();
@@ -178,6 +178,15 @@ namespace slae_project
             next.Click += new System.EventHandler(nextClick);
             this.Controls.Add(next);
             next.Enabled = false;
+
+            fileResult = new Button();
+            fileResult.Text = "Файл с результатом";
+            fileResult.Size = new Size(130, 30);
+            fileResult.Location = new Point(35, 260);
+            fileResult.Click += new System.EventHandler(fileResultClick);
+            this.Controls.Add(fileResult);
+            fileResult.BringToFront();
+            fileResult.Enabled = false;
 
             format = new ComboBox();
             format.Size = new Size(210, 30);
@@ -258,6 +267,12 @@ namespace slae_project
 
             threadSolver();
             graphics.Enabled = true;
+            fileResult.Enabled = true;
+        }
+
+        private void fileResultClick(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("log.txt");
         }
 
         private void loadFilesClick(object sender, EventArgs e)
