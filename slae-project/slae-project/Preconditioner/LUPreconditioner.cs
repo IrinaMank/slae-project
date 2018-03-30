@@ -18,6 +18,6 @@ namespace slae_project.Preconditioner
                 throw new slae_project.Matrix.MatrixExceptions.LUFailException();
         }
 
-        public string getName() => "LU предобуславливание";
+       override public string getName() => "LU предобуславливание";
     }
 }
