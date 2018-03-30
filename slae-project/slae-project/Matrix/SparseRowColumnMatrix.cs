@@ -695,6 +695,7 @@ namespace slae_project.Matrix
 
                         m = ig[n];
                         count_files++;
+                        reader.Close();
                         break;
                     case "jg":
 
@@ -723,6 +724,7 @@ namespace slae_project.Matrix
                                 jg[i] = Convert.ToInt32(sub[i]);
                         }
                         count_files++;
+                        reader.Close();
                         break;
                     case "di":
 
@@ -749,6 +751,7 @@ namespace slae_project.Matrix
                                 di[i] = Convert.ToDouble(sub[i]);
                         }
                         count_files++;
+                        reader.Close();
                         break;
                     case "al":
 
@@ -777,6 +780,7 @@ namespace slae_project.Matrix
                                 al[i] = Convert.ToDouble(sub[i]);
                         }
                         count_files++;
+                        reader.Close();
                         break;
                     case "au":
 
@@ -805,6 +809,7 @@ namespace slae_project.Matrix
                                 au[i] = Convert.ToDouble(sub[i]);
                         }
                         count_files++;
+                        reader.Close();
                         break;
                 }
             }

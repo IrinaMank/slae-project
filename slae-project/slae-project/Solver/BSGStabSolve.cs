@@ -24,6 +24,9 @@ namespace slae_project.Solver
 
         public IVector Solve(IPreconditioner Preconditioner, IMatrix A, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
         {
+            Logger.WriteNameSolution("BSGStab", Preconditioner.getName());
+            string start = DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff");
+
             Logger.setMaxIter(Maxiter);
             IVector x = (IVector)Initial.Clone();
 
@@ -75,11 +78,12 @@ namespace slae_project.Solver
                 z.Add(LAUz, 1, -beta * gamma, true);//z(k) = z(k) - beta(k) * gamma(k) * L(-1)AU(-1)z(k-1)
 
                 normR = r.Norm / b.Norm;
-
+                Factory.Residual.Add(normR);
                 Logger.WriteIteration(iter, normR);
             }
             x = Preconditioner.SolveL(x);//x = U(-1)x
             Logger.WriteSolution(x,Maxiter);
+            Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));
             return x;
         }
     }

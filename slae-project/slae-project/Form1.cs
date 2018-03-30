@@ -17,15 +17,15 @@ namespace slae_project
         public static string str_solver; //тип решателя
         public static string str_precond; //тип предобусловлевания
         public static bool property_matr = false; //симметричность матрицы: по умолчанию несимметричная
-        public static double accurent = 0.1;
-        public static int maxiter = 1000;
+        //public static double accurent = 0.1;
+       // public static int maxiter = 1000;
         public double percent = 0;
         public int ourIter = 0;
         String[] precondTypesList;
         String[] matrixTypesList;
         String[] solverTypesList;
 
-        public static Button next, exit, back, justDoIt, icon, loadFiles, graphics;
+        public static Button next, exit, back, justDoIt, icon, loadFiles, graphics, fileResult;
         public GroupBox gr;
         public PictureBox picture;
         public RadioButton fileRead, myRead;
@@ -165,7 +165,7 @@ namespace slae_project
             graphics = new Button();
             graphics.Text = "Графика";
             graphics.Size = new Size(100, 30);
-            graphics.Location = new Point(165, 260);
+            graphics.Location = new Point(175, 260);
             graphics.Click += new System.EventHandler(graphicsClick);
             this.Controls.Add(graphics);
             graphics.BringToFront();
@@ -178,6 +178,15 @@ namespace slae_project
             next.Click += new System.EventHandler(nextClick);
             this.Controls.Add(next);
             next.Enabled = false;
+
+            fileResult = new Button();
+            fileResult.Text = "Файл с результатом";
+            fileResult.Size = new Size(130, 30);
+            fileResult.Location = new Point(35, 260);
+            fileResult.Click += new System.EventHandler(fileResultClick);
+            this.Controls.Add(fileResult);
+            fileResult.BringToFront();
+            fileResult.Enabled = false;
 
             format = new ComboBox();
             format.Size = new Size(210, 30);
@@ -238,6 +247,7 @@ namespace slae_project
 
         private void threadSolver()
         {
+            Factory.Residual.Clear();// очистим вектор для нового решения
             Factory.CreateMatrix(str_format_matrix);
             Factory.Create_Full_Matrix(str_format_matrix, property_matr);
             Factory.CreatePrecond(str_precond);
@@ -246,9 +256,10 @@ namespace slae_project
 
         private void nextClick(object sender, EventArgs e)
         {
-            maxiter = Convert.ToUInt16(maxit.Text);
+            bar.Value = 0;
+            Factory.MaxIter = Convert.ToUInt16(maxit.Text);
             bar.Maximum = Convert.ToUInt16(maxit.Text);
-            accurent = Convert.ToDouble("1e-" + acc.Value.ToString());
+            Factory.Accuracy = Convert.ToDouble("1e-" + acc.Value.ToString());
 
             str_format_matrix = format.SelectedItem.ToString();
             str_solver = solver.SelectedItem.ToString();
@@ -256,6 +267,12 @@ namespace slae_project
 
             threadSolver();
             graphics.Enabled = true;
+            fileResult.Enabled = true;
+        }
+
+        private void fileResultClick(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("log.txt");
         }
 
         private void loadFilesClick(object sender, EventArgs e)
@@ -267,6 +284,8 @@ namespace slae_project
             format.Enabled = false;
             justDoIt.Enabled = false;
             loadFiles.Enabled = false;
+            next.Enabled = false;
+            bar.Value = 0;
         }
 
         private void propertyChange(object sender, EventArgs e)
@@ -277,9 +296,11 @@ namespace slae_project
         private void justDoItClick(object sender, EventArgs e)
         {
             form.Show();
-            format.SelectedValue = 2;
+            format.SelectedIndex = 0;
+            format.Enabled = false;
             justDoIt.Enabled = false;
             loadFiles.Enabled = false;
+            bar.Value = 0;
         }
 
         public void graphicsClick(object sender, EventArgs e)

@@ -17,5 +17,7 @@ namespace slae_project.Preconditioner
             if (m.Diagonal.ContainZero())
                 throw new slae_project.Matrix.MatrixExceptions.LUFailException();
         }
+
+       override public string getName() => "LU предобуславливание";
     }
 }
