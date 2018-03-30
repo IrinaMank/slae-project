@@ -386,13 +386,13 @@ namespace slae_project
                             Grid.Y_move();
                             Count_by_Y++;
                         }
-                    //else
-                    //    for (int i = 0; i < obj.yCellCount; i++)
-                    //    {
-                    //        Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, (obj.min + (double)obj.range*((double)((double)obj.yCellCount - Count_by_Y - 0.5)/ obj.yCellCount)).ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
-                    //        Grid.Y_move();
-                    //        Count_by_Y++;
-                    //    }
+                    else
+                        for (int i = 0; i < obj.yCellCount - 1; i++)
+                        {
+                            Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, (obj.min + (double)obj.range*((double)((double)obj.yCellCount - Count_by_Y - 1.0)/ obj.yCellCount)).ToString(font_format.ToString() + (3).ToString()), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                            Grid.Y_move();
+                            Count_by_Y++;
+                        }
                     Grid.X_Y_counter.x = X_new;
                     Grid.X_Y_counter.y = Y_new;
 
@@ -596,7 +596,7 @@ namespace slae_project
                                         draw_line(cursor_X(x), Y0, cursor_X(x + 1), Y1, true, (Single)153 / 255, (Single)51 / 255, (Single)1, 3.0f);
                                 }
                             if (y > OS_y_begin && y < OS_y_end)
-                                Draw_Text(cursor_X(x), cursor_Y(y), GraphicalObject.GraphicalVector[X_counter].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
+                                Draw_Text(cursor_X(x), cursor_Y(y-GraphicalObject.yCellCount), GraphicalObject.GraphicalVector[X_counter].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
                         }
                     }
                 }
@@ -1343,9 +1343,11 @@ namespace slae_project
                 //определенной оси Y, хмм, мы можем воспользоваться старой доброй yCellBelong функций. точняк.
                 while (Grid.X_Y_counter.x >= Grid.NetWorkOS_X.Count())
                     Grid.NetWorkOS_X.Add(new Net.NetWorkOSCell());
+                if (obj.GraphicalVector == null)
                 Grid.NetWorkOS_X[Grid.X_Y_counter.x].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, Count_by_X.ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                else Grid.NetWorkOS_X[Grid.X_Y_counter.x].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, Count_by_X.ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y + obj.yCellCount));
                 //Draw_Text(Grid.cursorP.x, Grid.cursorP.y, Count_by_X.ToString());
-                
+
                 Grid.X_move();
                 Count_by_X++;
             }
