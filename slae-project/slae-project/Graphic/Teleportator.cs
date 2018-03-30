@@ -43,6 +43,7 @@ namespace slae_project
         //Кнопка телепорта
         private void button1_Click(object sender, EventArgs e)
         {
+            int rem_x = 0, rem_y = 0;
             int N_Matrix = 0, N_Row = 0, N_Column = 0;
             if (CheckNumberFromString(textBox1_NumberMatrix.Text, ref N_Matrix, refered_sharp.GD.List_Of_Objects.Count() - 1, true))
                 if (CheckNumberFromString(textBox2_NumberRow.Text, ref N_Row, refered_sharp.GD.List_Of_Objects[N_Matrix].yCellCount - 1, true))
@@ -51,17 +52,30 @@ namespace slae_project
 
                         int hnew = (int)((N_Column + refered_sharp.GD.LeftTopCellOfEachMatrix[N_Matrix].X + 0.5) * refered_sharp.GD.Grid.xCellSize - refered_sharp.openGLControl.Width / 2);
                         int vnew = (int)((N_Row + refered_sharp.GD.LeftTopCellOfEachMatrix[N_Matrix].Y + 2) * refered_sharp.GD.Grid.yCellSize - refered_sharp.openGLControl.Height / 2);
+                        rem_x = hnew % refered_sharp.openGLControl.Width;
+                        rem_y = vnew % refered_sharp.openGLControl.Height;
 
-                        if (hnew < refered_sharp.hScrollBar1.Minimum) hnew = refered_sharp.hScrollBar1.Minimum;
-                        if (hnew > refered_sharp.hScrollBar1.Maximum) hnew = refered_sharp.hScrollBar1.Maximum;
-                        if (vnew < refered_sharp.vScrollBar1.Minimum) vnew = refered_sharp.vScrollBar1.Minimum;
-                        if (vnew > refered_sharp.vScrollBar1.Maximum) vnew = refered_sharp.vScrollBar1.Maximum;
+                        //if (hnew < refered_sharp.hScrollBar1.Minimum) hnew = refered_sharp.hScrollBar1.Minimum;
+                        //if (hnew > refered_sharp.hScrollBar1.Maximum) hnew = refered_sharp.hScrollBar1.Maximum;
+                        //if (vnew < refered_sharp.vScrollBar1.Minimum) vnew = refered_sharp.vScrollBar1.Minimum;
+                        //if (vnew > refered_sharp.vScrollBar1.Maximum) vnew = refered_sharp.vScrollBar1.Maximum;
+                        if (hnew < refered_sharp.hScrollBar1.Minimum) refered_sharp.hScrollBar1.Minimum = hnew;
+                        if (hnew > refered_sharp.hScrollBar1.Maximum) refered_sharp.hScrollBar1.Maximum = hnew;
+                        if (vnew < refered_sharp.vScrollBar1.Minimum) refered_sharp.vScrollBar1.Minimum = vnew;
+                        if (vnew > refered_sharp.vScrollBar1.Maximum) refered_sharp.vScrollBar1.Maximum = vnew;
 
                         refered_sharp.hScrollBar1.Value = hnew;
                         refered_sharp.vScrollBar1.Value = vnew;
+
+
                     }
-                    
+
+            refered_sharp.GD.mouse.true_x = refered_sharp.openGLControl.Width/2;
+            refered_sharp.GD.mouse.true_y = refered_sharp.openGLControl.Height/2;
+            refered_sharp.Refresh_Window(false);
+            //refered_sharp.GD.LaserCrossroad(refered_sharp.openGLControl.Width/2, refered_sharp.openGLControl.Height / 2);
             Refresher();
+
         }
 
 

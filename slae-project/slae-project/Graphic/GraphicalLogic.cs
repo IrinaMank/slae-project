@@ -687,14 +687,30 @@ namespace slae_project
                 
             }
         }
-        private void LaserCrossroad()
+        public bool BoolLaser = true;
+        public void LaserCrossroad(int x, int y,bool shift = true)
         {
             //Целеуказатель плюсиком зеленый
             if (TargetPlus)
             {
+                if (shift)
+                {
+                    x -= mouse.ShiftedPosition.x;
+                    y += +mouse.ShiftedPosition.y;
+                }
+                draw_line(0, y, openGLControl.Width, y, false, 0, 1, 0, 1.0f);
+                draw_line(x, 0, x, openGLControl.Height, false, 0, 1, 0, 1.0f);
+            }
+        }
+        private void LaserCrossroad()
+        {
+            //Целеуказатель плюсиком зеленый
+            if (TargetPlus && BoolLaser)
+            {
                 draw_line(0, mouse.true_y, openGLControl.Width, mouse.true_y, false, 0, 1, 0, 1.0f);
                 draw_line(mouse.true_x, 0, mouse.true_x, openGLControl.Height, false, 0, 1, 0, 1.0f);
             }
+            if (!BoolLaser) BoolLaser = true;
         }
         void Draw_Text(int in_x, int in_y, string phrase)
         {
@@ -1828,11 +1844,15 @@ namespace slae_project
 
                 BorderEndRecalculate();
 
-                if (ShiftedPosition.x - ShiftPosition.x > BorderBegin.x && ShiftedPosition.x - ShiftPosition.x < (Math.Abs(BorderEnd.x)))
+                if (ShiftedPosition.x - ShiftPosition.x > BorderBegin.x && ShiftedPosition.x - ShiftPosition.x < (Math.Abs(BorderEnd.x))
+                    || Math.Abs(ShiftedPosition.x - ShiftPosition.x - BorderBegin.x) <Math.Abs(ShiftedPosition.x - BorderBegin.x)
+                    || Math.Abs(ShiftedPosition.x - ShiftPosition.x - BorderEnd.x) < Math.Abs(ShiftedPosition.x - BorderEnd.x))
                     ShiftedPosition.x -= ShiftPosition.x;
 
-                if (ShiftedPosition.y - ShiftPosition.y > BorderBegin.y && ShiftedPosition.y - ShiftPosition.y < (Math.Abs(BorderEnd.y)))
-                ShiftedPosition.y -= ShiftPosition.y;
+                if (ShiftedPosition.y - ShiftPosition.y > BorderBegin.y && ShiftedPosition.y - ShiftPosition.y < (Math.Abs(BorderEnd.y))
+                    || Math.Abs(ShiftedPosition.y - ShiftPosition.y - BorderBegin.y) < Math.Abs(ShiftedPosition.y - BorderBegin.y)
+                    || Math.Abs(ShiftedPosition.y - ShiftPosition.y - BorderEnd.y) < Math.Abs(ShiftedPosition.y - BorderEnd.y))
+                    ShiftedPosition.y -= ShiftPosition.y;
             }
             
 
