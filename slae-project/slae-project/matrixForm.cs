@@ -34,8 +34,6 @@ namespace slae_project
             groupBox1.MouseMove += new MouseEventHandler(this.groupBox1_MouseMove);
             groupBox1.MouseUp += new MouseEventHandler(this.matrixDataGrid_MouseUp);
             groupBox1.MouseLeave += new EventHandler(this.groupBox1_MouseLeave);
-
-            property = Form1.property_matr;
             size = 2;
 
             var column1 = new DataGridViewColumn
@@ -337,13 +335,13 @@ namespace slae_project
             if (matrixDataGrid[e.ColumnIndex, e.RowIndex].Value != null)
             {
                 textToOnlyNumbers(e.ColumnIndex, e.RowIndex, 1);
-                if (property == true)
+                if (Form1.property_matr == true)
                     matrixDataGrid[e.RowIndex, e.ColumnIndex].Value = matrixDataGrid[e.ColumnIndex, e.RowIndex].Value;
                 matrixDataGrid.UpdateCellValue(e.RowIndex, e.ColumnIndex);
             }
             else
             {
-                if (property == true)
+                if (Form1.property_matr == true)
                     matrixDataGrid[e.RowIndex, e.ColumnIndex].Value = "";
             }
         }
