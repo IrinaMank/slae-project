@@ -17,9 +17,8 @@ namespace slae_project.Logger
         private System.IO.StreamWriter fileStream;
         private string defaultLogFile = "./log.txt";
 
-        public FileLogger(int maxi)
+        public FileLogger()
         {
-            maxiter = maxi;
             setFile(defaultLogFile);
         }
         public void Dispose()
