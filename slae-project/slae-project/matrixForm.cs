@@ -118,15 +118,37 @@ namespace slae_project
             groupBox3.Height = vectorDataGrid.Height + 50;
         }
 
-        public void textToOnlyNumbers(int col, int row)
+        public void textToOnlyNumbers(int col, int row, int mat)
         {
             try
             {
-                matrixDataGrid[col, row].Value = Eval(matrixDataGrid[col, row].Value.ToString().Replace(",", "."));
+                switch (mat)
+                {
+                    case 1:
+                        matrixDataGrid[col, row].Value = Eval(matrixDataGrid[col, row].Value.ToString().Replace(",", "."));
+                        break;
+                    case 2:
+                        vectorDataGrid[col, row].Value = Eval(vectorDataGrid[col, row].Value.ToString().Replace(",", "."));
+                        break;
+                    case 3:
+                        x0DataGrid[col, row].Value = Eval(x0DataGrid[col, row].Value.ToString().Replace(",", "."));
+                        break;
+                }
             }
             catch
             {
-                matrixDataGrid[col, row].Value = null;
+                switch (mat)
+                {
+                    case 1:
+                        matrixDataGrid[col, row].Value = null;
+                        break;
+                    case 2:
+                        vectorDataGrid[col, row].Value = null;
+                        break;
+                    case 3:
+                        x0DataGrid[col, row].Value = null;
+                        break;
+                }
             }
         }
 
@@ -187,27 +209,29 @@ namespace slae_project
             FileLoadForm.filenames_format.Clear();
             FileLoadForm.filenames_format.Add(arrays[0].ToString(), name);
 
-            FileLoadForm.F = new SimpleVector(size-1);
+            Factory.RightVector = new SimpleVector(size - 1);
+            //FileLoadForm.F = new SimpleVector(size-1);
 
             object line1;
             for (int i = 0; i < size-1; i++)
             {
                 line1 = vectorDataGrid[0, i].Value;
                 if (line1 != null)
-                    FileLoadForm.F[i] = Convert.ToDouble(line1);
+                    Factory.RightVector[i] = Convert.ToDouble(line1);
                 else
-                    FileLoadForm.F[i] = 0.0;
+                    Factory.RightVector[i] = 0.0;
             }
-            FileLoadForm.X0 = new SimpleVector(size-1);
+            Factory.X0 = new SimpleVector(size-1);
             for (int i = 0; i < size-1; i++)
             {
                 line1 = x0DataGrid[0, i].Value;
                 if (line1 != null)
-                    FileLoadForm.X0[i] = Convert.ToDouble(line1);
+                    Factory.X0[i] = Convert.ToDouble(line1);
                 else
-                    FileLoadForm.X0[i] = 0.0;
+                    Factory.X0[i] = 0.0;
             }
             this.Visible = false;
+            Form1.format.Enabled = true;
         }
 
         private void matrixDataGrid_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -300,7 +324,7 @@ namespace slae_project
         {
             if (matrixDataGrid[e.ColumnIndex, e.RowIndex].Value != null)
             {
-                textToOnlyNumbers(e.ColumnIndex, e.RowIndex);
+                textToOnlyNumbers(e.ColumnIndex, e.RowIndex, 1);
                 if (property == true)
                     matrixDataGrid[e.RowIndex, e.ColumnIndex].Value = matrixDataGrid[e.ColumnIndex, e.RowIndex].Value;
                 matrixDataGrid.UpdateCellValue(e.RowIndex, e.ColumnIndex);
@@ -323,6 +347,23 @@ namespace slae_project
             Form1.loadFiles.Enabled = true;
             if (this.Visible == false)
                 Form1.next.Enabled = true;
+        }
+
+        private void x0DataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            textToOnlyNumbers(e.ColumnIndex, e.RowIndex, 3);
+        }
+
+        private void vectorDataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            textToOnlyNumbers(e.ColumnIndex, e.RowIndex, 2);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Visible = false;
+            Form1.next.Enabled = false;
+            Form1.format.Enabled = true;
         }
     }
 }

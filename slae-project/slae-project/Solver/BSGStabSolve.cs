@@ -75,7 +75,7 @@ namespace slae_project.Solver
                 z.Add(LAUz, 1, -beta * gamma, true);//z(k) = z(k) - beta(k) * gamma(k) * L(-1)AU(-1)z(k-1)
 
                 normR = r.Norm / b.Norm;
-
+                Factory.Residual.Add(normR);
                 Logger.WriteIteration(iter, normR);
             }
             x = Preconditioner.SolveL(x);//x = U(-1)x
