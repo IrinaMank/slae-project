@@ -20,14 +20,6 @@ namespace slae_project
         private void loadWindow_Load(object sender, EventArgs e)
         {
             Location = new Point((Screen.PrimaryScreen.WorkingArea.Width - this.Width) / 2, (Screen.PrimaryScreen.WorkingArea.Height - this.Height) / 2);
-            timer1.Start();
-        }
-
-        private void timer1_Tick_1(object sender, EventArgs e)
-        {
-           // this.Opacity += 0.5;
-            //if (this.Opacity == 1)
-             //   timer1.Stop();
         }
     }
 }

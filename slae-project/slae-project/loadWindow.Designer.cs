@@ -28,13 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(loadWindow));
             this.SuspendLayout();
-            // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick_1);
             // 
             // loadWindow
             // 
@@ -44,6 +39,7 @@
             this.ClientSize = new System.Drawing.Size(826, 463);
             this.Cursor = System.Windows.Forms.Cursors.AppStarting;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "loadWindow";
             this.Text = "loadWindow";
             this.Load += new System.EventHandler(this.loadWindow_Load);
@@ -52,7 +48,5 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Timer timer1;
     }
 }
