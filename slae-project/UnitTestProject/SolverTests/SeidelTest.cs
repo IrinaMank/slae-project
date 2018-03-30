@@ -17,7 +17,7 @@ namespace UnitTestProject
         [TestMethod]
         public void RevertDiagonalSeidel()
         {
-            using (FileLogger logger = new FileLogger(0))
+            using (FileLogger logger = new FileLogger())
             {
                 (int, int)[] coord = new(int, int)[4];
                 double[] valMatrix = new double[4] { 1, 1, 1, 1 };
@@ -48,7 +48,7 @@ namespace UnitTestProject
         public void x0TestSeidel()
         {
             //МСГ - зависит от нач приближения.
-            using (FileLogger logger = new FileLogger(0))
+            using (FileLogger logger = new FileLogger())
             {
                 (int, int)[] coord = new(int, int)[4];
                 double[] valMatrix = new double[4] { 1, 1, 1, 1 };
@@ -83,7 +83,7 @@ namespace UnitTestProject
         [TestMethod]
         public void PrimTestSeidel()
         {
-            using (FileLogger logger = new FileLogger(0))
+            using (FileLogger logger = new FileLogger())
             {
                 (int, int)[] coord = new(int, int)[4];
                 double[] valMatrix = new double[4] { 1, 1, 1, 1 };
@@ -107,6 +107,111 @@ namespace UnitTestProject
                 IVector x = s.Solve(prec, mar, b, x0, 1e-2, 10000, logger);
 
                 Assert.IsTrue(x.CompareWith(rigth_X, 1e-2));
+            }
+        }
+
+        [TestMethod]
+        public void NegNumbers()
+        {
+            using (FileLogger logger = new FileLogger())
+            {
+                double[,] val = new double[4, 4] { { 1, 1, 1, 0 }, { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 0, -1 } };
+                IMatrix mar = new DenseMatrix(val);
+                double[] valB = new double[] { 1, 1, 1, 1 };
+                double[] valX = new double[] { 1, 1, -1, -1 };
+                IPreconditioner prec = new NoPreconditioner();
+                IVector b = new SimpleVector(valB);
+                IVector x0 = new SimpleVector(4);
+                IVector rigth_X = new SimpleVector(valX);
+
+                ISolver s = new Seidel();
+                IVector x1 = s.Solve(prec, mar, b, x0, 1e-10, 10000, logger);
+                Assert.IsTrue(x1.CompareWith(rigth_X, 1e-8), "NoPrec");
+
+            }
+        }
+
+        [TestMethod]
+        public void NotNullx0()
+        {
+            using (FileLogger logger = new FileLogger())
+            {
+                double[,] val = new double[6, 6] { { 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 0, 0, 0 }, { 1, 1, 1, 1, 1, 0 }, { 1, 0, 1, 1, 1, 0 }, { 1, 0, 1, 1, 1, 1 }, { 1, 0, 0, 0, 1, 1 } };
+                IMatrix mar = new DenseMatrix(val);
+                double[] valB = new double[] { 1, 1, 1, 1, 1, 1 };
+                double[] valX0 = new double[] { 1, 1, 1, 1, 1, 1 };
+                double[] valX = new double[] { 0.74999999999999989, 0, 0.25, -0.24999999999999972, 0.25, 0 };
+                IPreconditioner prec = new NoPreconditioner();
+                IVector b = new SimpleVector(valB);
+                IVector x0 = new SimpleVector(valX0);
+                IVector rigth_X = new SimpleVector(valX);
+
+                ISolver s = new Seidel();
+                IVector x1 = s.Solve(prec, mar, b, x0, 1e-10, 10000, logger);
+                Assert.IsTrue(x1.CompareWith(rigth_X, 1e-8), "NoPrec");
+
+            }
+        }
+
+        [TestMethod]
+        public void CalculateNumbers()
+        {
+            using (FileLogger logger = new FileLogger())
+            {
+                double[,] val = new double[4, 4] { { 1, 2, 3, 4 }, { 2, 2, 3, 4 }, { 3, 3, 3, 4 }, { 4, 4, 4, 4 } };
+                IMatrix mar = new DenseMatrix(val);
+                double[] valB = new double[] { 30, 31, 34, 40 };
+                double[] valX = new double[] { 1, 2, 3, 4 };
+                IPreconditioner prec = new NoPreconditioner();
+                IVector b = new SimpleVector(valB);
+                IVector x0 = new SimpleVector(4);
+                IVector rigth_X = new SimpleVector(valX);
+
+                ISolver s = new Seidel();
+                IVector x1 = s.Solve(prec, mar, b, x0, 1e-10, 10000, logger);
+                Assert.IsTrue(x1.CompareWith(rigth_X, 1e-8), "NoPrec");
+
+            }
+        }
+
+        [TestMethod]
+        public void UMatrix()
+        {
+            using (FileLogger logger = new FileLogger())
+            {
+                double[,] val = new double[4, 4] { { 1, 1, 1, 1 }, { 0, 1, 1, 1 }, { 0, 0, 1, 1 }, { 0, 0, 0, 1 } };
+                IMatrix mar = new DenseMatrix(val);
+                double[] valB = new double[] { 4, 3, 2, 1 };
+                double[] valX = new double[] { 1, 1, 1, 1 };
+                IPreconditioner prec = new NoPreconditioner();
+                IVector b = new SimpleVector(valB);
+                IVector x0 = new SimpleVector(4);
+                IVector rigth_X = new SimpleVector(valX);
+
+                ISolver s = new Seidel();
+                IVector x1 = s.Solve(prec, mar, b, x0, 1e-10, 10000, logger);
+                Assert.IsTrue(x1.CompareWith(rigth_X, 1e-8), "NoPrec");
+
+            }
+        }
+
+        [TestMethod]
+        public void FirstColumn()
+        {
+            using (FileLogger logger = new FileLogger())
+            {
+                double[,] val = new double[2, 2] { { 1, 0 }, { 1, 0 } };
+                IMatrix mar = new DenseMatrix(val);
+                double[] valB = new double[] { 1, 1 };
+                double[] valX = new double[] { 1, 0 };
+                IPreconditioner prec = new NoPreconditioner();
+                IVector b = new SimpleVector(valB);
+                IVector x0 = new SimpleVector(2);
+                IVector rigth_X = new SimpleVector(valX);
+
+                ISolver s = new Seidel();
+                IVector x1 = s.Solve(prec, mar, b, x0, 1e-10, 10000, logger);
+                Assert.IsTrue(x1[0] == rigth_X[0], "NoPrec");
             }
         }
     }

@@ -17,8 +17,8 @@ namespace slae_project
         public static string str_solver; //тип решателя
         public static string str_precond; //тип предобусловлевания
         public static bool property_matr = false; //симметричность матрицы: по умолчанию несимметричная
-        public static double accurent = 0.1;
-        public static int maxiter = 1000;
+        //public static double accurent = 0.1;
+       // public static int maxiter = 1000;
         public double percent = 0;
         public int ourIter = 0;
         String[] precondTypesList;
@@ -238,6 +238,7 @@ namespace slae_project
 
         private void threadSolver()
         {
+            Factory.Residual.Clear();// очистим вектор для нового решения
             Factory.CreateMatrix(str_format_matrix);
             Factory.Create_Full_Matrix(str_format_matrix, property_matr);
             Factory.CreatePrecond(str_precond);
@@ -246,9 +247,9 @@ namespace slae_project
 
         private void nextClick(object sender, EventArgs e)
         {
-            maxiter = Convert.ToUInt16(maxit.Text);
+            Factory.MaxIter = Convert.ToUInt16(maxit.Text);
             bar.Maximum = Convert.ToUInt16(maxit.Text);
-            accurent = Convert.ToDouble("1e-" + acc.Value.ToString());
+            Factory.Accuracy = Convert.ToDouble("1e-" + acc.Value.ToString());
 
             str_format_matrix = format.SelectedItem.ToString();
             str_solver = solver.SelectedItem.ToString();
