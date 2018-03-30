@@ -238,6 +238,7 @@ namespace slae_project
 
         private void threadSolver()
         {
+            Factory.Residual.Clear();// очистим вектор для нового решения
             Factory.CreateMatrix(str_format_matrix);
             Factory.Create_Full_Matrix(str_format_matrix, property_matr);
             Factory.CreatePrecond(str_precond);

@@ -63,7 +63,7 @@ namespace slae_project.Solver
 
                 z = r.Add(z, 1, beta);
                 normR = Math.Sqrt(scalRR) / b.Norm;
-
+                Factory.Residual.Add(normR);
                 Logger.WriteIteration(iter, normR);
 
             };

@@ -14,7 +14,7 @@ namespace slae_project
 {
     class Factory
     {
-        Form1 main_form;
+        //Form1 main_form;
         FileLogger Log = new FileLogger();//Form1.maxiter добавлена Ирой, чтобы проект собирался. Возможно, аргументом должно быть что-то другое
         public static Dictionary<string, string> DictionaryOfFormats = FileLoadForm.filenames_format;//словарь путей до массивов
         static public Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)> MatrixTypes = new Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)>();
@@ -22,7 +22,7 @@ namespace slae_project
         public static IVector Result;
         public static IVector RightVector;
         public static IVector X0;
-        public static double Residual;
+        public static List<double> Residual = new List<double>();//Невязка
         public static int MaxIter;
         public static double Accuracy;
         public static List<string> name_arr = new List<string>();
@@ -70,12 +70,6 @@ namespace slae_project
             RegisterSolverClass("Метод Зейделя", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, ILogger g) => Zeid.Solve(Prec, ObjectOfIMatrix, RightVector, X0, Accuracy, MaxIter, Log));
             RegisterSolverClass("Метод бисопряжённых градиентов", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, ILogger g) => Bsg.Solve(Prec, ObjectOfIMatrix, RightVector, X0, Accuracy, MaxIter, Log));
 
-            //RegisterSolverClass("Метод сопряжённых градиентов", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, ILogger g) => Msg.Solve(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.accurent, Form1.maxiter, Log));
-            //RegisterSolverClass("Локально-оптимальная схема", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, ILogger g) => Los.Solve(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.accurent, Form1.maxiter, Log));
-            //RegisterSolverClass("Метод Якоби", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, ILogger g) => Jacoby.Solve(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.accurent, Form1.maxiter, Log));
-            //RegisterSolverClass("Метод Зейделя", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, ILogger g) => Zeid.Solve(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.accurent, Form1.maxiter, Log));
-            //RegisterSolverClass("Метод бисопряжённых градиентов", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, ILogger g) => Bsg.Solve(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.accurent, Form1.maxiter, Log));
-
             //RegisterSolverClass("Метод обобщённых минимальных невязок", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, FileLogger g) => new SparseRowColumnMatrix.Solver(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.s_accur_number, Form1.max_iter, Log));
             //Log.Dispose();
         }
@@ -108,7 +102,7 @@ namespace slae_project
             FileLogger f = null;
             try
             {
-                switch (ObjectOfIMatrix.CheckCompatibility(FileLoadForm.F))
+                switch (ObjectOfIMatrix.CheckCompatibility(Factory.RightVector))
                 {
                     case MatrixConstants.SLAE_INCOMPATIBLE:
                         {

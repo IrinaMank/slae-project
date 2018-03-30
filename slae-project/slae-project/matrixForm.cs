@@ -187,25 +187,26 @@ namespace slae_project
             FileLoadForm.filenames_format.Clear();
             FileLoadForm.filenames_format.Add(arrays[0].ToString(), name);
 
-            FileLoadForm.F = new SimpleVector(size-1);
+            Factory.RightVector = new SimpleVector(size - 1);
+            //FileLoadForm.F = new SimpleVector(size-1);
 
             object line1;
             for (int i = 0; i < size-1; i++)
             {
                 line1 = vectorDataGrid[0, i].Value;
                 if (line1 != null)
-                    FileLoadForm.F[i] = Convert.ToDouble(line1);
+                    Factory.RightVector[i] = Convert.ToDouble(line1);
                 else
-                    FileLoadForm.F[i] = 0.0;
+                    Factory.RightVector[i] = 0.0;
             }
-            FileLoadForm.X0 = new SimpleVector(size-1);
+            Factory.X0 = new SimpleVector(size-1);
             for (int i = 0; i < size-1; i++)
             {
                 line1 = x0DataGrid[0, i].Value;
                 if (line1 != null)
-                    FileLoadForm.X0[i] = Convert.ToDouble(line1);
+                    Factory.X0[i] = Convert.ToDouble(line1);
                 else
-                    FileLoadForm.X0[i] = 0.0;
+                    Factory.X0[i] = 0.0;
             }
             this.Visible = false;
         }

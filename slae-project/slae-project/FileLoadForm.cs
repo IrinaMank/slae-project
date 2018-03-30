@@ -24,8 +24,8 @@ namespace slae_project
         public static Dictionary<string, string> filenames_format = new Dictionary<string, string>(); // словарь: ключ - название массива, значение - путь к файлу
         public static List<string> arrays = new List<string>();
         public static Dictionary<Label, TextBox> sootvet = new Dictionary<Label, TextBox>();
-        public static IVector F = new SimpleVector();//правая часть
-        public static IVector X0 = new SimpleVector();//Начально приближение 
+        //public static IVector F = new SimpleVector();//правая часть
+        //public static IVector X0 = new SimpleVector();//Начально приближение 
         string filename_b = null, filename_X0 = null;
         bool multireadFlag = false;
 
@@ -243,11 +243,11 @@ namespace slae_project
 
             int size = Convert.ToInt32(reader.ReadLine());
             var k = reader.ReadLine().Split();
-
-            F = new SimpleVector(size);
+            Factory.RightVector = new SimpleVector(size);
+           // F = new SimpleVector(size);
             for (int r = 0; r < size; r++)
             {
-                F[r] = Convert.ToDouble(k[r]);
+                Factory.RightVector[r] = Convert.ToDouble(k[r]);
             }
             reader.Close();
             file.Close();
@@ -257,11 +257,11 @@ namespace slae_project
 
             size = Convert.ToInt32(reader.ReadLine());
             k = reader.ReadLine().Split();
-
-            X0 = new SimpleVector(size);
+            Factory.X0 = new SimpleVector(size);
+            //X0 = new SimpleVector(size);
             for (int r = 0; r < size; r++)
             {
-                X0[r] = Convert.ToDouble(k[r]);
+                Factory.X0[r] = Convert.ToDouble(k[r]);
             }
 
             this.Hide();

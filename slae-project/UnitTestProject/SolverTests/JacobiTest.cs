@@ -119,7 +119,7 @@ namespace UnitTestProject
         [TestCategory("Jacobi")]
         public void NegNumbers()
         {
-            using (FileLogger logger = new FileLogger(1000))
+            using (FileLogger logger = new FileLogger())
             {
                 double[,] val = new double[4, 4] { { 1, 1, 1, 0 }, { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 0, -1 } };
                 IMatrix mar = new DenseMatrix(val);
@@ -141,7 +141,7 @@ namespace UnitTestProject
         [TestCategory("Jacobi")]
         public void NotNullx0()
         {
-            using (FileLogger logger = new FileLogger(1000))
+            using (FileLogger logger = new FileLogger())
             {
                 double[,] val = new double[6, 6] { { 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 0, 0, 0 }, { 1, 1, 1, 1, 1, 0 }, { 1, 0, 1, 1, 1, 0 }, { 1, 0, 1, 1, 1, 1 }, { 1, 0, 0, 0, 1, 1 } };
                 IMatrix mar = new DenseMatrix(val);
@@ -164,7 +164,7 @@ namespace UnitTestProject
         [TestCategory("Jacobi")]
         public void CalculateNumbers()
         {
-            using (FileLogger logger = new FileLogger(1000))
+            using (FileLogger logger = new FileLogger())
             {
                 double[,] val = new double[4, 4] { { 1, 2, 3, 4 }, { 2, 2, 3, 4 }, { 3, 3, 3, 4 }, { 4, 4, 4, 4 } };
                 IMatrix mar = new DenseMatrix(val);
@@ -186,7 +186,7 @@ namespace UnitTestProject
         [TestCategory("Jacobi")]
         public void UMatrix()
         {
-            using (FileLogger logger = new FileLogger(1000))
+            using (FileLogger logger = new FileLogger())
             {
                 double[,] val = new double[4, 4] { { 1, 1, 1, 1 }, { 0, 1, 1, 1 }, { 0, 0, 1, 1 }, { 0, 0, 0, 1 } };
                 IMatrix mar = new DenseMatrix(val);
@@ -208,7 +208,7 @@ namespace UnitTestProject
         [TestCategory("Jacobi")]
         public void FirstColumn()
         {
-            using (FileLogger logger = new FileLogger(1000))
+            using (FileLogger logger = new FileLogger())
             {
                 double[,] val = new double[2, 2] { { 1, 0 }, { 1, 0 } };
                 IMatrix mar = new DenseMatrix(val);
