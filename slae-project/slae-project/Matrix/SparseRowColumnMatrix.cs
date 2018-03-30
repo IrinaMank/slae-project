@@ -170,15 +170,38 @@ namespace slae_project.Matrix
         public SparseRowColumnMatrix(int[] ig, int[] jg, double[] di, double[] al, double[] au, bool isSymmetric = false)
         {
             this.isSymmetric = isSymmetric;
-            this.di = di;
-            this.ig = ig;
-            this.jg = jg;
-            this.al = al;
+            this.Size = di.Length;
+            this.di = new double[this.Size];
+            this.ig = new int[this.Size + 1];
+
+            for (int i = 0; i < this.Size; i++)
+            {
+                this.di[i] = di[i];
+                this.ig[i] = ig[i];
+            }
+            this.ig[this.Size] = ig[this.Size];
+            for (int i = 0; i < ig[this.Size]; i++)
+            {
+                this.jg[i] = jg[i];
+                this.al[i] = al[i];
+                if (isSymmetric == false)
+                    this.au[i] = au[i];
+            }
+            //присвоим по ссылке
             if (isSymmetric)
                 this.au = this.al;
-            else
-                this.au = au;
-            this.Size = di.Length;
+
+            //this.isSymmetric = isSymmetric;
+            //this.di = di;
+            //this.ig = ig;
+            //this.jg = jg;
+            //this.al = al;
+            //if (isSymmetric)
+            // this.au = this.al;
+            //else
+            //this.au = au;
+            //this.Size = di.Length;
+
         }
 
         public SparseRowColumnMatrix(int n)
@@ -814,8 +837,10 @@ namespace slae_project.Matrix
                 }
             }
             Size = n;
-            if (count_files != 5)
-                throw new CannotFillMatrixException("Считаны не все необходимые файлы. Проверьте наличие файлов и их содержимое");
+            if (count_files == 4)
+                this.isSymmetric = true;
+            else this.isSymmetric = false;
+            // throw new CannotFillMatrixException("Считаны не все необходимые файлы. Проверьте наличие файлов и их содержимое");
             if (this.isSymmetric)
                 this.au = this.al;
         }
