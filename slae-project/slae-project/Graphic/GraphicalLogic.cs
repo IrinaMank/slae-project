@@ -591,9 +591,9 @@ namespace slae_project
                                     int Y0 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter] - GraphicalObject.min) * Grid.yCellSize * (GraphicalObject.yCellCount - 1) / GraphicalObject.range));
                                     int Y1 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter + 1] - GraphicalObject.min) * Grid.yCellSize * (GraphicalObject.yCellCount - 1) / GraphicalObject.range));
 
-                                    if (Math.Abs((Y0 - openGLControl.Height) / Grid.yCellSize) > OS_y_begin &&
-                                        Math.Abs((Y1) / Grid.yCellSize) < OS_y_end)
-                                        draw_line(cursor_X(x), Y0, cursor_X(x + 1), Y1, true, (Single)153 / 255, (Single)51 / 255, (Single)1, 3.0f);
+                                    //if (Math.Abs((Y0 - openGLControl.Height) / Grid.yCellSize) > OS_y_begin &&
+                                    //    Math.Abs((Y1) / Grid.yCellSize) < OS_y_end)
+                                        draw_line(cursor_X(x), Y0, cursor_X(x + 1), Y1, true, (Single)153 / 255, (Single)51 / 255, (Single)1, 6.0f);
                                 }
                             if (y > OS_y_begin && y < OS_y_end)
                                 Draw_Text(cursor_X(x), cursor_Y(y-GraphicalObject.yCellCount), GraphicalObject.GraphicalVector[X_counter].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
@@ -1259,38 +1259,191 @@ namespace slae_project
                     X_draw_move();
                     break;
                 case 'а': Translating_Swither('a'); break;
-                case 'б': Translating_Swither('b'); break;
-                case 'в': Translating_Swither('v'); break;
-                case 'г': Translating_Swither('g'); break;
-                case 'д': Translating_Swither('d'); break;
-                case 'е': Translating_Swither('e'); break;
-                case 'ё': Translating_Swither('y'); Translating_Swither('o'); break;
-                case 'ж': Translating_Swither('j'); break;
-                case 'з': Translating_Swither('z'); break;
-                case 'и': Translating_Swither('i'); break;
-                case 'й': Translating_Swither('y'); break;
+                case 'б':
+                    Enum_act(Actions.Средняя);
+                    Enum_act(Actions.Нижняя);
+                    Enum_act(Actions.Верхняя);
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Правая_верт_нижняя);
+                    X_draw_move(); break;
+                case 'в': Translating_Swither('b'); break;
+                case 'г':
+                    Enum_act(Actions.Верхняя);
+                    Enum_act(Actions.Левая_верт_полная);
+                    X_draw_move(); break;
+                case 'д':
+                    gl.Vertex(x, y + fontsize/2, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
+                    Enum_act(Actions.Средняя);
+                    Enum_act(Actions.Левая_верт_нижняя);
+                    Enum_act(Actions.Правая_верт_нижняя);
+                    X_draw_move();
+                    break;
+                case 'е':
+                    Enum_act(Actions.Средняя);
+                    Enum_act(Actions.Нижняя);
+                    Enum_act(Actions.Верхняя);
+                    Enum_act(Actions.Левая_верт_полная);
+                    X_draw_move(); break;
+                case 'ё':
+                    Enum_act(Actions.Средняя);
+                    Enum_act(Actions.Нижняя);
+                    Enum_act(Actions.Верхняя);
+                    Enum_act(Actions.Левая_верт_полная);
+                    gl.Vertex(x + fontsize * 2 / 16, y + fontsize * 9 / 8, Line_Height);
+                    gl.Vertex(x + fontsize * 3 / 16, y + fontsize * 9 / 8, Line_Height);
+                    gl.Vertex(x + fontsize * 5 / 16, y + fontsize * 9 / 8, Line_Height);
+                    gl.Vertex(x + fontsize * 6 / 16, y + fontsize * 9 / 8, Line_Height);
+                    X_draw_move(); break;
+                case 'ж':
+                    //Средняя вертикально нижняя черта
+                    gl.Vertex(x + fontsize / 4, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y, Line_Height);
+                    Translating_Swither('x');
+                    break;
+                case 'з':
+                    Enum_act(Actions.Б_верхняя);
+                    Enum_act(Actions.Б_нижняя);
+                    X_draw_move(); break;
+                case 'и':
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Правая_верт_полная);
+                    //Палки И
+                    gl.Vertex(x , y , Line_Height);
+                    gl.Vertex(x + fontsize /2, y + fontsize, Line_Height);
+                    X_draw_move(); break;
+                case 'й':
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Правая_верт_полная);
+                    //Палки И
+                    gl.Vertex(x, y, Line_Height);
+                    gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
+                    //Палки Й
+                    gl.Vertex(x + fontsize * 1 / 8, y + fontsize * 9 / 8, Line_Height);
+                    gl.Vertex(x + fontsize * 3 / 8, y + fontsize * 9 / 8, Line_Height);
+                    X_draw_move(); break;
                 case 'к': Translating_Swither('k'); break;
-                case 'л': Translating_Swither('l'); break;
+                case 'л':
+                    gl.Vertex(x, y, Line_Height);
+                    gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 2, y, Line_Height);
+                    X_draw_move(); break;
                 case 'м': Translating_Swither('m'); break;
-                case 'н': Translating_Swither('n'); break;
+                case 'н': Translating_Swither('h'); break;
                 case 'о': Translating_Swither('o'); break;
-                case 'п': Translating_Swither('p'); break;
-                case 'р': Translating_Swither('r'); break;
-                case 'с': Translating_Swither('s'); break;
+                case 'п':
+                    Enum_act(Actions.Верхняя);
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Правая_верт_полная);
+                    X_draw_move(); break;
+                case 'р':
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Б_верхняя);
+                    X_draw_move(); break;
+                case 'с': Translating_Swither('c'); break;
                 case 'т': Translating_Swither('t'); break;
-                case 'у': Translating_Swither('u'); break;
-                case 'ф': Translating_Swither('f'); break;
-                case 'х': Translating_Swither('h'); break;
-                case 'ш': Translating_Swither('s'); Translating_Swither('h'); break;
-                case 'ц': Translating_Swither('c'); break;
-                case 'ч': Translating_Swither('4'); break;
-                case 'щ': Translating_Swither('s'); Translating_Swither('h'); break;
-                case 'ь': Translating_Swither('\''); break;
-                case 'ы': Translating_Swither('i'); break;
-                case 'ъ': Translating_Swither('\''); break;
-                case 'э': Translating_Swither('e'); break;
-                case 'ю': Translating_Swither('y'); Translating_Swither('a'); break;
-                case 'я': Translating_Swither('y'); Translating_Swither('a'); break;
+                case 'у':
+                    Enum_act(Actions.Х_верхне_лев);
+                    Enum_act(Actions.Х_верхне_прав);
+                    Enum_act(Actions.Х_нижн_лев);
+                    X_draw_move(); break;
+                case 'ф':
+                    Enum_act(Actions.Средняя);
+                    Enum_act(Actions.Верхняя);
+                    Enum_act(Actions.Левая_верт_верхняя);
+                    Enum_act(Actions.Правая_верт_верхняя);
+                    //Средняя вертикально нижняя черта
+                    gl.Vertex(x + fontsize / 4, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y, Line_Height);
+                    X_draw_move(); break;
+                case 'х': Translating_Swither('x'); break;
+                case 'ш':
+                    Enum_act(Actions.Нижняя);
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Правая_верт_полная);
+                    //Средняя вертикально нижняя черта
+                    gl.Vertex(x + fontsize / 4, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y, Line_Height);
+                    X_draw_move(); break;
+                case 'ц':
+                    //Щ запятая
+                    gl.Vertex(x + fontsize / 2, y, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y - fontsize / 8, Line_Height);
+                    Translating_Swither('u'); break;
+                case 'ч':
+                    Enum_act(Actions.Средняя);
+                    Enum_act(Actions.Левая_верт_верхняя);
+                    Enum_act(Actions.Правая_верт_полная);
+                    X_draw_move(); break;
+                case 'щ':
+                    Enum_act(Actions.Нижняя);
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Правая_верт_полная);
+                    //Средняя вертикально нижняя черта
+                    gl.Vertex(x + fontsize / 4, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y, Line_Height);
+                    //Щ запятая
+                    gl.Vertex(x + fontsize / 2, y, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y - fontsize /8, Line_Height);
+                    X_draw_move(); break;
+                case 'ь':
+                    Enum_act(Actions.Средняя);
+                    Enum_act(Actions.Нижняя);
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Правая_верт_нижняя);
+                    X_draw_move(); break;
+                case 'ы':
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Правая_верт_полная);
+                    gl.Vertex(x, y + fontsize / 2, Line_Height);
+                    gl.Vertex(x + fontsize * 2 / 8, y + fontsize / 2, Line_Height);
+                    gl.Vertex(x + fontsize * 2 / 8, y + fontsize / 2, Line_Height);
+                    gl.Vertex(x + fontsize * 2 / 8, y, Line_Height);
+                    gl.Vertex(x + fontsize * 2 / 8, y, Line_Height);
+                    gl.Vertex(x, y, Line_Height);
+                    X_draw_move(); break;
+                case 'ъ':
+                    Enum_act(Actions.Средняя);
+                    Enum_act(Actions.Нижняя);
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Правая_верт_нижняя);
+                    //Ъ черта
+                    gl.Vertex(x, y + fontsize, Line_Height);
+                    gl.Vertex(x - fontsize / 8, y + fontsize, Line_Height);
+                    X_draw_move(); break;
+                case 'э':
+                    Enum_act(Actions.Средняя);
+                    gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
+                    gl.Vertex(x, y, Line_Height);
+                    gl.Vertex(x, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
+                    X_draw_move(); break;
+                case 'ю':
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Правая_верт_полная);
+                    //Средняя вертикально нижняя черта
+                    gl.Vertex(x + fontsize / 4, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y, Line_Height);
+                    ////////////////////////////////////////////////
+                    gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y, Line_Height);
+                    gl.Vertex(x + fontsize / 2, y, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y + fontsize/2, Line_Height);
+                    gl.Vertex(x, y + fontsize / 2, Line_Height);
+                    X_draw_move(); break;
+                case 'я':
+                    Enum_act(Actions.Правая_верт_полная);
+                    gl.Vertex(x, y, Line_Height);
+                    gl.Vertex(x + fontsize / 2, y + fontsize/2, Line_Height);
+                    gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
+                    gl.Vertex(x, y + fontsize * 3 / 4, Line_Height);
+                    gl.Vertex(x, y + fontsize * 3 / 4, Line_Height);
+                    gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
+                    X_draw_move(); break;
 
 
                 default:

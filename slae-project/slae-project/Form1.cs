@@ -103,12 +103,14 @@ namespace slae_project
             precond.BringToFront();
             precond.BackColor = Color.White;
 
+
             precondMatrix = new Label
             {
                 Text = "Предобусловливание",
                 Size = new Size(120, 15),
                 Location = new System.Drawing.Point(35, 103)
             };
+
             this.Controls.Add(precondMatrix);
             precondMatrix.BringToFront();
             precondMatrix.BackColor = Color.Transparent;
