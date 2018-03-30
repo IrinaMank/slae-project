@@ -99,9 +99,18 @@ namespace slae_project
             public List<double> GraphicalVector = null;
             public GraphicObject(string _Name, List<double> _GraphicalVector, bool NothingToWorryAbout)
             {
+                Name = _Name;
                 GraphicalVector = _GraphicalVector;
-                xCellCount = GraphicalVector.Count() - 1;
-                yCellCount = 20 + 1;
+                if (GraphicalVector != null && GraphicalVector.Count() > 0)
+                {
+                    xCellCount = GraphicalVector.Count();
+                    yCellCount = 10 + 1;
+                }
+                else
+                {
+                    xCellCount = 0;
+                    yCellCount = 0;
+                }
                 foreach (var value in GraphicalVector)
                 {
                     if (value > max) max = value;
@@ -203,7 +212,9 @@ namespace slae_project
                     {
                         if (ReferencedMatrix != null) return ReferencedMatrix[row - 1,column - 1];
                         else if (ReferencedVector != null && row == 1) return ReferencedVector[column - 1];
+                        else if (GraphicalVector != null && row  <= yCellCount) return GraphicalVector[column - 1];
                         else return Matrix[row - 1][column - 1];
+                        return double.NaN;
                     }
                     catch (Exception)
                     {
@@ -336,10 +347,11 @@ namespace slae_project
                     Grid.X_move();
 
                     //Напиши как называется текущая матрица
-                    Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, "#" + (Matrix_Counter).ToString() + " - " + obj.Name, Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                    if (!TextMod) Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, "#" + (Matrix_Counter).ToString() + " - " + obj.Name, Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                    else Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, " " + obj.Name.ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
                     Matrix_Counter++;
                     //Draw_Text(Grid.cursorP.x, Grid.cursorP.y, "#" + Matrix_Counter.ToString() + " - " + obj.Name); 
-                    Grid.Y_move();
+                    if (!TextMod) Grid.Y_move();
                     Grid.X_nullificate();
 
                     Grid.X_move();
@@ -367,20 +379,20 @@ namespace slae_project
                      * if (TargetNumber)
                         Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + (((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize)).ToString(),0,0,0);*/
 
-                    //if (obj.GraphicalVector == null)
+                    if (obj.GraphicalVector == null)
                         for (int i = 0; i < obj.yCellCount; i++)
                         {
                             Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, Count_by_Y.ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
                             Grid.Y_move();
                             Count_by_Y++;
                         }
-                    //else
-                    //    for (int i = 0; i < obj.yCellCount; i++)
-                    //    {
-                    //        Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, (obj.min + (double)obj.range*((double)((double)obj.yCellCount - Count_by_Y - 0.5)/ obj.yCellCount)).ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
-                    //        Grid.Y_move();
-                    //        Count_by_Y++;
-                    //    }
+                    else
+                        for (int i = 0; i < obj.yCellCount - 1; i++)
+                        {
+                            Grid.NetWorkOS_Y[Grid.X_Y_counter.y].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, (obj.min + (double)obj.range*((double)((double)obj.yCellCount - Count_by_Y - 1.0)/ obj.yCellCount)).ToString(font_format.ToString() + (3).ToString()), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                            Grid.Y_move();
+                            Count_by_Y++;
+                        }
                     Grid.X_Y_counter.x = X_new;
                     Grid.X_Y_counter.y = Y_new;
 
@@ -498,7 +510,7 @@ namespace slae_project
             if (Grid.NetWorkOS_X.Count != 0 && true)
                 for (int x = OS_x_begin; (x < OS_x_end)&&(x < Grid.NetWorkOS_X.Count()); x++)
                 {
-                    if (x > 0 && x < Grid.NetWorkOS_X.Count())
+                    if (x >= 0 && x < Grid.NetWorkOS_X.Count())
                         foreach (var func in Grid.NetWorkOS_X[x].List_of_func)
                         if (func.func_type == Net.FunctionType.DrawLine)
                         {
@@ -510,7 +522,7 @@ namespace slae_project
 
             for (int y = OS_y_begin; y < OS_y_end; y++)
             {
-                if (y > 0 && y < Grid.NetWorkOS_Y.Count())
+                if (y >= 0 && y < Grid.NetWorkOS_Y.Count())
                 foreach (var func in Grid.NetWorkOS_Y[y].List_of_func)
                     if (func.func_type == Net.FunctionType.DrawLine)
                     {
@@ -572,17 +584,19 @@ namespace slae_project
                         int x = LeftTopCellOfEachMatrix[i].X + X_counter;
                         int y = LeftTopCellOfEachMatrix[i].Y + (GraphicalObject.yCellCount);
                         if (x > OS_x_begin && x < OS_x_end)
-                        if (X_counter >= 0 && X_counter < GraphicalObject.GraphicalVector.Count()-1)
+                        if (X_counter >= 0 && X_counter < GraphicalObject.GraphicalVector.Count())
                         {
-                            int Y0 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter] - GraphicalObject.min) * Grid.yCellSize * (GraphicalObject.yCellCount - 1) / GraphicalObject.range));
-                            int Y1 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter + 1] - GraphicalObject.min) * Grid.yCellSize * (GraphicalObject.yCellCount - 1) / GraphicalObject.range));
+                                if (X_counter < GraphicalObject.GraphicalVector.Count() - 1)
+                                {
+                                    int Y0 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter] - GraphicalObject.min) * Grid.yCellSize * (GraphicalObject.yCellCount - 1) / GraphicalObject.range));
+                                    int Y1 = (int)((double)cursor_Y(y) + ((double)(GraphicalObject.GraphicalVector[X_counter + 1] - GraphicalObject.min) * Grid.yCellSize * (GraphicalObject.yCellCount - 1) / GraphicalObject.range));
 
-                            if (Math.Abs((Y0 - openGLControl.Height) / Grid.yCellSize) > OS_y_begin &&
-                                Math.Abs((Y1) / Grid.yCellSize) < OS_y_end)
-                            draw_line(cursor_X(x), Y0, cursor_X(x+1), Y1, true,(Single)153/255, (Single)51 /255, (Single)1, 3.0f);
-
-                            if (BoolTextIsEnabledOtherwiseQuads && y > OS_y_begin && y < OS_y_end)
-                                Draw_Text(cursor_X(x), cursor_Y(y), GraphicalObject.GraphicalVector[X_counter].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
+                                    //if (Math.Abs((Y0 - openGLControl.Height) / Grid.yCellSize) > OS_y_begin &&
+                                    //    Math.Abs((Y1) / Grid.yCellSize) < OS_y_end)
+                                        draw_line(cursor_X(x), Y0, cursor_X(x + 1), Y1, true, (Single)153 / 255, (Single)51 / 255, (Single)1, 6.0f);
+                                }
+                            if (y - GraphicalObject.yCellCount > OS_y_begin && y - GraphicalObject.yCellCount < OS_y_end)
+                                Draw_Text(cursor_X(x), cursor_Y(y-GraphicalObject.yCellCount), GraphicalObject.GraphicalVector[X_counter].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()));
                         }
                     }
                 }
@@ -626,9 +640,9 @@ namespace slae_project
                 //catch (Exception Trashnyak)
                 //{ }
                 
-                    int Color = 0;
-                    if (!BoolTextIsEnabledOtherwiseQuads)
-                    { Color = 255; }
+                    float R = (float)0 / 255, G = (float)154/255, B = (float)0 / 255;
+                    //if (!BoolTextIsEnabledOtherwiseQuads)
+                    //{ Color = 255; }
 
                     Number_of_current_column = ((int)(mouse.ShiftedPosition.x + mouse.true_x) / Grid.xCellSize);
                 
@@ -661,25 +675,42 @@ namespace slae_project
                         ShowTheTrueTruth = true;
 
                     if (ShowTheTrueTruth)
-                        Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "| " + (Number_of_current_column - 1).ToString(), Color, Color, Color);
+                        Draw_Text(mouse.true_x + 20, mouse.true_y - 20, "J " + (Number_of_current_column - 1).ToString(), R, G, B);
 
                     if (ShowTheTrueTruth)
-                    Draw_Text(mouse.true_x + 20, mouse.true_y + 10, "- " + ((Number_of_current_row) - 1).ToString(), Color, Color, Color);
+                    Draw_Text(mouse.true_x + 20, mouse.true_y + 10, "I " + ((Number_of_current_row) - 1).ToString(), R, G, B);
 
-                        if (!BoolTextIsEnabledOtherwiseQuads && !double.IsNaN(double_trash)) Draw_Text(mouse.true_x + 20, mouse.true_y - 50, "x: " + List_Of_Objects[Number_of_current_matrix][Number_of_current_column, Number_of_current_row].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()), Color, Color, Color);
+                    //!BoolTextIsEnabledOtherwiseQuads && 
+                    if (ShowTheTrueTruth) Draw_Text(mouse.true_x + 20, mouse.true_y - 50, "x: " + List_Of_Objects[Number_of_current_matrix][Number_of_current_column, Number_of_current_row].ToString(font_format.ToString() + FontQuanitityAfterPoint.ToString()), R, G, B);
 
                     }
                 
             }
         }
-        private void LaserCrossroad()
+        public bool BoolLaser = true;
+        public void LaserCrossroad(int x, int y,bool shift = true)
         {
             //Целеуказатель плюсиком зеленый
             if (TargetPlus)
             {
-                draw_line(0, mouse.true_y, openGLControl.Width, mouse.true_y, false, 0, 1, 0, 3.0f);
-                draw_line(mouse.true_x, 0, mouse.true_x, openGLControl.Height, false, 0, 1, 0, 3.0f);
+                if (shift)
+                {
+                    x -= mouse.ShiftedPosition.x;
+                    y += +mouse.ShiftedPosition.y;
+                }
+                draw_line(0, y, openGLControl.Width, y, false, 0, 1, 0, 1.0f);
+                draw_line(x, 0, x, openGLControl.Height, false, 0, 1, 0, 1.0f);
             }
+        }
+        private void LaserCrossroad()
+        {
+            //Целеуказатель плюсиком зеленый
+            if (TargetPlus && BoolLaser)
+            {
+                draw_line(0, mouse.true_y, openGLControl.Width, mouse.true_y, false, 0, 1, 0, 1.0f);
+                draw_line(mouse.true_x, 0, mouse.true_x, openGLControl.Height, false, 0, 1, 0, 1.0f);
+            }
+            if (!BoolLaser) BoolLaser = true;
         }
         void Draw_Text(int in_x, int in_y, string phrase)
         {
@@ -1244,38 +1275,191 @@ namespace slae_project
                     X_draw_move();
                     break;
                 case 'а': Translating_Swither('a'); break;
-                case 'б': Translating_Swither('b'); break;
-                case 'в': Translating_Swither('v'); break;
-                case 'г': Translating_Swither('g'); break;
-                case 'д': Translating_Swither('d'); break;
-                case 'е': Translating_Swither('e'); break;
-                case 'ё': Translating_Swither('y'); Translating_Swither('o'); break;
-                case 'ж': Translating_Swither('j'); break;
-                case 'з': Translating_Swither('z'); break;
-                case 'и': Translating_Swither('i'); break;
-                case 'й': Translating_Swither('y'); break;
+                case 'б':
+                    Enum_act(Actions.Средняя);
+                    Enum_act(Actions.Нижняя);
+                    Enum_act(Actions.Верхняя);
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Правая_верт_нижняя);
+                    X_draw_move(); break;
+                case 'в': Translating_Swither('b'); break;
+                case 'г':
+                    Enum_act(Actions.Верхняя);
+                    Enum_act(Actions.Левая_верт_полная);
+                    X_draw_move(); break;
+                case 'д':
+                    gl.Vertex(x, y + fontsize/2, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
+                    Enum_act(Actions.Средняя);
+                    Enum_act(Actions.Левая_верт_нижняя);
+                    Enum_act(Actions.Правая_верт_нижняя);
+                    X_draw_move();
+                    break;
+                case 'е':
+                    Enum_act(Actions.Средняя);
+                    Enum_act(Actions.Нижняя);
+                    Enum_act(Actions.Верхняя);
+                    Enum_act(Actions.Левая_верт_полная);
+                    X_draw_move(); break;
+                case 'ё':
+                    Enum_act(Actions.Средняя);
+                    Enum_act(Actions.Нижняя);
+                    Enum_act(Actions.Верхняя);
+                    Enum_act(Actions.Левая_верт_полная);
+                    gl.Vertex(x + fontsize * 2 / 16, y + fontsize * 9 / 8, Line_Height);
+                    gl.Vertex(x + fontsize * 3 / 16, y + fontsize * 9 / 8, Line_Height);
+                    gl.Vertex(x + fontsize * 5 / 16, y + fontsize * 9 / 8, Line_Height);
+                    gl.Vertex(x + fontsize * 6 / 16, y + fontsize * 9 / 8, Line_Height);
+                    X_draw_move(); break;
+                case 'ж':
+                    //Средняя вертикально нижняя черта
+                    gl.Vertex(x + fontsize / 4, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y, Line_Height);
+                    Translating_Swither('x');
+                    break;
+                case 'з':
+                    Enum_act(Actions.Б_верхняя);
+                    Enum_act(Actions.Б_нижняя);
+                    X_draw_move(); break;
+                case 'и':
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Правая_верт_полная);
+                    //Палки И
+                    gl.Vertex(x , y , Line_Height);
+                    gl.Vertex(x + fontsize /2, y + fontsize, Line_Height);
+                    X_draw_move(); break;
+                case 'й':
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Правая_верт_полная);
+                    //Палки И
+                    gl.Vertex(x, y, Line_Height);
+                    gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
+                    //Палки Й
+                    gl.Vertex(x + fontsize * 1 / 8, y + fontsize * 9 / 8, Line_Height);
+                    gl.Vertex(x + fontsize * 3 / 8, y + fontsize * 9 / 8, Line_Height);
+                    X_draw_move(); break;
                 case 'к': Translating_Swither('k'); break;
-                case 'л': Translating_Swither('l'); break;
+                case 'л':
+                    gl.Vertex(x, y, Line_Height);
+                    gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 2, y, Line_Height);
+                    X_draw_move(); break;
                 case 'м': Translating_Swither('m'); break;
-                case 'н': Translating_Swither('n'); break;
+                case 'н': Translating_Swither('h'); break;
                 case 'о': Translating_Swither('o'); break;
-                case 'п': Translating_Swither('p'); break;
-                case 'р': Translating_Swither('r'); break;
-                case 'с': Translating_Swither('s'); break;
+                case 'п':
+                    Enum_act(Actions.Верхняя);
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Правая_верт_полная);
+                    X_draw_move(); break;
+                case 'р':
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Б_верхняя);
+                    X_draw_move(); break;
+                case 'с': Translating_Swither('c'); break;
                 case 'т': Translating_Swither('t'); break;
-                case 'у': Translating_Swither('u'); break;
-                case 'ф': Translating_Swither('f'); break;
-                case 'х': Translating_Swither('h'); break;
-                case 'ш': Translating_Swither('s'); Translating_Swither('h'); break;
-                case 'ц': Translating_Swither('c'); break;
-                case 'ч': Translating_Swither('4'); break;
-                case 'щ': Translating_Swither('s'); Translating_Swither('h'); break;
-                case 'ь': Translating_Swither('\''); break;
-                case 'ы': Translating_Swither('i'); break;
-                case 'ъ': Translating_Swither('\''); break;
-                case 'э': Translating_Swither('e'); break;
-                case 'ю': Translating_Swither('y'); Translating_Swither('a'); break;
-                case 'я': Translating_Swither('y'); Translating_Swither('a'); break;
+                case 'у':
+                    Enum_act(Actions.Х_верхне_лев);
+                    Enum_act(Actions.Х_верхне_прав);
+                    Enum_act(Actions.Х_нижн_лев);
+                    X_draw_move(); break;
+                case 'ф':
+                    Enum_act(Actions.Средняя);
+                    Enum_act(Actions.Верхняя);
+                    Enum_act(Actions.Левая_верт_верхняя);
+                    Enum_act(Actions.Правая_верт_верхняя);
+                    //Средняя вертикально нижняя черта
+                    gl.Vertex(x + fontsize / 4, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y, Line_Height);
+                    X_draw_move(); break;
+                case 'х': Translating_Swither('x'); break;
+                case 'ш':
+                    Enum_act(Actions.Нижняя);
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Правая_верт_полная);
+                    //Средняя вертикально нижняя черта
+                    gl.Vertex(x + fontsize / 4, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y, Line_Height);
+                    X_draw_move(); break;
+                case 'ц':
+                    //Щ запятая
+                    gl.Vertex(x + fontsize / 2, y, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y - fontsize / 8, Line_Height);
+                    Translating_Swither('u'); break;
+                case 'ч':
+                    Enum_act(Actions.Средняя);
+                    Enum_act(Actions.Левая_верт_верхняя);
+                    Enum_act(Actions.Правая_верт_полная);
+                    X_draw_move(); break;
+                case 'щ':
+                    Enum_act(Actions.Нижняя);
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Правая_верт_полная);
+                    //Средняя вертикально нижняя черта
+                    gl.Vertex(x + fontsize / 4, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y, Line_Height);
+                    //Щ запятая
+                    gl.Vertex(x + fontsize / 2, y, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y - fontsize /8, Line_Height);
+                    X_draw_move(); break;
+                case 'ь':
+                    Enum_act(Actions.Средняя);
+                    Enum_act(Actions.Нижняя);
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Правая_верт_нижняя);
+                    X_draw_move(); break;
+                case 'ы':
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Правая_верт_полная);
+                    gl.Vertex(x, y + fontsize / 2, Line_Height);
+                    gl.Vertex(x + fontsize * 2 / 8, y + fontsize / 2, Line_Height);
+                    gl.Vertex(x + fontsize * 2 / 8, y + fontsize / 2, Line_Height);
+                    gl.Vertex(x + fontsize * 2 / 8, y, Line_Height);
+                    gl.Vertex(x + fontsize * 2 / 8, y, Line_Height);
+                    gl.Vertex(x, y, Line_Height);
+                    X_draw_move(); break;
+                case 'ъ':
+                    Enum_act(Actions.Средняя);
+                    Enum_act(Actions.Нижняя);
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Правая_верт_нижняя);
+                    //Ъ черта
+                    gl.Vertex(x, y + fontsize, Line_Height);
+                    gl.Vertex(x - fontsize / 8, y + fontsize, Line_Height);
+                    X_draw_move(); break;
+                case 'э':
+                    Enum_act(Actions.Средняя);
+                    gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
+                    gl.Vertex(x, y, Line_Height);
+                    gl.Vertex(x, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
+                    X_draw_move(); break;
+                case 'ю':
+                    Enum_act(Actions.Левая_верт_полная);
+                    Enum_act(Actions.Правая_верт_полная);
+                    //Средняя вертикально нижняя черта
+                    gl.Vertex(x + fontsize / 4, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y, Line_Height);
+                    ////////////////////////////////////////////////
+                    gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y + fontsize, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y, Line_Height);
+                    gl.Vertex(x + fontsize / 2, y, Line_Height);
+                    gl.Vertex(x + fontsize / 4, y + fontsize/2, Line_Height);
+                    gl.Vertex(x, y + fontsize / 2, Line_Height);
+                    X_draw_move(); break;
+                case 'я':
+                    Enum_act(Actions.Правая_верт_полная);
+                    gl.Vertex(x, y, Line_Height);
+                    gl.Vertex(x + fontsize / 2, y + fontsize/2, Line_Height);
+                    gl.Vertex(x + fontsize / 2, y + fontsize / 2, Line_Height);
+                    gl.Vertex(x, y + fontsize * 3 / 4, Line_Height);
+                    gl.Vertex(x, y + fontsize * 3 / 4, Line_Height);
+                    gl.Vertex(x + fontsize / 2, y + fontsize, Line_Height);
+                    X_draw_move(); break;
 
 
                 default:
@@ -1328,9 +1512,11 @@ namespace slae_project
                 //определенной оси Y, хмм, мы можем воспользоваться старой доброй yCellBelong функций. точняк.
                 while (Grid.X_Y_counter.x >= Grid.NetWorkOS_X.Count())
                     Grid.NetWorkOS_X.Add(new Net.NetWorkOSCell());
+                if (obj.GraphicalVector == null)
                 Grid.NetWorkOS_X[Grid.X_Y_counter.x].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, Count_by_X.ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y));
+                else Grid.NetWorkOS_X[Grid.X_Y_counter.x].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawText, Count_by_X.ToString(), Grid.X_Y_counter.x, Grid.X_Y_counter.y + obj.yCellCount));
                 //Draw_Text(Grid.cursorP.x, Grid.cursorP.y, Count_by_X.ToString());
-                
+
                 Grid.X_move();
                 Count_by_X++;
             }
@@ -1340,21 +1526,23 @@ namespace slae_project
         }
         void Draw_line_net_for_matrix(GraphicObject obj, int Y_start)
         {
-            Grid.X_move();
-            for(int i = 0; i < obj.xCellCount; i++)
-            {
-                //if (Belongs_xCellArea())
+            
+            
+                Grid.X_move();
+                for (int i = 0; i < obj.xCellCount; i++)
+                {
+                    //if (Belongs_xCellArea())
+                    while (Grid.X_Y_counter.x >= Grid.NetWorkOS_X.Count())
+                        Grid.NetWorkOS_X.Add(new Net.NetWorkOSCell());
+                    Grid.NetWorkOS_X[Grid.X_Y_counter.x].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", Grid.X_Y_counter.x, Y_start, Grid.X_Y_counter.x, Y_start + obj.yCellCount));
+                    //draw_line(Grid.cursorP.x, Y_start,Grid.cursorP.x, Grid.cursorP.y);
+                    Grid.X_move();
+                }
                 while (Grid.X_Y_counter.x >= Grid.NetWorkOS_X.Count())
                     Grid.NetWorkOS_X.Add(new Net.NetWorkOSCell());
                 Grid.NetWorkOS_X[Grid.X_Y_counter.x].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", Grid.X_Y_counter.x, Y_start, Grid.X_Y_counter.x, Y_start + obj.yCellCount));
                 //draw_line(Grid.cursorP.x, Y_start,Grid.cursorP.x, Grid.cursorP.y);
-                Grid.X_move();
-            }
-            while (Grid.X_Y_counter.x >= Grid.NetWorkOS_X.Count())
-                Grid.NetWorkOS_X.Add(new Net.NetWorkOSCell());
-            Grid.NetWorkOS_X[Grid.X_Y_counter.x].List_of_func.Add(new Net.OSCell(Net.FunctionType.DrawLine, "", Grid.X_Y_counter.x, Y_start, Grid.X_Y_counter.x, Y_start + obj.yCellCount));
-            //draw_line(Grid.cursorP.x, Y_start,Grid.cursorP.x, Grid.cursorP.y);
-
+            
             Grid.X_nullificate();
             Grid.X_move();
             Grid.X_Y_counter.y = Y_start;
@@ -1656,11 +1844,15 @@ namespace slae_project
 
                 BorderEndRecalculate();
 
-                if (ShiftedPosition.x - ShiftPosition.x > BorderBegin.x && ShiftedPosition.x - ShiftPosition.x < (Math.Abs(BorderEnd.x)))
+                if (ShiftedPosition.x - ShiftPosition.x > BorderBegin.x && ShiftedPosition.x - ShiftPosition.x < (Math.Abs(BorderEnd.x))
+                    || Math.Abs(ShiftedPosition.x - ShiftPosition.x - BorderBegin.x) <Math.Abs(ShiftedPosition.x - BorderBegin.x)
+                    || Math.Abs(ShiftedPosition.x - ShiftPosition.x - BorderEnd.x) < Math.Abs(ShiftedPosition.x - BorderEnd.x))
                     ShiftedPosition.x -= ShiftPosition.x;
 
-                if (ShiftedPosition.y - ShiftPosition.y > BorderBegin.y && ShiftedPosition.y - ShiftPosition.y < (Math.Abs(BorderEnd.y)))
-                ShiftedPosition.y -= ShiftPosition.y;
+                if (ShiftedPosition.y - ShiftPosition.y > BorderBegin.y && ShiftedPosition.y - ShiftPosition.y < (Math.Abs(BorderEnd.y))
+                    || Math.Abs(ShiftedPosition.y - ShiftPosition.y - BorderBegin.y) < Math.Abs(ShiftedPosition.y - BorderBegin.y)
+                    || Math.Abs(ShiftedPosition.y - ShiftPosition.y - BorderEnd.y) < Math.Abs(ShiftedPosition.y - BorderEnd.y))
+                    ShiftedPosition.y -= ShiftPosition.y;
             }
             
 

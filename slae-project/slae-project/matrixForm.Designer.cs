@@ -50,9 +50,11 @@
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
             this.groupBox1.Controls.Add(this.matrixDataGrid);
-            this.groupBox1.Location = new System.Drawing.Point(27, 12);
+            this.groupBox1.Location = new System.Drawing.Point(30, 15);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(452, 414);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox1.Size = new System.Drawing.Size(508, 518);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Матрица СЛАУ";
@@ -61,20 +63,25 @@
             // 
             this.matrixDataGrid.BackgroundColor = System.Drawing.SystemColors.Control;
             this.matrixDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.matrixDataGrid.Location = new System.Drawing.Point(17, 47);
+            this.matrixDataGrid.Location = new System.Drawing.Point(19, 59);
+            this.matrixDataGrid.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.matrixDataGrid.Name = "matrixDataGrid";
             this.matrixDataGrid.RowTemplate.Height = 24;
-            this.matrixDataGrid.Size = new System.Drawing.Size(404, 332);
+            this.matrixDataGrid.Size = new System.Drawing.Size(454, 415);
             this.matrixDataGrid.TabIndex = 0;
             this.matrixDataGrid.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.matrixDataGrid_CellBeginEdit);
             this.matrixDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.matrixDataGrid_CellEndEdit);
+            this.matrixDataGrid.MouseDown += new System.Windows.Forms.MouseEventHandler(this.matrixDataGrid_MouseDown);
+            this.matrixDataGrid.MouseMove += new System.Windows.Forms.MouseEventHandler(this.matrixDataGrid_MouseMove);
+            this.matrixDataGrid.MouseUp += new System.Windows.Forms.MouseEventHandler(this.matrixDataGrid_MouseUp);
             // 
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(855, 59);
+            this.button1.Location = new System.Drawing.Point(953, 109);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(153, 39);
+            this.button1.Size = new System.Drawing.Size(172, 49);
             this.button1.TabIndex = 0;
             this.button1.Text = "Очистить матрицу";
             this.button1.UseVisualStyleBackColor = true;
@@ -83,9 +90,10 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(855, 104);
+            this.button2.Location = new System.Drawing.Point(953, 42);
+            this.button2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(153, 37);
+            this.button2.Size = new System.Drawing.Size(172, 46);
             this.button2.TabIndex = 1;
             this.button2.Text = "Готово";
             this.button2.UseVisualStyleBackColor = true;
@@ -95,20 +103,23 @@
             // 
             this.vectorDataGrid.BackgroundColor = System.Drawing.SystemColors.Control;
             this.vectorDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.vectorDataGrid.Location = new System.Drawing.Point(548, 59);
+            this.vectorDataGrid.Location = new System.Drawing.Point(616, 74);
+            this.vectorDataGrid.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.vectorDataGrid.Name = "vectorDataGrid";
             this.vectorDataGrid.RowTemplate.Height = 24;
-            this.vectorDataGrid.Size = new System.Drawing.Size(73, 332);
+            this.vectorDataGrid.Size = new System.Drawing.Size(82, 415);
             this.vectorDataGrid.TabIndex = 2;
-            this.vectorDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.vectorDataGrid_CellEndEdit);
+            this.vectorDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.vector_CellEdit);
             // 
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.Transparent;
             this.groupBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.groupBox2.Location = new System.Drawing.Point(508, 12);
+            this.groupBox2.Location = new System.Drawing.Point(570, 15);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(156, 414);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox2.Size = new System.Drawing.Size(176, 518);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Вектор правой части";
@@ -124,9 +135,11 @@
             this.groupBox3.BackColor = System.Drawing.Color.Transparent;
             this.groupBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.groupBox3.Controls.Add(this.x0DataGrid);
-            this.groupBox3.Location = new System.Drawing.Point(693, 12);
+            this.groupBox3.Location = new System.Drawing.Point(780, 15);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(156, 414);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox3.Size = new System.Drawing.Size(176, 518);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Начальное приближение";
@@ -135,19 +148,21 @@
             // 
             this.x0DataGrid.BackgroundColor = System.Drawing.SystemColors.Control;
             this.x0DataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.x0DataGrid.Location = new System.Drawing.Point(41, 47);
+            this.x0DataGrid.Location = new System.Drawing.Point(46, 59);
+            this.x0DataGrid.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.x0DataGrid.Name = "x0DataGrid";
             this.x0DataGrid.RowTemplate.Height = 24;
-            this.x0DataGrid.Size = new System.Drawing.Size(73, 332);
+            this.x0DataGrid.Size = new System.Drawing.Size(82, 415);
             this.x0DataGrid.TabIndex = 3;
-            this.x0DataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.x0DataGrid_CellEndEdit);
+            this.x0DataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.vector_CellEdit);
             // 
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(855, 389);
+            this.button3.Location = new System.Drawing.Point(953, 487);
+            this.button3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(153, 37);
+            this.button3.Size = new System.Drawing.Size(172, 46);
             this.button3.TabIndex = 5;
             this.button3.Text = "Отмена";
             this.button3.UseVisualStyleBackColor = true;
@@ -155,20 +170,21 @@
             // 
             // matrixForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::slae_project.Properties.Resources.kuchka;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1020, 473);
+            this.ClientSize = new System.Drawing.Size(1171, 630);
             this.ControlBox = false;
+            this.Controls.Add(this.vectorDataGrid);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.vectorDataGrid);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "matrixForm";
