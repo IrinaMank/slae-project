@@ -272,21 +272,24 @@ namespace slae_project.Matrix
             {
                 List<double> tempal= new List<double>(al);
                 List<int> tempjg = new List<int>(jg);
-                isSymmetric = false;
+                List<int> tempig = new List<int>(ig);
                 double ElemNew;
                 for (int i = 0; i < Size; i++)
-                    for (int j = 0; j < i; j++)
+                    for (int j = i+1; j < Size; j++)
                     {
-                        ElemNew = this[i, j];
+                        ElemNew = this[j, i];
                         if (ElemNew != 0)
                         {
-                            tempal.Insert(ig[i + 1], ElemNew);
-                            tempjg.Insert(ig[i + 1], j);
-                            ig[i + 1]++;
+                            tempal.Insert(tempig[i + 1], ElemNew);
+                            tempjg.Insert(tempig[i + 1], j);
+                            for(int k=i+1;k<=Size;k++)
+                                tempig[k]++;
                         }
                     }
                 al = tempal.ToArray();
                 jg = tempjg.ToArray();
+                ig = tempig.ToArray();
+                isSymmetric = false;
             }
         }
         /// <summary>
@@ -602,31 +605,26 @@ namespace slae_project.Matrix
 
         public static void localtest()
         {
-            (int, int)[] coord = new(int, int)[16];
+            (int, int)[] coord = new(int, int)[10];
             coord[0] = (0, 0);
-            coord[1] = (0, 1);
-            coord[2] = (0, 2);
-            coord[3] = (0, 3);
-            coord[4] = (1, 0);
-            coord[5] = (1, 1);
-            coord[6] = (1, 2);
-            coord[7] = (1, 3);
-            coord[8] = (2, 0);
-            coord[9] = (2, 1);
-            coord[10] = (2, 2);
-            coord[11] = (2, 3);
-            coord[12] = (3, 0);
-            coord[13] = (3, 1);
-            coord[14] = (3, 2);
-            coord[15] = (3, 3);
+            coord[1] = (1, 0);
+            coord[2] = (1, 1);
+            coord[3] = (2, 0);
+            coord[4] = (2, 1);
+            coord[5] = (2, 2);
+            coord[6] = (3, 0);
+            coord[7] = (3, 1);
+            coord[8] = (3, 2);
+            coord[9] = (3, 3);
 
-            double[] val = new double[16] { 1, 2, 3, 1, 1, 1, 2, 3, 3, 1, 1, 2, 2, 3, 1, 1 };
+            double[] val = new double[10] { 1, 2,2,3,3,3,4,4,4,4 };
             double[] vecval = new double[4] { 3, 2, 2, 0 };
             IMatrix c_matr = new CoordinateMatrix(coord, val);
-            IMatrix s_matr = new SparseRowMatrix((CoordinateMatrix)c_matr);
+            SparseRowMatrix s_matr = new SparseRowMatrix((CoordinateMatrix)c_matr,true);
+            s_matr.CastToNotSymm();
             IVector newV = new SimpleVector(vecval);
-            IVector mult = s_matr.Mult(newV);
-            IVector multTT = s_matr.Transpose.Mult(newV);
+            IVector mult = s_matr.Mult(newV,true);
+            IVector multTT = s_matr.Transpose.Mult(newV,true);
         }
 
         public object Clone()
