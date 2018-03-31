@@ -40,7 +40,7 @@ namespace slae_project.Logger
                 fileStream.WriteLine("-----------Итерации------------Невязка-------------");
             String msg = String.Format("{0}\t{1}", number, residual);
             fileStream.WriteLine(msg);
-            fileStream.Flush();
+//            fileStream.Flush();
             //Thread.Sleep(0);
             Form1.updateProgressBar(number);
             if (number == maxiter-1)
@@ -77,6 +77,7 @@ namespace slae_project.Logger
                 fileStream.WriteLine(msg);
 
             }
+            fileStream.Flush();
         }
 
         void ILogger.setMaxIter(int i)

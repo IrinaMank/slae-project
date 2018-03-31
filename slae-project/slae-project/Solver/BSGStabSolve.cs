@@ -30,6 +30,41 @@ namespace slae_project.Solver
             Logger.setMaxIter(Maxiter);
             IVector x = (IVector)Initial.Clone();
 
+            IVector r = b.Add(A.Mult(Initial), 1, -1);
+            IVector r0 = r.Clone() as IVector;
+
+            double opo = 1, po = 1, alpha = 1, w = 1,beta, normR;
+
+            IVector p = new SimpleVector(b.Size);
+            IVector v = new SimpleVector(b.Size);
+            IVector y,h,s,z,t;
+            normR = r.Norm / b.Norm;
+
+            for (int iter = 0; iter < Maxiter && normR > Precision; iter++)
+            {
+                po = r0.ScalarMult(r);
+                beta = (po / opo) * (alpha / w);
+                p = r.Add(p.Add(v, 1, -w), 1, beta);
+                y = Preconditioner.SolveL(Preconditioner.SolveU(p));
+                v = A.Mult(y);
+                alpha = po / r0.ScalarMult(v);
+                h = x.Add(y, 1, alpha);
+
+                s = r.Add(v, 1, -alpha);
+                z = Preconditioner.SolveL(Preconditioner.SolveU(s));
+                t = A.Mult(z);
+                w = (Preconditioner.SolveL(t).ScalarMult(Preconditioner.SolveL(s))) / (Preconditioner.SolveL(t).ScalarMult(Preconditioner.SolveL(t)));
+                x = h.Add(z, 1, w);
+                r = s.Add(t, 1, -w);
+                opo = po;
+                normR = r.Norm / b.Norm;
+                Logger.WriteIteration(iter, normR);
+            }
+            Logger.WriteSolution(x, Maxiter);
+            Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));
+            return x;
+
+            /*
             if (b.Norm == 0)
                 return x;
 
@@ -87,6 +122,7 @@ namespace slae_project.Solver
             Logger.WriteSolution(x, Maxiter);
             Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));
             return x;
+            */
         }
     }
 }
