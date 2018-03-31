@@ -234,7 +234,7 @@ namespace slae_project
             for (int i = 0; i <= 100; i++)
                 Temp.Add(Math.Sin((double)2*Math.PI*i/100));
 
-            List_Of_Objects.Add(new GraphicData.GraphicObject("Imatrix", Temp, true));
+            List_Of_Objects.Add(new GraphicData.GraphicObject("Cъешь ещё этих мягких французских булок, да выпей чаю", Temp, true));
         }
         public string ProjectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
     }
