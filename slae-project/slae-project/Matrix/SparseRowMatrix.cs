@@ -49,11 +49,11 @@ namespace slae_project.Matrix
         {
             get
             {
-                if (IsSymmetry)
+                if (this.isSymmetric)
                 {
                     if (i < j)
                     {
-                        int k = i; i = j; j = k;
+                        int f = i; i = j; j = f;
                     }
                     if (SearchPlaceInAl(i, j, out int k))
                         return al[k];
@@ -270,9 +270,10 @@ namespace slae_project.Matrix
         {
             if (isSymmetric)
             {
-                List<double> tempal= List<double>(al);
-                List<double> tempjg = List<double>(jg);
+                List<double> tempal= new List<double>(al);
+                List<int> tempjg = new List<int>(jg);
                 isSymmetric = false;
+                double ElemNew;
                 for (int i = 0; i < Size; i++)
                     for (int j = 0; j < i; j++)
                     {
