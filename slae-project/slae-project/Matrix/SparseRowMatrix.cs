@@ -43,20 +43,29 @@ namespace slae_project.Matrix
         int[] jg;
         double[] al;
         double extraDiagVal = 0;
-        //bool LU_was_made = false;
-        //// портрет сохраняется
-        //private double[] L;
-        //private double[] U;
-        //private double[] DL;
-        //// диагональ для матрицы U
-        //private double[] DU;
+        bool isSymmetric;
+
         public double this[int i, int j]
         {
             get
             {
-                if (SearchPlaceInAl(i, j,out int k))
-                    return al[k];
-                else return 0;
+                if (IsSymmetry)
+                {
+                    if (i < j)
+                    {
+                        int k = i; i = j; j = k;
+                    }
+                    if (SearchPlaceInAl(i, j, out int k))
+                        return al[k];
+                    else return 0;
+
+                }
+                else
+                {
+                    if (SearchPlaceInAl(i, j, out int k))
+                        return al[k];
+                    else return 0;
+                }
             }
             set
             {
@@ -68,6 +77,10 @@ namespace slae_project.Matrix
         private bool SearchPlaceInAl(int i, int j,  out int last)
         {
             // бинарный поиск
+            if(this.isSymmetric && i<j)
+            {
+                int k = i; i = j; j = k;
+            }
             int first = ig[i];
             last = ig[i + 1] - 1;
             int mid;
@@ -126,6 +139,7 @@ namespace slae_project.Matrix
                     for (int j = ig[i]; j < ig[i + 1]; j++)
                     {
                         yield return (al[j], i, jg[j]);
+                        if(this.isSymmetric) yield return (al[j], jg[j], i);
                     }
                 }
             }
@@ -142,16 +156,19 @@ namespace slae_project.Matrix
         /// <param name="ig">Индексы начала строк</param>
         /// <param name="jg">Номера столбцов для элементов</param>
         /// <param name="al">Элементы нижней диагонали</param>
-        public SparseRowMatrix(int[] ig, int[] jg, double[] al)
+        /// <param name="isSym">Симметричность матрицы</param>
+        public SparseRowMatrix(int[] ig, int[] jg, double[] al, bool isSym=false)
         {
             this.ig = ig;
             this.jg = jg;
             this.al = al;
             this.Size = ig.Length-1;
+            this.isSymmetric = isSym;
         }
 
-        public SparseRowMatrix(int n)
+        public SparseRowMatrix(int n, bool isSym = false)
         {
+            this.isSymmetric = isSym;
             ig = new int[n + 1];
 
             for(int i=0; i<n; i++)
@@ -161,9 +178,9 @@ namespace slae_project.Matrix
             //остальные массивы не создаются, т.к. они пустые
         }
 
-        public SparseRowMatrix(CoordinateMatrix c_matrix)
+        public SparseRowMatrix(CoordinateMatrix c_matrix,bool isSym = false)
         {
-            
+            this.isSymmetric = isSym;
             List <List <KeyValuePair<int, double>>> elements_al;
             elements_al = new List<List<KeyValuePair<int, double>>>();
 
@@ -204,33 +221,73 @@ namespace slae_project.Matrix
             
         }
 
-        public SparseRowMatrix()
+        public SparseRowMatrix(bool isSym=false)
         {
             this.Size = 0;
+            this.isSymmetric = isSym;
         }
-        
+
         public IVector Mult(IVector x, bool UseDiagonal)
         {
             if (this.Size != x.Size)
                 throw new Exception("Ошибка. Различие в размерности вектора и матрицы в функции Mult");
             int j;
             IVector result = new SimpleVector(Size);
-            for (int i = 0; i < this.Size; i++)
-                for (int k = ig[i]; k < ig[i + 1]; k++)
-                {
-                    j = jg[k];
-                    if (j != i)
+            if (isSymmetric)
+            {
+                for (int i = 0; i < this.Size; i++)
+                    for (int k = ig[i]; k < ig[i + 1] - 1; k++)
                     {
-                        result[i] += al[k] * x[j];
-                    }
-                    else
-                        if(UseDiagonal)
+                        if (jg[k] != i)
+                        {
+                            j = jg[k];
                             result[i] += al[k] * x[j];
-                }
+                            result[j] += al[k] * x[i];
+                        }
+                        else
+                            if (UseDiagonal)
+                            result[i] += al[k] * x[jg[k]];
+                    }
+            }
+            else
+            {
+                for (int i = 0; i < this.Size; i++)
+                    for (int k = ig[i]; k < ig[i + 1]; k++)
+                    {
+                        j = jg[k];
+                        if (j != i)
+                        {
+                            result[i] += al[k] * x[j];
+                        }
+                        else
+                            if (UseDiagonal)
+                            result[i] += al[k] * x[j];
+                    }
+            }
             return result;
         }
-
-        // плохой алгоритм
+        private void CastToNotSymm()
+        {
+            if (isSymmetric)
+            {
+                List<double> tempal= List<double>(al);
+                List<double> tempjg = List<double>(jg);
+                isSymmetric = false;
+                for (int i = 0; i < Size; i++)
+                    for (int j = 0; j < i; j++)
+                    {
+                        ElemNew = this[i, j];
+                        if (ElemNew != 0)
+                        {
+                            tempal.Insert(ig[i + 1], ElemNew);
+                            tempjg.Insert(ig[i + 1], j);
+                            ig[i + 1]++;
+                        }
+                    }
+                al = tempal.ToArray();
+                jg = tempjg.ToArray();
+            }
+        }
         /// <summary>
         /// Создание LU разложения
         /// </summary>
@@ -238,6 +295,7 @@ namespace slae_project.Matrix
         {
             try
             {
+                CastToNotSymm();
                 double sum;
                 for (int i = 0; i < Size; i++)
                 {
@@ -317,22 +375,25 @@ namespace slae_project.Matrix
             IVector result = (IVector)x.Clone();
             int jCol;
             var di = this.Diagonal;
-            for (int i = Size - 1; i >= 0; i--)
-            {
+            if (this.isSymmetric)
+                result=this.SolveLT(x,UseDiagonal);
+            else
+                for (int i = Size - 1; i >= 0; i--)
+                {
 
-                for (int j = ig[i + 1]-1; j >= ig[i]; j--)
-                {
-                    jCol = jg[j];
-                    if (jCol > i)
-                        result[i] -= al[j] * result[jCol];
-                    else
-                        break;
+                    for (int j = ig[i + 1] - 1; j >= ig[i]; j--)
+                    {
+                        jCol = jg[j];
+                        if (jCol > i)
+                            result[i] -= al[j] * result[jCol];
+                        else
+                            break;
+                    }
+                    if (UseDiagonal == true && extraDiagVal == 0)
+                    {
+                        result[i] /= di[i];
+                    }
                 }
-                if (UseDiagonal == true && extraDiagVal == 0)
-                {
-                    result[i] /= di[i];
-                }
-            }
             return result;
         }
 
@@ -371,25 +432,28 @@ namespace slae_project.Matrix
             {
                 int jCol;
                 IVector result = new SimpleVector(Size);
-                for (int i = 0; i < Size; i++)
-                {
-                    if (UseDiagonal == true)
+                if (this.isSymmetric)
+                    result = this.MultLT(x, UseDiagonal);
+                else
+                    for (int i = 0; i < Size; i++)
                     {
-                        var di = this.Diagonal;
-                        if (extraDiagVal == 0)
-                            result[i] = di[i] * x[i];
-                        else
-                            result[i] = x[i];
+                        if (UseDiagonal == true)
+                        {
+                            var di = this.Diagonal;
+                            if (extraDiagVal == 0)
+                                result[i] = di[i] * x[i];
+                            else
+                                result[i] = x[i];
+                        }
+                        for (int j = ig[i + 1] - 1; j >= ig[i]; j--)
+                        {
+                            jCol = jg[j];
+                            if (jCol > i)
+                                result[i] += al[j] * x[jCol];
+                            else
+                                break;
+                        }
                     }
-                    for (int j = ig[i + 1]-1; j >= ig[i]; j--)
-                    {
-                        jCol = jg[j];
-                        if (jCol > i)
-                            result[i] += al[j] * x[jCol];
-                        else
-                            break;
-                    }
-                }
                 return result;
             }
         }
@@ -400,20 +464,23 @@ namespace slae_project.Matrix
             if (this.Size != x.Size)
                 throw new Exception("Ошибка. Различие в размерности вектора и матрицы в функции Mult");
             IVector result = new SimpleVector(Size);
-            for (int i = 0; i < this.Size; i++)
-            {
-              for (int k = ig[i]; k < ig[i + 1]; k++)
-               {
-                    j = jg[k];
-                    if (j != i)
+            if (this.isSymmetric)
+                result = Mult(x, UseDiagonal);
+            else
+                for (int i = 0; i < this.Size; i++)
+                {
+                    for (int k = ig[i]; k < ig[i + 1]; k++)
                     {
-                        result[j] += al[k] * x[i];
-                    }
-                    else
-                        if (UseDiagonal)
+                        j = jg[k];
+                        if (j != i)
+                        {
+                            result[j] += al[k] * x[i];
+                        }
+                        else
+                            if (UseDiagonal)
                             result[i] += al[k] * x[j];
+                    }
                 }
-            }
             return result;
            
         }
@@ -568,11 +635,16 @@ namespace slae_project.Matrix
 
         public IVector MultD(IVector a)
         {
-            throw new NotImplementedException();
+            IVector di = this.Diagonal;
+            IVector result = new SimpleVector(Size);
+            for (int i = 0; i < Size; i++)
+                result[i] = a[i]*di[i];
+            return result;
         }
 
-        public SparseRowMatrix(Dictionary<string, string> paths)
+        public SparseRowMatrix(Dictionary<string, string> paths, bool isSym = false)
         {
+            this.isSymmetric = isSym;
             string line;
             string[] sub;
             // n - размерность матрицы, m - количество ненулевых элементов
