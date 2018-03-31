@@ -67,8 +67,8 @@ namespace slae_project
 
             Button button_all = new Button
             {
-                Text = "Обзор",
-                Size = new Size(75, 23),
+                Text = "Обзор папки",
+                Size = new Size(75, 38),
                 Location = new Point(x_b, y)
             };
             button_all.Click += new System.EventHandler(MultireadingButton_Click);
