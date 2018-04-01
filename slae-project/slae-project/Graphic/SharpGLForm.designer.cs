@@ -30,7 +30,7 @@
         {
             this.openGLControl = new SharpGL.OpenGLControl();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.button1_Test = new System.Windows.Forms.Button();
+            this.button1_Log = new System.Windows.Forms.Button();
             this.button1_Teleporter = new System.Windows.Forms.Button();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.radioButton1_TargetPlus_Disabled = new System.Windows.Forms.RadioButton();
@@ -53,11 +53,11 @@
             this.button_exit = new System.Windows.Forms.Button();
             this.button1_SaveLoad = new System.Windows.Forms.Button();
             this.button_reset = new System.Windows.Forms.Button();
+            this.button1_Test = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.label6_FAQ = new System.Windows.Forms.Label();
             this.label7_FAQ_move_phrase = new System.Windows.Forms.Label();
-            this.button1_Log = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
@@ -135,17 +135,17 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(181, 521);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
-            // button1_Test
+            // button1_Log
             // 
-            this.button1_Test.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1_Test.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.button1_Test.Location = new System.Drawing.Point(4, 387);
-            this.button1_Test.Name = "button1_Test";
-            this.button1_Test.Size = new System.Drawing.Size(173, 25);
-            this.button1_Test.TabIndex = 6;
-            this.button1_Test.Text = "Тест режим";
-            this.button1_Test.UseVisualStyleBackColor = true;
-            this.button1_Test.Click += new System.EventHandler(this.button1_Test_Click);
+            this.button1_Log.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1_Log.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.button1_Log.Location = new System.Drawing.Point(4, 355);
+            this.button1_Log.Name = "button1_Log";
+            this.button1_Log.Size = new System.Drawing.Size(173, 25);
+            this.button1_Log.TabIndex = 7;
+            this.button1_Log.Text = "Показать лог";
+            this.button1_Log.UseVisualStyleBackColor = true;
+            this.button1_Log.Click += new System.EventHandler(this.button1_Log_Click);
             // 
             // button1_Teleporter
             // 
@@ -173,7 +173,7 @@
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(173, 25);
             this.tableLayoutPanel4.TabIndex = 15;
             // 
@@ -233,7 +233,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(173, 15);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Размер шрифта";
+            this.label1.Text = "Размер ячейки";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // trackBar_FontSize
@@ -387,7 +387,7 @@
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(173, 25);
             this.tableLayoutPanel3.TabIndex = 14;
             // 
@@ -471,6 +471,18 @@
             this.button_reset.UseVisualStyleBackColor = true;
             this.button_reset.Click += new System.EventHandler(this.button_reset_Click);
             // 
+            // button1_Test
+            // 
+            this.button1_Test.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1_Test.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.button1_Test.Location = new System.Drawing.Point(4, 387);
+            this.button1_Test.Name = "button1_Test";
+            this.button1_Test.Size = new System.Drawing.Size(173, 25);
+            this.button1_Test.TabIndex = 6;
+            this.button1_Test.Text = "Тест режим";
+            this.button1_Test.UseVisualStyleBackColor = true;
+            this.button1_Test.Click += new System.EventHandler(this.button1_Test_Click);
+            // 
             // vScrollBar1
             // 
             this.vScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -520,18 +532,6 @@
             this.label7_FAQ_move_phrase.TabIndex = 5;
             this.label7_FAQ_move_phrase.Text = "Совет";
             this.label7_FAQ_move_phrase.Visible = false;
-            // 
-            // button1_Log
-            // 
-            this.button1_Log.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1_Log.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.button1_Log.Location = new System.Drawing.Point(4, 355);
-            this.button1_Log.Name = "button1_Log";
-            this.button1_Log.Size = new System.Drawing.Size(173, 25);
-            this.button1_Log.TabIndex = 7;
-            this.button1_Log.Text = "Показать лог";
-            this.button1_Log.UseVisualStyleBackColor = true;
-            this.button1_Log.Click += new System.EventHandler(this.button1_Log_Click);
             // 
             // SharpGLForm
             // 

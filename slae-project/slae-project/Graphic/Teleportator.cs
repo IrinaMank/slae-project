@@ -50,8 +50,8 @@ namespace slae_project
                     if (CheckNumberFromString(TextBox_NumberColumn.Text, ref N_Column, refered_sharp.GD.List_Of_Objects[N_Matrix].xCellCount - 1, true))
                     {
 
-                        int hnew = (int)((N_Column + refered_sharp.GD.LeftTopCellOfEachMatrix[N_Matrix].X + 0.5) * refered_sharp.GD.Grid.xCellSize - refered_sharp.openGLControl.Width / 2);
-                        int vnew = (int)((N_Row + refered_sharp.GD.LeftTopCellOfEachMatrix[N_Matrix].Y + 2) * refered_sharp.GD.Grid.yCellSize - refered_sharp.openGLControl.Height / 2);
+                        int hnew = (int)((N_Column + refered_sharp.GD.LeftTopCellOfEachMatrix[N_Matrix].X + 0.5) * refered_sharp.GD.Grid.xCellSize - refered_sharp.openGLControl.Width / 2 + 1);
+                        int vnew = (int)((N_Row + refered_sharp.GD.LeftTopCellOfEachMatrix[N_Matrix].Y + 2) * refered_sharp.GD.Grid.yCellSize - refered_sharp.openGLControl.Height / 2 - 3);
                         rem_x = hnew % refered_sharp.openGLControl.Width;
                         rem_y = vnew % refered_sharp.openGLControl.Height;
 
