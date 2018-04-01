@@ -709,7 +709,7 @@ namespace slae_project
             }
             return row;
         }
-        string GV_GD = "GraphicalVectorID46_567356735423467_";
+        string GV_GD = "GraphicalVector_ID_46_567356735423467_";
         /// <summary>
         /// Записать матрицу в файл
         /// </summary>

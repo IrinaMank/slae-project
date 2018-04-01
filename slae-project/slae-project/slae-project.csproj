@@ -167,6 +167,9 @@
     <EmbeddedResource Include="FileLoadForm.resx">
       <DependentUpon>FileLoadForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Graphic\FAQ.resx">
+      <DependentUpon>FAQ.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Graphic\SaveLoad.resx">
       <DependentUpon>SaveLoad.cs</DependentUpon>
     </EmbeddedResource>

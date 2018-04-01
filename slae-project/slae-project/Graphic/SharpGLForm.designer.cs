@@ -95,6 +95,7 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.button1_Test, 0, 15);
             this.tableLayoutPanel1.Controls.Add(this.button1_Log, 0, 12);
             this.tableLayoutPanel1.Controls.Add(this.button1_Teleporter, 0, 10);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 3);
@@ -109,9 +110,8 @@
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.button_refresh, 0, 11);
             this.tableLayoutPanel1.Controls.Add(this.button_exit, 0, 16);
-            this.tableLayoutPanel1.Controls.Add(this.button1_SaveLoad, 0, 15);
-            this.tableLayoutPanel1.Controls.Add(this.button_reset, 0, 14);
-            this.tableLayoutPanel1.Controls.Add(this.button1_Test, 0, 13);
+            this.tableLayoutPanel1.Controls.Add(this.button_reset, 0, 13);
+            this.tableLayoutPanel1.Controls.Add(this.button1_SaveLoad, 0, 14);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(565, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 17;
@@ -451,7 +451,7 @@
             // 
             this.button1_SaveLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button1_SaveLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.button1_SaveLoad.Location = new System.Drawing.Point(4, 451);
+            this.button1_SaveLoad.Location = new System.Drawing.Point(4, 419);
             this.button1_SaveLoad.Name = "button1_SaveLoad";
             this.button1_SaveLoad.Size = new System.Drawing.Size(173, 25);
             this.button1_SaveLoad.TabIndex = 16;
@@ -463,7 +463,7 @@
             // 
             this.button_reset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button_reset.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.button_reset.Location = new System.Drawing.Point(4, 419);
+            this.button_reset.Location = new System.Drawing.Point(4, 387);
             this.button_reset.Name = "button_reset";
             this.button_reset.Size = new System.Drawing.Size(173, 25);
             this.button_reset.TabIndex = 3;
@@ -475,11 +475,11 @@
             // 
             this.button1_Test.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button1_Test.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.button1_Test.Location = new System.Drawing.Point(4, 387);
+            this.button1_Test.Location = new System.Drawing.Point(4, 451);
             this.button1_Test.Name = "button1_Test";
             this.button1_Test.Size = new System.Drawing.Size(173, 25);
             this.button1_Test.TabIndex = 6;
-            this.button1_Test.Text = "Тест режим";
+            this.button1_Test.Text = "Справка";
             this.button1_Test.UseVisualStyleBackColor = true;
             this.button1_Test.Click += new System.EventHandler(this.button1_Test_Click);
             // 

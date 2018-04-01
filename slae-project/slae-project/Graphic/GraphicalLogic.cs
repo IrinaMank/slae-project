@@ -1592,22 +1592,11 @@ namespace slae_project
             int x_to = x_from;
             int y_to = y_from;
 
-            //x_from -=  + 3;
-            //y_from +=  + Grid.yCellSize * 3 / 4;
-            //x_to -=  + 3;
-            //y_to +=  + Grid.yCellSize * 3 / 4;
-
             x_from += - 3 - 1;
             y_from += - Grid.yCellSize / 4 - 1;
             x_to +=  + Grid.yCellSize * 3 / 4 + 1;
             y_to +=  + Grid.yCellSize * 3 / 4 + 1;
 
-            //x_from += -5;
-            //y_from += -5;
-            //x_to += 0;
-            //y_to += 0;
-
-            //Чтобы не прописывать постоянно
             OpenGL gl = openGLControl.OpenGL;
             //  Clear the color and depth buffer.
             //  Load the identity matrix.
