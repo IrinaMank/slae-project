@@ -315,7 +315,7 @@ namespace slae_project
         /// <param name="openGLControl"></param>
         public void RealDraw()
         {
-            Grid.initP.y = openGLControl.Height;
+            Grid.initP.y = openGLControl.Height - Grid.yCellSize;
 
             if (MemoryChecker()) return;
             if (RealDraw_Try_To_Initialize)

@@ -685,7 +685,7 @@ namespace slae_project
             foreach (double element in row)
             {
                 outputLine += element.ToString(GD.font_format.ToString() + GD.FontQuanitityAfterPoint.ToString());
-                outputLine += " ; ";
+                outputLine += "\t";
             }
             return outputLine;
         }
@@ -695,7 +695,7 @@ namespace slae_project
             List<double> row = new List<double>();
             strRow = strRow.Replace('.', System.Globalization.NumberFormatInfo.CurrentInfo.NumberDecimalSeparator[0]);
             strRow = strRow.Replace(',', System.Globalization.NumberFormatInfo.CurrentInfo.NumberDecimalSeparator[0]);
-            string[] numbers = strRow.Split(new char[] { ';', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] numbers = strRow.Split(new char[] {'\t'}, StringSplitOptions.RemoveEmptyEntries);
             foreach (string element in numbers)
             {
                 try
@@ -709,7 +709,7 @@ namespace slae_project
             }
             return row;
         }
-
+        string GV_GD = "GraphicalVectorID46_567356735423467_";
         /// <summary>
         /// Записать матрицу в файл
         /// </summary>
@@ -721,12 +721,34 @@ namespace slae_project
             {
                 using (StreamWriter writer = new StreamWriter(path, false, System.Text.Encoding.Default))
                 {
-                    writer.WriteLine(GD.List_Of_Objects[numObject].Name);
+                    GraphicData.GraphicObject obj = GD.List_Of_Objects[numObject];
+
+                    string str = GD.List_Of_Objects[numObject].Name;
+                    if (obj.GraphicalVector != null) str = GV_GD + str;
+                        writer.WriteLine(str);
                     //writer.WriteLine(GD.List_Of_Objects[numObject].Name);
-                    foreach (List<double> row in GD.List_Of_Objects[numObject].Matrix)
-                    {
-                        writer.WriteLine(matrixRowToString(row));
-                    }
+                    
+
+                    if (obj.ReferencedVector != null)
+                        for (int i = 0; i < obj.ReferencedVector.Size; i++)
+                            writer.Write(obj.ReferencedVector[i] + "\t");
+                    else if (obj.ReferencedMatrix != null)
+                        for (int i = 0; i < obj.ReferencedMatrix.Size; i++)
+                        {
+                            for (int j = 0; j < obj.ReferencedMatrix.Size; j++)
+                                writer.Write(obj.ReferencedMatrix[i, j] + "\t");
+                            writer.WriteLine();
+                        }
+                    else if (obj.GraphicalVector != null)
+                        for (int i = 0; i < obj.GraphicalVector.Count(); i++)
+                            writer.Write(obj.GraphicalVector[i] + "\t");
+                    else if (obj.Matrix != null)
+                        for (int i = 0; i < obj.Matrix.Count(); i++)
+                        {
+                            for (int j = 0; j < obj.Matrix[i].Count(); j++)
+                                writer.Write(obj.Matrix[i][j] + "\t");
+                            writer.WriteLine();
+                        }
 
                     MessageBox.Show(path + " сохранен.");
                 }
@@ -754,23 +776,33 @@ namespace slae_project
                     string name;
                     //GD.List_Of_Objects
 
+                    bool ItsGraphicalVector = false;
                     name = reader.ReadLine();
-
-                    string line = "";
-                    while ((line = reader.ReadLine()) != null)
+                    if (name.Contains(GV_GD))
                     {
-                        object_to_add.Add(stringToMatrixRow(line));
+                        ItsGraphicalVector = true;
+                        name.Replace(GV_GD, "");
                     }
 
-                    if (numObject > GD.List_Of_Objects.Count - 1)
-                    {
-                        GD.List_Of_Objects.Add(new GraphicData.GraphicObject(name, object_to_add));
-                    }
+                    if (ItsGraphicalVector)
+                        GD.List_Of_Objects.Add(new GraphicData.GraphicObject(name, stringToMatrixRow(reader.ReadLine()), true));
                     else
                     {
-                        GD.List_Of_Objects[numObject] = new GraphicData.GraphicObject(name, object_to_add);
-                    }
+                        string line = "";
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            object_to_add.Add(stringToMatrixRow(line));
+                        }
 
+                        if (numObject > GD.List_Of_Objects.Count - 1)
+                        {
+                            GD.List_Of_Objects.Add(new GraphicData.GraphicObject(name, object_to_add));
+                        }
+                        else
+                        {
+                            GD.List_Of_Objects[numObject] = new GraphicData.GraphicObject(name, object_to_add);
+                        }
+                    }
                     if (BoolMessage) MessageBox.Show(path + " загружен.");
                     Refresh_Window();
                 }
@@ -912,7 +944,7 @@ namespace slae_project
             Clear_Window();
             GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix A", ref Factory.ObjectOfIMatrix));
             GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Result X", ref Factory.Result));
-            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Right Vector", ref Factory.RightVector));
+            GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Right Vector B", ref Factory.RightVector));
             if (Factory.Residual != null && Factory.Residual.Count() > 1)
                 GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Residual", Factory.Residual, true));
             Refresh_Window();
