@@ -73,6 +73,7 @@ namespace slae_project.Solver
             x = Preconditioner.SolveU(x);
             Logger.WriteSolution(x,Maxiter);
             Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));
+          //  Logger.WriteIteration(1, b.Add(A.Mult(x), -1, 1).Norm);
             return x;
         }
     }
