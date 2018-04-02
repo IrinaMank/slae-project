@@ -296,6 +296,16 @@ namespace slae_project
 
                 try
                 {
+                    if (openFileDialog1.FileName.Substring(openFileDialog1.FileName.LastIndexOf(".")) != ".txt")
+                    {
+                        var result = MessageBox.Show("Мы крайне не рекомендуем выбирать в качестве файла логгирования файл с расширением, отличным от txt.\nПродолжить?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (result == System.Windows.Forms.DialogResult.No)
+                        {
+                            log.SelectedIndex = 1;
+                            return;
+                        }
+                    }
+
                     FileLogger f = new FileLogger(openFileDialog1.FileName);
                     Factory.RegisterLoggerClass("Файл " + openFileDialog1.FileName.Remove(0, openFileDialog1.FileName.LastIndexOf('\\') + 1), () => f.returnThis());
 
