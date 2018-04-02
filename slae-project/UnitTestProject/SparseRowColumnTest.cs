@@ -406,34 +406,36 @@ namespace UnitTestProject
             Assert.IsTrue(result.CompareWith(right, 1e-5));
 
         }
-       //+notplotn
-        
-        //[TestMethod]
-        //public void TestSPRC_MultLT_simmetr()
-        //{
-        //    (int, int)[] coord = new(int, int)[16];
-        //    double[] val = new double[16] {100,-10,0,0,
-        //                                   -10,2,-1,-1,
-        //                                    0,-1,101,1,
-        //                                    0,-1,1,2
-        //                                    };
+        //+notplotn
 
-        //    for (int i = 0; i < 16; i++)
-        //    {
-        //        coord[i] = (i / 4, i % 4);
-        //    }
+        [TestMethod]
+        public void TestSPRC_MultLT_simmetr()
+        {
+            (int, int)[] coord = new(int, int)[16];
+            double[] val = new double[16] {100,-10,0,0,
+                                           -10,2,-1,-1,
+                                            0,-1,101,1,
+                                            0,-1,1,2
+                                            };
+
+            for (int i = 0; i < 16; i++)
+            {
+                coord[i] = (i / 4, i % 4);
+            }
 
 
-        //    IMatrix matr = new CoordinateMatrix(coord, val);
-        //    IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-        //    IPreconditioner pre = new LUPreconditioner(s_matr);
-        //    IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
+            IMatrix matr = new CoordinateMatrix(coord, val);
+            IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
+            IPreconditioner pre = new LUPreconditioner(s_matr);
 
-        //    IVector result = pre.T.MultL(x);
-        //    IVector right = new SimpleVector(new double[4] { 80, -5, 300, 4});
+            IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
 
-        //    Assert.IsTrue(result.CompareWith(right, 1e-5));
-        //}
+            IVector result = pre.T.MultL(x);
+            IVector right = new SimpleVector(new double[4] { 80, -5, 300, 4 });
+
+            Assert.IsTrue(result.CompareWith(right, 0));
+        }
+
         //[TestMethod]
         //public void TestSPRC_MultUT_simmetr()
         //{
