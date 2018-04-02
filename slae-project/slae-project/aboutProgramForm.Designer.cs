@@ -40,7 +40,7 @@
             this.aboutProgramTextBox.Location = new System.Drawing.Point(0, 1);
             this.aboutProgramTextBox.Name = "aboutProgramTextBox";
             this.aboutProgramTextBox.ReadOnly = true;
-            this.aboutProgramTextBox.Size = new System.Drawing.Size(441, 583);
+            this.aboutProgramTextBox.Size = new System.Drawing.Size(456, 666);
             this.aboutProgramTextBox.TabIndex = 0;
             this.aboutProgramTextBox.Text = resources.GetString("aboutProgramTextBox.Text");
             // 
@@ -48,7 +48,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(441, 583);
+            this.ClientSize = new System.Drawing.Size(451, 664);
             this.Controls.Add(this.aboutProgramTextBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

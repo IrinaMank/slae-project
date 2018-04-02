@@ -40,6 +40,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.x0DataGrid = new System.Windows.Forms.DataGridView();
             this.button3 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.matrixDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vectorDataGrid)).BeginInit();
@@ -50,6 +51,7 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.matrixDataGrid);
             this.groupBox1.Location = new System.Drawing.Point(27, 12);
             this.groupBox1.Name = "groupBox1";
@@ -57,6 +59,7 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Матрица СЛАУ";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // matrixDataGrid
             // 
@@ -80,7 +83,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(153, 39);
             this.button1.TabIndex = 0;
-            this.button1.Text = "Очистить матрицу";
+            this.button1.Text = "Сброс";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -157,6 +160,14 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(125, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(0, 17);
+            this.label2.TabIndex = 2;
+            // 
             // matrixForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -173,7 +184,9 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "matrixForm";
@@ -181,6 +194,7 @@
             this.Load += new System.EventHandler(this.matrixFormLoad);
             this.VisibleChanged += new System.EventHandler(this.matrixForm_VisibleChanged);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.matrixDataGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vectorDataGrid)).EndInit();
             this.groupBox3.ResumeLayout(false);
@@ -201,5 +215,6 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.DataGridView x0DataGrid;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label label2;
     }
 }
