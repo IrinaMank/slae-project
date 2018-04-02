@@ -179,6 +179,10 @@ namespace slae_project.Matrix
                 this.ig[i] = ig[i];
             }
             this.ig[this.Size] = ig[this.Size];
+            int m = this.ig[this.Size];
+            this.jg = new int[m];
+            this.al = new double[m];
+            this.au = new double[m];
             for (int i = 0; i < ig[this.Size]; i++)
             {
                 this.jg[i] = jg[i];
@@ -674,7 +678,12 @@ namespace slae_project.Matrix
 
         public IVector MultD(IVector a)
         {
-            throw new NotImplementedException();
+            if (this.Size != a.Size)
+                throw new DifferentSizeException("Ошибка. Различие в размерности вектора и матрицы в функции MultD");
+            IVector result = new SimpleVector(Size);
+            for (int i = 0; i < Size; i++)
+                result[i] = a[i] * di[i];
+            return result;
         }
 
         public SparseRowColumnMatrix(Dictionary<string, string> paths, bool isSymmetric)
