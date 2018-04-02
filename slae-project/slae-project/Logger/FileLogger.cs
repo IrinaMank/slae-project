@@ -1,4 +1,4 @@
-﻿#define DEBUG
+﻿#define TEST
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,8 +43,8 @@ namespace slae_project.Logger
             fileStream.WriteLine(msg);
             //            fileStream.Flush();
             //Thread.Sleep(0);
-#if !DEBUG
-           Form1.updateProgressBar(number);
+#if !TEST
+            Form1.updateProgressBar(number);
 #endif
             if (number == maxiter-1)
             {
@@ -75,7 +75,7 @@ namespace slae_project.Logger
             fileStream.WriteLine("----------------Конечная невзяка-------------------");
             fileStream.WriteLine(residual.ToString());
             fileStream.WriteLine("----------------------Решение----------------------");
-#if TEST
+#if !TEST
             Form1.updateProgressBar(Maxiter);
 #endif
             for (int i = 0; i < sol.Size; i++)
