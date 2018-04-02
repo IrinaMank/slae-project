@@ -70,8 +70,10 @@ namespace slae_project.Logger
             fileStream.Flush();
         }
 
-        public void WriteSolution(IVector sol, int Maxiter)
+        public void WriteSolution(IVector sol, int Maxiter, double residual)
         {
+            fileStream.WriteLine("----------------Конечная невзяка-------------------");
+            fileStream.WriteLine(residual.ToString());
             fileStream.WriteLine("----------------------Решение----------------------");
 #if TEST
             Form1.updateProgressBar(Maxiter);
@@ -80,7 +82,6 @@ namespace slae_project.Logger
             {
                 String msg = String.Format("{0}", sol[i]);
                 fileStream.WriteLine(msg);
-
             }
             fileStream.Flush();
         }

@@ -12,7 +12,7 @@ namespace slae_project.Logger
     {
         void setMaxIter(int i);
         void WriteIteration (int number, double residual);
-        void WriteSolution (IVector x, int Maxiter);
+        void WriteSolution (IVector x, int Maxiter, double residual);
         void WriteNameSolution(string nameSolver, string namePred);
         void WriteTime(string start, string end);
     }

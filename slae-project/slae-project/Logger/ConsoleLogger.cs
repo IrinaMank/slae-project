@@ -28,7 +28,7 @@ namespace slae_project.Logger
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool FreeConsole();
 
-        public void WriteSolution(IVector x, int Maxiter)
+        public void WriteSolution(IVector x, int Maxiter, double residual)
         {
             for (int i = 0; i<x.Size;i++)
             System.Console.Write("{1} ",x[i]);
