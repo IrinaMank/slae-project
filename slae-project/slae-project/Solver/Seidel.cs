@@ -23,6 +23,9 @@ namespace slae_project.Solver
         /// <returns>Вектор x - решение СЛАУ Ax=b с заданной точностью</returns>
         public IVector Solve(IPreconditioner Preconditioner, IMatrix A, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
         {
+            Logger.WriteNameSolution("Seidel", Preconditioner.getName());
+            string start = DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff");
+
             Logger.setMaxIter(Maxiter);
             IVector x = (IVector)Initial.Clone();//начальное приблежение
 
@@ -37,8 +40,17 @@ namespace slae_project.Solver
                 residual = r.Norm / b.Norm;// ||b-Ax|| / ||b||
                 Factory.Residual.Add(residual);
                 Logger.WriteIteration(i, residual);
+
+
+                if (double.IsNaN(r.Norm) || double.IsInfinity(r.Norm))
+                {
+                    Logger.WriteSolution(x, Maxiter, b.Add(A.Mult(x), -1, 1).Norm);
+                    Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));
+                    throw new CantSolveException();
+                }
             }
-            Logger.WriteSolution(x, Maxiter);
+            Logger.WriteSolution(x, Maxiter, b.Add(A.Mult(x), -1, 1).Norm);
+            Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));
             return x;
         }
 

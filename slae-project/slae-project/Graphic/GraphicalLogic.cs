@@ -89,7 +89,7 @@ namespace slae_project
                     }
                     
                 }
-                catch (Exception Exc)
+                catch (Exception)
                 {
                 }
             }
@@ -216,7 +216,7 @@ namespace slae_project
                         else return Matrix[row - 1][column - 1];
                         return double.NaN;
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         return double.NaN;
                     }
@@ -315,7 +315,7 @@ namespace slae_project
         /// <param name="openGLControl"></param>
         public void RealDraw()
         {
-            Grid.initP.y = openGLControl.Height;
+            Grid.initP.y = openGLControl.Height - Grid.yCellSize;
 
             if (MemoryChecker()) return;
             if (RealDraw_Try_To_Initialize)
@@ -1592,22 +1592,11 @@ namespace slae_project
             int x_to = x_from;
             int y_to = y_from;
 
-            //x_from -=  + 3;
-            //y_from +=  + Grid.yCellSize * 3 / 4;
-            //x_to -=  + 3;
-            //y_to +=  + Grid.yCellSize * 3 / 4;
-
             x_from += - 3 - 1;
             y_from += - Grid.yCellSize / 4 - 1;
             x_to +=  + Grid.yCellSize * 3 / 4 + 1;
             y_to +=  + Grid.yCellSize * 3 / 4 + 1;
 
-            //x_from += -5;
-            //y_from += -5;
-            //x_to += 0;
-            //y_to += 0;
-
-            //Чтобы не прописывать постоянно
             OpenGL gl = openGLControl.OpenGL;
             //  Clear the color and depth buffer.
             //  Load the identity matrix.
@@ -1750,7 +1739,7 @@ namespace slae_project
         void InitiaiteMemoryRewriter()
         {
             MemorySizeChangeChecker.Clear();
-            int counter = 0;
+            //int counter = 0;
             foreach (var Object in GD_link.List_Of_Objects)
                 foreach (var vector in Object.Matrix)
                 {

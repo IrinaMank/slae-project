@@ -1,6 +1,6 @@
-﻿namespace slae_project
+﻿namespace slae_project.Graphic
 {
-    partial class loadWindow
+    partial class FAQ
     {
         /// <summary>
         /// Required designer variable.
@@ -28,25 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(loadWindow));
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
-            // loadWindow
+            // pictureBox1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(676, 229);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // FAQ
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::slae_project.Properties.Resources.loadform0;
-            this.ClientSize = new System.Drawing.Size(826, 463);
-            this.Cursor = System.Windows.Forms.Cursors.AppStarting;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "loadWindow";
-            this.Text = "loadWindow";
-            this.Load += new System.EventHandler(this.loadWindow_Load);
+            this.ClientSize = new System.Drawing.Size(700, 473);
+            this.Controls.Add(this.pictureBox1);
+            this.Name = "FAQ";
+            this.Text = "FAQ";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

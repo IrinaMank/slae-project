@@ -43,6 +43,9 @@ namespace slae_project
             Factory.CreateMatrix(Form1.str_format_matrix);
 
             arrays = Factory.name_arr; //<==========================================================LOOK AT ME
+            if (Form1.property_matr && Form1.format.SelectedIndex == 2)
+                arrays.RemoveAt(arrays.IndexOf("au"));
+
             int count_arr = arrays.Count();
 
             string mess = "";
@@ -53,17 +56,21 @@ namespace slae_project
             mess = mess.Remove(mess.Length - 1);
 
             int x_l = 45, y = 25, x_p = 100, x_b = 315;
-            Label arr_label = new Label();
-            arr_label.Text = mess.ToString();
-            arr_label.Size = new Size(200, 40);
-            arr_label.Location = new System.Drawing.Point(x_l, y);
+            Label arr_label = new Label
+            {
+                Text = mess.ToString(),
+                Size = new Size(200, 40),
+                Location = new System.Drawing.Point(x_l, y)
+            };
             this.Controls.Add(arr_label);
             arr_label.BackColor = Color.Transparent;
 
-            Button button_all = new Button();
-            button_all.Text = "Обзор";
-            button_all.Size = new Size(75, 23);
-            button_all.Location = new Point(x_b, y);
+            Button button_all = new Button
+            {
+                Text = "Обзор папки",
+                Size = new Size(75, 38),
+                Location = new Point(x_b, y)
+            };
             button_all.Click += new System.EventHandler(MultireadingButton_Click);
             this.Controls.Add(button_all);
 
@@ -75,20 +82,23 @@ namespace slae_project
 
             for (int i = 0; i < count_arr; i++)
             {
-
-                Label name = new Label();
-                name.Text = arrays[i];
-                name.Size = new Size(50, 15);
-                name.Location = new System.Drawing.Point(x_l, y);
+                Label name = new Label
+                {
+                    Text = arrays[i],
+                    Size = new Size(50, 15),
+                    Location = new System.Drawing.Point(x_l, y)
+                };
                 filenames_format.Add(name.Text, "");
                 this.Controls.Add(name);
                 name.BackColor = Color.Transparent;
                 name_arr.Add(name.Text);
 
-                TextBox puth = new TextBox();
-                puth.Size = new Size(185, 20);
-                puth.Name = i.ToString();
-                puth.Location = new Point(x_p, y);
+                TextBox puth = new TextBox
+                {
+                    Size = new Size(185, 20),
+                    Name = i.ToString(),
+                    Location = new Point(x_p, y)
+                };
                 puths.Add(puth);
                 this.Controls.Add(puth);
 
@@ -96,7 +106,7 @@ namespace slae_project
                 obzors.Add(button);
                 button.Text = "Обзор";
                 button.Size = new Size(75, 23);
-                button.Location = new Point(x_b, y);
+                button.Location = new Point(x_b, y-2);
                 button.Click += new System.EventHandler(button_Click);
                 this.Controls.Add(button);
                 input_buttons.Add(button);
@@ -104,19 +114,22 @@ namespace slae_project
                 y += 33;
             }
             //правая часть
-            Label name_b = new Label();
-            name_b.Text = "f";
-            name_b.Size = new Size(25, 15);
-            name_b.Location = new System.Drawing.Point(x_l, y);
-            //name_arr.Add(name_b.Text, name_b);
+            Label name_b = new Label
+            {
+                Text = "f",
+                Size = new Size(25, 15),
+                Location = new System.Drawing.Point(x_l, y)
+            };
             this.Controls.Add(name_b);
             name_b.BackColor = Color.Transparent;
             name_arr.Add(name_b.Text);
 
-            TextBox puth_b = new TextBox();
-            puth_b.Size = new Size(185, 20);
-            puth_b.Name = "f";
-            puth_b.Location = new Point(x_p, y);
+            TextBox puth_b = new TextBox
+            {
+                Size = new Size(185, 20),
+                Name = "f",
+                Location = new Point(x_p, y)
+            };
             puths.Add(puth_b);
             this.Controls.Add(puth_b);
 
@@ -131,19 +144,23 @@ namespace slae_project
 
             y += 33;
             ///начальное приближение
-            Label name_x0 = new Label();
-            name_x0.Text = "x0";
-            name_x0.Size = new Size(25, 15);
-            name_x0.Location = new System.Drawing.Point(x_l, y);
+            Label name_x0 = new Label
+            {
+                Text = "x0",
+                Size = new Size(25, 15),
+                Location = new System.Drawing.Point(x_l, y)
+            };
             //name_arr.Add(name_x0.Text, name_x0);
             this.Controls.Add(name_x0);
             name_x0.BackColor = Color.Transparent;
             name_arr.Add(name_x0.Text);
 
-            TextBox puth_x0 = new TextBox();
-            puth_x0.Size = new Size(185, 20);
-            puth_x0.Name = "x0";
-            puth_x0.Location = new Point(x_p, y);
+            TextBox puth_x0 = new TextBox
+            {
+                Size = new Size(185, 20),
+                Name = "x0",
+                Location = new Point(x_p, y)
+            };
             puths.Add(puth_x0);
             this.Controls.Add(puth_x0);
 
@@ -158,18 +175,22 @@ namespace slae_project
 
             y += 50;
             //кнопка загрузки
-            button_load = new Button();
-            button_load.Text = "ОК";
-            button_load.Size = new Size(85, 23);
-            button_load.Location = new Point(100, y);
+            button_load = new Button
+            {
+                Text = "ОК",
+                Size = new Size(85, 23),
+                Location = new Point(100, y)
+            };
             button_load.Click += new System.EventHandler(this.button_load_Click);
             this.Controls.Add(button_load);
             button_load.Enabled = false;
 
-            button_cancel = new Button();
-            button_cancel.Text = "Отмена";
-            button_cancel.Size = new Size(85, 23);
-            button_cancel.Location = new Point(200, y);
+            button_cancel = new Button
+            {
+                Text = "Отмена",
+                Size = new Size(85, 23),
+                Location = new Point(200, y)
+            };
             button_cancel.Click += new System.EventHandler(this.button_cancel_Click);
             this.Controls.Add(button_cancel);
             button_cancel.Enabled = true;
@@ -224,7 +245,7 @@ namespace slae_project
                             filenames_format[buf] = file;
                         else
                         {
-                            MessageBox.Show("Файл "+ buf + " имеет неверное наименование");
+                            MessageBox.Show("Файл "+ buf + " имеет неверное название");
                             return;
                         }
                         break;
@@ -239,32 +260,27 @@ namespace slae_project
         {
             FileStream file = new FileStream(filename_b, FileMode.Open, FileAccess.Read);
             StreamReader reader = new StreamReader(file);
-
-            int size = Convert.ToInt32(reader.ReadLine());
             var k = reader.ReadLine().Split();
-            Factory.RightVector = new SimpleVector(size);
-           // F = new SimpleVector(size);
-            for (int r = 0; r < size; r++)
-            {
-                Factory.RightVector[r] = Convert.ToDouble(k[r]);
-            }
+            Factory.RightVector = new SimpleVector(k.Length);
+
+            for (int i=0; i<k.Length; i++)
+                Factory.RightVector[i] = Convert.ToDouble(k[i]);
+
             reader.Close();
             file.Close();
 
             file = new FileStream(filename_X0, FileMode.Open, FileAccess.Read);
             reader = new StreamReader(file);
-
-            size = Convert.ToInt32(reader.ReadLine());
             k = reader.ReadLine().Split();
-            Factory.X0 = new SimpleVector(size);
-            //X0 = new SimpleVector(size);
-            for (int r = 0; r < size; r++)
-            {
-                Factory.X0[r] = Convert.ToDouble(k[r]);
-            }
+            Factory.X0 = new SimpleVector(k.Length);
+            for (int i = 0; i < k.Length; i++)
+                Factory.X0[i] = Convert.ToDouble(k[i]);
+
+            reader.Close();
+            file.Close();
+
             Form1.format.Enabled = true;
             this.Visible = false;
-            return;
         }
 
         private void FileLoadForm_VisibleChanged(object sender, EventArgs e)
@@ -326,7 +342,6 @@ namespace slae_project
                 return;
             }
             filenames_format[name_arr[pressedButton]] = openFileDialog1.FileName;
-
         }
     }
 }

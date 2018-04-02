@@ -14,14 +14,13 @@ namespace slae_project
 {
     class Factory
     {
-        //Form1 main_form;
-        FileLogger Log = new FileLogger();//Form1.maxiter добавлена Ирой, чтобы проект собирался. Возможно, аргументом должно быть что-то другое
         public static Dictionary<string, string> DictionaryOfFormats = FileLoadForm.filenames_format;//словарь путей до массивов
         static public Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)> MatrixTypes = new Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)>();
         public static IMatrix ObjectOfIMatrix;
         public static IVector Result;
         public static IVector RightVector;
         public static IVector X0;
+        public static ILogger Log;
         public static List<double> Residual = new List<double>();//Невязка
         public static int MaxIter;
         public static double Accuracy;
@@ -29,6 +28,7 @@ namespace slae_project
         public static IPreconditioner Prec = new NoPreconditioner();
         static public Dictionary<string, Func<IPreconditioner, IMatrix, IVector, IVector, double, int, ILogger, IVector>> SolverTypes = new Dictionary<string, Func<IPreconditioner, IMatrix, IVector, IVector, double, int, ILogger, IVector>>();
         static public Dictionary<string, Func<IPreconditioner>> PrecondTypes = new Dictionary<string, Func<IPreconditioner>>();
+        static public Dictionary<string, Func<ILogger>> LoggerTypes = new Dictionary<string, Func<ILogger>>();
 
         public void RegisterPrecondClass(string Name, Func<IPreconditioner> Creator)
         {
@@ -42,6 +42,11 @@ namespace slae_project
         public void RegisterSolverClass(string Name, Func<IPreconditioner, IMatrix, IVector, IVector, double, int, ILogger, IVector> Creator1)
         {
             SolverTypes.Add(Name, Creator1);
+        }
+
+        static public void RegisterLoggerClass(string Name, Func<ILogger> Creator1)
+        {
+                LoggerTypes.Add(Name, Creator1);  
         }
 
         public Factory()
@@ -63,13 +68,15 @@ namespace slae_project
             ISolver Jacoby = new Jacobi();
             ISolver Zeid = new Seidel();
 
-
             RegisterSolverClass("Метод сопряжённых градиентов", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, ILogger g) => Msg.Solve(Prec, ObjectOfIMatrix, RightVector, X0, Accuracy, MaxIter, Log));
             RegisterSolverClass("Локально-оптимальная схема", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, ILogger g) => Los.Solve(Prec, ObjectOfIMatrix, RightVector, X0, Accuracy, MaxIter, Log));
             RegisterSolverClass("Метод Якоби", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, ILogger g) => Jacoby.Solve(Prec, ObjectOfIMatrix, RightVector, X0, Accuracy, MaxIter, Log));
             RegisterSolverClass("Метод Зейделя", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, ILogger g) => Zeid.Solve(Prec, ObjectOfIMatrix, RightVector, X0, Accuracy, MaxIter, Log));
             RegisterSolverClass("Метод бисопряжённых градиентов", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, ILogger g) => Bsg.Solve(Prec, ObjectOfIMatrix, RightVector, X0, Accuracy, MaxIter, Log));
 
+            RegisterLoggerClass("Консоль", () => new ConsoleLogger());
+            FileLogger fl = new FileLogger();
+            RegisterLoggerClass("Файл log.txt", () => fl.returnThis());
             //RegisterSolverClass("Метод обобщённых минимальных невязок", (IPreconditioner a, IMatrix b, IVector c, IVector d, double e, int f, FileLogger g) => new SparseRowColumnMatrix.Solver(Prec, ObjectOfIMatrix, FileLoadForm.F, FileLoadForm.X0, Form1.s_accur_number, Form1.max_iter, Log));
             //Log.Dispose();
         }
@@ -99,7 +106,6 @@ namespace slae_project
             Func<IPreconditioner, IMatrix, IVector, IVector, double, int, ILogger, IVector> value;
             SolverTypes.TryGetValue(typename, out value);
 
-            FileLogger f = null;
             try
             {
                 switch (ObjectOfIMatrix.CheckCompatibility(Factory.RightVector))
@@ -117,9 +123,23 @@ namespace slae_project
                             break;
                         }
                 }
-                Result = value(Prec, ObjectOfIMatrix, RightVector, X0, Accuracy, MaxIter, f);
+                Result = value(Prec, ObjectOfIMatrix, RightVector, X0, Accuracy, MaxIter, Log);
                 System.Media.SoundPlayer sp = new System.Media.SoundPlayer(Properties.Resources.ya);
                 sp.Play();
+            }
+            catch (Solver.CantSolveException a)
+            {
+                var result = System.Windows.Forms.MessageBox.Show("Вы женского пола?","Важный вопрос", System.Windows.Forms.MessageBoxButtons.YesNo,
+                    System.Windows.Forms.MessageBoxIcon.Question);
+                string mesg = "Увы, месье, ";
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
+                    mesg = "Увы, мадам, ";
+                }
+                System.Windows.Forms.MessageBox.Show(mesg+a.Message,
+                    "Ошибка",
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.Stop);
             }
             catch (Matrix.MatrixExceptions.SlaeNotCompatipableException a)
             {
@@ -128,7 +148,7 @@ namespace slae_project
                     System.Windows.Forms.MessageBoxButtons.OK,
                     System.Windows.Forms.MessageBoxIcon.Stop);
             }
-            catch (Exception a)
+            catch
             {
                 System.Windows.Forms.MessageBox.Show("Решение СЛАУ не может быть получено с помощью данного метода.",
                     "Ошибка",
@@ -157,6 +177,15 @@ namespace slae_project
             }
 
         }
+
+        static public void CreateLogger(object typenameOb)
+        {
+            string typename = typenameOb as string;
+            Func<ILogger> value;
+            LoggerTypes.TryGetValue(typename, out value);
+            Log = value();
+        }
+
 
         // Мы передаем симметричность/ несимметричность
         public static bool Get_format()
