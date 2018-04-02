@@ -30,6 +30,7 @@
         {
             this.openGLControl = new SharpGL.OpenGLControl();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.button1_Test = new System.Windows.Forms.Button();
             this.button1_Log = new System.Windows.Forms.Button();
             this.button1_Teleporter = new System.Windows.Forms.Button();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
@@ -51,9 +52,8 @@
             this.radioButton1_Number_enabled = new System.Windows.Forms.RadioButton();
             this.button_refresh = new System.Windows.Forms.Button();
             this.button_exit = new System.Windows.Forms.Button();
-            this.button1_SaveLoad = new System.Windows.Forms.Button();
             this.button_reset = new System.Windows.Forms.Button();
-            this.button1_Test = new System.Windows.Forms.Button();
+            this.button1_SaveLoad = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.label6_FAQ = new System.Windows.Forms.Label();
@@ -95,8 +95,8 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.button1_Test, 0, 15);
-            this.tableLayoutPanel1.Controls.Add(this.button1_Log, 0, 12);
+            this.tableLayoutPanel1.Controls.Add(this.button1_Log, 0, 15);
+            this.tableLayoutPanel1.Controls.Add(this.button_refresh, 0, 11);
             this.tableLayoutPanel1.Controls.Add(this.button1_Teleporter, 0, 10);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 2);
@@ -108,10 +108,10 @@
             this.tableLayoutPanel1.Controls.Add(this.trackBar_QuantityAfterPoint, 0, 9);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.button_refresh, 0, 11);
             this.tableLayoutPanel1.Controls.Add(this.button_exit, 0, 16);
             this.tableLayoutPanel1.Controls.Add(this.button_reset, 0, 13);
             this.tableLayoutPanel1.Controls.Add(this.button1_SaveLoad, 0, 14);
+            this.tableLayoutPanel1.Controls.Add(this.button1_Test, 0, 12);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(565, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 17;
@@ -135,15 +135,27 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(181, 521);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
+            // button1_Test
+            // 
+            this.button1_Test.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1_Test.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.button1_Test.Location = new System.Drawing.Point(4, 355);
+            this.button1_Test.Name = "button1_Test";
+            this.button1_Test.Size = new System.Drawing.Size(173, 25);
+            this.button1_Test.TabIndex = 6;
+            this.button1_Test.Text = "Тестовый режим";
+            this.button1_Test.UseVisualStyleBackColor = true;
+            this.button1_Test.Click += new System.EventHandler(this.button1_Test_Click);
+            // 
             // button1_Log
             // 
             this.button1_Log.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button1_Log.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.button1_Log.Location = new System.Drawing.Point(4, 355);
+            this.button1_Log.Location = new System.Drawing.Point(4, 451);
             this.button1_Log.Name = "button1_Log";
             this.button1_Log.Size = new System.Drawing.Size(173, 25);
             this.button1_Log.TabIndex = 7;
-            this.button1_Log.Text = "Показать лог";
+            this.button1_Log.Text = "Справка";
             this.button1_Log.UseVisualStyleBackColor = true;
             this.button1_Log.Click += new System.EventHandler(this.button1_Log_Click);
             // 
@@ -447,18 +459,6 @@
             this.button_exit.UseVisualStyleBackColor = true;
             this.button_exit.Click += new System.EventHandler(this.button_exit_Click);
             // 
-            // button1_SaveLoad
-            // 
-            this.button1_SaveLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1_SaveLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.button1_SaveLoad.Location = new System.Drawing.Point(4, 419);
-            this.button1_SaveLoad.Name = "button1_SaveLoad";
-            this.button1_SaveLoad.Size = new System.Drawing.Size(173, 25);
-            this.button1_SaveLoad.TabIndex = 16;
-            this.button1_SaveLoad.Text = "Сохранение/Загрузка";
-            this.button1_SaveLoad.UseVisualStyleBackColor = true;
-            this.button1_SaveLoad.Click += new System.EventHandler(this.button1_SaveLoad_Click);
-            // 
             // button_reset
             // 
             this.button_reset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -471,17 +471,17 @@
             this.button_reset.UseVisualStyleBackColor = true;
             this.button_reset.Click += new System.EventHandler(this.button_reset_Click);
             // 
-            // button1_Test
+            // button1_SaveLoad
             // 
-            this.button1_Test.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1_Test.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.button1_Test.Location = new System.Drawing.Point(4, 451);
-            this.button1_Test.Name = "button1_Test";
-            this.button1_Test.Size = new System.Drawing.Size(173, 25);
-            this.button1_Test.TabIndex = 6;
-            this.button1_Test.Text = "Справка";
-            this.button1_Test.UseVisualStyleBackColor = true;
-            this.button1_Test.Click += new System.EventHandler(this.button1_Test_Click);
+            this.button1_SaveLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1_SaveLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.button1_SaveLoad.Location = new System.Drawing.Point(4, 419);
+            this.button1_SaveLoad.Name = "button1_SaveLoad";
+            this.button1_SaveLoad.Size = new System.Drawing.Size(173, 25);
+            this.button1_SaveLoad.TabIndex = 16;
+            this.button1_SaveLoad.Text = "Сохранение/Загрузка";
+            this.button1_SaveLoad.UseVisualStyleBackColor = true;
+            this.button1_SaveLoad.Click += new System.EventHandler(this.button1_SaveLoad_Click);
             // 
             // vScrollBar1
             // 

@@ -231,6 +231,7 @@
     <None Include="Resources\ya.wav" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Graphic\Screenshots\FAQ_main.png" />
     <Content Include="icon.ico" />
     <None Include="Resources\СЛАУ.png" />
   </ItemGroup>

@@ -955,7 +955,7 @@ namespace slae_project
             Wrapped_Reverse_Reseter();
         }
 
-        private void button1_Log_Click(object sender, EventArgs e)
+        private void HowToShowTextedFileToWindow()
         {
             Clear_Window();
             GD.TextMod = true;
@@ -980,5 +980,23 @@ namespace slae_project
             }
             Refresh_Window();
         }
+
+
+        FAQ FAQForm = null;
+        public bool FAQForm_is_opened()
+        {
+            if (FAQForm != null)
+                if (!FAQForm.IsDisposed)
+                    return true;
+            return false;
+        }
+        private void button1_Log_Click(object sender, EventArgs e)
+        {
+            if (!FAQForm_is_opened())
+            {
+                FAQForm = new FAQ();
+            }
+        }
+        
     }
 }
