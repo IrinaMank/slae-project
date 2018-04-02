@@ -60,7 +60,11 @@ namespace slae_project.Solver
                 normR = r.Norm / b.Norm;
                 Logger.WriteIteration(iter, normR);
                 if (double.IsNaN(normR) || double.IsInfinity(normR))
-                    throw new CantSolveException();
+                    { 
+                        Logger.WriteSolution(x, Maxiter, b.Add(A.Mult(x), -1, 1).Norm);
+                        Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));
+                        throw new CantSolveException();
+                    }
             }
             Logger.WriteSolution(x, Maxiter, b.Add(A.Mult(x), -1, 1).Norm);
             Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));

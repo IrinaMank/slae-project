@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
+using slae_project.Logger;
 
 namespace slae_project
 {
@@ -16,9 +17,9 @@ namespace slae_project
         public static string str_format_matrix; //формат матрицы
         public static string str_solver; //тип решателя
         public static string str_precond; //тип предобусловлевания
+        public static string str_logger;
         public static bool property_matr = false; //симметричность матрицы: по умолчанию несимметричная
-        //public static double accurent = 0.1;
-       // public static int maxiter = 1000;
+
         public double percent = 0;
         public int ourIter = 0;
         String[] precondTypesList;
@@ -29,9 +30,9 @@ namespace slae_project
         public GroupBox gr;
         public PictureBox picture;
         public RadioButton fileRead, myRead;
-        public Label sizel, iconRule, formMatrix, solvMatrix, precondMatrix, accl, maxiterl, iterLife;
+        public Label sizel, iconRule, formMatrix, solvMatrix, precondMatrix, accl, maxiterl, iterLife, logLabel;
         public CheckBox propertyMatrix;
-        public static ComboBox solver, format, precond;
+        public static ComboBox solver, format, precond, log;
         public NumericUpDown size, acc;
         public TextBox maxit;
 
@@ -46,7 +47,7 @@ namespace slae_project
         public Form1()
         {
             InitializeComponent();
-            this.Size = new Size(430, 350);
+            this.Size = new Size(430, 380);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -196,7 +197,7 @@ namespace slae_project
             {
                 Text = "Графика",
                 Size = new Size(100, 30),
-                Location = new Point(175, 260),
+                Location = new Point(175, 290),
                 Enabled = false
             };
             graphics.Click += new System.EventHandler(graphicsClick);
@@ -207,7 +208,7 @@ namespace slae_project
             {
                 Text = "Решить",
                 Size = new Size(100, 30),
-                Location = new Point(285, 260),
+                Location = new Point(285, 290),
                 Enabled = false
             };
             next.Click += new System.EventHandler(nextClick);
@@ -218,7 +219,7 @@ namespace slae_project
             {
                 Text = "Файл с результатом",
                 Size = new Size(130, 30),
-                Location = new Point(35, 260),
+                Location = new Point(35, 290),
                 Enabled = false
             };
             fileResult.Click += new System.EventHandler(fileResultClick);
@@ -236,18 +237,91 @@ namespace slae_project
 
             for (int i = 0; i < matrixTypesList.Length; i++)
                 format.Items.Add(matrixTypesList[i]);
+
             format.SelectedIndexChanged += new System.EventHandler(format_SelectedIndexChanged);
             this.Controls.Add(format);
             format.BringToFront();
             format.SelectedIndex = 0;
 
+            log = new ComboBox
+            {
+                Size = new Size(210, 30),
+                Location = new System.Drawing.Point(175, 225)
+            };
+            log.Items.Add("Консоль");
+            log.Items.Add("Файл log.txt");
+            log.Items.Add("<Добавить файл>");
+            log.SelectedIndexChanged += new System.EventHandler(log_SelectedIndexChanged);
+
+            log.SelectedIndex = 1;
+            log.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Controls.Add(log);
+            log.BringToFront();
+            log.BackColor = Color.White;
+
+
+            logLabel = new Label
+            {
+                Text = "Логгер",
+                Size = new Size(120, 15),
+                Location = new System.Drawing.Point(35, 225)
+            };
+
+            this.Controls.Add(logLabel);
+            logLabel.BringToFront();
+            logLabel.BackColor = Color.Transparent;
+
             bar = new ProgressBar
             {
                 Size = new Size(350, 20),
-                Location = new System.Drawing.Point(35, 225)
+                Location = new System.Drawing.Point(35, 255)
             };
             this.Controls.Add(bar);
             bar.BringToFront();
+        }
+
+        private void log_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (log.SelectedIndex == 0)
+                fileResult.Enabled = false;
+            else
+                fileResult.Enabled = true;
+
+            if (log.SelectedItem.ToString() == "<Добавить файл>")
+            {
+                OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+                if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
+                    return;
+
+                try
+                {
+                    if (openFileDialog1.FileName.Substring(openFileDialog1.FileName.LastIndexOf(".")) != ".txt")
+                    {
+                        var result = MessageBox.Show("Мы крайне не рекомендуем выбирать в качестве файла логгирования файл с расширением, отличным от txt.\nПродолжить?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (result == System.Windows.Forms.DialogResult.No)
+                        {
+                            log.SelectedIndex = 1;
+                            return;
+                        }
+                    }
+
+                    FileLogger f = new FileLogger(openFileDialog1.FileName);
+                    Factory.RegisterLoggerClass("Файл " + openFileDialog1.FileName.Remove(0, openFileDialog1.FileName.LastIndexOf('\\') + 1), () => f.returnThis());
+
+                    //Смотреть на свой страх и риск
+                    log.Items.Remove("<Добавить файл>");
+                    log.Items.Add("Файл " + openFileDialog1.FileName.Remove(0, openFileDialog1.FileName.LastIndexOf('\\') + 1));
+                    log.Items.Add("<Добавить файл>");
+                    log.SelectedIndex = log.Items.Count - 2;
+
+                }
+                catch
+                {
+                    MessageBox.Show("Файл с таким названием уже имеется в качестве логгера");
+                }
+                           
+                }
         }
 
         private void format_SelectedIndexChanged(object sender, EventArgs e)
@@ -294,6 +368,7 @@ namespace slae_project
         private void threadSolver()
         {
             Factory.Residual.Clear();// очистим вектор для нового решения
+            Factory.CreateLogger(str_logger);
             Factory.CreateMatrix(str_format_matrix);
             Factory.Create_Full_Matrix(str_format_matrix, property_matr);
             Factory.CreatePrecond(str_precond);
@@ -307,6 +382,7 @@ namespace slae_project
             bar.Maximum = Convert.ToUInt16(maxit.Text);
             Factory.Accuracy = Convert.ToDouble("1e-" + acc.Value.ToString());
 
+            str_logger = log.SelectedItem.ToString();
             str_format_matrix = format.SelectedItem.ToString();
             str_solver = solver.SelectedItem.ToString();
             str_precond = precond.SelectedItem.ToString();
@@ -318,7 +394,9 @@ namespace slae_project
 
         private void fileResultClick(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("log.txt");
+            FileLogger l = Factory.LoggerTypes[log.SelectedItem.ToString()].Invoke() as FileLogger;
+            System.Diagnostics.Process.Start(l.filename);
+            l.Dispose();
         }
 
         private void loadFilesClick(object sender, EventArgs e)

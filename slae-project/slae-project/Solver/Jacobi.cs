@@ -42,7 +42,11 @@ namespace slae_project.Solver
                 Logger.WriteIteration(i, residual);
 
                 if (double.IsNaN(r.Norm) || double.IsInfinity(r.Norm))
-                    throw new CantSolveException();
+                    {
+                        Logger.WriteSolution(x, Maxiter, b.Add(A.Mult(x), -1, 1).Norm);
+                        Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));
+                        throw new CantSolveException();
+                    }
             }
             Logger.WriteSolution(x, Maxiter, b.Add(A.Mult(x), -1, 1).Norm);
             Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));

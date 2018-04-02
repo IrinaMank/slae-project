@@ -70,14 +70,17 @@ namespace slae_project.Solver
                 Logger.WriteIteration(iter, normR);
 
                 if (double.IsNaN(normR) || double.IsInfinity(normR))
+                {
+                    x = Preconditioner.SolveU(x);
+                    Logger.WriteSolution(x, Maxiter, b.Add(A.Mult(x), -1, 1).Norm);
+                    Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));
                     throw new CantSolveException();
+                }
 
             };
-            x = Preconditioner.SolveU(x);
-            
-            Logger.WriteSolution(x,Maxiter, b.Add(A.Mult(x), -1, 1).Norm);
-            Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));
-
+                x = Preconditioner.SolveU(x);
+                Logger.WriteSolution(x, Maxiter, b.Add(A.Mult(x), -1, 1).Norm);
+                Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));
             return x;
         }
     }
