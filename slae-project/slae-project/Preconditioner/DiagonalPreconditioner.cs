@@ -25,12 +25,14 @@ namespace slae_project.Preconditioner
             public IVector MultU(IVector x) => Matrix.T.MultD(x);
             public IVector SolveL(IVector x) => Matrix.T.SolveD(x);
             public IVector SolveU(IVector x) => Matrix.T.SolveD(x);
+            string IPreconditioner.getName() => T.getName();
+
         }
         public IPreconditioner T => new TransposeIllusion { Matrix = matrix };
-
         IVector IPreconditioner.MultL(IVector v) => matrix.MultD(v);
         IVector IPreconditioner.MultU(IVector v) => matrix.MultD(v);
         IVector IPreconditioner.SolveL(IVector v) => matrix.SolveD(v);
         IVector IPreconditioner.SolveU(IVector v) => matrix.SolveD(v);
+        string IPreconditioner.getName() => "Диагональное предобуславливание";
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using slae_project.Preconditioner;
 using slae_project.Vector;
 
 namespace slae_project.Logger
@@ -35,6 +36,16 @@ namespace slae_project.Logger
         }
 
         public void setMaxIter(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WriteNameSolution(string nameSolver, string namePred)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WriteTime(string start, string end)
         {
             throw new NotImplementedException();
         }

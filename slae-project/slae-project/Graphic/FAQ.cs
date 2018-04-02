@@ -8,18 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace slae_project
+namespace slae_project.Graphic
 {
-    public partial class aboutProgramForm : Form
+    public partial class FAQ : Form
     {
-        public aboutProgramForm()
+        public FAQ()
         {
             InitializeComponent();
-        }
-
-        private void aboutProgramForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

@@ -25,7 +25,7 @@ namespace slae_project
         String[] matrixTypesList;
         String[] solverTypesList;
 
-        public static Button next, exit, back, justDoIt, icon, loadFiles, graphics;
+        public static Button next, exit, back, justDoIt, icon, loadFiles, graphics, fileResult;
         public GroupBox gr;
         public PictureBox picture;
         public RadioButton fileRead, myRead;
@@ -34,6 +34,12 @@ namespace slae_project
         public static ComboBox solver, format, precond;
         public NumericUpDown size, acc;
         public TextBox maxit;
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
         public static ProgressBar bar;
         public matrixForm form = new matrixForm();
 
@@ -52,19 +58,21 @@ namespace slae_project
             matrixTypesList = Factory.MatrixTypes.Keys.ToArray();
             solverTypesList = Factory.SolverTypes.Keys.ToArray();
 
-
-
-            formMatrix = new Label();
-            formMatrix.Text = "Формат матрицы";
-            formMatrix.Size = new Size(110, 15);
-            formMatrix.Location = new System.Drawing.Point(35, 73);
+            formMatrix = new Label
+            {
+                Text = "Формат матрицы",
+                Size = new Size(110, 15),
+                Location = new System.Drawing.Point(35, 73)
+            };
             this.Controls.Add(formMatrix);
             formMatrix.BringToFront();
             formMatrix.BackColor = Color.Transparent;
 
-            solver = new ComboBox();
-            solver.Size = new Size(210, 30);
-            solver.Location = new System.Drawing.Point(175, 40);
+            solver = new ComboBox
+            {
+                Size = new Size(210, 30),
+                Location = new System.Drawing.Point(175, 40)
+            };
             for (int i = 0; i < solverTypesList.Length; i++)
                 solver.Items.Add(solverTypesList[i]);
 
@@ -75,17 +83,21 @@ namespace slae_project
             solver.BringToFront();
             solver.BackColor = Color.White;
 
-            solvMatrix = new Label();
-            solvMatrix.Text = "Решатель";
-            solvMatrix.Size = new Size(80, 15);
-            solvMatrix.Location = new System.Drawing.Point(35, 43);
+            solvMatrix = new Label
+            {
+                Text = "Решатель",
+                Size = new Size(80, 15),
+                Location = new System.Drawing.Point(35, 43),
+                BackColor = Color.Transparent
+            };
             this.Controls.Add(solvMatrix);
             solvMatrix.BringToFront();
-            solvMatrix.BackColor = Color.Transparent;
 
-            precond = new ComboBox();
-            precond.Size = new Size(210, 30);
-            precond.Location = new System.Drawing.Point(175, 100);
+            precond = new ComboBox
+            {
+                Size = new Size(210, 30),
+                Location = new System.Drawing.Point(175, 100)
+            };
             for (int i = 0; i < precondTypesList.Length; i++)
                 precond.Items.Add(precondTypesList[i]);
 
@@ -95,105 +107,145 @@ namespace slae_project
             precond.BringToFront();
             precond.BackColor = Color.White;
 
-            precondMatrix = new Label();
-            precondMatrix.Text = "Предобусловливание";
-            precondMatrix.Size = new Size(120, 15);
-            precondMatrix.Location = new System.Drawing.Point(35, 103);
+
+            precondMatrix = new Label
+            {
+                Text = "Предобусловливание",
+                Size = new Size(120, 15),
+                Location = new System.Drawing.Point(35, 103)
+            };
+
             this.Controls.Add(precondMatrix);
             precondMatrix.BringToFront();
             precondMatrix.BackColor = Color.Transparent;
 
-            accl = new Label();
-            accl.Text = "Точность решения:                   1E-";
-            accl.Size = new Size(200, 15);
-            accl.Location = new System.Drawing.Point(35, 142);
+            accl = new Label
+            {
+                Text = "Точность решения                    1E-",
+                Size = new Size(200, 15),
+                Location = new System.Drawing.Point(35, 142),
+                BackColor = Color.Transparent
+            };
             this.Controls.Add(accl);
             accl.BringToFront();
-            accl.BackColor = Color.Transparent;
 
-            acc = new NumericUpDown();
-            acc.Size = new Size(40, 60);
-            acc.Location = new System.Drawing.Point(210, 139);
+            acc = new NumericUpDown
+            {
+                Size = new Size(40, 60),
+                Location = new System.Drawing.Point(210, 139),
+                Minimum = 0,
+                Maximum = 16,
+                Value = 10
+            };
             this.Controls.Add(acc);
             acc.BringToFront();
-            acc.Minimum = 1;
-            acc.Maximum = 16;
-            acc.Value = 10;
 
-            maxiterl = new Label();
-            maxiterl.Text = "Максимальное число итераций";
-            maxiterl.Size = new Size(190, 15);
-            maxiterl.Location = new System.Drawing.Point(35, 173);
+
+            maxiterl = new Label
+            {
+                Text = "Максимальное число итераций",
+                Size = new Size(190, 15),
+                Location = new System.Drawing.Point(35, 173),
+                BackColor = Color.Transparent
+            };
             this.Controls.Add(maxiterl);
             maxiterl.BringToFront();
-            maxiterl.BackColor = Color.Transparent;
 
-            maxit = new TextBox();
-            maxit.Size = new Size(40, 100);
-            maxit.Location = new System.Drawing.Point(210, 170);
+            maxit = new TextBox
+            {
+                Size = new Size(40, 100),
+                Location = new System.Drawing.Point(210, 170),
+                Text = "1000"                
+            };
             this.Controls.Add(maxit);
             maxit.BringToFront();
-
-            maxit.Text = "1000";
             maxit.TextChanged += new System.EventHandler(maxitTextChange);
 
-            propertyMatrix = new CheckBox();
-            propertyMatrix.Text = "Симметричная матрица";
-            propertyMatrix.Size = new Size(200, 20);
-            propertyMatrix.Location = new Point(38, 198);
+            propertyMatrix = new CheckBox
+            {
+                Text = "Симметричная матрица",
+                Size = new Size(200, 20),
+                Location = new Point(38, 198),
+                BackColor = Color.Transparent
+            };
             propertyMatrix.CheckedChanged += new System.EventHandler(propertyChange);
             this.Controls.Add(propertyMatrix);
             propertyMatrix.BringToFront();
-            propertyMatrix.BackColor = Color.Transparent;
 
-            justDoIt = new Button();
-            justDoIt.Text = "Ручной ввод";
-            justDoIt.Size = new Size(100, 30);
-            justDoIt.Location = new Point(285, 138);
+            justDoIt = new Button
+            {
+                Text = "Ручной ввод",
+                Size = new Size(100, 30),
+                Location = new Point(285, 138)
+            };
             justDoIt.Click += new System.EventHandler(justDoItClick);
             this.Controls.Add(justDoIt);
             justDoIt.BringToFront();
 
-            loadFiles = new Button();
-            loadFiles.Text = "Файловый ввод";
-            loadFiles.Size = new Size(100, 30);
-            loadFiles.Location = new Point(285, 173);
+            loadFiles = new Button
+            {
+                Text = "Файловый ввод",
+                Size = new Size(100, 30),
+                Location = new Point(285, 173)
+            };
             loadFiles.Click += new System.EventHandler(loadFilesClick);
             this.Controls.Add(loadFiles);
             loadFiles.BringToFront();
 
-            graphics = new Button();
-            graphics.Text = "Графика";
-            graphics.Size = new Size(100, 30);
-            graphics.Location = new Point(165, 260);
+            graphics = new Button
+            {
+                Text = "Графика",
+                Size = new Size(100, 30),
+                Location = new Point(175, 260),
+                Enabled = false
+            };
             graphics.Click += new System.EventHandler(graphicsClick);
             this.Controls.Add(graphics);
             graphics.BringToFront();
-            graphics.Enabled = false;
 
-            next = new Button();
-            next.Text = "Решить";
-            next.Size = new Size(100, 30);
-            next.Location = new Point(285, 260);
+            next = new Button
+            {
+                Text = "Решить",
+                Size = new Size(100, 30),
+                Location = new Point(285, 260),
+                Enabled = false
+            };
             next.Click += new System.EventHandler(nextClick);
             this.Controls.Add(next);
-            next.Enabled = false;
 
-            format = new ComboBox();
-            format.Size = new Size(210, 30);
-            format.Location = new System.Drawing.Point(175, 70);
+
+            fileResult = new Button
+            {
+                Text = "Файл с результатом",
+                Size = new Size(130, 30),
+                Location = new Point(35, 260),
+                Enabled = false
+            };
+            fileResult.Click += new System.EventHandler(fileResultClick);
+            this.Controls.Add(fileResult);
+            fileResult.BringToFront();
+
+            format = new ComboBox
+            {
+                Size = new Size(210, 30),
+                Location = new System.Drawing.Point(175, 70),
+                
+            };
+
+            format.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+
             for (int i = 0; i < matrixTypesList.Length; i++)
                 format.Items.Add(matrixTypesList[i]);
             format.SelectedIndexChanged += new System.EventHandler(format_SelectedIndexChanged);
-
-            format.SelectedIndex = 0;
-            format.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Controls.Add(format);
             format.BringToFront();
+            format.SelectedIndex = 0;
 
-            bar = new ProgressBar();
-            bar.Size = new Size(350, 20);
-            bar.Location = new System.Drawing.Point(35, 225);
+            bar = new ProgressBar
+            {
+                Size = new Size(350, 20),
+                Location = new System.Drawing.Point(35, 225)
+            };
             this.Controls.Add(bar);
             bar.BringToFront();
         }
@@ -229,10 +281,13 @@ namespace slae_project
             try
             {
                 maxit.Text = Convert.ToUInt16(maxit.Text).ToString();
+                if (maxit.Text == "0")
+                    maxit.Text = "1";
+
             }
             catch
             {
-                maxit.Text = "0";
+                maxit.Text = "1";
             }
         }
 
@@ -247,6 +302,7 @@ namespace slae_project
 
         private void nextClick(object sender, EventArgs e)
         {
+            bar.Value = 0;
             Factory.MaxIter = Convert.ToUInt16(maxit.Text);
             bar.Maximum = Convert.ToUInt16(maxit.Text);
             Factory.Accuracy = Convert.ToDouble("1e-" + acc.Value.ToString());
@@ -257,6 +313,12 @@ namespace slae_project
 
             threadSolver();
             graphics.Enabled = true;
+            fileResult.Enabled = true;
+        }
+
+        private void fileResultClick(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("log.txt");
         }
 
         private void loadFilesClick(object sender, EventArgs e)
@@ -269,11 +331,17 @@ namespace slae_project
             justDoIt.Enabled = false;
             loadFiles.Enabled = false;
             next.Enabled = false;
+            bar.Value = 0;
         }
 
         private void propertyChange(object sender, EventArgs e)
         {
             property_matr = !property_matr;
+            next.Enabled = false;
+            if (property_matr == true)
+            {
+                form.clearMatrix();
+            }
         }
 
         private void justDoItClick(object sender, EventArgs e)
@@ -283,6 +351,7 @@ namespace slae_project
             format.Enabled = false;
             justDoIt.Enabled = false;
             loadFiles.Enabled = false;
+            bar.Value = 0;
         }
 
         public void graphicsClick(object sender, EventArgs e)
@@ -290,13 +359,13 @@ namespace slae_project
             SharpGL_limbo.SharpGL_Open();
         }
 
-        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        private void helpToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             infoForm form = new infoForm();
             form.Show();
         }
 
-        private void aboutProgramToolStripMenuItem_Click(object sender, EventArgs e)
+        private void aboutProgramToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             aboutProgramForm form = new aboutProgramForm();
             form.Show();
