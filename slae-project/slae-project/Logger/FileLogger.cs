@@ -1,4 +1,5 @@
-﻿using System;
+﻿#define DEBUG
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,9 +41,11 @@ namespace slae_project.Logger
                 fileStream.WriteLine("-----------Итерации------------Невязка-------------");
             String msg = String.Format("{0}\t{1}", number, residual);
             fileStream.WriteLine(msg);
-//            fileStream.Flush();
+            //            fileStream.Flush();
             //Thread.Sleep(0);
-            Form1.updateProgressBar(number);
+#if !DEBUG
+           Form1.updateProgressBar(number);
+#endif
             if (number == maxiter-1)
             {
                 MessageBox.Show("Процесс поиска решения остановлен по достижению максимального числа итераций\n Итоговая невязка:"+residual.ToString());
@@ -70,7 +73,9 @@ namespace slae_project.Logger
         public void WriteSolution(IVector sol, int Maxiter)
         {
             fileStream.WriteLine("----------------------Решение----------------------");
+#if TEST
             Form1.updateProgressBar(Maxiter);
+#endif
             for (int i = 0; i < sol.Size; i++)
             {
                 String msg = String.Format("{0}", sol[i]);
