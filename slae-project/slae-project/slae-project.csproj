@@ -138,6 +138,7 @@
     <Compile Include="Preconditioner\LUPreconditioner.cs" />
     <Compile Include="Preconditioner\NoPreconditioner.cs" />
     <Compile Include="Solver\BSGStabSolve.cs" />
+    <Compile Include="Solver\CantSolveException.cs" />
     <Compile Include="Solver\Jacobi.cs" />
     <Compile Include="Solver\LOSSolver.cs" />
     <Compile Include="Matrix\MatrixExceptions\CannotMultException.cs" />
@@ -231,6 +232,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\СЛАУ.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

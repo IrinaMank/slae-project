@@ -118,5 +118,15 @@ namespace slae_project.Properties {
                 return ResourceManager.GetStream("ya", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap СЛАУ {
+            get {
+                object obj = ResourceManager.GetObject("СЛАУ", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

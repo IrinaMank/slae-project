@@ -40,6 +40,10 @@ namespace slae_project.Solver
                 residual = r.Norm / b.Norm;// ||b-Ax|| / ||b||
                 Factory.Residual.Add(residual);
                 Logger.WriteIteration(i, residual);
+
+
+                if (double.IsNaN(r.Norm) || double.IsInfinity(r.Norm))
+                    throw new CantSolveException();
             }
             Logger.WriteSolution(x, Maxiter);
             Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));
