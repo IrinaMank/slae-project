@@ -117,6 +117,7 @@ namespace slae_project
             groupBox3.Width = vectorDataGrid.Width + widthCol * 2;
             AddGrey();
             size = 2;
+            label2.Text = size.ToString() + " x " + size.ToString();
             sizeWrap();
         }
 
@@ -175,6 +176,7 @@ namespace slae_project
             while (size > 2)
             {
                 size--;
+                label2.Text = size.ToString() + " x " + size.ToString();
                 matrixDataGrid.Rows.RemoveAt(size);
                 matrixDataGrid.Columns.RemoveAt(size);
                 vectorDataGrid.Rows.RemoveAt(size);
@@ -287,6 +289,7 @@ namespace slae_project
                 };
 
                 size++;
+                label2.Text = size.ToString() + " x " + size.ToString();
                 matrixDataGrid.Columns.Add(column);
                 matrixDataGrid.Rows.Add(row);
                 vectorDataGrid.Rows.Add(row1);
@@ -323,6 +326,7 @@ namespace slae_project
                 vectorDataGrid.Rows.RemoveAt(size);
                 x0DataGrid.Rows.RemoveAt(size);
                 sizeWrap();
+                label2.Text = size.ToString() + " x " + size.ToString();
             }
             catch
             {
@@ -447,6 +451,11 @@ namespace slae_project
             this.Visible = false;
             Form1.next.Enabled = false;
             Form1.format.Enabled = true;
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }
