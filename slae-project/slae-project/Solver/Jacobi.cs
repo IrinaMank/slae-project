@@ -41,7 +41,7 @@ namespace slae_project.Solver
                 Factory.Residual.Add(residual);
                 Logger.WriteIteration(i, residual);
             }
-            Logger.WriteSolution(x,Maxiter);
+            Logger.WriteSolution(x, Maxiter, b.Add(A.Mult(x), -1, 1).Norm);
             Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));
             return x;
         }

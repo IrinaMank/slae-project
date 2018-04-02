@@ -15,15 +15,15 @@ namespace slae_project.Solver
         /// <summary>
         /// Решение СЛАУ методом локально-оптимальной схемы
         /// </summary>
-        /// <param name="A">Матрица СЛАУ</param>
+        /// <param name="preconditioner">Матрица СЛАУ</param>
         /// <param name="b">Ветор правой части</param>
         /// <param name="Initial">Ветор начального приближения</param>
         /// <param name="Precision">Точность</param>
         /// <param name="Maxiter">Максимальное число итераций</param>
         /// <returns>Вектор x - решение СЛАУ Ax=b с заданной точностью</returns>
-        public IVector Solve(IPreconditioner A, IMatrix AA, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
+        public IVector Solve(IPreconditioner preconditioner, IMatrix A, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
         {
-            Logger.WriteNameSolution("LOS", A.getName());
+            Logger.WriteNameSolution("LOS", preconditioner.getName());
             string start = DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff");
 
             Logger.setMaxIter(Maxiter);
@@ -31,11 +31,11 @@ namespace slae_project.Solver
 
             double alpha = 0.0, beta = 0.0;
 
-            IVector r = b.Add(AA.Mult(Initial), 1, -1); //r_0 = f - Ax_0
-            r = A.SolveL(r); // r_0 = L^-1 * (f - Ax_0)
+            IVector r = b.Add(A.Mult(Initial), 1, -1); //r_0 = f - Ax_0
+            r = preconditioner.SolveL(r); // r_0 = L^-1 * (f - Ax_0)
 
-            IVector Ar, z = A.SolveU(r); // z_0 = U^-1 * r_0
-            IVector p = A.SolveL(AA.Mult(z)); // p_0 = L^-1 * Az_0
+            IVector Ar, z = preconditioner.SolveU(r); // z_0 = U^-1 * r_0
+            IVector p = preconditioner.SolveL(A.Mult(z)); // p_0 = L^-1 * Az_0
 
             double p_r = 0.0, p_p = 0.0;
 
@@ -53,14 +53,14 @@ namespace slae_project.Solver
 
                 r.Add(p, 1, -alpha, true); // r_k = r_k-1 - alfa_k*p_k-1
 
-                Ar = A.SolveL(AA.Mult(A.SolveU(r))); //Ar_k = L^-1 * A * U^-1 * r_k
+                Ar = preconditioner.SolveL(A.Mult(preconditioner.SolveU(r))); //Ar_k = L^-1 * A * U^-1 * r_k
                 //Ar = A.SolveU(r);
                 //Ar = AA.Mult(Ar);
                 //Ar = A.SolveL(Ar);
 
                 beta = -(p.ScalarMult(Ar) / p_p);
 
-                z = A.SolveU(r).Add(z, 1, beta); //z_k = U^-1 * r_k + beta_k*z_k-1
+                z = preconditioner.SolveU(r).Add(z, 1, beta); //z_k = U^-1 * r_k + beta_k*z_k-1
                 p = Ar.Add(p, 1, beta); // p_k = L^-1 * A * U^-1 * r_k + beta_k*p_k-1
 
                 if (scalRR == 0) throw new Exception("Division by 0");
@@ -70,7 +70,7 @@ namespace slae_project.Solver
                 Factory.Residual.Add(normR);
                 Logger.WriteIteration(iter, normR);
             }
-            Logger.WriteSolution(x,Maxiter);
+            Logger.WriteSolution(x, Maxiter, b.Add(A.Mult(x), -1, 1).Norm);
             Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));
             return x;
         }
