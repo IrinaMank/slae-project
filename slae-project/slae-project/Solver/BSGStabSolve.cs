@@ -59,6 +59,8 @@ namespace slae_project.Solver
                 opo = po;
                 normR = r.Norm / b.Norm;
                 Logger.WriteIteration(iter, normR);
+                if (double.IsNaN(normR))
+                    throw new CantSolveException();
             }
             Logger.WriteSolution(x, Maxiter);
             Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));

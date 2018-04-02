@@ -69,6 +69,9 @@ namespace slae_project.Solver
                 normR = Math.Sqrt(scalRR) / b.Norm;
                 Factory.Residual.Add(normR);
                 Logger.WriteIteration(iter, normR);
+
+                if (double.IsNaN(normR))
+                    throw new CantSolveException();
             }
             Logger.WriteSolution(x,Maxiter);
             Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));

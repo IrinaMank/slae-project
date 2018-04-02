@@ -119,6 +119,20 @@ namespace slae_project
                 System.Media.SoundPlayer sp = new System.Media.SoundPlayer(Properties.Resources.ya);
                 sp.Play();
             }
+            catch (Solver.CantSolveException a)
+            {
+                var result = System.Windows.Forms.MessageBox.Show("Вы женского пола?","Важный вопрос", System.Windows.Forms.MessageBoxButtons.YesNo,
+                    System.Windows.Forms.MessageBoxIcon.Question);
+                string mesg = "Увы, месье, ";
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
+                    mesg = "Увы, мадам, ";
+                }
+                System.Windows.Forms.MessageBox.Show(mesg+a.Message,
+                    "Ошибка",
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.Stop);
+            }
             catch (Matrix.MatrixExceptions.SlaeNotCompatipableException a)
             {
                 System.Windows.Forms.MessageBox.Show(a.Message,
