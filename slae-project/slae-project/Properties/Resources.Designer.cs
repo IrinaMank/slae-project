@@ -73,6 +73,16 @@ namespace slae_project.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap FAQ_main_with_arrows {
+            get {
+                object obj = ResourceManager.GetObject("FAQ_main_with_arrows", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap kuchka {
             get {
                 object obj = ResourceManager.GetObject("kuchka", resourceCulture);

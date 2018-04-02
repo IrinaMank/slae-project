@@ -232,6 +232,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphic\Screenshots\FAQ_main.png" />
+    <None Include="Graphic\Screenshots\FAQ_main_with_arrows.png" />
     <Content Include="icon.ico" />
     <None Include="Resources\СЛАУ.png" />
   </ItemGroup>

@@ -133,13 +133,16 @@
   <data name="ya" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ya.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="FAQ_main" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graphic\Screenshots\FAQ_main.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="questionImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\obj\questionImage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="loadform0" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\obj\loadform0.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="FAQ_main" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Graphic\Screenshots\FAQ_main.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="FAQ_main_with_arrows" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graphic\Screenshots\FAQ_main_with_arrows.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

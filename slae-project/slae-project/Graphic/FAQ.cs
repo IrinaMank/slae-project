@@ -16,13 +16,33 @@ namespace slae_project
         {
             InitializeComponent();
             Show();
-            pictureBox1.Size = new Size(300,300);
-            label1.Text = "Important \r\n Thing \r\n To say \r\n You \r\n I have!";
+            Wrapped_Changer();
         }
-
+        private void FAQ_Resize(object sender, EventArgs e)
+        {
+            Wrapped_Changer();
+        }
+        private void vScrollBar1_ValueChanged(object sender, EventArgs e)
+        {
+            Wrapped_Changer();
+        }
         void Wrapped_Changer()
         {
+            int Curs = 10 - vScrollBar1.Value;
+            int MinusWidth = 30 + vScrollBar1.Size.Width;
 
+            label1.Location = new Point(10, Curs + 10);
+            label1.Text = "Добро пожаловать в справку!\r\n" +
+                "Перемещайтесь пожалуйста с помощью ползунка с правой части окна.";
+            Curs += label1.Size.Height;
+
+            pictureBox1.Location = new Point(10, Curs + 10);
+            pictureBox1.Size = new Size(this.Width - MinusWidth, (int)((double)this.Width / pictureBox1.PreferredSize.Width * pictureBox1.PreferredSize.Height));
+            Curs += pictureBox1.Size.Height;
+
+            
         }
+
+        
     }
 }
