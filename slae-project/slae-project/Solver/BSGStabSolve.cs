@@ -59,7 +59,7 @@ namespace slae_project.Solver
                 opo = po;
                 normR = r.Norm / b.Norm;
                 Logger.WriteIteration(iter, normR);
-                if (double.IsNaN(normR))
+                if (double.IsNaN(normR) || double.IsInfinity(normR))
                     throw new CantSolveException();
             }
             Logger.WriteSolution(x, Maxiter);

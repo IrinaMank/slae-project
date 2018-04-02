@@ -41,7 +41,7 @@ namespace slae_project.Solver
                 Factory.Residual.Add(residual);
                 Logger.WriteIteration(i, residual);
 
-                if (double.IsNaN(r.Norm))
+                if (double.IsNaN(r.Norm) || double.IsInfinity(r.Norm))
                     throw new CantSolveException();
             }
             Logger.WriteSolution(x,Maxiter);

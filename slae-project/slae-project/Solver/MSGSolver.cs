@@ -69,7 +69,7 @@ namespace slae_project.Solver
                 Factory.Residual.Add(normR);
                 Logger.WriteIteration(iter, normR);
 
-                if (double.IsNaN(normR))
+                if (double.IsNaN(normR) || double.IsInfinity(normR))
                     throw new CantSolveException();
 
             };

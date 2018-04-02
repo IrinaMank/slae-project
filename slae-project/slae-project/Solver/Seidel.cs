@@ -42,7 +42,7 @@ namespace slae_project.Solver
                 Logger.WriteIteration(i, residual);
 
 
-                if (double.IsNaN(r.Norm))
+                if (double.IsNaN(r.Norm) || double.IsInfinity(r.Norm))
                     throw new CantSolveException();
             }
             Logger.WriteSolution(x, Maxiter);
