@@ -1,4 +1,4 @@
-﻿#define TEST
+﻿//#define TEST
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,22 +17,21 @@ namespace slae_project.Logger
         public int maxiter = 0;
         public double per = 0;
         private System.IO.StreamWriter fileStream;
-        private string defaultLogFile = "./log.txt";
+        public string filename;
 
-        public FileLogger()
+        public FileLogger(string filename = "log.txt")
         {
-            setFile(defaultLogFile);
+            setFile(filename);
         }
         public void Dispose()
         {
             fileStream.Dispose();
         }
-        public void setFile(string filename)
+        public void setFile(string fn)
         {
-            var dirName = filename.Substring(0, filename.LastIndexOf('/'));
-            if (!System.IO.Directory.Exists(dirName))
-                System.IO.Directory.CreateDirectory(dirName);
-            fileStream = new System.IO.StreamWriter(filename);
+            filename = fn;
+            fileStream = new System.IO.StreamWriter(fn);
+            fileStream.Dispose();
         }
         public void WriteIteration(int number, double residual)
         {
@@ -67,7 +66,7 @@ namespace slae_project.Logger
             fileStream.WriteLine("Время окончания решения:\t"+ end );
             fileStream.WriteLine("---------------------------------------------------");
             fileStream.WriteLine("\n\n\n");
-            fileStream.Flush();
+            fileStream.Dispose();
         }
 
         public void WriteSolution(IVector sol, int Maxiter, double residual)
@@ -89,6 +88,13 @@ namespace slae_project.Logger
         void ILogger.setMaxIter(int i)
         {
             maxiter = i;
+        }
+
+        //Этот кусок я посвящаю своей школьной учительнице по программированию. Катя, я так и не научился писать логичный код, но я очень стараюсь.
+        public ILogger returnThis()
+        {
+                fileStream = new System.IO.StreamWriter(filename,true);
+            return this;
         }
         
     }
