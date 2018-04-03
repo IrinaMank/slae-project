@@ -309,12 +309,27 @@ namespace slae_project
         }
         public bool TargetPlus = true;
         public bool TargetNumber = true;
+        int TIME = 0;
         /// <summary>
         /// Главная рисовалка.
         /// </summary>
         /// <param name="openGLControl"></param>
         public void RealDraw()
         {
+
+            //Check Sum Memories
+            //if (stopWatch.Elapsed.Seconds > TIME + 2)
+            if (List_Of_Objects != null)
+                if (List_Of_Objects.Count() > 2)
+                    if (List_Of_Objects[1].ReferencedVector != null)
+                        if (List_Of_Objects[1].ReferencedVector != Factory.Result)
+                        {
+                            SharpGL_limbo.SharpGL_Reset_Full();
+                            return;
+                            Console.WriteLine("MEOW");
+                        }
+
+
             Grid.initP.y = openGLControl.Height - Grid.yCellSize;
 
             if (MemoryChecker()) return;

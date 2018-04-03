@@ -346,10 +346,13 @@ namespace slae_project
         /// <param name="e"></param>
         private void button_Refresh_And_Show_Click(object sender, EventArgs e)
         {
-            GD = new GraphicData(openGLControl, this);
-            Wrapped_Refreash_And_Show_Clicker();
+            SuperWrapper_Refresh();
         }
-
+        public void SuperWrapper_Refresh(bool Refresh = true)
+        {
+            GD = new GraphicData(openGLControl, this);
+            Wrapped_Refreash_And_Show_Clicker(Refresh);
+        }
         //Asynchronized AsyncTest = new Asynchronized();
 
         
@@ -940,7 +943,7 @@ namespace slae_project
             UR.UserGuide_access(ref GD.List_Of_Objects);
             Refresh_Window();
         }
-        public void Wrapped_Refreash_And_Show_Clicker()
+        public void Wrapped_Refreash_And_Show_Clicker(bool Refresh = true)
         {
             Clear_Window();
             GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Matrix A", ref Factory.ObjectOfIMatrix));
@@ -948,7 +951,7 @@ namespace slae_project
             GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Right Vector B", ref Factory.RightVector));
             if (Factory.Residual != null && Factory.Residual.Count() > 1)
                 GD.List_Of_Objects.Add(new GraphicData.GraphicObject("Residual", Factory.Residual, true));
-            Refresh_Window();
+            if (Refresh) Refresh_Window();
         }
         public void Clear_Window()
         {

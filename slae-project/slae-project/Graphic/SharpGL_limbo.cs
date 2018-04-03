@@ -132,13 +132,11 @@ namespace slae_project
         //Сбрасывает все данные
         static public void SharpGL_Reset_Full()
         {
-            bool visible_status = true;
             if (SharpGL_is_opened()) 
             {
-                visible_status = SharpForm.Visible;
                 SharpForm.Close();
             }
-            if (visible_status) SharpGL_Open(); else if (visible_status) SharpGL_Open_hidden();
+            SharpGL_Open();
         }
         static public void SharpGL_Reset()
         {

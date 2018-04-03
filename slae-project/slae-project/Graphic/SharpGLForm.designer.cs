@@ -30,7 +30,6 @@
         {
             this.openGLControl = new SharpGL.OpenGLControl();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.button1_Log = new System.Windows.Forms.Button();
             this.button_refresh = new System.Windows.Forms.Button();
             this.button1_Teleporter = new System.Windows.Forms.Button();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
@@ -50,9 +49,10 @@
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.radioButton1_Number_disabled = new System.Windows.Forms.RadioButton();
             this.radioButton1_Number_enabled = new System.Windows.Forms.RadioButton();
-            this.button_exit = new System.Windows.Forms.Button();
             this.button_reset = new System.Windows.Forms.Button();
             this.button1_SaveLoad = new System.Windows.Forms.Button();
+            this.button1_Log = new System.Windows.Forms.Button();
+            this.button_exit = new System.Windows.Forms.Button();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.label6_FAQ = new System.Windows.Forms.Label();
@@ -133,18 +133,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(181, 521);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
-            // button1_Log
-            // 
-            this.button1_Log.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1_Log.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.button1_Log.Location = new System.Drawing.Point(4, 447);
-            this.button1_Log.Name = "button1_Log";
-            this.button1_Log.Size = new System.Drawing.Size(173, 25);
-            this.button1_Log.TabIndex = 7;
-            this.button1_Log.Text = "Справка";
-            this.button1_Log.UseVisualStyleBackColor = true;
-            this.button1_Log.Click += new System.EventHandler(this.button1_Log_Click);
-            // 
             // button_refresh
             // 
             this.button_refresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -183,7 +171,7 @@
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(173, 27);
             this.tableLayoutPanel4.TabIndex = 15;
             // 
@@ -397,7 +385,7 @@
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(173, 27);
             this.tableLayoutPanel3.TabIndex = 14;
             // 
@@ -433,18 +421,6 @@
             this.radioButton1_Number_enabled.UseVisualStyleBackColor = true;
             this.radioButton1_Number_enabled.CheckedChanged += new System.EventHandler(this.radioButton1_Number_enabled_CheckedChanged);
             // 
-            // button_exit
-            // 
-            this.button_exit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_exit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.button_exit.Location = new System.Drawing.Point(4, 483);
-            this.button_exit.Name = "button_exit";
-            this.button_exit.Size = new System.Drawing.Size(173, 31);
-            this.button_exit.TabIndex = 0;
-            this.button_exit.Text = "Выход";
-            this.button_exit.UseVisualStyleBackColor = true;
-            this.button_exit.Click += new System.EventHandler(this.button_exit_Click);
-            // 
             // button_reset
             // 
             this.button_reset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -468,6 +444,30 @@
             this.button1_SaveLoad.Text = "Сохранение/Загрузка";
             this.button1_SaveLoad.UseVisualStyleBackColor = true;
             this.button1_SaveLoad.Click += new System.EventHandler(this.button1_SaveLoad_Click);
+            // 
+            // button1_Log
+            // 
+            this.button1_Log.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1_Log.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.button1_Log.Location = new System.Drawing.Point(4, 447);
+            this.button1_Log.Name = "button1_Log";
+            this.button1_Log.Size = new System.Drawing.Size(173, 25);
+            this.button1_Log.TabIndex = 7;
+            this.button1_Log.Text = "Справка";
+            this.button1_Log.UseVisualStyleBackColor = true;
+            this.button1_Log.Click += new System.EventHandler(this.button1_Log_Click);
+            // 
+            // button_exit
+            // 
+            this.button_exit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_exit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.button_exit.Location = new System.Drawing.Point(4, 483);
+            this.button_exit.Name = "button_exit";
+            this.button_exit.Size = new System.Drawing.Size(173, 31);
+            this.button_exit.TabIndex = 0;
+            this.button_exit.Text = "Выход";
+            this.button_exit.UseVisualStyleBackColor = true;
+            this.button_exit.Click += new System.EventHandler(this.button_exit_Click);
             // 
             // vScrollBar1
             // 
