@@ -214,7 +214,7 @@ namespace slae_project
                         else if (ReferencedVector != null && row == 1) return ReferencedVector[column - 1];
                         else if (GraphicalVector != null && row  <= yCellCount) return GraphicalVector[column - 1];
                         else return Matrix[row - 1][column - 1];
-                        return double.NaN;
+                        //return double.NaN;
                     }
                     catch (Exception)
                     {
@@ -246,9 +246,9 @@ namespace slae_project
         public MouseClass mouse;
 
         public bool RealDraw_Try_To_Initialize = true;
-        PointInt CurrentCell;
-        PointInt xCellArea;
-        PointInt yCellArea;
+        //PointInt CurrentCell;
+        //PointInt xCellArea;
+        //PointInt yCellArea;
 
         private const int AreaRadius = 3;
 
@@ -627,7 +627,7 @@ namespace slae_project
         public int Number_of_current_matrix = 0;
         public int Number_of_current_row = 0;
         public int Number_of_current_column = 0;
-        double double_trash;
+        //double double_trash;
         private void NumberCrossroad()
         {
             if (TargetNumber)
@@ -727,11 +727,11 @@ namespace slae_project
         {
             OpenGL gl = openGLControl.OpenGL;
 
-            if (false)
+            /*if (false)
             {
                 in_x -= mouse.ShiftedPosition.x;
                 in_y += +mouse.ShiftedPosition.y;
-            }
+            }*/
             Ultimate_DrawText(in_x, in_y, r, g, b, "Arial", 14, phrase);
         }
         static Single Line_Height = 0.5f;

@@ -105,7 +105,6 @@ namespace slae_project.Matrix
         {
             get
             {
-                int k;
                 IVector diag = new SimpleVector(Size);
                 for (int i = 0; i < Size; i++)
                     //if (SearchPlaceInAl(i,i,out k))
