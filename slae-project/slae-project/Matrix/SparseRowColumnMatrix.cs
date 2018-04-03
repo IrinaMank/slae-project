@@ -801,7 +801,7 @@ namespace slae_project.Matrix
                         if (ig != null || jg != null || al != null)
                         {
                             if (sub.Length != m)
-                                throw new CannotFillMatrixException("Ошибка при считывании файла al. Несовпадение размерности массива в соответствии с остальными файлами");
+                                throw new CannotFillMatrixException("Ошибка при считывании файла au. Несовпадение размерности массива в соответствии с остальными файлами");
                         }
                         else
                             m = sub.Length;
