@@ -99,7 +99,7 @@ namespace slae_project
                 "перемещения через Телепортер(см. раздел Телепортер ниже), целеуказатель\r\n" +
                 "укажет на запрашиваемую ячейку\r\n" +
                 "\r\n" +
-                "3) Включить или выключить цифровые надписи\r\n" + 
+                "3) Включить или выключить цифровые надписи\r\n" +
                 "Возле зеленного целеукатаеля указаны I -столбец, J- строка, Х-значение ячейки\r\n" +
                 "\r\n" +
                 "4) Можно менять отображаемый формат чисел между основным, дробным и\r\n" +
@@ -113,9 +113,22 @@ namespace slae_project
                 "6) Телепортер, позволяет переместится к указанной ячейке, определенной строки\r\n" +
                 "столбца и матрицы, номера матриц указаны слева от их названий\r\n" +
                 "область допустимых строк и столбцов в данном окне указываются при выборе\r\n" +
-                "определенной матрицы. При включенном целеуказатели, укажет на ячейку.\r\n" +
-                "\r\n" +
-                "7) Обновить и показать основную отображаемую информацию, а именно матрицу А\r\n" +
+                "определенной матрицы. При включенном целеуказатели, укажет на ячейку.\r\n";
+            Curs += label3.Bounds.Height;
+
+            //Заголовок.
+            label4.Location = new Point(this.Width / 2 - label4.Size.Width / 2, Curs + Between);
+            label4.Text = "Телепортер";
+            Curs += label4.Size.Height;
+
+            //Картинка
+            pictureBox2.Location = new Point(Begin, Curs + Between);
+            pictureBox2.Size = new Size(this.Width - End, (int)((double)this.Width / pictureBox2.PreferredSize.Width * pictureBox2.PreferredSize.Height));
+            Curs += pictureBox2.Size.Height;
+
+            //Текст
+            label5.Location = new Point(Begin, Curs + Between);
+            label5.Text = "7) Обновить и показать основную отображаемую информацию, а именно матрицу А\r\n" +
                 "вектор результат Х, правый вектор B, и вектор Невязки. Данная кнопка служит\r\n" +
                 " на случай, если в окне видна все еще старая информация, а уже необходимо\r\n" +
                 " запросить новую на отображение, т.к. решение изменилось\r\n" +
@@ -127,9 +140,23 @@ namespace slae_project
                 "\r\n" +
                 "9) Сохранение и загрузка позволяют сохранить с указанным именем любую матрицу\r\n" +
                 "или вектор, и при этом позволяют так же повторно загрузить их в графический\r\n" +
-                "модуль. Загруженные элементы пропадут после нажатия обновить и показать.\r\n" +
-                "\r\n" +
-                "10) Справка. Вы здесь\r\n" +
+                "модуль. Загруженные элементы пропадут после нажатия обновить и показать.";
+                
+            Curs += label5.Size.Height;
+
+            //Заголовок.
+            label6.Location = new Point(this.Width / 2 - label6.Size.Width / 2, Curs + Between);
+            label6.Text = "Сохранение и загрузка";
+            Curs += label6.Size.Height;
+
+            //Картинка
+            pictureBox3.Location = new Point(Begin, Curs + Between);
+            pictureBox3.Size = new Size(this.Width - End, (int)((double)this.Width / pictureBox3.PreferredSize.Width * pictureBox3.PreferredSize.Height));
+            Curs += pictureBox3.Size.Height;
+
+            //Текст
+            label7.Location = new Point(Begin, Curs + Between);
+            label7.Text = "10) Справка. Вы здесь\r\n" +
                 "\r\n" +
                 "11) Выход из окна графического модуля. Сама основная программа закрыта не будет.\r\n" +
                 "\r\n" +
@@ -150,36 +177,6 @@ namespace slae_project
                 "Дополнительная информация:\r\n" +
                 "На правую кнопку мыши нажав на ячейку, появится табличка указывающая\r\n" +
                 "текущую строку, столбец и значение ячейки.\r\n";
-            Curs += label3.Bounds.Height;
-
-            //Заголовок.
-            label4.Location = new Point(this.Width / 2 - label4.Size.Width / 2, Curs + Between);
-            label4.Text = "Телепортер";
-            Curs += label4.Size.Height;
-
-            //Картинка
-            pictureBox2.Location = new Point(Begin, Curs + Between);
-            pictureBox2.Size = new Size(this.Width - End, (int)((double)this.Width / pictureBox2.PreferredSize.Width * pictureBox2.PreferredSize.Height));
-            Curs += pictureBox2.Size.Height;
-
-            //Текст
-            label5.Location = new Point(Begin, Curs + Between);
-            label5.Text = "Для более подробной информации смотрите пункт 6.";
-            Curs += label5.Size.Height;
-
-            //Заголовок.
-            label6.Location = new Point(this.Width / 2 - label6.Size.Width / 2, Curs + Between);
-            label6.Text = "Сохранение и загрузка";
-            Curs += label6.Size.Height;
-
-            //Картинка
-            pictureBox3.Location = new Point(Begin, Curs + Between);
-            pictureBox3.Size = new Size(this.Width - End, (int)((double)this.Width / pictureBox3.PreferredSize.Width * pictureBox3.PreferredSize.Height));
-            Curs += pictureBox3.Size.Height;
-
-            //Текст
-            label7.Location = new Point(Begin, Curs + Between);
-            label7.Text = "Для более подробной информации смотрите пункт 9.";
             Curs += label7.Size.Height;
         }
 
