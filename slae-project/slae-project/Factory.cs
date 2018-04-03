@@ -16,6 +16,7 @@ namespace slae_project
     {
         public static Dictionary<string, string> DictionaryOfFormats = FileLoadForm.filenames_format;//словарь путей до массивов
         static public Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)> MatrixTypes = new Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)>();
+        public static Dictionary<string, string> reer;
         public static IMatrix ObjectOfIMatrix;
         public static IVector Result;
         public static IVector RightVector;
@@ -84,8 +85,7 @@ namespace slae_project
         static public void CreateMatrix(string typename)//получаем заполненную матрицу для передачи Solver
         {
             (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>) value;
-            MatrixTypes.TryGetValue(typename, out value);
-            Dictionary<string, string> reer;
+            MatrixTypes.TryGetValue(typename, out value);           
             reer = value.Item2;
             name_arr.Clear();
             foreach (string i in reer.Keys)
