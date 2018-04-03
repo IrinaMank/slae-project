@@ -117,6 +117,9 @@ namespace slae_project.Logger
             conwindow.WriteLine("\n\n\n");
         }
 
+        /// <summary>
+        /// Код на whitespace, существенно оптимизирующий работу решателей
+        /// </summary>
         public void Dispose()
         {
 
