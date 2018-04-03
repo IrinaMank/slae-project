@@ -35,8 +35,16 @@ namespace slae_project
         }
         public SharpGLForm(Point locatio)
         {
-            Wrapped_Constructor(true);
+            InitializeComponent();
+            GD = new GraphicData(openGLControl, this);
+
+            openGLControl.RenderTrigger = RenderTrigger.Manual;
+            openGLControl.DoRender();
+
+            Visible = true;
             this.Location = locatio;
+
+            Wrapped_Refreash_And_Show_Clicker();
         }
         void Wrapped_Constructor(bool visibility)
         {
