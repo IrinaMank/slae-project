@@ -108,10 +108,10 @@ namespace slae_project.Matrix
             get
             {
                 int k;
-                IVector diag = new SimpleVector(0);
+                IVector diag = new SimpleVector(Size);
                 for (int i = 0; i < Size; i++)
-                    if (SearchPlaceInAl(i,i,out k))
-                        diag[i] = k;
+                    //if (SearchPlaceInAl(i,i,out k))
+                        diag[i] = this[i,i];
                 return diag;
             }
         }
@@ -496,7 +496,7 @@ namespace slae_project.Matrix
             {
                 IVector result = (IVector)x.Clone();
                 IVector di = this.Diagonal;
-                for (int i = 0; i < Size; i--)
+                for (int i = Size - 1; i >= 0; i--)
                 {
                     for (int j = 0; j < i; j++)
                     {
@@ -520,7 +520,7 @@ namespace slae_project.Matrix
             {
                 IVector result = (IVector)x.Clone();
                 var di = this.Diagonal;
-                for (int i = this.Size-1; i >= 0; i--)
+                for (int i = 0; i < this.Size; i++)
                 {
                     for (int j = this.Size - 1; j > i; j--)
                     {
