@@ -44,7 +44,7 @@ namespace slae_project
             Factory.CreateMatrix(Form1.str_format_matrix);
 
             arrays = Factory.name_arr; //<==========================================================LOOK AT ME
-            if (Form1.property_matr && Form1.format.SelectedIndex == 2)
+            if (Form1.property_matr && Form1.format.SelectedIndex == 3)
                 arrays.RemoveAt(arrays.IndexOf("au"));
 
             int count_arr = arrays.Count();
