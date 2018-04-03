@@ -63,6 +63,56 @@ namespace slae_project.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap arrow_button_metal_silver_down_T {
+            get {
+                object obj = ResourceManager.GetObject("arrow_button_metal_silver_down_T", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap arrow_button_metal_silver_up_T {
+            get {
+                object obj = ResourceManager.GetObject("arrow_button_metal_silver_up_T", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FAQ_main_new {
+            get {
+                object obj = ResourceManager.GetObject("FAQ_main_new", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FAQ_SaveLoad {
+            get {
+                object obj = ResourceManager.GetObject("FAQ_SaveLoad", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FAQ_Teleporter {
+            get {
+                object obj = ResourceManager.GetObject("FAQ_Teleporter", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap kuchka {
             get {
                 object obj = ResourceManager.GetObject("kuchka", resourceCulture);

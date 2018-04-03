@@ -137,6 +137,11 @@
     <Compile Include="Preconditioner\IPreconditioner.cs" />
     <Compile Include="Preconditioner\LUPreconditioner.cs" />
     <Compile Include="Preconditioner\NoPreconditioner.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Solver\BSGStabSolve.cs" />
     <Compile Include="Solver\CantSolveException.cs" />
     <Compile Include="Solver\Jacobi.cs" />
@@ -188,14 +193,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Graphic\SharpGLForm.resx">
       <DependentUpon>SharpGLForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -231,6 +231,11 @@
     <None Include="Resources\ya.wav" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Graphic\Screenshots\FAQ_main_new.png" />
+    <None Include="Graphic\Screenshots\FAQ_Teleporter.png" />
+    <None Include="Graphic\Screenshots\FAQ_SaveLoad.png" />
+    <None Include="Graphic\Screenshots\arrow_button_metal_silver_down_T.png" />
+    <None Include="Graphic\Screenshots\arrow_button_metal_silver_up_T.png" />
     <Content Include="icon.ico" />
     <None Include="Resources\СЛАУ.png" />
   </ItemGroup>
