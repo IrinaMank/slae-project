@@ -58,6 +58,7 @@ namespace slae_project.Solver
                 r = s.Add(t, 1, -w);
                 opo = po;
                 normR = r.Norm / b.Norm;
+                Factory.Residual.Add(normR);
                 Logger.WriteIteration(iter, normR);
                 if (double.IsNaN(normR) || double.IsInfinity(normR))
                     { 
