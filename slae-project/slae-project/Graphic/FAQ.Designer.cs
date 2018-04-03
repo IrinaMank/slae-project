@@ -201,6 +201,7 @@
             this.MaximizeBox = false;
             this.Name = "FAQ";
             this.Text = "FAQ";
+            this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.FAQ_Scroll);
             this.Resize += new System.EventHandler(this.FAQ_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

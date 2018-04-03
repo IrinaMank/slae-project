@@ -74,9 +74,9 @@ namespace slae_project
             label2.Location = new Point(Begin, Curs + Between);
             label2.Text = "Добро пожаловать в справочно-информационное бюро графического модуля.!\r\n" +
                 "\r\n" +
-                "Перемещайтесь пожалуйста вниз с помощью ползунка с правой части окна.\r\n" +
-                "или с помощью кнопок-стрелок с левой части экрана для перемещения\r\n" +
-                "скачками.";
+                "Перемещайтесь пожалуйста вниз с помощью ползунка с правой части окна,\r\n" +
+                "или с помощью кнопок-стрелок с левой части экрана постранично,\n" +
+                "или просто прокручивайте ролик мыши.";
             Curs += label2.Size.Height;
 
             //Картинка
@@ -194,5 +194,20 @@ namespace slae_project
                 vScrollBar1.Value -= Shift;
             else vScrollBar1.Value = vScrollBar1.Minimum;
         }
+
+        private void FAQ_Scroll(object sender, MouseEventArgs e)
+        {
+            int c = e.Delta / 5;
+
+            if (c > 0)
+            if (vScrollBar1.Value - c < vScrollBar1.Maximum)
+                vScrollBar1.Value -= c;
+            else vScrollBar1.Value = vScrollBar1.Maximum;
+            else
+            if (vScrollBar1.Value - c > vScrollBar1.Minimum)
+                vScrollBar1.Value -= c;
+            else vScrollBar1.Value = vScrollBar1.Minimum;
+        }
+
     }
 }
