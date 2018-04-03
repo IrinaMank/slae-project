@@ -933,7 +933,8 @@ namespace slae_project
             }
         }
         static UR_access UR = new UR_access();
-        private void button1_Test_Click(object sender, EventArgs e)
+
+        void wrapped_former_test_click()
         {
             Clear_Window();
             UR.UserGuide_access(ref GD.List_Of_Objects);
