@@ -107,6 +107,12 @@ namespace slae_project
             List_Of_Objects = SharpForm.GD.List_Of_Objects;
             SharpForm.Show();
         }
+        static public void SharpGL_Open(System.Drawing.Point Locatio)
+        {
+            if (!SharpGL_is_opened()) SharpForm = new SharpGLForm(Locatio);
+            //else SharpForm.Wrapped_Refreash_And_Show_Clicker();
+            List_Of_Objects = SharpForm.GD.List_Of_Objects;
+        }
         static public void SharpGL_add_Factory_things()
         {
             
@@ -132,11 +138,13 @@ namespace slae_project
         //Сбрасывает все данные
         static public void SharpGL_Reset_Full()
         {
+            System.Drawing.Point Locatio = new System.Drawing.Point(0, 0);
             if (SharpGL_is_opened()) 
             {
+                Locatio = SharpForm.Location;
                 SharpForm.Close();
             }
-            SharpGL_Open();
+            SharpGL_Open(Locatio);
         }
         static public void SharpGL_Reset()
         {
