@@ -15,5 +15,7 @@ namespace slae_project.Logger
         void WriteSolution (IVector x, int Maxiter, double residual);
         void WriteNameSolution(string nameSolver, string namePred);
         void WriteTime(string start, string end);
+
+        void Dispose();
     }
 }

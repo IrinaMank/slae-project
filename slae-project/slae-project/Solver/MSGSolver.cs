@@ -52,7 +52,12 @@ namespace slae_project.Solver
 
                 scalAzZ = Az.ScalarMult(z);
 
-                if (scalAzZ == 0) throw new DivideByZeroException("Division by 0");
+                if (scalAzZ == 0)
+                {
+                    Logger.WriteSolution(x, Maxiter, b.Add(A.Mult(x), -1, 1).Norm);
+                    Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));
+                    throw new DivideByZeroException("Division by 0");
+                }
 
                 alpha = scalRR / scalAzZ;
 
@@ -60,7 +65,12 @@ namespace slae_project.Solver
                 r.Add(Az, 1, -alpha, true);
 
                 beta = scalRR;
-                if (scalRR == 0) throw new DivideByZeroException("Division by 0");
+                if (scalRR == 0)
+                {
+                    Logger.WriteSolution(x, Maxiter, b.Add(A.Mult(x), -1, 1).Norm);
+                    Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));
+                    throw new DivideByZeroException("Division by 0");
+                }
                 scalRR = r.ScalarMult(r);
                 beta = scalRR / beta;
 

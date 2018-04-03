@@ -30,6 +30,7 @@ namespace slae_project
         bool multireadFlag = false;
 
         Button button_load, button_cancel;
+        ToolTip toolTip1;
 
         public FileLoadForm()
         {
@@ -43,7 +44,7 @@ namespace slae_project
             Factory.CreateMatrix(Form1.str_format_matrix);
 
             arrays = Factory.name_arr; //<==========================================================LOOK AT ME
-            if (Form1.property_matr && Form1.format.SelectedIndex == 2)
+            if (Form1.property_matr && Form1.format.SelectedIndex == 3)
                 arrays.RemoveAt(arrays.IndexOf("au"));
 
             int count_arr = arrays.Count();
@@ -102,6 +103,7 @@ namespace slae_project
                 puths.Add(puth);
                 this.Controls.Add(puth);
 
+
                 Button button = new Button();
                 obzors.Add(button);
                 button.Text = "Обзор";
@@ -110,6 +112,13 @@ namespace slae_project
                 button.Click += new System.EventHandler(button_Click);
                 this.Controls.Add(button);
                 input_buttons.Add(button);
+
+                toolTip1 = new ToolTip();
+                toolTip1.AutoPopDelay = 10000;
+                toolTip1.InitialDelay = 500;
+                toolTip1.ReshowDelay = 500;
+                toolTip1.ShowAlways = true;
+                toolTip1.SetToolTip(button, Factory.reer[arrays[i]]);
 
                 y += 33;
             }
@@ -142,6 +151,8 @@ namespace slae_project
             this.Controls.Add(button_b);
             input_buttons.Add(button_b);
 
+            toolTip1.SetToolTip(button_b, "Файл состоит из одной строки: элменеты вектора правой части (double), разделенные пробелом");
+
             y += 33;
             ///начальное приближение
             Label name_x0 = new Label
@@ -172,6 +183,7 @@ namespace slae_project
             button_x0.Click += new System.EventHandler(button_Click);
             this.Controls.Add(button_x0);
             input_buttons.Add(button_x0);
+            toolTip1.SetToolTip(button_x0, "Файл состоит из одной строки: элменеты вектора начального приближения (double), разделенные пробелом");
 
             y += 50;
             //кнопка загрузки

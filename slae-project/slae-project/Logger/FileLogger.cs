@@ -1,4 +1,4 @@
-﻿//#define TEST
+﻿#define TEST
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,8 +40,6 @@ namespace slae_project.Logger
                 fileStream.WriteLine("-----------Итерации------------Невязка-------------");
             String msg = String.Format("{0}\t{1}", number, residual);
             fileStream.WriteLine(msg);
-            //            fileStream.Flush();
-            //Thread.Sleep(0);
 #if !TEST
             Form1.updateProgressBar(number);
 #endif

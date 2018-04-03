@@ -23,7 +23,7 @@ namespace slae_project.Solver
         /// <returns>Вектор x - решение СЛАУ Ax=b с заданной точностью</returns>
         public IVector Solve(IPreconditioner preconditioner, IMatrix A, IVector b, IVector Initial, double Precision, int Maxiter, ILogger Logger)
         {
-            Logger.WriteNameSolution("LOS", preconditioner.getName());
+          Logger.WriteNameSolution("LOS", preconditioner.getName());
             string start = DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff");
 
             Logger.setMaxIter(Maxiter);
@@ -63,7 +63,12 @@ namespace slae_project.Solver
                 z = preconditioner.SolveU(r).Add(z, 1, beta); //z_k = U^-1 * r_k + beta_k*z_k-1
                 p = Ar.Add(p, 1, beta); // p_k = L^-1 * A * U^-1 * r_k + beta_k*p_k-1
 
-                if (scalRR == 0) throw new Exception("Division by 0");
+                if (scalRR == 0)
+                {
+                    Logger.WriteSolution(x, Maxiter, b.Add(A.Mult(x), -1, 1).Norm);
+                    Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));
+                    throw new DivideByZeroException("Division by 0");
+                } 
                 scalRR = r.ScalarMult(r);
 
                 normR = Math.Sqrt(scalRR) / b.Norm;
@@ -71,10 +76,10 @@ namespace slae_project.Solver
                 Logger.WriteIteration(iter, normR);
 
                 if (double.IsNaN(normR) || double.IsInfinity(normR))
-                    { 
-                        Logger.WriteSolution(x, Maxiter, b.Add(A.Mult(x), -1, 1).Norm);
-                        Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));
-                        throw new CantSolveException();
+                    {
+                    Logger.WriteSolution(x, Maxiter, b.Add(A.Mult(x), -1, 1).Norm);
+                    Logger.WriteTime(start, DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss:fff"));
+                    throw new CantSolveException();
                     }
             }
             Logger.WriteSolution(x, Maxiter, b.Add(A.Mult(x), -1, 1).Norm);

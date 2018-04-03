@@ -16,6 +16,7 @@ namespace slae_project
     {
         public static Dictionary<string, string> DictionaryOfFormats = FileLoadForm.filenames_format;//словарь путей до массивов
         static public Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)> MatrixTypes = new Dictionary<string, (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>)>();
+        public static Dictionary<string, string> reer;
         public static IMatrix ObjectOfIMatrix;
         public static IVector Result;
         public static IVector RightVector;
@@ -59,7 +60,7 @@ namespace slae_project
 
             RegisterMatrixClass("Плотный", (Dictionary<string, string> DictionaryOfFormats, bool isSymmetric) => new DenseMatrix(DictionaryOfFormats, isSymmetric), DenseMatrix.requiredFileNames);
             RegisterMatrixClass("Координатный", (Dictionary<string, string> DictionaryOfFormats, bool isSymmetric) => new CoordinateMatrix(DictionaryOfFormats, isSymmetric), CoordinateMatrix.requiredFileNames);
-            //RegisterMatrixClass("Строчный", (Dictionary<string, string> DictionaryOfFormats) => new SparseRowMatrix(DictionaryOfFormats),SparseRowMatrix.requiredFileNames);
+            RegisterMatrixClass("Строчный", (Dictionary<string, string> DictionaryOfFormats, bool isSymmetric) => new SparseRowMatrix(DictionaryOfFormats, isSymmetric),SparseRowMatrix.requiredFileNames);
             RegisterMatrixClass("Строчно - столбцовый", (Dictionary<string, string> DictionaryOfFormats, bool isSymmetric) => new SparseRowColumnMatrix(DictionaryOfFormats, isSymmetric), SparseRowColumnMatrix.requiredFileNames);
 
             ISolver Msg = new MSGSolver();
@@ -84,8 +85,7 @@ namespace slae_project
         static public void CreateMatrix(string typename)//получаем заполненную матрицу для передачи Solver
         {
             (Func<Dictionary<string, string>, bool, IMatrix>, Dictionary<string, string>) value;
-            MatrixTypes.TryGetValue(typename, out value);
-            Dictionary<string, string> reer;
+            MatrixTypes.TryGetValue(typename, out value);           
             reer = value.Item2;
             name_arr.Clear();
             foreach (string i in reer.Keys)
@@ -129,14 +129,14 @@ namespace slae_project
             }
             catch (Solver.CantSolveException a)
             {
-                var result = System.Windows.Forms.MessageBox.Show("Вы женского пола?","Важный вопрос", System.Windows.Forms.MessageBoxButtons.YesNo,
+                var result = System.Windows.Forms.MessageBox.Show("Вы женского пола?", "Важный вопрос", System.Windows.Forms.MessageBoxButtons.YesNo,
                     System.Windows.Forms.MessageBoxIcon.Question);
                 string mesg = "Увы, месье, ";
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     mesg = "Увы, мадам, ";
                 }
-                System.Windows.Forms.MessageBox.Show(mesg+a.Message,
+                System.Windows.Forms.MessageBox.Show(mesg + a.Message,
                     "Ошибка",
                     System.Windows.Forms.MessageBoxButtons.OK,
                     System.Windows.Forms.MessageBoxIcon.Stop);
@@ -154,6 +154,10 @@ namespace slae_project
                     "Ошибка",
                     System.Windows.Forms.MessageBoxButtons.OK,
                     System.Windows.Forms.MessageBoxIcon.Stop);
+            }
+            finally
+            {
+                Log.Dispose();
             }
         }
 
