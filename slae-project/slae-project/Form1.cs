@@ -292,7 +292,10 @@ namespace slae_project
                 OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
                 if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
+                {
+                    log.SelectedIndex = 1;
                     return;
+                }
 
                 try
                 {
