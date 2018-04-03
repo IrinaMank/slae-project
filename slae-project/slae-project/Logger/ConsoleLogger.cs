@@ -116,5 +116,10 @@ namespace slae_project.Logger
             conwindow.WriteLine("---------------------------------------------------");
             conwindow.WriteLine("\n\n\n");
         }
+
+        public void Dispose()
+        {
+
+        }
     }
 }
