@@ -157,9 +157,9 @@ namespace slae_project.Matrix
         /// <param name="isSym">Симметричность матрицы</param>
         public SparseRowMatrix(int[] ig, int[] jg, double[] al, bool isSym=false)
         {
-            this.ig = ig.Clone() as int[];
-            this.jg = jg.Clone() as int[];
-            this.al = al.Clone() as double[];
+            this.ig = ig;
+            this.jg = jg;
+            this.al = al;
             this.Size = ig.Length-1;
             this.isSymmetric = isSym;
         }
