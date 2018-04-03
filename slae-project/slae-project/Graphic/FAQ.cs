@@ -194,5 +194,20 @@ namespace slae_project
                 vScrollBar1.Value -= Shift;
             else vScrollBar1.Value = vScrollBar1.Minimum;
         }
+
+        private void FAQ_Scroll(object sender, MouseEventArgs e)
+        {
+            int c = e.Delta / 5;
+
+            if (c > 0)
+            if (vScrollBar1.Value - c < vScrollBar1.Maximum)
+                vScrollBar1.Value -= c;
+            else vScrollBar1.Value = vScrollBar1.Maximum;
+            else
+            if (vScrollBar1.Value - c > vScrollBar1.Minimum)
+                vScrollBar1.Value -= c;
+            else vScrollBar1.Value = vScrollBar1.Minimum;
+        }
+
     }
 }
