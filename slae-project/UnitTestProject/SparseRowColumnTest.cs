@@ -566,7 +566,7 @@ namespace UnitTestProject
             Assert.IsTrue(result.CompareWith(right, 1e-5));
 
         }
-         [TestMethod]
+        [TestMethod]
         public void TestSPRC_MultU_nonsimmetr_plotn()
         {
             (int, int)[] coord = new(int, int)[16];
@@ -702,7 +702,7 @@ namespace UnitTestProject
             Assert.IsTrue(result.CompareWith(right, 1e-5));
 
         }
-        
+
         //SolveD
         [TestMethod]
         public void TestSPRC_SolveD_plotn()
@@ -717,14 +717,15 @@ namespace UnitTestProject
 
             IMatrix matr = new CoordinateMatrix(coord, val);
             IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-           
+
             IVector x = new SimpleVector(new double[8] { 1.65, 5.5, 4.95, 11, 8.25, 16.5, 11.55, 22 });
-            
+
             IVector result = s_matr.SolveD(x);
             IVector right = new SimpleVector(new double[8] { 1.5, 2.5, 1.5, 2.5, 1.5, 2.5, 1.5, 2.5 });
             Assert.IsTrue(result.CompareWith(right, 1e-5));
 
         }
+
         //SolveLT
         [TestMethod]
         public void TestSPRC_SolveLT_nonsimmetr_plotn()
@@ -739,11 +740,10 @@ namespace UnitTestProject
 
             IMatrix matr = new CoordinateMatrix(coord, val);
             IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-            //IPreconditioner pre = new LUPreconditioner(s_matr);
+
             IVector x = new SimpleVector(new double[4] { 10, 9, 7, 4 });
 
 
-            //  IVector result = pre.T.SolveL(x);
             IVector result = s_matr.T.SolveL(x);
             IVector right = new SimpleVector(new double[4] { 1, 2, 3, 4 });
             Assert.IsTrue(result.CompareWith(right, 0));
@@ -762,11 +762,10 @@ namespace UnitTestProject
 
             IMatrix matr = new CoordinateMatrix(coord, val);
             IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-           // IPreconditioner pre = new LUPreconditioner(s_matr);
+
             IVector x = new SimpleVector(new double[4] { 36.3, 46.75, 22.55, 19.8 });
 
 
-            // IVector result = pre.T.SolveL(x);
             IVector result = s_matr.T.SolveL(x);
             IVector right = new SimpleVector(new double[4] { 1.1, 2.2, 3.3, 4.4 });
             Assert.IsTrue(result.CompareWith(right, 1e-5));
@@ -796,10 +795,9 @@ namespace UnitTestProject
 
             IMatrix matr = new CoordinateMatrix(coord, val);
             IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-          //  IPreconditioner pre = new LUPreconditioner(s_matr);
+
             IVector x = new SimpleVector(new double[4] { 5.9, 14.6, 11.2, 4.4 });
 
-            // IVector result = pre.T.SolveL(x);
             IVector result = s_matr.T.SolveL(x);
             IVector right = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
@@ -825,10 +823,9 @@ namespace UnitTestProject
 
             IMatrix matr = new CoordinateMatrix(coord, val);
             IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-            //IPreconditioner pre = new LUPreconditioner(s_matr);
+
             IVector x = new SimpleVector(new double[4] { 6, 19, 12, 4 });
 
-            //IVector result = pre.T.SolveL(x);
             IVector result = s_matr.T.SolveL(x);
             IVector right = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
@@ -849,10 +846,9 @@ namespace UnitTestProject
 
             IMatrix matr = new CoordinateMatrix(coord, val);
             IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-          //  IPreconditioner pre = new LUPreconditioner(s_matr);
+
             IVector x = new SimpleVector(new double[4] { 1, 5, 8, 10 });
 
-            //IVector result = pre.T.SolveL(x);
             IVector result = s_matr.T.SolveU(x);
             IVector right = new SimpleVector(new double[4] { 1, 1, 1, 1 });
             Assert.IsTrue(result.CompareWith(right, 0));
@@ -871,10 +867,9 @@ namespace UnitTestProject
 
             IMatrix matr = new CoordinateMatrix(coord, val);
             IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-           // IPreconditioner pre = new LUPreconditioner(s_matr);
+
             IVector x = new SimpleVector(new double[4] { 1.65, 8.25, 25.3, 45.65 });
 
-            // IVector result = pre.T.SolveU(x);
             IVector result = s_matr.T.SolveU(x);
             IVector right = new SimpleVector(new double[4] { 1.1, 2.2, 3.3, 4.4 });
             Assert.IsTrue(result.CompareWith(right, 1e-5));
@@ -902,10 +897,9 @@ namespace UnitTestProject
 
             IMatrix matr = new CoordinateMatrix(coord, val);
             IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-           // IPreconditioner pre = new LUPreconditioner(s_matr);
+
             IVector x = new SimpleVector(new double[4] { 1.5, 3.6, 9, 4.4 });
 
-            // IVector result = pre.T.SolveU(x);
             IVector result = s_matr.T.SolveU(x);
             IVector right = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
@@ -929,10 +923,9 @@ namespace UnitTestProject
 
             IMatrix matr = new CoordinateMatrix(coord, val);
             IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-           // IPreconditioner pre = new LUPreconditioner(s_matr);
+
             IVector x = new SimpleVector(new double[4] { 1, 2, 15, 23 });
 
-            //  IVector result = pre.T.SolveU(x);
             IVector result = s_matr.T.SolveU(x);
             IVector right = new SimpleVector(new double[4] { 1, 1, 1, 1 });
             Assert.IsTrue(result.CompareWith(right, 0));
@@ -960,8 +953,7 @@ namespace UnitTestProject
 
         }
 
-        //MultUT,MultLT
-        
+
 
         //MultLT
         [TestMethod]
@@ -982,11 +974,9 @@ namespace UnitTestProject
 
             IMatrix matr = new CoordinateMatrix(coord, val);
             IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-           // IPreconditioner pre = new LUPreconditioner(s_matr);
 
             IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
-            // IVector result = pre.T.MultL(x);
             IVector result = s_matr.T.MultL(x);
             IVector right = new SimpleVector(new double[4] { 6, 19, 12, 4 });
 
@@ -1005,10 +995,9 @@ namespace UnitTestProject
 
             IMatrix matr = new CoordinateMatrix(coord, val);
             IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-            //IPreconditioner pre = new LUPreconditioner(s_matr);
+
             IVector x = new SimpleVector(new double[4] { 1.1, 2.2, 3.3, 4.4 });
 
-           // IVector result = pre.T.MultL(x);
             IVector result = s_matr.T.MultL(x);
             IVector right = new SimpleVector(new double[4] { 36.3, 46.75, 22.55, 19.8 });
             Assert.IsTrue(result.CompareWith(right, 1e-5));
@@ -1037,10 +1026,9 @@ namespace UnitTestProject
 
             IMatrix matr = new CoordinateMatrix(coord, val);
             IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-           // IPreconditioner pre = new LUPreconditioner(s_matr);
+
             IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
-            // IVector result = pre.T.MultL(x);
             IVector result = s_matr.T.MultL(x);
             IVector right = new SimpleVector(new double[4] { 5.9, 14.6, 11.2, 4.4 });
 
@@ -1059,11 +1047,10 @@ namespace UnitTestProject
 
             IMatrix matr = new CoordinateMatrix(coord, val);
             IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-           // IPreconditioner pre = new LUPreconditioner(s_matr);
+
             IVector x = new SimpleVector(new double[4] { 1, 2, 3, 4 });
 
 
-            // IVector result = pre.T.MultL(x);
             IVector result = s_matr.T.MultL(x);
             IVector right = new SimpleVector(new double[4] { 10, 9, 7, 4 });
             Assert.IsTrue(result.CompareWith(right, 0));
@@ -1089,10 +1076,9 @@ namespace UnitTestProject
 
             IMatrix matr = new CoordinateMatrix(coord, val);
             IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-            //IPreconditioner pre = new LUPreconditioner(s_matr);
+
             IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
-            //IVector result = pre.T.MultU(x);
             IVector result = s_matr.T.MultU(x);
             IVector right = new SimpleVector(new double[4] { 1, 2, 15, 23 });
 
@@ -1112,10 +1098,9 @@ namespace UnitTestProject
 
             IMatrix matr = new CoordinateMatrix(coord, val);
             IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-           // IPreconditioner pre = new LUPreconditioner(s_matr);
+
             IVector x = new SimpleVector(new double[4] { 1.1, 2.2, 3.3, 4.4 });
 
-            //IVector result = pre.T.MultU(x);
             IVector result = s_matr.T.MultU(x);
             IVector right = new SimpleVector(new double[4] { 1.65, 8.25, 25.3, 45.65 });
             Assert.IsTrue(result.CompareWith(right, 1e-5));
@@ -1144,10 +1129,9 @@ namespace UnitTestProject
 
             IMatrix matr = new CoordinateMatrix(coord, val);
             IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-            //IPreconditioner pre = new LUPreconditioner(s_matr);
+
             IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
-            //IVector result = pre.T.MultU(x);
             IVector result = s_matr.T.MultU(x);
             IVector right = new SimpleVector(new double[4] { 1.5, 3.6, 9, 4.4 });
 
@@ -1166,10 +1150,8 @@ namespace UnitTestProject
 
             IMatrix matr = new CoordinateMatrix(coord, val);
             IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-            //IPreconditioner pre = new LUPreconditioner(s_matr);
             IVector x = new SimpleVector(new double[4] { 1, 1, 1, 1 });
 
-            //IVector result = pre.T.MultU(x);
             IVector result = s_matr.T.MultU(x);
             IVector right = new SimpleVector(new double[4] { 1, 5, 8, 10 });
             Assert.IsTrue(result.CompareWith(right, 0));
@@ -1199,9 +1181,9 @@ namespace UnitTestProject
                 right[i] = 100;
             }
 
-            
+
             IVector result = s_matr.Mult(x);
-            
+
             Assert.IsTrue(result.CompareWith(right, 1e-5));
 
         }
@@ -1227,7 +1209,7 @@ namespace UnitTestProject
                 right[i] = 1;
             }
 
-            
+
             IVector result = s_matr.SolveL(x);
             Assert.IsTrue(result.CompareWith(right, 1e-5));
 
@@ -1284,59 +1266,60 @@ namespace UnitTestProject
             Assert.IsTrue(result.CompareWith(right, 1e-5));
 
         }
-        //[TestMethod]
-        //public void TestSPRC_MultU_big_matrix()
-        //{
-        //    (int, int)[] coord = new(int, int)[10000];
-        //    double[] val = new double[10000];
 
-        //    for (int i = 0; i < 10000; i++)
-        //    {
-        //        coord[i] = (i / 100, i % 100);
-        //        val[i] = 1;
-        //    }
+        [TestMethod]
+        public void TestSPRC_MultU_big_matrix()
+        {
+            (int, int)[] coord = new(int, int)[10000];
+            double[] val = new double[10000];
 
-        //    IMatrix matr = new CoordinateMatrix(coord, val);
-        //    IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-        //   IPreconditioner pre = new LUPreconditioner(s_matr);
-        //    IVector x = new SimpleVector(new double[100]);
-        //    IVector right = new SimpleVector(new double[100]);
-        //    for (int i = 99; i >= 0; i--)
-        //    {
-        //        x[i] = 1;
-        //        right[i] = 100 - i;
-        //    }
+            for (int i = 0; i < 10000; i++)
+            {
+                coord[i] = (i / 100, i % 100);
+                val[i] = 1;
+            }
 
-        //    IVector result = pre.MultL(x);
-        //    Assert.IsTrue(result.CompareWith(right, 1e-5));
-        //}
-        //[TestMethod]
-        //public void TestSPRC_MultT_big_matrix()
-        //{
-        //    (int, int)[] coord = new(int, int)[10000];
-        //    double[] val = new double[10000];
+            IMatrix matr = new CoordinateMatrix(coord, val);
+            IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
 
-        //    for (int i = 0; i < 10000; i++)
-        //    {
-        //        coord[i] = (i / 100, i % 100);
-        //        val[i] = 1;
-        //    }
+            IVector x = new SimpleVector(new double[100]);
+            IVector right = new SimpleVector(new double[100]);
+            for (int i = 99; i >= 0; i--)
+            {
+                x[i] = 1;
+                right[i] = 100 - i;
+            }
 
-        //    IMatrix matr = new CoordinateMatrix(coord, val);
-        //    IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
-        //    IPreconditioner pre = new LUPreconditioner(s_matr);
-        //    IVector x = new SimpleVector(new double[100]);
-        //    IVector right = new SimpleVector(new double[100]);
-        //    for (int i = 0; i < 100; i++)
-        //    {
-        //        x[i] = 1;
-        //        right[i] = 100;
-        //    }
+            IVector result = s_matr.MultU(x);
+            Assert.IsTrue(result.CompareWith(right, 1e-5));
+        }
+        [TestMethod]
+        public void TestSPRC_MultT_big_matrix()
+        {
+            (int, int)[] coord = new(int, int)[10000];
+            double[] val = new double[10000];
 
-        //    IVector result = pre.MultL(x);
-        //    Assert.IsTrue(result.CompareWith(right, 1e-5));
-        //}
-        
+            for (int i = 0; i < 10000; i++)
+            {
+                coord[i] = (i / 100, i % 100);
+                val[i] = 1;
+            }
+
+            IMatrix matr = new CoordinateMatrix(coord, val);
+            IMatrix s_matr = new SparseRowColumnMatrix((CoordinateMatrix)matr);
+
+            IVector x = new SimpleVector(new double[100]);
+            IVector right = new SimpleVector(new double[100]);
+            for (int i = 0; i < 100; i++)
+            {
+                x[i] = 1;
+                right[i] = 100;
+            }
+
+            IVector result = s_matr.T.Mult(x);
+            Assert.IsTrue(result.CompareWith(right, 1e-5));
+        }
+
         ////Тест с несовпадающими размерностями матрицы и вектора
         //[TestMethod]
         //public void TestSPRC_Mult_rasmern_ne_sovpadaet()
