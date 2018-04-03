@@ -125,7 +125,6 @@ namespace slae_project
             pictureBox2.Location = new Point(Begin, Curs + Between);
             pictureBox2.Size = new Size(this.Width - End, (int)((double)this.Width / pictureBox2.PreferredSize.Width * pictureBox2.PreferredSize.Height));
             Curs += pictureBox2.Size.Height;
-
             //Текст
             label5.Location = new Point(Begin, Curs + Between);
             label5.Text = "7) Обновить и показать основную отображаемую информацию, а именно матрицу А\r\n" +
@@ -200,7 +199,7 @@ namespace slae_project
         {
             int c = e.Delta / 5;
 
-            if (c > 0)
+            if (c < 0)
             if (vScrollBar1.Value - c < vScrollBar1.Maximum)
                 vScrollBar1.Value -= c;
             else vScrollBar1.Value = vScrollBar1.Maximum;
