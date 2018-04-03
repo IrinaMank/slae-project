@@ -31,11 +31,20 @@ namespace slae_project
         /// </summary>
         public SharpGLForm(bool visibility)
         {
+            Wrapped_Constructor(visibility);
+        }
+        public SharpGLForm(Point locatio)
+        {
+            Wrapped_Constructor(true);
+            this.Location = locatio;
+        }
+        void Wrapped_Constructor(bool visibility)
+        {
             InitializeComponent();
             //SharpGLWrappedThread ThreadController = new SharpGLWrappedThread();
             Visible = visibility;
             //Облегчим себе жизнь. Передадим в главную логическую сразу.
-            GD = new GraphicData(openGLControl,this);
+            GD = new GraphicData(openGLControl, this);
 
             //Manual Рендеринг, мы же не делаем игру, так что смысла в RealTime FPS нету.
             //Для повторной отрисовки вызовите функцию openGLControl.Refresh();
@@ -47,6 +56,7 @@ namespace slae_project
             //установить границы скруллбаров и сбросить мышки-местоположение в лево-нижний угол
             //Refresh_Window();
         }
+
         /// <summary>
         /// Handles the OpenGLDraw event of the openGLControl control.
         /// </summary>
