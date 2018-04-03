@@ -1400,28 +1400,28 @@ namespace UnitTestProject
 
         }
 
-        [TestMethod]
-        public void Test_f_SolveD_ne_plot_format()
-        {
-            (int, int)[] coord = new(int, int)[6];
-            double[] val = new double[6] { 1.1, 3.3, 4.4, 5.5, 7.7, 8.8 };
+        //[TestMethod]
+        //public void Test_f_SolveD_ne_plot_format()
+        //{
+        //    (int, int)[] coord = new(int, int)[6];
+        //    double[] val = new double[6] { 1.1, 3.3, 4.4, 5.5, 7.7, 8.8 };
 
-            coord[0] = (0, 0);
-            for (int i = 1; i < 4; i++)
-            {
-                coord[i] = (i + 1, i + 1);
-            }
-            coord[4] = (6, 6);
-            coord[5] = (7, 7);
-            IMatrix mar = new CoordinateMatrix(coord, val);
-            IVector x = new SimpleVector(new double[8] { 1.65, 0, 4.95, 6.6, 8.25, 0, 11.55, 13.2 });
-            IVector y;
+        //    coord[0] = (0, 0);
+        //    for (int i = 1; i < 4; i++)
+        //    {
+        //        coord[i] = (i + 1, i + 1);
+        //    }
+        //    coord[4] = (6, 6);
+        //    coord[5] = (7, 7);
+        //    IMatrix mar = new CoordinateMatrix(coord, val);
+        //    IVector x = new SimpleVector(new double[8] { 1.65, 0, 4.95, 6.6, 8.25, 0, 11.55, 13.2 });
+        //    IVector y;
 
-            y = mar.SolveD(x);
-            IVector right = new SimpleVector(new double[8] { 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5 });
-            Assert.IsTrue(y.CompareWith(right, 1e-5));
+        //    y = mar.SolveD(x);
+        //    IVector right = new SimpleVector(new double[8] { 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5 });
+        //    Assert.IsTrue(y.CompareWith(right, 1e-5));
 
-        }
+        //}
 
 
     }

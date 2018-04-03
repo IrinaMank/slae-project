@@ -36,8 +36,6 @@ namespace slae_project.Matrix
             }
         }
 
-
-        //необходимые вектора для реализации строчно-столбцового формата
         int[] ig;
         int[] jg;
         double[] al; //если симметричная, то нижний треугольник и диагональ, иначе все элементы
@@ -107,7 +105,6 @@ namespace slae_project.Matrix
         {
             get
             {
-                int k;
                 IVector diag = new SimpleVector(Size);
                 for (int i = 0; i < Size; i++)
                     //if (SearchPlaceInAl(i,i,out k))
@@ -157,9 +154,9 @@ namespace slae_project.Matrix
         /// <param name="isSym">Симметричность матрицы</param>
         public SparseRowMatrix(int[] ig, int[] jg, double[] al, bool isSym=false)
         {
-            this.ig = ig;
-            this.jg = jg;
-            this.al = al;
+            this.ig = ig.Clone() as int[];
+            this.jg = jg.Clone() as int[];
+            this.al = al.Clone() as double[];
             this.Size = ig.Length-1;
             this.isSymmetric = isSym;
         }
@@ -298,38 +295,30 @@ namespace slae_project.Matrix
             try
             {
                 CastToNotSymm();
-                double sum;
-                for (int i = 0; i < Size; i++)
+                for (int k = 0; k < Size; k++)
                 {
-                    for (int j = 0; j < Size; j++)
+                    for (int j = k; j < Size; j++)
                     {
-                        sum = 0;
-                        if (this[i, j] != 0 && i >= j)
-                        {
-                            for (int k = 0; k < i; k++)
-                            {
-                                sum += this[i, k] * this[k, j];
-                            }
-                            this[i, j] = this[i, j] - sum;
-                        }
-                        if (this[j, i] != 0 && i < j)
-                        {
-                            sum = 0;
-                            for (int k = 0; k < i; k++)
-                            {
-                                sum += this[j, k] * this[k, i];
-                            }
-                            if (Math.Abs(this[i, j]) < 1e-10)
-                                throw new DivideByZeroException();
-                            this[j, i] = (this[j, i] - sum) / this[i, i];
-                        }
+                        double sum = 0;
+                        for (int u = 0; u < k; u++)
+                            sum += this[k, u] * this[u, j];
+                        this[k, j] = this[k, j] - sum;
+                    }
+                    for (int i = k + 1; i < Size; i++)
+                    {
+                        double sum = 0;
+                        for (int u = 0; u < k; u++)
+                            sum += this[i, u] * this[u, k];
+                        if (Math.Abs(this[k, k]) < 1e-10)
+                            throw new DivideByZeroException();
+                        this[i, k] = (this[i, k] - sum) / this[k, k];
                     }
                 }
                 extraDiagVal = 1;
             }
             catch (DivideByZeroException)
             {
-                throw new LUFailException("Невозможгно выполнить LU разложение");
+                throw new LUFailException("Произошло деление на ноль.");
             }
         }
         /// <summary>
@@ -340,33 +329,33 @@ namespace slae_project.Matrix
         /// <returns></returns>
         public IVector SolveL(IVector x, bool UseDiagonal)
         {
-            //проверка корректности
-            if (this.Size != x.Size)
-                throw new DifferentSizeException("Ошибка. Различие в размерности вектора и матрицы в функции SolveL");
-            else
-            {
-                IVector result = new SimpleVector(this.Size);
-                double sum;
-                int jCol;
-                var di = this.Diagonal;
-                for (int i = 0; i < this.Size; i++)
+                //проверка корректности
+                if (this.Size != x.Size)
+                    throw new DifferentSizeException("Ошибка. Различие в размерности вектора и матрицы в функции SolveL");
+                else
                 {
-                    sum = 0;
-                    for (int j = ig[i]; j < ig[i + 1]; j++)
+                    IVector result = new SimpleVector(this.Size);
+                    double sum;
+                    int jCol;
+                    var di = this.Diagonal;
+                    for (int i = 0; i < this.Size; i++)
                     {
-                        jCol = jg[j];
-                        if (jCol < i)
-                            sum += al[j] * result[jCol];
-                        else
-                            break;
+                        sum = 0;
+                        for (int j = ig[i]; j < ig[i + 1]; j++)
+                        {
+                            jCol = jg[j];
+                            if (jCol < i)
+                                sum += al[j] * result[jCol];
+                            else
+                                break;
+                        }
+                        result[i] = (x[i] - sum);
+                        if (UseDiagonal == true)
+                            result[i] /= di[i];
                     }
-                    result[i] = (x[i] - sum);
-                    if (UseDiagonal == true)
-                        result[i] /= di[i];
+                    return result;
                 }
-                return result;
-            }
-            // можно было сделать главное условие if(UseDiagonal==true) и разбиение на два цикла, но так компактнее
+
         }
 
         public IVector SolveU(IVector x, bool UseDiagonal)
@@ -378,7 +367,7 @@ namespace slae_project.Matrix
             int jCol;
             var di = this.Diagonal;
             if (this.isSymmetric)
-                result=this.SolveLT(x,UseDiagonal);
+                result = this.SolveLT(x, UseDiagonal);
             else
                 for (int i = Size - 1; i >= 0; i--)
                 {
@@ -500,7 +489,7 @@ namespace slae_project.Matrix
                 {
                     for (int j = 0; j < i; j++)
                     {
-                            result[i] -= this[j,i] * result[j];
+                        result[i] -= this[j, i] * result[j];
                     }
                     if (UseDiagonal == true)
                     {
@@ -524,21 +513,15 @@ namespace slae_project.Matrix
                 {
                     for (int j = this.Size - 1; j > i; j--)
                     {
-                            result[i] -= this[j, i] * result[j];
+                        result[i] -= this[j, i] * result[j];
                     }
                     if (UseDiagonal == true && extraDiagVal == 0)
-                            result[i] /= di[i];
+                        result[i] /= di[i];
                 }
                 return result;
             }
-
         }
-        /// <summary>
-        /// ////////////////////////
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="UseDiagonal"></param>
-        /// <returns></returns>
+
         protected IVector MultLT(IVector x, bool UseDiagonal)
         {
             if (this.Size != x.Size)
@@ -560,7 +543,6 @@ namespace slae_project.Matrix
                 }
                 return result;
             }
-            
         }
 
         protected IVector MultUT(IVector x, bool UseDiagonal)
@@ -610,12 +592,12 @@ namespace slae_project.Matrix
             {"al", "./al.txt" },
 
         };
-            double[] vecval = new double[4] { 3, 2, 2, 0 };
+            double[] vecval = new double[3] { 3, 2, 2};
             SparseRowMatrix s_matr = new SparseRowMatrix(pathFiles);
             s_matr.CastToNotSymm();
             IVector newV = new SimpleVector(vecval);
-            IVector mult = s_matr.Mult(newV,true);
-            IVector multTT = s_matr.Transpose.Mult(newV,true);
+            IVector mult = s_matr.MultL(newV,true);
+            IVector multTT = s_matr.MultU(newV,true);
         }
 
         public object Clone()
